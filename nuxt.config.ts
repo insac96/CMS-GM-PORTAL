@@ -1,9 +1,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
-  srcDir: './src/client',
-
-  serverDir: './src/server',
+  srcDir: './src',
 
   nitro: {
     output: { 
@@ -36,6 +34,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/ui',
+    '@nuxt/icon',
     ['@nuxtjs/google-fonts', {
       display: 'swap',
       download: true,
@@ -46,9 +45,7 @@ export default defineNuxtConfig({
     ['@nuxtjs/robots', {
       rules: [
         { UserAgent: '*' },
-        { Disallow: '/callback/*' },
-        { Disallow: '/admin/*' },
-        { Disallow: '/@eni/*' },
+        { Disallow: '/manage/*' },
         { Disallow: '/.nuxt/*' },
         { BlankLine: true },
         { Sitemap: `${process.env.CLIENT_URL}/sitemap.xml` }
@@ -84,13 +81,15 @@ export default defineNuxtConfig({
     preference: 'dark'
   },
 
-  ui: {
-    icons: ['bxs', 'bx', 'bxl'],
+  icon: {
+    serverBundle: 'remote',
   },
 
   image: {
     domains: [
       process.env.DOMAIN as string
     ]
-  }
+  },
+
+  compatibilityDate: '2024-08-19'
 })

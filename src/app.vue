@@ -5,7 +5,6 @@
     
     <UNotifications />
     <LazyAuthUpdateUsername v-if="authStore.isLogin && !authStore.profile.username" />
-    <UiSnow />
   </NuxtLayout>
 </template>
 
