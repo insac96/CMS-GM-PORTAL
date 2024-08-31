@@ -33,7 +33,7 @@ useSeoMeta({
 })
 
 definePageMeta({
-  middleware: 'user'
+  middleware: 'auth'
 })
 
 const authStore = useAuthStore()

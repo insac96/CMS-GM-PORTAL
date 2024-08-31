@@ -1,7 +1,11 @@
+import { join } from 'path'
+
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
-  srcDir: './src',
+  srcDir: join(__dirname, './src/client'),
+
+  serverDir: join(__dirname, './src/server'),
 
   nitro: {
     output: { 
@@ -52,7 +56,6 @@ export default defineNuxtConfig({
       ]
     }],
     'nuxt-rate-limit'
-    //'@vite-pwa/nuxt'
   ],
 
   nuxtRateLimit: {
@@ -78,7 +81,7 @@ export default defineNuxtConfig({
   ],
 
   colorMode: {
-    preference: 'dark'
+    preference: 'light'
   },
 
   icon: {

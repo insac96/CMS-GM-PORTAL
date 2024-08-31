@@ -11,9 +11,7 @@
 <script setup>
 import colors from '#tailwind-config/theme/colors'
 const { imgLink } = useMakeLink()
-
 const appConfig = useAppConfig()
-
 const configStore = useConfigStore()
 const authStore = useAuthStore()
 

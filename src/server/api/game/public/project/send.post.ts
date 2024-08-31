@@ -32,15 +32,6 @@ export default defineEventHandler(async (event) => {
       items: itemSend
     })
 
-    await DB.LogAdminSendItem.create({
-      from: auth._id,
-      to: userData._id,
-      server: server,
-      role: role,
-      reason: reason,
-      gift: itemLog
-    })
-
     logUser(event, userData._id, `Nhận <b>vật phẩm</b> từ quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`)
     logAdmin(event, `Gửi vật phẩm cho <b>${userData.username}</b> tại máy chủ <b>${server}</b> với lý do <b>${reason}</b>`)
 
