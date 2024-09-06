@@ -18,23 +18,6 @@ export default defineEventHandler(async (event) => {
     if(change == 'zalo') logAdmin(event, 'Cập nhật cấu hình <b>API Zalo</b>')
     if(change == 'tiktok') logAdmin(event, 'Cập nhật cấu hình <b>API Tiktok</b>')
 
-    // Game API
-    // if(change == 'game'){
-    //   if(!!game.ip){
-    //     data.game.api = {
-    //       start: `http://${game.ip}/api/action/start.php`,
-    //       server: `http://${game.ip}/api/action/server.php`,
-    //       role: `http://${game.ip}/api/action/role.php`,
-    //       roles: `http://${game.ip}/api/action/roles.php`,
-    //       rank_level: `http://${game.ip}/api/action/rank_level.php`,
-    //       rank_power: `http://${game.ip}/api/action/rank_power.php`,
-    //       mail: `http://${game.ip}/api/action/mail.php`,
-    //       recharge: `http://${game.ip}/api/action/recharge.php`,
-    //       os: `http://${game.ip}/api/action/os.php`,
-    //     }
-    //   }
-    // }
-
     // Update
     delete data['_id']
     delete data['change']

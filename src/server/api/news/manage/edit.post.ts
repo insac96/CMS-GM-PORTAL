@@ -16,19 +16,17 @@ export default defineEventHandler(async (event) => {
     if(!newsCheck) throw 'Tin tức không tồn tại'
 
     if(newsCheck.title != title){
-      const getByTitle = await DB.News.findOne({ title: title }).select('_id')
-      if(!!getByTitle) throw 'Tiêu đề tin tức đã tồn tại'
+      const key = formatVNString(title, '-')
+      const getByKey = await DB.News.findOne({ key: key }).select('_id')
+      if(!!getByKey) throw 'Tiêu đề tin tức đã tồn tại'
+      body.key = key
     }
 
-    const keywords = []
-    keywords.push(categoryCheck.name)
-
     delete body['_id']
-    body.keywords = keywords.concat(title.split(" "))
     body.updater = auth._id
 
     await DB.News.updateOne({ _id: _id }, body)
-    logAdmin(event, `Sửa thông tin cơ bản tin tức <b>${newsCheck.title}</b>`)
+    logAdmin(event, `Sửa thông tin tin tức <b>${newsCheck.title}</b>`)
 
     return resp(event, { message: 'Sửa tin tức thành công' })
   } 

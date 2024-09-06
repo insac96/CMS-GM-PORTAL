@@ -210,7 +210,7 @@
             <UButton @click="action('change-manage-password')">Lưu</UButton>
           </UiFlex>
 
-          <UiFlex justify="between" class="mb-4">
+          <UiFlex justify="between">
             <UiText color="gray" size="sm">Xóa thông báo</UiText>
             <UButton color="gray" @click="action('del-notify')">Thực hiện</UButton>
           </UiFlex>

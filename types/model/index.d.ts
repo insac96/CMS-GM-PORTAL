@@ -5,6 +5,7 @@ export { IDBUser, IDBUserStore } from './user'
 export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
+export { IDBOrder } from './order'
 export { IDBNotifyUser } from './notify'
 export { IDBGamePlatform, IDBGameCategory, IDBGame } from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
@@ -23,6 +24,8 @@ export interface IGlobalDB {
   Payment: Model<IDBPayment>
 
   Spend: Model<IDBSpend>
+
+  Order: Model<IDBOrder>
 
   NotifyUser: Model<IDBNotifyUser>
 

@@ -12,7 +12,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const pin = computed({
-  get: () => props.modelValue == 1 ? true : false,
-  set: (value) => emit('update:modelValue', !!value ? 1 : 0)
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
 }) 
 </script>

@@ -74,13 +74,14 @@ const navItems = [
     ]
   },
   {
-    label: 'Nạp tiền',
+    label: 'Thanh toán',
     icon: 'i-bx-credit-card',
     defaultOpen: false,
     slot: 'tab-3',
     children: [
       { label: 'Kênh nạp', to: '/manage/@eni/gate' }, 
-      { label: 'Danh sách', to: '/manage/@eni/payment' }, 
+      { label: 'Nạp tiền', to: '/manage/@eni/payment' }, 
+      { label: 'Đơn hàng', to: '/manage/@eni/order' }, 
     ]
   },
   {

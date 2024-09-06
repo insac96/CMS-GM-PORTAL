@@ -6,7 +6,7 @@
     </div>
 
     <div style="aspect-ratio: 4 / 2">
-      <USkeleton class="w-full h-full rounded-3xl shadow-md" />
+      <USkeleton class="w-full h-full rounded-lg shadow-md" />
     </div>
 
     <UiFlex class="py-4">

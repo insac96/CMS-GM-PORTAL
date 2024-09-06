@@ -36,7 +36,7 @@
 
     <!--Modal User Info-->
     <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
-      <AdminUserInfo :user="stateUser" />
+      <ManageUser :user="stateUser" />
     </UModal>
 
     <!-- Pagination -->

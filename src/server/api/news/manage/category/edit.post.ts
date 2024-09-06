@@ -12,8 +12,10 @@ export default defineEventHandler(async (event) => {
     const category = await DB.NewsCategory.findOne({ _id: _id }).select('name')
     if(!category) throw 'Danh mục không tồn tại'
     if(category.name != name){
-      const getByName = await DB.NewsCategory.findOne({ name: name }).select('_id')
-      if(!!getByName) throw 'Tên danh mục đã tồn tại'
+      const key = formatVNString(name, '-')
+      const getByKey = await DB.NewsCategory.findOne({ key: key }).select('_id')
+      if(!!getByKey) throw 'Tên nền tảng đã tồn tại'
+      body.key = key
     }
 
     delete body['_id']

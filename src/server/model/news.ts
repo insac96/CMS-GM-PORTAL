@@ -10,7 +10,7 @@ export const DBNewsCategory = (mongoose : Mongoose) => {
     timestamps: true
   })
 
-  schema.index({ name: 'text' })
+  schema.index({ name: 'text', key: 'text' })
 
   const model = mongoose.model('NewsCategory', schema, 'NewsCategory')
   return model 
@@ -38,7 +38,7 @@ export const DBNews = (mongoose : Mongoose) => {
     timestamps: true
   })
 
-  schema.index({ title: 'text' })
+  schema.index({ title: 'text', key: 'text' })
 
   const model = mongoose.model('News', schema, 'News')
   return model 

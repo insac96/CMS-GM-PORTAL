@@ -9,9 +9,11 @@ export default defineEventHandler(async (event) => {
     const { name, color } = body
     if(!name || !color) throw 'Dữ liệu đầu vào không hợp lệ'
 
-    const getByName = await DB.NewsCategory.findOne({ name: name }).select('_id')
-    if(!!getByName) throw 'Tên danh mục đã tồn tại'
+    const key = formatVNString(name, '-')
+    const getByKey = await DB.NewsCategory.findOne({ key: key }).select('_id')
+    if(!!getByKey) throw 'Tên danh mục đã tồn tại'
 
+    body.key = key
     await DB.NewsCategory.create(body)
     logAdmin(event, `Thêm danh mục tin tức <b>${name}</b>`)
     

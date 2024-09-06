@@ -35,7 +35,7 @@
 
     <!--Email Phone-->
     <div 
-      v-if="(user.phone || user.email) && !noAuth"
+      v-if="!noAuth"
       :class="[
         'py-2 px-4',
         'border-t border-gray-100 dark:border-gray-800',

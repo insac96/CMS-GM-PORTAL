@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3'
 
-export default (event: H3Event, data : string, space : string = '') : string => {
+export default (data : string, space : string = '') : string => {
   let str = String(data)
   str = str.trim()
   str = str.toLowerCase();

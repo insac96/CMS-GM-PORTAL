@@ -1,7 +1,7 @@
 <template>
   <header class="sticky top-0 z-50 bg-white/75 dark:bg-transparent backdrop-blur-xl">
     <UContainer class="flex items-center h-[var(--header-size)] max-h-[var(--header-size)]">
-      <LayoutDefaultNavBtn class="lg:w-auto"/>
+      <LayoutPublicNavBtn class="lg:w-auto"/>
       
       <UiFlex class="justify-center lg:mx-4 mx-2 lg:w-auto">
         <NuxtLink to="/">

@@ -1,35 +1,33 @@
 <template>
-  <div>
-    <UCard :ui="{ 
-      body: { padding: 'p-0 sm:p-0' },
-      header: { padding: 'p-2 sm:p-2' },
-      footer: { padding: 'p-2 sm:p-2' },
-    }">
-      <template #header>
-        <UiFlex justify="between">
-          <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
-        </UiFlex>
+  <UCard :ui="{ 
+    body: { padding: 'p-0 sm:p-0' },
+    header: { padding: 'p-2 sm:p-2' },
+    footer: { padding: 'p-2 sm:p-2' },
+  }">
+    <template #header>
+      <UiFlex justify="between">
+        <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
+      </UiFlex>
+    </template>
+
+    <LoadingTable v-if="loading.load" />
+
+    <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
+      <template #action-data="{ row }">
+        <div class="whitespace-normal" v-html="row.action" />
       </template>
 
-      <LoadingTable v-if="loading.load" />
-
-      <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
-        <template #action-data="{ row }">
-          <div class="whitespace-normal" v-html="row.action" />
-        </template>
-
-        <template #createdAt-data="{ row }">
-          {{ useDayJs().displayFull(row.createdAt) }}
-        </template>
-      </UTable>
-
-      <template #footer>
-        <UiFlex justify="end">
-          <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
-        </UiFlex>
+      <template #createdAt-data="{ row }">
+        {{ useDayJs().displayFull(row.createdAt) }}
       </template>
-    </UCard>
-  </div>
+    </UTable>
+
+    <template #footer>
+      <UiFlex justify="end">
+        <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
+      </UiFlex>
+    </template>
+  </UCard>
 </template>
 
 <script setup>
@@ -40,9 +38,6 @@ const route = useRoute()
 const loading = ref({
   load: true,
   block: false
-})
-
-const modal = ref({
 })
 
 const list = ref([])
@@ -66,8 +61,7 @@ const page = ref({
     direction: 'desc'
   },
   total: 0,
-  user: props.user,
-  secret: route.params._secret
+  user: props.user
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())

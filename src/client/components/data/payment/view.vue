@@ -91,9 +91,8 @@ const startCopy = (text) => {
 
 const fetch = async () => {
   try {
-    const data = await useAPI('payment/get', { 
-      _id: props.fetchId,
-      secret: route.params._secret
+    const data = await useAPI('payment/public/view', { 
+      _id: props.fetchId
     })
     loading.value = false
     payment.value = data

@@ -44,8 +44,7 @@
         </template>
 
         <template #undo-data="{ row }">
-          <span v-if="!!route.params._secret">...</span>
-          <UButton v-else color="gray" size="xs" :disabled="row.status > 0" @click="openUndo(row)">Hủy</UButton>
+          <UButton color="gray" size="xs" :disabled="row.status > 0" @click="openUndo(row)">Hủy</UButton>
         </template>
       </UTable>
 
@@ -145,8 +144,7 @@ const page = ref({
     end: null
   },
   total: 0,
-  user: props.user || null,
-  secret: route.params._secret
+  user: props.user || null
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -189,7 +187,7 @@ const viewPayment = (_id) => {
 const undoAction = async () => {
   try {
     loading.value.undo = true
-    await useAPI('payment/undo', JSON.parse(JSON.stringify(stateUndo.value)))
+    await useAPI('payment/public/undo', JSON.parse(JSON.stringify(stateUndo.value)))
 
     loading.value.undo = false
     modal.value.undo = false
@@ -215,7 +213,7 @@ const totalSuccess = computed(() => {
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('payment/history', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('payment/public/history', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list

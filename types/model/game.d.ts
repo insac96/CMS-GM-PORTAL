@@ -34,22 +34,25 @@ export interface IDBGame {
   short_name: string
   key: string
   description: string
-  og_image: string
-  logo_image: string
-  icon_image: string
-  images: Array<string>
+  image: {
+    banner: string
+    logo: string
+    icon: string
+    review: Array<string>
+  }
 
   content: string
 
   ip: string
+  port: number
   mobile: boolean
   secret: string
 
   api: {
     start: string
+    server: string
     role: string
     roles: string
-    server: string
     mail: string
     recharge: string
     os: string
@@ -58,7 +61,6 @@ export interface IDBGame {
   price: {
     recharge: number
     mail: number
-    all: number
   }
 
   pin: boolean

@@ -23,7 +23,7 @@ export const DBGamePlatform = (mongoose : Mongoose) => {
     if(h5 == 0) await model.create({ name: 'Game H5', icon: 'i-bxs-devices', key: 'h5' })
     if(mobile == 0) await model.create({ name: 'Game Mobile', icon: 'i-bx-mobile', key: 'mobile' })
     if(pc == 0) await model.create({ name: 'Game PC', icon: 'i-mingcute-computer-line', key: 'pc' })
-    if(webgame == 0) await model.create({ name: 'Web Game', icon: 'i-mingcute-web-fill', key: 'webgame' })
+    if(webgame == 0) await model.create({ name: 'Web Game', icon: 'i-mingcute-web-fill', key: 'web-game' })
   }
   autoCreate()
 
@@ -48,7 +48,7 @@ export const DBGameCategory = (mongoose : Mongoose) => {
     const herocard = await model.count({key: 'hero-card'})
   
     if(mmo == 0) await model.create({ name: 'MMO', icon: 'i-ri-sword-fill', key: 'mmo' })
-    if(herocard == 0) await model.create({ name: 'Thẻ Bài', icon: 'i-icon-park-twotone-card-two', key: 'hero-card' })
+    if(herocard == 0) await model.create({ name: 'Thẻ Bài', icon: 'i-icon-park-twotone-card-two', key: 'the-bai' })
   }
   autoCreate()
 
@@ -64,17 +64,19 @@ export const DBGame = (mongoose : Mongoose) => {
     short_name: { type: String },
     key: { type: String },
     description: { type: String },
-    og_image: { type: String },
-    logo_image: { type: String },
-    icon_image: { type: String },
-    images: [{ type: String }],
+    image: {
+      banner: { type: String, default: '' },
+      logo: { type: String, default: '' },
+      icon: { type: String, default: '' },
+      review: [{ type: String }],
+    },
     
     content: { type: String },
 
     ip: { type: String, default: '' },
+    port: { type: Number, default: 80 },
     mobile: { type: Boolean, default: false },
     secret: { type: String, default: '@Secret' },
-
     api: {
       start: { type: String, default: '' },
       server: { type: String, default: '' },
@@ -86,9 +88,8 @@ export const DBGame = (mongoose : Mongoose) => {
     },
 
     price: {
-      recharge: { type: Number, index: true },
-      mail: { type: Number, index: true },
-      all: { type: Number, index: true },
+      recharge: { type: Number, index: true, default: 100000 },
+      mail: { type: Number, index: true, default: 100000 },
     },
 
     pin: { type: Boolean, default: true },

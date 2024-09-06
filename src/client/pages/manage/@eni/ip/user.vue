@@ -1,7 +1,7 @@
 <template>
-  <UiContent title="IP Log" sub="Lịch sử nhận mã toàn hệ thống">
-    <UiFlex class="mb-4">
-      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1"/>
+  <UiContent title="IP Log" sub="Danh sách IP người dùng">
+    <UiFlex class="mb-4 gap-1">
+      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
 
       <UForm :state="page" @submit="page.current = 1, getList()">
         <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
@@ -48,7 +48,7 @@
 
     <!--Modal User Info-->
     <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
-      <AdminUserInfo :user="stateUser" />
+      <ManageUser :user="stateUser" />
     </UModal>
   </UiContent>
 </template>

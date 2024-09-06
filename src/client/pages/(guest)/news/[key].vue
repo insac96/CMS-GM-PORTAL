@@ -14,7 +14,7 @@
         :alt="news.title" 
         img-size="xs:300px sm:600 md:800px 1000px"
         preload
-        class="rounded-3xl shadow-md"
+        class="rounded-lg shadow-md"
       />
 
       <UiFlex class="py-4">

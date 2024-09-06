@@ -1,10 +1,10 @@
 <template>
   <UiContent title="Payment" sub="Quản lý giao dịch nạp tiền">
-    <UiFlex class="mb-4">
-      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-2"/>
-      <UForm :state="page" @submit="page.current = 1, getList()" class="mr-4">
-        <UiFlex>
-          <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" class="mr-1" />
+    <UiFlex class="mb-4 gap-1">
+      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
+      <UForm :state="page" @submit="page.current = 1, getList()">
+        <UiFlex class="gap-1">
+          <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
           <USelectMenu v-model="page.search.by" :options="['CODE', 'USER']" />
         </UiFlex>
       </UForm>
@@ -77,7 +77,7 @@
 
     <!-- Modal User View -->
     <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
-      <AdminUserInfo :user="stateUser" />
+      <ManageUser :user="stateUser" />
     </UModal>
 
     <!-- Modal Payment View -->

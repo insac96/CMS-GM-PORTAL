@@ -6,6 +6,7 @@ import { DBUser } from './user'
 import { DBGate } from './gate'
 import { DBPayment } from './payment'
 import { DBSpend } from './spend'
+import { DBOrder } from './order'
 import { DBNotifyUser } from './notify'
 import { DBGamePlatform, DBGameCategory, DBGame } from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
@@ -25,6 +26,8 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     Payment: DBPayment(mongoose),
 
     Spend: DBSpend(mongoose),
+
+    Order: DBOrder(mongoose),
 
     NotifyUser: DBNotifyUser(mongoose),
 
