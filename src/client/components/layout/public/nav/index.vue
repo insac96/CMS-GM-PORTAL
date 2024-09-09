@@ -1,49 +1,103 @@
 <template>
-  <div>
-    <PlayBtn block class="mb-2" />
+  <UiFlex class="w-full min-h-full max-h-full overflow-hidden" type="col">
+    <UiFlex class="justify-center min-h-[var(--header-size)] max-h-[var(--header-size)] w-full">
+      <NuxtLink to="/">
+        <UiLogo />
+      </NuxtLink>
+    </UiFlex>
 
-    <DataSupport class="mb-4" />
-
-    <UAccordion 
-      :items="navItems" 
-      :ui="{
-        'item': { padding: 'pt-0 pb-2 pl-6' },
-      }"
-      multiple
-    >
-      <template #default="{item, open}">
-        <UiFlex items="center" class="py-2 mb-2 cursor-pointer overflow-hidden select-none">
-          <UiIcon :name="item.icon" size="5" :color="open ? 'primary' : 'gray'"/>
-          <UiText 
-            class="mx-4" 
-            size="sm" 
-            weight="semibold" 
-            :color="open ? 'primary' : 'gray'"
-            :text="item.label"
-          />
-          <UiIcon
-            name="i-bx-chevron-right"
-            size="5"
-            :color="open ? 'primary' : 'gray'"
-            class="ms-auto transform transition-transform duration-200"
-            :class="[open && 'rotate-90']"
-          />
+    <div class="w-full grow overflow-y-auto py-2">
+      <UiFlex type="col" v-for="(item, index) in menu" :key="`m-${index}`" class="mx-6">
+        <UiFlex 
+          v-if="!item.child" 
+          class="LayoutPublicNavMenuItem gap-4 text-gray-500" 
+          @click="goTo(item.to)"
+          :class="{
+            'LayoutPublicNavMenuItem--Active': item.to == activeTo
+          }"
+        >
+          <UiIcon class="LayoutPublicNavMenuItem__Icon" :name="item.icon" size="6" />
+          <UiText class="LayoutPublicNavMenuItem__Text" size="sm" weight="semibold">{{ item.title }}</UiText>
         </UiFlex>
-      </template>
-      
-      <template #[i.slot] v-for="i in navItems" :key="i.slot">
-        <UVerticalNavigation :links="i.children" @click="emit('to')"/>
-      </template>
-    </UAccordion>
-  </div>
+
+        <div class="w-full my-4" v-else>
+          <UDivider class="mb-4"></UDivider>
+          <UiText size="xs" weight="bold" class="mb-4">{{ item.title }}</UiText>
+          <UiFlex 
+            v-for="(child, cIndex) in item.child" :key="`c-${index}-${cIndex}`" 
+            class="LayoutPublicNavMenuItem gap-4 text-gray-500" 
+            @click="goTo(child.to)"
+            :class="{
+              'LayoutPublicNavMenuItem--Active': child.to == activeTo
+            }"
+          >
+            <UiIcon class="LayoutPublicNavMenuItem__Icon" :name="child.icon" size="6" />
+            <UiText class="LayoutPublicNavMenuItem__Text" size="sm" weight="semibold">{{ child.title }}</UiText>
+          </UiFlex>
+        </div>
+      </UiFlex>
+    </div>
+  </UiFlex>
 </template>
 
 <script setup>
+const router = useRoute()
 const emit = defineEmits(['to'])
+const menu = ref([])
 
-const navItems = computed(() => {
-  const list =  []
-
-  return list
+const activeTo = computed(() => {
+  return router.fullPath
 })
+
+const goTo = (link) => {
+  if(link == activeTo.value) return
+  useTo().navigateToSSL(link)
+  emit('to')
+}
+
+const makeMenu = async () => {
+  try {
+    const categories = await useAPI('game/public/category/select')
+    const platforms = await useAPI('game/public/platform/select')
+    const list =  [
+      { title: 'Nạp xu', icon: 'i-bxs-credit-card', to: '/payment' },
+      { title: 'Tin tức', icon: 'i-bx-news', to: '/news' },
+      { title: 'Danh mục', child: [
+        { title: 'Game Tool', icon: 'i-ion-game-controller', to: '/game/tool' },
+        { title: 'Game Private', icon: 'i-fluent-games-28-filled', to: '/game/private' },
+        { title: 'Game Trung', icon: 'i-jam-gamepad-f', to: '/game/china' },
+      ]},
+      { title: 'Nền tảng', child: platforms.map(i => {
+        return { title: i.name, icon: i.icon, to: `/game/platform/${i.key}` }
+      })},
+      { title: 'Thể loại', child: categories.map(i => {
+        return { title: i.name, icon: i.icon, to: `/game/category/${i.key}` }
+      })}
+    ]
+    menu.value = list
+  }
+  catch(e){
+
+  }
+}
+makeMenu()
 </script>
+
+<style lang="sass">
+.LayoutPublicNavMenuItem
+  width: 100%
+  min-height: 40px
+  max-height: 40px
+  overflow: hidden
+  cursor: pointer
+  user-select: none
+  &:hover > .LayoutPublicNavMenuItem__Icon
+    color: rgb(var(--color-primary-500))
+  &:hover > .LayoutPublicNavMenuItem__Text
+    color: initial
+  &--Active
+    .LayoutPublicNavMenuItem__Icon
+      color: rgb(var(--color-primary-500))
+    .LayoutPublicNavMenuItem__Text
+      color: initial
+</style>

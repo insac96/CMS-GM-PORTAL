@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     const category = await DB.GameCategory.findOne({ _id: _id }).select('name')
     if(!category) throw 'Thể loại không tồn tại'
     
-    const games = await DB.Game.count({ category: _id })
+    const games = await DB.GameTool.count({ category: _id })
     if(games > 0) throw 'Không thể xóa thể loại đã có trò chơi'
 
     await DB.GameCategory.deleteOne({ _id: _id })

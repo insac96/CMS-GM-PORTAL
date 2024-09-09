@@ -9,7 +9,7 @@
         class="
           h-16 w-16 min-w-16 min-h-16 max-h-16 max-w-16
           bg-gray-200 dark:bg-gray-800
-          rounded-lg cursor-pointer overflow-hidden
+          rounded-3xl cursor-pointer overflow-hidden
         "
         @click="onViewFile(item, index)"
       >
@@ -21,7 +21,7 @@
         class="
           h-16 w-16 min-w-16 min-h-16 max-h-16 max-w-16
           bg-gray-200 dark:bg-gray-800
-          rounded-lg cursor-pointer overflow-hidden
+          rounded-3xl cursor-pointer overflow-hidden
         "
         @click="selectFile"
       >

@@ -5,9 +5,8 @@ export { IDBUser, IDBUserStore } from './user'
 export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
-export { IDBOrder } from './order'
 export { IDBNotifyUser } from './notify'
-export { IDBGamePlatform, IDBGameCategory, IDBGame } from './game'
+export { IDBGamePlatform, IDBGameCategory, IDBGameTool, IDBGameToolOrder } from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
 
@@ -25,13 +24,13 @@ export interface IGlobalDB {
 
   Spend: Model<IDBSpend>
 
-  Order: Model<IDBOrder>
-
   NotifyUser: Model<IDBNotifyUser>
 
   GamePlatform: Model<IDBGamePlatform>
   GameCategory: Model<IDBGameCategory>
-  Game: Model<IDBGame>
+
+  GameTool: Model<IDBGameTool>
+  GameToolOrder: Model<IDBGameToolOrder>
 
   LogAdmin: Model<IDBLogAdmin>
   LogUser: Model<IDBLogUser>

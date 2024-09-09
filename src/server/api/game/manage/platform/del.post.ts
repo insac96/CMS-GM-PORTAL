@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     const platform = await DB.GamePlatform.findOne({ _id: _id }).select('name')
     if(!platform) throw 'Nền tảng không tồn tại'
     
-    const games = await DB.Game.count({ platform: _id })
+    const games = await DB.GameTool.count({ platform: _id })
     if(games > 0) throw 'Không thể xóa nền tảng đã có trò chơi'
 
     await DB.GamePlatform.deleteOne({ _id: _id })

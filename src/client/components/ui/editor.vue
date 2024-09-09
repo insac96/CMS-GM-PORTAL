@@ -1,8 +1,8 @@
 <template>
   <div :class="{
-    'UiEditor ring-1 ring-gray-200 dark:ring-gray-800 rounded-lg' : !loading
+    'UiEditor ring-1 ring-gray-200 dark:ring-gray-800 rounded-3xl' : !loading
   }">
-    <USkeleton class="w-full h-[250px] rounded-lg shadow-md" v-if="loading" />
+    <USkeleton class="w-full h-[250px] rounded-3xl shadow-md" v-if="loading" />
 
     <ClientOnly>
       <QuillEditor 
