@@ -16,10 +16,10 @@ export default defineEventHandler(async (event) => {
     .aggregate([
       {
         $lookup: {
-          from: "Games",
+          from: "GameTool",
           localField: "_id",
           foreignField: "platform",
-          as: "gameList",
+          as: "GameTool",
           pipeline: [{
             $project: { _id: 1 },
           }],
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
           updatedAt: 1,
           createdAt: 1,
           count: { 
-            $size: '$gameList'
+            $size: '$GameTool'
           }
         }
       },

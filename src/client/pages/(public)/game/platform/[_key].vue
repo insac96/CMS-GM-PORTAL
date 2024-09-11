@@ -1,8 +1,61 @@
 <template>
-  <div>{{ route.params._key }}</div>
+  <UiContent :title="platform ? platform.name : 'Platform'" sub="Trò chơi theo nền tảng">
+    <SelectGameOs class="block sm:inline-block mb-1" v-model="page.os" />
+
+    <UiFlex class="mb-4 gap-1 flex-col sm:flex-row">
+      <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
+        <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
+      </UForm>
+
+      <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" />
+    </UiFlex>
+
+    <DataGameList :list="list" />
+  </UiContent>
 </template>
 
 <script setup>
 const route = useRoute()
+const platform = ref(null)
+const list = ref([])
+const loading = ref(false)
 
+// Page
+const page = ref({
+  size: 6,
+  current: 1,
+  sort: {
+    column: 'statistic.play',
+    direction: 'desc'
+  },
+  search: null,
+  os: 'tool',
+  category: [],
+  platform: route.params._key,
+  total: 0
+})
+watch(() => page.value.size, () => getList())
+watch(() => page.value.current, () => getList())
+watch(() => page.value.sort.column, () => getList())
+watch(() => page.value.sort.direction, () => getList())
+watch(() => page.value.os, () => getList())
+watch(() => page.value.category, () => getList())
+watch(() => page.value.search, (val) => !val && getList())
+
+const getList = async () => {
+  try {
+    loading.value = true
+    const data = await useAPI('game/public/platform/list', JSON.parse(JSON.stringify(page.value)))
+
+    platform.value = data.platform
+    list.value = data.list
+    page.value.total = data.total
+    loading.value = false
+  }
+  catch (e) {
+    loading.value = false
+  } 
+}
+
+getList()
 </script>

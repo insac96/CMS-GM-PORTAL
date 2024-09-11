@@ -1,6 +1,6 @@
 <template>
-  <UiFlex type="col" class="px-4 py-10 border rounded-3xl border-gray-200 dark:border-gray-800">
-    <UiIcon :name="icon" color="primary" size="16" class="mb-2 opacity-75 dark:opacity-50" v-if="icon" />
+  <UiFlex type="col" justify="center" class="p-4">
+    <UiImg src="/images/icon/empty.png" w="1" h="1" imgW="300" imgH="300" class="w-[120px] h-[120px] mb-2" />
     <UiText color="gray" align="center" size="sm">{{ text }}</UiText>
   </UiFlex>
 </template>
@@ -13,7 +13,7 @@ defineProps({
   },
   text: {
     type: String,
-    default: 'Không có dữ liệu'
+    default: 'Không tìm thấy dữ liệu'
   }
 })
 </script>

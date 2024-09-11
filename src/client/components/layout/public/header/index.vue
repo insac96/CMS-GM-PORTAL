@@ -7,14 +7,15 @@
     flex items-center gap-1
     h-[var(--header-size)] max-h-[var(--header-size)]
     px-4
+    border-b border-gray-200
   ">
-    <LayoutPublicNavBtn class="lg:hidden" />
+    <LayoutPublicNavHeader class="lg:hidden" />
 
     <LayoutPublicHeaderSearch />
     
     <UiFlex justify="end" items="center" class="ml-auto">
       <AuthSign v-if="!authStore.isLogin" />
-      <LazyAuthSlide v-else />
+      <LazyAuthHeader v-else />
     </UiFlex>
   </header>
 </template>

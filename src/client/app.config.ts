@@ -38,7 +38,7 @@ export default defineAppConfig({
       rounded: 'rounded-3xl',
       color: {
         gray: {
-          outline: 'ring-0'
+          outline: 'ring-0 bg-gray-100 '
         }
       }
     },

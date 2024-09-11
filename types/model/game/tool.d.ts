@@ -41,17 +41,22 @@ export interface IDBGameTool {
     mail: number
   }
 
+  statistic: {
+    play: number
+    view: number
+  }
+
   pin: boolean
   display: boolean
 }
 
-export interface IDBGameToolOrder {
+export interface IDBGameToolPayment {
   _id: Types.ObjectId
   createdAt: Date
   updatedAt: Date
 
   user: Types.ObjectId
-  game: Types.ObjectId
+  game: Types.ObjectId | IDBGameTool
 
   recharge: boolean
   mail: boolean

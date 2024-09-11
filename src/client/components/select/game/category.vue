@@ -1,22 +1,25 @@
 <template>
   <USelectMenu
-    v-model="category"
+    v-model="valueSelect"
+    :multiple="multiple"
     :options="options"
     size="lg"
-    value-attribute="_id"
-    option-attribute="label"
+    by="_id"
     :disabled="options.length == 0"
     :loading="loading"
   >
     <template #label>
-      <UiText mini>{{ select ? select.label : 'Chọn thể loại' }}</UiText>
+      <UiText mini v-if="!multiple">{{ select ? select.label : 'Chọn thể loại' }}</UiText>
+      <UiText mini v-if="!!multiple && select && select.length > 0">{{ select.map(i => i.label).join(', ') }}</UiText>
+      <UiText mini v-if="!!multiple && select && select.length == 0">Chọn thể loại</UiText>
     </template>
   </USelectMenu>
 </template>
 
 <script setup>
 const props = defineProps({
-  modelValue: String,
+  modelValue: [ String, Array ],
+  multiple: Boolean,
   options: {
     type: Array,
     default: () => []
@@ -25,15 +28,22 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
+const valueSelect = ref(props.modelValue)
+const options = ref([])
+const select = ref(null)
 const loading = ref(true)
 
-const category = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
-}) 
-
-const options = ref(props.options)
-const select = computed(() => options.value.find(i => i._id === category.value))
+watch(() => valueSelect.value, val => {
+  select.value = val
+  if(!!props.multiple){
+    const list = val.map(i => i._id)
+    emit('update:modelValue', list)
+  }
+  else {
+    if(!!val) return emit('update:modelValue', val._id)
+    emit('update:modelValue', undefined)
+  }
+})
 
 const fetch = async () => {
   try {
@@ -41,6 +51,14 @@ const fetch = async () => {
     const list = await useAPI('game/public/category/select')
     
     options.value = options.value.concat(list.map(i => ({ _id: i._id, label: i.name })))
+
+    if(!props.multiple && !!valueSelect.value){
+      select.value = options.value.find(i => i._id === valueSelect.value)
+    }
+    if(!!props.multiple && !!valueSelect.value){
+      select.value = valueSelect.value
+    }
+
     loading.value = false
   }
   catch (e) {

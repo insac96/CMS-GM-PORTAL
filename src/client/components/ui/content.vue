@@ -1,20 +1,42 @@
 <template>
-  <div>
-    <UiFlex type="col" justify="center" :items="!!start ? 'start' : 'center'" class="mb-6">
-      <UiText align="center" class="font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl text-xl">{{ title }}</UiText>
-      <UiText align="center" color="gray" class="tracking-tight sm:text-xl text-lg">{{ sub }}</UiText>
-    </UiFlex>
+  <div class="UiContent">
+    <div class="UiContentHeader mb-4">
+      <UiFlex class="gap-4">
+        <UiText weight="bold" class="lg:text-lg">{{ title || '...' }}</UiText>
+        <UiFlex class="UiContentDivider bg-gray-200"></UiFlex>
+      </UiFlex>
+      <UiText class="text-xs lg:text-sm" color="gray" v-if="sub">{{ sub }}</UiText>
+    </div>
 
-    <slot></slot>
+    <div>
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script setup>
 defineProps({
   title: String,
-  sub: String,
-  start: { type: Boolean, default: true },
+  sub: String
 })
-
-const slots = defineSlots()
 </script>
+
+<style lang="sass">
+.UiContent
+  .UiContentHeader
+    position: relative
+    .UiContentDivider
+      position: relative
+      width: 20%
+      max-width: 120px
+      height: 0.5px
+      border-radius: 50%
+      &::after
+        content: ''
+        position: absolute
+        left: 8%
+        width: 23px
+        height: 9px
+        border-radius: 20px
+        background: rgb(var(--color-primary-500))
+</style>

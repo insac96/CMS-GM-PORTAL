@@ -1,5 +1,5 @@
 <template>
-  <UiContent title="Game" sub="Quản lý các trò chơi">
+  <UiContent title="Game Tool" sub="Quản lý các trò chơi Tool">
     <UiFlex class="mb-4 gap-1">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
       

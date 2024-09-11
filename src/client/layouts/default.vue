@@ -1,15 +1,15 @@
 <template>
   <div class="LayoutPublic relative h-full min-h-full">
-    <div class="LayoutPublicNav hidden lg:block border-r border-gray-100 min-h-full h-full">
+    <div class="LayoutPublicNav hidden lg:block border-r border-gray-200 min-h-full h-full">
       <LayoutPublicNav />
     </div>
 
     <div class="LayoutPublicMain">
       <LayoutPublicHeader />
 
-      <UContainer class="min-h-[calc(100%-var(--header-size)-var(--footer-size))] max-w-[800px] mx-auto">
-          <slot></slot>
-      </UContainer>
+      <div class="p-4">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>

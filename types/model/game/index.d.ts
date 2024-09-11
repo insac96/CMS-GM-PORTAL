@@ -1,5 +1,6 @@
 import type { Types } from 'mongoose'
-export { IDBGameTool, IDBGameToolOrder } from './tool'
+export { IDBGameTool, IDBGameToolPayment } from './tool'
+export { IDBGameChina, IDBGameChinaPayment } from './china'
 
 export interface IDBGamePlatform {
   _id: Types.ObjectId
