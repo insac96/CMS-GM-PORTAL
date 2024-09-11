@@ -15,12 +15,19 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:modelValue'])
 
-const tab = ref(null)
 const select = ref({
   0: 'tool',
   1: 'private',
   2: 'china'
 })
+const selectTab = ref({
+  'tool': 0,
+  'private': 1,
+  'china': 2
+})
+
+const tab = ref(selectTab.value[props.modelValue])
+
 const items = [{
   label: 'Game Tool',
   icon: 'i-ion-game-controller',

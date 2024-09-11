@@ -10,7 +10,7 @@
       <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" />
     </UiFlex>
 
-    <DataGameList :list="list" />
+    <DataGameList :list="list" :os="page.os" />
   </UiContent>
 </template>
 
@@ -29,7 +29,7 @@ const page = ref({
     direction: 'desc'
   },
   search: null,
-  os: 'tool',
+  os: route.query.os || 'tool',
   category: [],
   platform: route.params._key,
   total: 0
@@ -38,7 +38,10 @@ watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
 watch(() => page.value.sort.column, () => getList())
 watch(() => page.value.sort.direction, () => getList())
-watch(() => page.value.os, () => getList())
+watch(() => page.value.os, (val) => {
+  navigateTo({ path: route.fullPath, query: { os: val }})
+  getList()
+})
 watch(() => page.value.category, () => getList())
 watch(() => page.value.search, (val) => !val && getList())
 

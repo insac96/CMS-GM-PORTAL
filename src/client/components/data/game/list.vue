@@ -7,10 +7,11 @@
       :key="index" 
       class="md:col-span-4 col-span-6"
       :game="item"
+      :os="os"
     />
   </div>
 </template>
 
 <script setup>
-const props = defineProps(['list'])
+const props = defineProps(['list', 'os'])
 </script>

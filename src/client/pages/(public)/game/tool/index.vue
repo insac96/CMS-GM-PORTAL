@@ -9,7 +9,7 @@
       <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" />
     </UiFlex>
 
-    <DataGameList :list="list" />
+    <DataGameList :list="list" os="tool" />
   </UiContent>
 </template>
 
