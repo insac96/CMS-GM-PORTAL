@@ -3,8 +3,8 @@ import type { IDBConfig } from '~~/types'
 
 export const DBConfig = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBConfig>({ 
-    name: { type: String, default: 'GM Portal Game' },
-    short_name: { type: String, default: 'Game' },
+    name: { type: String, default: 'ENI Studio' },
+    short_name: { type: String, default: 'ENI' },
     description: { type: String, default: 'Một sản phẩm của ENI Group' },
     og_image: { type: String },
     logo_image: { type: String },

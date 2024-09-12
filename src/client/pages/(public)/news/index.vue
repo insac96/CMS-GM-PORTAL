@@ -1,5 +1,5 @@
 <template>
-  <UiContent title="Tin tức" sub="Tổng hợp tất cả tin tức">
+  <UiContent title="Tin Tức" sub="Tổng hợp tất cả tin tức">
     <UiFlex class="mb-4 gap-1 flex-col sm:flex-row">
       <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
@@ -18,7 +18,7 @@ const loading = ref(false)
 
 // Page
 const page = ref({
-  size: 6,
+  size: 12,
   current: 1,
   search: null,
   category: [],

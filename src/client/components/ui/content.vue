@@ -3,7 +3,7 @@
     <div class="UiContentHeader mb-4">
       <UiFlex class="gap-4">
         <UiText weight="bold" class="lg:text-lg">{{ title || '...' }}</UiText>
-        <UiFlex class="UiContentDivider bg-gray-200"></UiFlex>
+        <UiFlex class="UiContentDivider bg-gray-200" v-if="!noDot"></UiFlex>
       </UiFlex>
       <UiText class="text-xs lg:text-sm" color="gray" v-if="sub">{{ sub }}</UiText>
     </div>
@@ -17,7 +17,8 @@
 <script setup>
 defineProps({
   title: String,
-  sub: String
+  sub: String,
+  noDot: Boolean
 })
 </script>
 

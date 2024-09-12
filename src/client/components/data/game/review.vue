@@ -6,7 +6,7 @@
 const props = defineProps(['review', 'banner'])
 
 const slideList = computed(() => {
-  if(!props.review && !props.banner) return ['/images/icon/empty.png']
+  if(!props.review && !props.banner) return ['/images/null.webp']
 
   if(props.review == 0) {
     const list = []

@@ -58,11 +58,11 @@
 
     <!-- Modal View -->
     <UModal v-model="modal.payment" prevent-close>
-      <DataPaymentView :fetch-id="statePayment" class="p-4"/>
+      <DataPaymentView :fetch-id="statePayment" />
 
-      <UiFlex justify="end" class="px-4 pb-4">
-        <UButton color="gray" @click="modal.payment = false">Đóng</UButton>
-      </UiFlex>
+      <div justify="end" class="px-4 pb-4">
+        <UButton @click="modal.payment = false" block>Đóng</UButton>
+      </div>
     </UModal>
 
     <!-- Modal Undo -->
@@ -86,9 +86,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['user'])
-
-const route = useRoute()
+const props = defineProps(['user', 'reload'])
 
 const { toMoney } = useMoney()
 
@@ -159,6 +157,7 @@ watch(() => page.value.range.end, (val) => {
   if(!!val && !!page.value.range.start) return getList()
   if(!val && !page.value.range.start) return getList()
 })
+watch(() => props.reload, () => getList())
 
 const statusFormat = {
   0: { label: 'Đang chờ', color: 'orange' },

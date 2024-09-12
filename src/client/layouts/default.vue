@@ -7,9 +7,9 @@
     <div class="LayoutPublicMain">
       <LayoutPublicHeader />
 
-      <div class="p-4">
+      <UContainer class="py-4 sm:py-6 lg:py-8" :ui="{ constrained: 'max-w-[1100px] w-full' }">
         <slot></slot>
-      </div>
+      </UContainer>
     </div>
   </div>
 </template>

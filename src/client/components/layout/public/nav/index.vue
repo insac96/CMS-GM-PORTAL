@@ -65,7 +65,7 @@ const makeMenu = async () => {
       { title: 'Danh mục', child: [
         { title: 'Game Tool', icon: 'i-ion-game-controller', to: '/game/tool' },
         { title: 'Game Private', icon: 'i-fluent-games-28-filled', to: '/game/private' },
-        { title: 'Game Trung', icon: 'i-jam-gamepad-f', to: '/game/china' },
+        { title: 'Game China', icon: 'i-jam-gamepad-f', to: '/game/china' },
       ]},
       { title: 'Nền tảng', child: platforms.map(i => {
         return { title: i.name, icon: i.icon, to: `/game/platform/${i.key}` }

@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGameTool, IDBGameToolPayment } from '~~/types'
+import type { IDBGameTool, IDBGameToolUser } from '~~/types'
 
 export const DBGameTool = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameTool>({ 
@@ -33,6 +33,13 @@ export const DBGameTool = (mongoose : Mongoose) => {
       os: { type: String, default: '' },
     },
 
+    play: {
+      web: { type: String, default: '' },
+      windows: { type: String, default: '' },
+      android: { type: String, default: '' },
+      ios: { type: String, default: '' },
+    },
+
     price: {
       recharge: { type: Number, index: true, default: 100000 },
       mail: { type: Number, index: true, default: 100000 },
@@ -55,8 +62,8 @@ export const DBGameTool = (mongoose : Mongoose) => {
   return model 
 }
 
-export const DBGameToolPayment = (mongoose : Mongoose) => {
-  const schema = new mongoose.Schema<IDBGameToolPayment>({ 
+export const DBGameToolUser = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGameToolUser>({ 
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameTool' },
     recharge: { type: Boolean, index: true, default: false },
@@ -66,6 +73,6 @@ export const DBGameToolPayment = (mongoose : Mongoose) => {
     timestamps: true
   })
 
-  const model = mongoose.model('DBGameToolPayment', schema, 'DBGameToolPayment')
+  const model = mongoose.model('GameToolUser', schema, 'GameToolUser')
   return model 
 }

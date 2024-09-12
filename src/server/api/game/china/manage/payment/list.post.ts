@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    const list = await DB.GameToolPayment
+    const list = await DB.GameToolUser
     .find(match)
     .populate({ path: 'user', select: 'username' })
     .populate({ path: 'game', select: 'name' })
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
     .limit(size)
     .skip((current - 1) * size)
 
-    const total = await DB.GameToolPayment.count()
+    const total = await DB.GameToolUser.count()
     return resp(event, { result: { list, total } })
   } 
   catch (e:any) {

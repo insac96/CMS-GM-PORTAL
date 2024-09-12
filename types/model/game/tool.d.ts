@@ -1,4 +1,5 @@
 import type { Types } from 'mongoose'
+import type { IDBUser } from '../user'
 
 export interface IDBGameTool {
   _id: Types.ObjectId
@@ -36,6 +37,13 @@ export interface IDBGameTool {
     os: string
   }
 
+  play: {
+    web: string
+    windows: string
+    android: string
+    ios: string
+  }
+
   price: {
     recharge: number
     mail: number
@@ -50,12 +58,12 @@ export interface IDBGameTool {
   display: boolean
 }
 
-export interface IDBGameToolPayment {
+export interface IDBGameToolUser {
   _id: Types.ObjectId
   createdAt: Date
   updatedAt: Date
 
-  user: Types.ObjectId
+  user: Types.ObjectId | IDBUser
   game: Types.ObjectId | IDBGameTool
 
   recharge: boolean

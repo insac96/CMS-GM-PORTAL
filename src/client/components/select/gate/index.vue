@@ -42,7 +42,7 @@ const select = computed(() => options.value.find(i => i._id === gate.value))
 const fetch = async () => {
   try {
     loading.value = true
-    const list = await useAPI('gate/select')
+    const list = await useAPI('gate/public/select')
 
     options.value = options.value.concat(list)
     loading.value = false

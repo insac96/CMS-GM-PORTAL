@@ -9,6 +9,7 @@ defineProps(['content'])
 
 <style lang="sass">
 .UiEditorContent
+  font-size: 15px
   line-height: 1.6rem
   padding: 0
   h2

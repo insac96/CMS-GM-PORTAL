@@ -73,7 +73,10 @@ export default defineEventHandler(async (event) => {
       qrcode: qrcode
     })
 
-    return resp(event, { message: 'Tạo giao dịch thành công', result: payment._id })
+    return resp(event, { message: 'Tạo giao dịch thành công', result: {
+      code: code,
+      qrcode: qrcode
+    }})
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

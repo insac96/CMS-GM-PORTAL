@@ -1,10 +1,10 @@
 export default defineEventHandler(async (event) => {
   try {
-    const { _id } = await readBody(event)
-    if(!_id) throw 'Không tìm thấy ID tin tức'
+    const { key } = await readBody(event)
+    if(!key) throw 'Không tìm thấy khóa tin tức'
 
     const news = await DB.News
-    .findOneAndUpdate({ _id: _id, display: 1 }, { $inc: { view: 1 } }, { new: true })
+    .findOneAndUpdate({ key: key, display: true }, { $inc: { view: 1 } }, { new: true })
     .populate({ path: 'category', select: 'name color' })
     .populate({ path: 'updater', select: 'avatar username' })
 

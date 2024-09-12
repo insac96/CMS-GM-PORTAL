@@ -194,6 +194,32 @@
       </UForm>
     </UModal>
 
+    <!-- Modal Edit Play -->
+    <UModal v-model="modal.editPlay" preventClose>
+      <UForm :state="stateEditPlay" @submit="editPlayAction" class="p-4">
+        <UFormGroup label="Link chơi Web">
+          <UInput v-model="stateEditPlay.web" />
+        </UFormGroup>
+
+        <UFormGroup label="Linh Tải Android">
+          <UInput v-model="stateEditPlay.android" />
+        </UFormGroup>
+
+        <UFormGroup label="Linh Tải IOS">
+          <UInput v-model="stateEditPlay.ios" />
+        </UFormGroup>
+
+        <UFormGroup label="Linh Tải Windows">
+          <UInput v-model="stateEditPlay.windows" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-6">
+          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton color="gray" @click="modal.editPlay = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
     <!-- Modal Edit Price -->
     <UModal v-model="modal.editPrice" preventClose>
       <UForm :state="stateEditPrice" @submit="editPriceAction" class="p-4">
@@ -315,6 +341,13 @@
     mobile: null,
     secret: null
   })
+  const stateEditPlay = ref({
+    _id: null,
+    web: null,
+    windows: null,
+    android: null,
+    ios: null,
+  })
   const stateEditPrice = ref({
     _id: null,
     recharge: null,
@@ -331,6 +364,7 @@
     editInfo: false,
     editImage: false,
     editAPI: false,
+    editPlay: false,
     editPrice: false,
     editContent: false
   })
@@ -397,6 +431,14 @@
       click: () => {
         Object.keys(stateEditAPI.value).forEach(key => stateEditAPI.value[key] = row[key])
         modal.value.editAPI = true
+      }
+    },{
+      label: 'Sửa link chơi',
+      icon: 'i-bx-credit-card',
+      click: () => {
+        Object.keys(stateEditPlay.value).forEach(key => stateEditPlay.value[key] = row.play[key])
+        stateEditPlay.value._id = row._id
+        modal.value.editPlay = true
       }
     },{
       label: 'Sửa giá Tool',
@@ -477,6 +519,20 @@
   
       loading.value.edit = false
       modal.value.editAPI = false
+      getList()
+    }
+    catch (e) {
+      loading.value.edit = false
+    }
+  }
+
+  const editPlayAction = async () => {
+    try {
+      loading.value.edit = true
+      await useAPI('game/tool/manage/project/edit/play', JSON.parse(JSON.stringify(stateEditPlay.value)))
+  
+      loading.value.edit = false
+      modal.value.editPlay = false
       getList()
     }
     catch (e) {

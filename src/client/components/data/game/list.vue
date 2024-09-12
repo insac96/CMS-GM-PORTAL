@@ -5,7 +5,7 @@
     <DataGameBox 
       v-for="(item, index) in list" 
       :key="index" 
-      class="md:col-span-4 col-span-6"
+      class="lg:col-span-3 md:col-span-4 col-span-6"
       :game="item"
       :os="os"
     />

@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="p-4">
     <USkeleton class="w-full h-80" v-if="loading"/>
+    
     <div v-else>
-      <DataEmpty icon="i-bx-credit-card" text="Không có thông tin" v-if="!payment"/>
+      <DataEmpty text="Không có thông tin" v-if="!payment"/>
 
-      <UCard v-else>
+      <div v-else>
         <UiFlex justify="between" class="mb-6">
           <UiText size="sm" color="gray" weight="semibold">Kênh</UiText>
           <UiText size="sm" weight="semibold">{{ payment.gate?.name || '...' }}</UiText>
@@ -68,15 +69,13 @@
             <UiText size="sm" weight="semibold">{{ payment.money ? toMoney(payment.money) : '...' }}</UiText>
           </UiFlex>
         </div>
-      </UCard>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useClipboard } from '@vueuse/core'
-
-const route = useRoute()
 const { copy, isSupported } = useClipboard()
 const { toMoney } = useMoney()
 const props = defineProps(['fetchId'])

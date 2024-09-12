@@ -20,15 +20,10 @@ export const DBGameChina = (mongoose : Mongoose) => {
     content: { type: String },
 
     play: {
-      web: { type: String },
-      windows: { type: String },
-      android: { type: String },
-      ios: { type: String },
-    },
-
-    price: {
-      recharge: { type: Number, index: true, default: 100000 },
-      mail: { type: Number, index: true, default: 100000 },
+      web: { type: String, default: '' },
+      windows: { type: String, default: '' },
+      android: { type: String, default: '' },
+      ios: { type: String, default: '' },
     },
 
     statistic: {
