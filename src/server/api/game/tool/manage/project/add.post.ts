@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
     if(auth.type < 1) throw 'Bạn không phải quản trị viên'
 
     const body = await readBody(event)
-    const { platform, category, name, short_name, description } = body
-    if(!platform || !category || !name || !short_name || !description) throw 'Dữ liệu đầu vào không hợp lệ'
+    const { platform, category, name, code, description } = body
+    if(!platform || !category || !name || !code || !description) throw 'Dữ liệu đầu vào không hợp lệ'
 
     const platformCheck = await DB.GamePlatform.findOne({ _id: platform }).select('_id')
     if(!platformCheck) throw 'Nền tảng không tồn tại'
@@ -19,8 +19,8 @@ export default defineEventHandler(async (event) => {
     const nameCheck = await DB.GameTool.findOne({ key: key }).select('_id')
     if(!!nameCheck) throw 'Tên trò chơi đã tồn tại'
 
-    const shortNameCheck = await DB.GameTool.findOne({ short_name: short_name }).select('_id')
-    if(!!shortNameCheck) throw 'Tên ngắn trò chơi đã tồn tại'
+    const codeCheck = await DB.GameTool.findOne({ code: code }).select('_id')
+    if(!!codeCheck) throw 'Tên ngắn trò chơi đã tồn tại'
 
     body.key = key
     await DB.GameTool.create(body)

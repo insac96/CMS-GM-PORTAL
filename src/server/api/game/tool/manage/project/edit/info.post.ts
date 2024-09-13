@@ -6,10 +6,10 @@ export default defineEventHandler(async (event) => {
     if(auth.type < 1) throw 'Bạn không phải quản trị viên'
 
     const body = await readBody(event)
-    const { _id, platform, category, name, short_name, description } = body
-    if(!_id || !platform || !category || !name || !short_name || !description) throw 'Dữ liệu đầu vào không hợp lệ'
+    const { _id, platform, category, name, code, description } = body
+    if(!_id || !platform || !category || !name || !code || !description) throw 'Dữ liệu đầu vào không hợp lệ'
     
-    const game = await DB.GameTool.findOne({ _id: _id }).select('name short_name')
+    const game = await DB.GameTool.findOne({ _id: _id }).select('name code')
     if(!game) throw 'Trò chơi không tồn tại'
 
     const platformCheck = await DB.GamePlatform.findOne({ _id: platform }).select('_id')
@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
       body.key = key
     }
 
-    if(game.short_name != short_name){
-      const getByShortName = await DB.GameTool.findOne({ short_name: short_name }).select('_id')
-      if(!!getByShortName) throw 'Tên ngắn trò chơi đã tồn tại'
+    if(game.code != code){
+      const getByCode = await DB.GameTool.findOne({ code: code }).select('_id')
+      if(!!getByCode) throw 'Tên ngắn trò chơi đã tồn tại'
     }
 
     delete body['_id']

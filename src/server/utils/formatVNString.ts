@@ -1,5 +1,3 @@
-import type { H3Event } from 'h3'
-
 export default (data : string, space : string = '') : string => {
   let str = String(data)
   str = str.trim()

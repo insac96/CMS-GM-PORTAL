@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGameTool, IDBGameToolUser } from '~~/types'
+import type { IDBGameTool, IDBGameToolUser, IDBGameToolRecharge } from '~~/types'
 
 export const DBGameTool = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameTool>({ 
@@ -7,7 +7,7 @@ export const DBGameTool = (mongoose : Mongoose) => {
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'GameCategory' },
 
     name: { type: String },
-    short_name: { type: String },
+    code: { type: String },
     key: { type: String },
     description: { type: String },
     image: {
@@ -22,6 +22,7 @@ export const DBGameTool = (mongoose : Mongoose) => {
     ip: { type: String, default: '' },
     port: { type: Number, default: 80 },
     mobile: { type: Boolean, default: false },
+    paygame: { type: Boolean, default: true },
     secret: { type: String, default: '@Secret' },
     api: {
       start: { type: String, default: '' },
@@ -76,3 +77,18 @@ export const DBGameToolUser = (mongoose : Mongoose) => {
   const model = mongoose.model('GameToolUser', schema, 'GameToolUser')
   return model 
 }
+
+export const DBGameToolRecharge = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGameToolRecharge>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameTool' },
+    recharge_id: { type: String },
+    recharge_name: { type: String },
+    save_pay: { type: Number, default: 0 },
+  })
+
+  schema.index({ recharge_id: 'text', recharge_name: 'text' })
+  const model = mongoose.model('GameToolRecharge', schema, 'GameToolRecharge')
+  return model 
+}
+
+

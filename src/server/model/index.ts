@@ -7,7 +7,11 @@ import { DBGate } from './gate'
 import { DBPayment } from './payment'
 import { DBSpend } from './spend'
 import { DBNotifyUser } from './notify'
-import { DBGamePlatform, DBGameCategory, DBGameTool, DBGameToolUser, DBGameChina, DBGameChinaPayment } from './game'
+import { 
+  DBGamePlatform, DBGameCategory, 
+  DBGameTool, DBGameToolUser, DBGameToolRecharge,
+  DBGameChina, DBGameChinaPayment 
+} from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
 
@@ -33,6 +37,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
 
     GameTool: DBGameTool(mongoose),
     GameToolUser: DBGameToolUser(mongoose),
+    GameToolRecharge: DBGameToolRecharge(mongoose),
 
     GameChina: DBGameChina(mongoose),
     GameChinaPayment: DBGameChinaPayment(mongoose),

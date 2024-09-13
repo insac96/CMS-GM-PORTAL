@@ -23,7 +23,9 @@ const props = defineProps({
     default: () => []
   },
   disabled: Boolean,
-  auto: Boolean
+  auto: Boolean,
+  game: String,
+  type: String
 })
 const emit = defineEmits(['update:modelValue', 'update:serverData'])
 
@@ -39,22 +41,19 @@ const select = computed(() => options.value.find(i => i.value === server.value))
 
 watch(select, val => {
   if(!val) return emit('update:serverData', undefined)
-  emit('update:serverData', {
-    server_id: val.value,
-    server_name: val.label
-  })
+  emit('update:serverData', { server_id: val.value, server_name: val.label })
 })
 
 const fetch = async () => {
   try {
     loading.value = true
-    const list = await useAPI('game/server')
+
+    const state = { game: props.game, type: props.type }
+    const list = await useAPI('game/vps/server', JSON.parse(JSON.stringify(state)))
 
     loading.value = false
     options.value = options.value.concat(list.map(i => ({ value: i.server_id, label: i.server_name })))
-    if(options.value.length > 0 && !!props.auto){
-      server.value = options.value[0]['value']
-    }
+    if(options.value.length > 0 && !!props.auto) server.value = options.value[0]['value']
   }
   catch (e){
     loading.value = false

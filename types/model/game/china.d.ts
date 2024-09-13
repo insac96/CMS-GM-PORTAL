@@ -9,7 +9,7 @@ export interface IDBGameChina {
   category: Types.ObjectId | IDBGameCategory
 
   name: string
-  short_name: string
+  code: string
   key: string
   description: string
   image: {

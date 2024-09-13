@@ -6,7 +6,11 @@ export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
 export { IDBNotifyUser } from './notify'
-export { IDBGamePlatform, IDBGameCategory, IDBGameTool, IDBGameToolUser, IDBGameChina, IDBGameChinaPayment } from './game'
+export { 
+  IDBGamePlatform, IDBGameCategory, 
+  IDBGameTool, IDBGameToolUser, IDBGameToolRecharge,
+  IDBGameChina, IDBGameChinaPayment 
+} from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
 
@@ -31,6 +35,7 @@ export interface IGlobalDB {
 
   GameTool: Model<IDBGameTool>
   GameToolUser: Model<IDBGameToolUser>
+  GameToolRecharge: Model<IDBGameToolRecharge>
 
   GameChina: Model<IDBGameChina>
   GameChinaPayment: Model<IDBGameChinaPayment>

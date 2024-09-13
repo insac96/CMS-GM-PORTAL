@@ -7,21 +7,17 @@ export default defineEventHandler(async (event) => {
     const user = await DB.User.findOne({ _id: auth._id }).select('currency') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
-    const { game : _id, recharge, mail } = await readBody(event)
-    if(!_id) throw 'Không tìm thấy mã trò chơi'
+    const { game : code, recharge, mail } = await readBody(event)
+    if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!recharge && !mail) throw 'Vui lòng lựa chọn 1 loại tool để mua'
 
     const game = await DB.GameTool
-    .findOne({ _id: _id, display: true })
+    .findOne({ code: code, display: true })
     .select('price') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
-    const userGameTool = await DB.GameToolUser.findOne({
-      game: game._id,
-      user: user._id
-    }) as IDBGameToolUser
-    if(!!userGameTool.recharge && !!userGameTool.mail) throw 'Bạn đã mua tất cả tool của trò chơi này'
-
+    const userGameTool = await DB.GameToolUser.findOne({ game: game._id, user: user._id }) as IDBGameToolUser
+    
     let totalPrice = 0
     let result : any 
 
@@ -41,23 +37,23 @@ export default defineEventHandler(async (event) => {
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
       await DB.GameToolUser.create(newUserGameTool)
-
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
       result = { recharge: newUserGameTool.recharge, mail: newUserGameTool.mail }
     }
     
     // Has User Game Tool
     if(!!userGameTool){
+      //if(!!userGameTool.recharge && !!userGameTool.mail) throw 'Bạn đã mua tất cả tool của trò chơi này'
       if(!!recharge && !userGameTool.recharge) totalPrice = totalPrice + game.price.recharge
       if(!!mail && !userGameTool.mail) totalPrice = totalPrice + game.price.mail
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
       if(!!recharge && !userGameTool.recharge) userGameTool.recharge = true
       if(!!mail && !userGameTool.mail) userGameTool.mail = true
+      userGameTool.coin = userGameTool.coin + totalPrice
 
       // @ts-expect-error
       await userGameTool.save()
-
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
       result = { recharge: userGameTool.recharge, mail: userGameTool.mail }
     }

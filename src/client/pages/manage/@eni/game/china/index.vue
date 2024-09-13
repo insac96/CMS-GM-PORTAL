@@ -68,8 +68,8 @@
           <UInput v-model="stateAdd.name" />
         </UFormGroup>
 
-        <UFormGroup label="Tên ngắn">
-          <UInput v-model="stateAdd.short_name" />
+        <UFormGroup label="Mã dự án">
+          <UInput v-model="stateAdd.code" />
         </UFormGroup>
 
         <UFormGroup label="Mô tả ngắn">
@@ -104,8 +104,8 @@
           <UInput v-model="stateEditInfo.name" />
         </UFormGroup>
 
-        <UFormGroup label="Tên ngắn">
-          <UInput v-model="stateEditInfo.short_name" />
+        <UFormGroup label="Mã dự án">
+          <UInput v-model="stateEditInfo.code" />
         </UFormGroup>
 
         <UFormGroup label="Mô tả ngắn">
@@ -260,7 +260,7 @@
     platform: null,
     category: null,
     name: null,
-    short_name: null,
+    code: null,
     description: null,
     pin: false,
     display: true,
@@ -270,7 +270,7 @@
     platform: null,
     category: null,
     name: null,
-    short_name: null,
+    code: null,
     description: null,
     pin: null,
     display: null,
@@ -308,7 +308,7 @@
     platform: null,
     category: null,
     name: null,
-    short_name: null,
+    code: null,
     description: null,
     pin: false,
     display: true,

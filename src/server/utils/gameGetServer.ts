@@ -2,15 +2,14 @@ import type { H3Event } from 'h3'
 import type { IDBConfig } from '~~/types'
 import axios from 'axios'
 
-export default async (event: H3Event) : Promise<any> => {
-  try {
-    const config = await DB.Config.findOne().select('game') as IDBConfig
-    if(!config) throw 'Không tìm thấy cấu hình trò chơi'
-    if(!config.game.api.server) throw 'Tính năng tìm máy chủ trong trò chơi đang bảo trì'
+interface ISendData {
+  url: string
+  secret: string
+}
 
-    const send = await axios.post(config.game.api.server, {
-      secret: config.game.secret
-    })
+export default async (event: H3Event, data: ISendData) : Promise<any> => {
+  try {
+    const send = await axios.post(data.url, data)
     const res = send.data
     if(res.error) throw res.error
     

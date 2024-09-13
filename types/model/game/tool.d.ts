@@ -10,7 +10,7 @@ export interface IDBGameTool {
   category: Types.ObjectId | IDBGameCategory
 
   name: string
-  short_name: string
+  code: string
   key: string
   description: string
   image: {
@@ -25,6 +25,7 @@ export interface IDBGameTool {
   ip: string
   port: number
   mobile: boolean
+  paygame: boolean
   secret: string
 
   api: {
@@ -70,4 +71,12 @@ export interface IDBGameToolUser {
   mail: boolean
 
   coin: number
+}
+
+export interface IDBGameToolRecharge {
+  _id: Types.ObjectId
+  game: Types.ObjectId | IDBGameTool
+  recharge_id: string
+  recharge_name: string
+  save_pay: number
 }

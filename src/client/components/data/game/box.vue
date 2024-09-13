@@ -20,7 +20,7 @@
       </template>
 
       <UiFlex class="gap-4">
-        <UAvatar :src="game.image?.icon" :alt="game.short_name" class="hidden md:flex" />
+        <UAvatar :src="game.image?.icon" :alt="game.code" class="hidden md:flex" />
 
         <div>
           <UiText color="gray" weight="semibold" class="line-clamp-1 text-sm sm:text-base">

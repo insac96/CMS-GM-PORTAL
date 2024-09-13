@@ -7,7 +7,7 @@ export const DBGameChina = (mongoose : Mongoose) => {
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'GameCategory' },
 
     name: { type: String },
-    short_name: { type: String },
+    code: { type: String },
     key: { type: String },
     description: { type: String },
     image: {

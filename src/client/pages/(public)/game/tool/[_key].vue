@@ -8,7 +8,7 @@
 
       <UiContent 
         class="md:col-span-4 col-span-12" 
-        :title="`[${game.short_name}] ${game.name}`" 
+        :title="`[${game.code}] ${game.name}`" 
         :sub="game.description"
         no-dot
       >
@@ -68,9 +68,11 @@
     </div>
 
     <!--Content-->
-    <div>
-      <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-1"></UTabs>
-      <NuxtPage :game="game" />
+    <div class="grid grid-cols-12">
+      <div class="xl:col-span-8 col-span-12">
+        <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-1"></UTabs>
+        <NuxtPage :game="game" />
+      </div>
     </div>
 
     <!--Play-->
@@ -117,6 +119,7 @@
 </template>
 
 <script setup>
+const runtimeConfig = useRuntimeConfig()
 const { miniMoney, toMoney } = useMoney()
 const authStore = useAuthStore()
 const route = useRoute()
@@ -131,7 +134,12 @@ const modal = ref({
   buy: false
 })
 
-const tab = ref(0)
+const tabRouter = {
+  'game-tool-_key': 0,
+  'game-tool-_key-recharge': 1,
+  'game-tool-_key-mail': 2
+}
+const tab = ref(tabRouter[route.name])
 const tabs = [{
   label: 'Tin tức',
   icon: 'i-bx-news',
@@ -179,12 +187,15 @@ const playUrl = async (url, type) => {
     if(type == 'download') return navigateTo(url, { external: true })
     if(type == 'web'){
       loading.value.play = true
-      const playUrl = await useAPI('game/public/project/vps/start', {
-        game: game.value._id
+      const data = await useAPI('game/tool/public/project/action/play', {
+        game: game.value.code
       })
 
       loading.value.play = false
-      navigateTo(playUrl, { external: true })
+
+      const path = `/game/tool/play?url=${data.url}&token=${data.token}&game=${game.value.code}`
+      if(!!runtimeConfig.public.dev) navigateTo(path, { external: true })
+      else location.href = `http://run.${runtimeConfig.public.domain}${path}`
     }
   }
   catch(e){
@@ -196,12 +207,15 @@ const buyTool = async () => {
   try {
     loading.value.buy = true
     const send = JSON.parse(JSON.stringify(stateBuy.value))
-    send.game = game.value._id
-    const data = await useAPI('game/tool/public/user/buy', send)
+    send.game = game.value.code
+    const data = await useAPI('game/tool/public/project/action/buy', send)
 
     stateBuy.value.recharge = data.recharge
     stateBuy.value.mail = data.mail
+    game.value.tool.recharge = data.recharge
+    game.value.tool.mail = data.mail
     loading.value.buy = false
+    modal.value.buy = false
   }
   catch(e){
     loading.value.buy = false
