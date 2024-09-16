@@ -44,7 +44,7 @@
         </template>
 
         <template #undo-data="{ row }">
-          <UButton color="gray" size="xs" :disabled="row.status > 0" @click="openUndo(row)">Hủy</UButton>
+          <UButton color="gray" size="xs" :disabled="row.status > 0" @click="openUndo(row)">{{ row.status > 0 ? '...' : 'Hủy' }}</UButton>
         </template>
       </UTable>
 
@@ -223,5 +223,5 @@ const getList = async () => {
   } 
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

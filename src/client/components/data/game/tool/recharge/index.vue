@@ -25,22 +25,22 @@
               ring: 'ring-0',
               shadow: 'shadow hover:shadow-xl',
               body: {
-                padding: 'px-2 py-4 sm:px-2 sm:py-4',
+                padding: 'px-4 py-4 sm:px-4 sm:py-4',
               },
             }"
             @click="startBuy(item)"
           >
             <UiFlex type="col" class="gap-2">
               <UAvatar icon="i-bx-package" alt="Benjamin Canac" size="3xl" />
-              <UiText size="sm" weight="semibold" color="gray" class="truncate">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
+              <UiText size="sm" weight="semibold" color="gray" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
             </UiFlex>
           </UCard>
         </div>
       </div>
     </div>
 
-    <UModal v-model="modal.buy">
-      <DataGameToolBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false" />
+    <UModal v-model="modal.buy" prevent-close>
+      <DataGameToolRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false" />
     </UModal>
   </div>
 </template>
@@ -78,7 +78,7 @@ const startBuy = (recharge) => {
 const getList = async () => {
 	try {
     loading.value.list = true
-    const data = await useAPI('game/tool/public/recharge/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/tool/public/project/recharge/list', JSON.parse(JSON.stringify(page.value)))
 
     list.value = data.list
     page.value.total = data.total

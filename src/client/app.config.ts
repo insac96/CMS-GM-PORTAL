@@ -1,6 +1,6 @@
 export default defineAppConfig({
   ui: {
-    primary: 'rose',
+    primary: 'orange',
     
     gray: 'cool',
 
@@ -25,6 +25,8 @@ export default defineAppConfig({
     },
 
     card: {
+      divide: 'divide-gray-100',
+      ring: 'ring-gray-100',
       base: 'relative overflow-x-hidden overflow-visible',
       rounded: 'rounded-3xl',
     },
@@ -89,6 +91,8 @@ export default defineAppConfig({
     },
 
     table: {
+      divide: 'divide-gray-100',
+      tbody: 'divide-gray-100',
       th: {
         base: 'whitespace-nowrap'
       }
@@ -117,7 +121,7 @@ export default defineAppConfig({
     },
 
     selectMenu: {
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-2xl',
       option: {
         rounded: 'rounded-3xl',
         padding: 'px-3 py-1.5',

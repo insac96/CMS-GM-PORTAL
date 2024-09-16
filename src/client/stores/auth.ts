@@ -10,12 +10,14 @@ export const useAuthStore = defineStore('auth', () => {
     modal.value = data
   }
 
-  function setAuth (data : IDBUserStore) {
+  async function setAuth () {
+    const auth = await useAPI('auth/get') as IDBUserStore
     isLogin.value = true
-    profile.value = data
+    profile.value = auth
   }
 
-  function removeAuth () {
+  async function removeAuth () {
+    await useAPI('auth/sign/out')
     isLogin.value = false
     profile.value = undefined
   }

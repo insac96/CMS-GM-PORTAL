@@ -4,13 +4,8 @@ export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
 
-    const user = await DB.User
-    .findOne({ _id: auth._id })
-    .select('avatar currency')
-
-    if(!user) throw 'Không tìm thấy thông tin tài khoản'
-
-    return resp(event, { result: user })
+    await DB.NotifyUser.updateOne({ user: auth._id }, { watched: true })
+    return resp(event, { message: 'Cập nhật xem tất cả thông báo thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

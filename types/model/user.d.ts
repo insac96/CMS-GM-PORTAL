@@ -17,7 +17,7 @@ export interface IDBUser {
   social: {
     facebook: string
     zalo: string
-    google: string
+    telegram: string
     tiktok: string
   }
   currency: {
@@ -36,5 +36,6 @@ export interface IDBUserStore {
   _id? : Types.ObjectId
   username? : string
   type?: number
+  currency?: IDBUser['currency']
   notify?: number
 }

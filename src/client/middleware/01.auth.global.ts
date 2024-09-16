@@ -5,8 +5,7 @@ export default defineNuxtRouteMiddleware(async () => {
   if(!token.value) return
 
   try{
-    const auth = await useAPI('auth/get')
-    return setAuth(auth)
+    await setAuth()
   }
   catch(e){
     token.value = null

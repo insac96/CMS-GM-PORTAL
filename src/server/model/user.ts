@@ -13,10 +13,10 @@ export const DBUser = (mongoose : Mongoose) => {
       platform: { type: String, default: 'local' },
     },
     social: {
-      facebook: { type: String },
-      zalo: { type: String },
-      google: { type: String },
-      tiktok: { type: String },
+      facebook: { type: String, default: '' },
+      zalo: { type: String, default: '' },
+      telegram: { type: String, default: '' },
+      tiktok: { type: String, default: '' },
     },
     currency: {
       coin: { type: Number, default: 0, index: true }

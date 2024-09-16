@@ -184,8 +184,8 @@
 
         <UiFlex justify="end" class="mt-6">
           <UiFlex class="mr-auto">
-            <UToggle v-model="stateEditAPI.mobile" class="mr-2" />
-            <UiText size="sm" weight="semibold" color="gray" text="Mobile Game" />
+            <UToggle v-model="stateEditAPI.paygame" class="mr-2" />
+            <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" />
           </UiFlex>
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
@@ -339,6 +339,7 @@
     ip: null,
     port: null,
     mobile: null,
+    paygame: null,
     secret: null
   })
   const stateEditPlay = ref({
@@ -389,12 +390,7 @@
   
   // Actions
   const actions = (row) => [
-    [{
-      label: 'Quản lý chi tiết',
-      icon: 'i-bx-link-external',
-      click: () => {
-      }
-    }],[{
+    ,[{
       label: 'Sửa thông tin',
       icon: 'i-bx-pencil',
       click: () => {
@@ -416,7 +412,7 @@
       icon: 'i-bxs-book-content',
       click: async () => {
         try {
-          const content = await useAPI('game/tool/manage/project/getContent', { _id: row._id })
+          const content = await useAPI('game/tool/manage/project/get/content', { _id: row._id })
           stateEditContent.value._id = row._id
           stateEditContent.value.content = content
           modal.value.editContent = true

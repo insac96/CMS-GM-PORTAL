@@ -24,12 +24,11 @@ export default defineEventHandler(async (event) => {
     const userStore : IDBUserStore = {
       _id: user._id,
       username: user.username,
-      type: user.type
+      type: user.type,
+      currency: user.currency
     }
 
-    userStore.notify = await DB.NotifyUser.count({ 
-      to: { $elemMatch: { user: user._id, watched: 0 }} 
-    })
+    userStore.notify = await DB.NotifyUser.count({ user: user._id, watched: false })
 
     return resp(event, { result: userStore })
   } 

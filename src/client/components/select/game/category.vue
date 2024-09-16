@@ -65,5 +65,6 @@ const fetch = async () => {
     loading.value = false
   }
 }
-fetch()
+
+onMounted(() => setTimeout(fetch, 1))
 </script>

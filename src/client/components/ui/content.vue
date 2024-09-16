@@ -4,6 +4,7 @@
       <UiFlex class="gap-4">
         <UiText weight="bold" class="lg:text-lg">{{ title || '...' }}</UiText>
         <UiFlex class="UiContentDivider bg-gray-200" v-if="!noDot"></UiFlex>
+        <slot name="more"></slot>
       </UiFlex>
       <UiText class="text-xs lg:text-sm" color="gray" v-if="sub">{{ sub }}</UiText>
     </div>

@@ -1,4 +1,3 @@
-import type { H3Event } from 'h3'
 import type { ISendNotifyUser } from '~~/types'
 
 export default async (sendData: ISendNotifyUser) : Promise<void> => {

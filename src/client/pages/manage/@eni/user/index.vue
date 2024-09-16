@@ -294,7 +294,7 @@ const getList = async () => {
 const editAuthAction = async () => {
   try {
     loading.value.editAuth = true
-    await useAPI('user/manage/editAuth', JSON.parse(JSON.stringify(stateEditAuth.value)))
+    await useAPI('user/manage/edit/auth', JSON.parse(JSON.stringify(stateEditAuth.value)))
 
     loading.value.editAuth = false
     modal.value.editAuth = false
@@ -308,7 +308,7 @@ const editAuthAction = async () => {
 const editCurrencyAction = async () => {
   try {
     loading.value.editCurrency = true
-    await useAPI('user/manage/editCurrency', JSON.parse(JSON.stringify(stateEditCurrency.value)))
+    await useAPI('user/manage/edit/currency', JSON.parse(JSON.stringify(stateEditCurrency.value)))
 
     loading.value.editCurrency = false
     modal.value.editCurrency = false

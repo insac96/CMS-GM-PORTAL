@@ -41,7 +41,7 @@ watch(() => page.value.search, (val) => !val && getList())
 const getList = async () => {
   try {
     loading.value = true
-    const data = await useAPI('game/tool/public/project/list/main', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/tool/public/list/main', JSON.parse(JSON.stringify(page.value)))
 
     loading.value = false
     list.value = data.list

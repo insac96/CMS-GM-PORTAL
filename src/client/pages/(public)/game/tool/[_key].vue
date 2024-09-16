@@ -48,11 +48,20 @@
           </UiFlex>
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Tool nạp</UiText>
-            <UiText weight="semibold" size="sm" :color="!!game.tool.recharge ? 'green' : null">{{ !!game.tool.recharge ? 'Đã mua' : toMoney(game.price.recharge)+'đ' }}</UiText>
+            <UiText weight="semibold" size="sm" v-if="!game.tool.recharge">{{ toMoney(game.price.recharge)+'đ' }}</UiText>
+            <UiFlex class="gap-1" v-else>
+              <UiIcon name="i-bxs-check-circle" size="4" color="green" />
+              <UiText weight="semibold" size="sm" color="green">Đã mua</UiText>
+            </UiFlex>
+            
           </UiFlex>
           <UiFlex justify="between">
             <UiText weight="semibold" color="gray" size="sm">Tool thư</UiText>
-            <UiText weight="semibold" size="sm" :color="!!game.tool.mail ? 'green' : null">{{ !!game.tool.mail ? 'Đã mua' : toMoney(game.price.mail)+'đ' }}</UiText>
+            <UiText weight="semibold" size="sm" v-if="!game.tool.mail">{{ toMoney(game.price.mail)+'đ' }}</UiText>
+            <UiFlex class="gap-1" v-else>
+              <UiIcon name="i-bxs-check-circle" size="4" color="green" />
+              <UiText weight="semibold" size="sm" color="green">Đã mua</UiText>
+            </UiFlex>
           </UiFlex>
         </div>
 
@@ -71,7 +80,10 @@
     <div class="grid grid-cols-12">
       <div class="xl:col-span-8 col-span-12">
         <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-1"></UTabs>
-        <NuxtPage :game="game" />
+
+        <div class="py-4">
+          <NuxtPage :game="game" />
+        </div>
       </div>
     </div>
 
@@ -91,7 +103,7 @@
       </UiContent> 
     </UModal>
 
-    <!--Buy-->
+    <!--Buy Tool-->
     <UModal v-model="modal.buy" prevent-close>
       <UiContent no-dot title="Mua Tool" sub="Lựa chọn loại tool muốn mua" class="p-4">
         <UiFlex class="mb-4">
@@ -169,7 +181,7 @@ const totalPrice = computed(() => {
   return total
 })
 
-watch(() => authStore.isLogin, () => getGame())
+watch(() => authStore.isLogin, (val) => getGame())
 
 const onTabChange = (index) => {
   const tabSelect = tabs[index]
@@ -187,7 +199,7 @@ const playUrl = async (url, type) => {
     if(type == 'download') return navigateTo(url, { external: true })
     if(type == 'web'){
       loading.value.play = true
-      const data = await useAPI('game/tool/public/project/action/play', {
+      const data = await useAPI('game/tool/public/project/play/start', {
         game: game.value.code
       })
 
@@ -209,6 +221,7 @@ const buyTool = async () => {
     const send = JSON.parse(JSON.stringify(stateBuy.value))
     send.game = game.value.code
     const data = await useAPI('game/tool/public/project/action/buy', send)
+    await authStore.setAuth()
 
     stateBuy.value.recharge = data.recharge
     stateBuy.value.mail = data.mail

@@ -37,13 +37,10 @@ const validate = (state) => {
 
 const submit = async () => {
   try {
-    if(!!loading.value) return
     loading.value = true
 
     await useAPI('auth/sign/in', JSON.parse(JSON.stringify(state.value)))
-
-    const auth = await useAPI('auth/get')
-    authStore.setAuth(auth)
+    await authStore.setAuth()
 
     loading.value = false
     emit('done')

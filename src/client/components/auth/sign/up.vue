@@ -22,23 +22,16 @@
 
     <UiFlex justify="between" class="mt-6">
       <UiText pointer size="sm" color="gray" @click="emit('in')">Đăng nhập ngay ?</UiText>
-      <UButton type="submit" :loading="loading.signup">Xác Nhận</UButton>
+      <UButton type="submit" :loading="loading">Xác Nhận</UButton>
     </UiFlex>
   </UForm>
 </template>
 
 <script setup>
-const configStore = useConfigStore()
 const authStore = useAuthStore()
 const emit = defineEmits(['done', 'in'])
 
-const loading = ref({
-  signup: false,
-  start: false
-})
-
-const timewait = ref(10)
-const timming = ref(undefined)
+const loading = ref(false)
 
 const state = ref({
   username: undefined,
@@ -71,41 +64,19 @@ const validate = (state) => {
   return errors
 }
 
-const startTimeWait = () => {
-  timming.value = setInterval(() => {
-    if(timewait.value == 0){
-      clearInterval(timming.value)
-      timewait.value = 0
-    }
-    else {
-      timewait.value--
-    }
-  }, 1000)
-}
 
 const submit = async () => {
   try {
-    loading.value.signup = true
+    loading.value = true
+
     await useAPI('auth/sign/up', JSON.parse(JSON.stringify(state.value)))
-    start()
+    await authStore.setAuth()
+
+    loading.value = false
+    emit('done')
   }
   catch (e) {
-    loading.value.signup = false
-  }
-}
-
-const start = async () => {
-  try {
-    loading.value.start = true
-    const auth = await useAPI('auth/get')
-    
-    authStore.setAuth(auth)
-
-    loading.value.start = false
-    useTo().navigateToSSL('/thankyou')
-  }
-  catch(e){
-    loading.value.start = false
+    loading.value = false
   }
 }
 </script>

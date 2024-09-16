@@ -61,7 +61,10 @@
 
             <UiFlex justify="between" class="w-full">
               <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Mã Pin' : 'Người nhận' }}</UiText>
-              <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person }}</UiText>
+              <UiFlex @click="startCopy(gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person)" class="cursor-pointer">
+                <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person }}</UiText>
+                <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
+              </UiFlex>
             </UiFlex>
 
             <UiFlex justify="between" class="w-full">

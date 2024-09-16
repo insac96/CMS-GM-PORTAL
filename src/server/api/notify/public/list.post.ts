@@ -4,32 +4,22 @@ import type { IAuth } from '~~/types'
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-
-    const { page } = await readBody(event)
-    if(!page) throw 'Thiếu dữ liệu phân trang'
-
-    const { size, current, sort } = page
+    const { size, current, sort } = await readBody(event)
     if(!size || !current) throw 'Dữ liệu phân trang sai'
-    if(!sort.by || !sort.index) throw 'Dữ liệu sắp xếp sai'
+    if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
 
-    // Make Filter
-    const filter : any = { user: auth._id }
-
-    // Make Sort
-    const sorting : any = {}
-    sorting[sort.by] = Number(sort.index)
+    const match : any = { user: auth._id }
+    const sorting : any = { }
+    sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
     
     // Get Notify
-    const list = await DB.NotifyUser.aggregate([
-      { $match : filter },
-      { $sort: sorting },
-      { $skip: (current - 1) * size },
-      { $limit: size }
-    ])
+    const list = await DB.NotifyUser
+    .find(match)
+    .sort(sorting)
+    .limit(size)
+    .skip((current - 1) * size)
 
-    const total = await DB.NotifyUser.count(filter)
-
-    // Result
+    const total = await DB.NotifyUser.count(match)
     return resp(event, { result: { list, total }})
   } 
   catch (e:any) {

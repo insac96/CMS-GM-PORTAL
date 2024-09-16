@@ -106,7 +106,7 @@ const goToAdmin = (type) => {
 const getUserBox = async () => {
   try {
     loading.value = true
-    const get = await useAPI('user/public/getBox', {
+    const get = await useAPI('user/public/profile', {
       _id: props.fetchId,
       secret: route.params._secret
     })
@@ -125,5 +125,5 @@ const init = () => {
   user.value = props.profile ? props.profile : undefined
 }
 
-init()
+onMounted(() => setTimeout(init, 1))
 </script>

@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
     const { game : code, items, server_id, role_id } = body
+    
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!items) throw 'Không tìm thấy vật phẩm để gửi'
     if(!Array.isArray(items)) throw 'Định dạng vật phẩm không đúng'

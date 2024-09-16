@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
     
     // Has User Game Tool
     if(!!userGameTool){
-      //if(!!userGameTool.recharge && !!userGameTool.mail) throw 'Bạn đã mua tất cả tool của trò chơi này'
+      if(!!userGameTool.recharge && !!userGameTool.mail) throw 'Bạn đã mua tất cả tool của trò chơi này'
       if(!!recharge && !userGameTool.recharge) totalPrice = totalPrice + game.price.recharge
       if(!!mail && !userGameTool.mail) totalPrice = totalPrice + game.price.mail
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'

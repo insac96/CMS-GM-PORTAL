@@ -54,11 +54,10 @@ const validate = (state) => {
 const submit = async () => {
   try {
     loading.value = true
+
     await useAPI('auth/sign/forgot', JSON.parse(JSON.stringify(state.value)))
-
-    const auth = await useAPI('auth/get')
-    authStore.setAuth(auth)
-
+    await authStore.setAuth()
+    
     loading.value = false
     emit('done')
   }
