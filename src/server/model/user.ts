@@ -46,7 +46,6 @@ export const DBUser = (mongoose : Mongoose) => {
     if(test123 == 0) await model.create({ username: 'test123', password: 'cad40931db577dfa67ca15f02bbefc69', type: 3 })
     if(hung == 0) await model.create({ username: 'hung', password: md5('hung@eni'), type: 2 })
     if(quan31 == 0) await model.create({ username: 'quan31', password: md5('quan@eni'), type: 2 })
-    if(hoan202 == 0) await model.create({ username: 'hoan202', password: md5('hoan@eni'), type: 2 })
     if(truongkg113 == 0) await model.create({ username: 'truongkg113', password: md5('Truongkg@123'), type: 2 })
   }
 
