@@ -220,7 +220,7 @@ const buyTool = async () => {
     loading.value.buy = true
     const send = JSON.parse(JSON.stringify(stateBuy.value))
     send.game = game.value.code
-    const data = await useAPI('game/tool/public/project/action/buy', send)
+    const data = await useAPI('game/tool/public/project/buy', send)
     await authStore.setAuth()
 
     stateBuy.value.recharge = data.recharge

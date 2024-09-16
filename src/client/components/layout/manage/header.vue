@@ -15,9 +15,9 @@
       </UiFlex>
       
       <UiFlex justify="end" items="center" class="w-1/3 gap-1">
-        <Setting />
+        <!-- <Setting /> -->
 
-        <AuthSlide v-if="!!authStore.isLogin" />
+        <AuthHeader v-if="!!authStore.isLogin" />
 
         <NuxtLink to="/">
           <UButton  icon="i-bx-power-off" color="gray"  variant="ghost" />

@@ -390,7 +390,7 @@
   
   // Actions
   const actions = (row) => [
-    ,[{
+    [{
       label: 'Sửa thông tin',
       icon: 'i-bx-pencil',
       click: () => {
