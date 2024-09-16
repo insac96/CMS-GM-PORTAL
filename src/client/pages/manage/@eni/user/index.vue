@@ -294,7 +294,7 @@ const getList = async () => {
 const editAuthAction = async () => {
   try {
     loading.value.editAuth = true
-    await useAPI('user/manage/edit/auth', JSON.parse(JSON.stringify(stateEditAuth.value)))
+    await useAPI('user/manage/edit/profile', JSON.parse(JSON.stringify(stateEditAuth.value)))
 
     loading.value.editAuth = false
     modal.value.editAuth = false
