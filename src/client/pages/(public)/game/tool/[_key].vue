@@ -209,7 +209,7 @@ const playUrl = async (type) => {
       const path = `/game/tool/play?url=${data.url}&token=${data.token}&game=${game.value.code}`
       const link = `http://run.${runtimeConfig.public.domain}${path}`
       if(!!runtimeConfig.public.dev) navigateTo(path, { open: { target: '_blank'}})
-      else location.href = navigateTo(link, { open: { target: '_blank'}})
+      else navigateTo(link, { open: { target: '_blank'}})
     }
     return navigateTo(data.url, { open: { target: '_blank'} })
   }
