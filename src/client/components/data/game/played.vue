@@ -2,8 +2,8 @@
   <div class="p-2">
     <SelectGameOs v-model="os" class="mb-2" />
 
-    <DataGameToolHistory :user="user" v-if="os == 'tool'" />
-    <DataGameChinaHistory :user="user" v-if="os == 'china'" />
+    <DataGameToolPlayed :user="user" v-if="os == 'tool'" />
+    <DataGameChinaPlayed :user="user" v-if="os == 'china'" />
   </div>
 </template>
 

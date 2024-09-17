@@ -19,6 +19,8 @@ export default defineEventHandler(async (event) => {
     .limit(size)
     .skip((current - 1) * size)
 
+    await DB.NotifyUser.updateMany({ _id: { $in: list.map(i => i._id) } }, { watched: true })
+
     const total = await DB.NotifyUser.count(match)
     return resp(event, { result: { list, total }})
   } 

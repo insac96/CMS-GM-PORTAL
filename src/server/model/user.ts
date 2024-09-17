@@ -37,7 +37,6 @@ export const DBUser = (mongoose : Mongoose) => {
     const test123 = await model.count({username: 'test123'})
     const hung = await model.count({username: 'hung'})
     const quan31 = await model.count({username: 'quan31'})
-    const hoan202 = await model.count({username: 'hoan202'})
     const truongkg113 = await model.count({username: 'truongkg113'})
 
     // Default

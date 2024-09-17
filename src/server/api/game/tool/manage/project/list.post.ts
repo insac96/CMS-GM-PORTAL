@@ -15,7 +15,10 @@ export default defineEventHandler(async (event) => {
     const match : any = {}
     if(search.key){
       const key = formatVNString(search.key, '-')
-      match['key'] = { $regex : key, $options : 'i' }
+      match['$or'] = [
+        { 'key': { $regex : key, $options : 'i' }},
+        { 'code': { $regex : key, $options : 'i' }},
+      ]
     }
 
     const list = await DB.GameTool

@@ -37,6 +37,15 @@ export interface IDBGameChina {
   display: boolean
 }
 
+export interface IDBGameChinaUser {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  user: Types.ObjectId | IDBUser
+  game: Types.ObjectId | IDBGameChina
+}
+
 export interface IDBGameChinaPayment {
   _id: Types.ObjectId
   createdAt: Date
@@ -44,6 +53,12 @@ export interface IDBGameChinaPayment {
 
   user: Types.ObjectId
   game: Types.ObjectId | IDBGameChina
-
+  code: string
+  status: number
   coin: number
+  verify: {
+    person: Types.ObjectId
+    time: Date
+    reason: string
+  }
 }

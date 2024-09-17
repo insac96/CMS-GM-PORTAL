@@ -19,6 +19,10 @@
         :columns="selectedColumns" 
         :rows="list"
       >
+        <template #name-data="{ row }">
+          <NuxtLink :to="`/game/china/${row.key}`" target="_blank" class="text-primary font-semibold">{{ row.name }}</NuxtLink>
+        </template>
+
         <template #platform-data="{ row }">
           <UBadge color="gray" variant="soft">{{ row.platform.name }}</UBadge>
         </template>
@@ -347,11 +351,11 @@
         modal.value.editImage = true
       }
     },{
-      label: 'Sửa nội dung',
+      label: 'Sửa tin tức',
       icon: 'i-bxs-book-content',
       click: async () => {
         try {
-          const content = await useAPI('game/china/manage/project/getContent', { _id: row._id })
+          const content = await useAPI('game/china/manage/project/get/content', { _id: row._id })
           stateEditContent.value._id = row._id
           stateEditContent.value.content = content
           modal.value.editContent = true

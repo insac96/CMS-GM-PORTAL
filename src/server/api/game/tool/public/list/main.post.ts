@@ -12,7 +12,10 @@ export default defineEventHandler(async (event) => {
     const match : any = { display: true }
     if(!!search){
       const key = formatVNString(search, '-')
-      match['key'] = { $regex : key, $options : 'i' }
+      match['$or'] = [
+        { 'key': { $regex : key, $options : 'i' }},
+        { 'code': { $regex : key, $options : 'i' }},
+      ]
     }
     if(platform.length > 0){
       match['platform'] = { $in: platform }

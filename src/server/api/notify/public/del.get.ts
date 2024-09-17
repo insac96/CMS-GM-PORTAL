@@ -4,8 +4,8 @@ export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
 
-    await DB.NotifyUser.deleteMany({ user: auth._id })
-    return resp(event, { message: 'Xóa thông báo thành công' })
+    await DB.NotifyUser.deleteMany({ user: auth._id }, { watched: true })
+    return resp(event, { result: true })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

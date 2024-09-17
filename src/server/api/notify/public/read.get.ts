@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     const auth = await getAuth(event) as IAuth
 
     await DB.NotifyUser.updateOne({ user: auth._id }, { watched: true })
-    return resp(event, { message: 'Cập nhật xem tất cả thông báo thành công' })
+    return resp(event, { result: true })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

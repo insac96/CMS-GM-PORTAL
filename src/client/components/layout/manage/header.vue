@@ -20,7 +20,7 @@
         <AuthHeader v-if="!!authStore.isLogin" />
 
         <NuxtLink to="/">
-          <UButton  icon="i-bx-power-off" color="gray"  variant="ghost" />
+          <UButton  icon="i-bx-power-off" color="red" square />
         </NuxtLink>
       </UiFlex>
     </UiFlex>

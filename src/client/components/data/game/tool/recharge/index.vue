@@ -77,6 +77,7 @@ const startBuy = (recharge) => {
 
 const getList = async () => {
 	try {
+    if(!props.game?.tool?.recharge || !!props.game?.paygame) throw true
     loading.value.list = true
     const data = await useAPI('game/tool/public/project/recharge/list', JSON.parse(JSON.stringify(page.value)))
 

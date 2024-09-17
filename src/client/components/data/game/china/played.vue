@@ -18,19 +18,13 @@
 
     <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
       <template #game-data="{ row }">
-        <NuxtLink :to="`/game/tool/${row.game.key}`" target="_blank">
+        <NuxtLink :to="`/game/china/${row.game.key}`" target="_blank">
           <UiText color="primary" weight="semibold">{{ row.game.name }}</UiText>
         </NuxtLink>
       </template>
 
-      <template #recharge-data="{ row }">
-        <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.recharge"></UiIcon>
-        <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
-      </template>
-
-      <template #mail-data="{ row }">
-        <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.mail"></UiIcon>
-        <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
+      <template #payment-data="{ row }">
+        <UBadge size="sm" color="gray">{{ row.payment ? useMoney().toMoney(row.payment) : '0' }} xu</UBadge>
       </template>
 
       <template #createdAt-data="{ row }">
@@ -58,11 +52,9 @@ const columns = [
     key: 'game',
     label: 'Trò chơi',
   },{
-    key: 'recharge',
-    label: 'Tool nạp',
-  },{
-    key: 'mail',
-    label: 'Tool thư',
+    key: 'payment',
+    label: 'Tổng nạp',
+    sortable: true
   },{
     key: 'createdAt',
     label: 'Ngày bắt đầu',
@@ -90,7 +82,7 @@ watch(() => page.value.search, (val) => !val && getList())
 const getList = async () => {
   try {
     loading.value = true
-    const data = await useAPI('game/tool/public/history', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/china/public/played', JSON.parse(JSON.stringify(page.value)))
     
     list.value = data.list
     page.value.total = data.total

@@ -32,7 +32,7 @@
     </UModal>
 
     <UModal v-model="modal.history.game" :ui="{width: 'sm:max-w-[900px]'}">
-      <DataGameHistory />
+      <DataGamePlayed />
     </UModal>
   </UiFlex>
 </template>

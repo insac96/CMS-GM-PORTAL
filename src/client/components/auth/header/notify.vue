@@ -84,7 +84,6 @@ const read = async () => {
   try {
     loading.value.read = true
     await useAPI('notify/public/read')
-    await authStore.setAuth()
 
     loading.value.read = false
     getList()
@@ -98,7 +97,6 @@ const del = async () => {
   try {
     loading.value.del = true
     await useAPI('notify/public/del')
-    await authStore.setAuth()
 
     loading.value.del = false
     getList()
@@ -112,6 +110,7 @@ const getList = async () => {
   try {
     loading.value.list = true
     const data = await useAPI('notify/public/list', JSON.parse(JSON.stringify(page.value)))
+    await authStore.setAuth()
     
     list.value = data.list
     page.value.total = data.total

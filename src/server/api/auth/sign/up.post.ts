@@ -78,7 +78,7 @@ export default defineEventHandler(async (event) => {
       content: `Bạn đã đăng nhập với IP <b>${IP}</b>`
     })
     
-    return resp(event, { message: 'Đăng ký thành công' })
+    return resp(event, { result: true })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

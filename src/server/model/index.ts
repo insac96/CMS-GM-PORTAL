@@ -10,7 +10,7 @@ import { DBNotifyUser } from './notify'
 import { 
   DBGamePlatform, DBGameCategory, 
   DBGameTool, DBGameToolUser, DBGameToolRecharge,
-  DBGameChina, DBGameChinaPayment 
+  DBGameChina, DBGameChinaUser, DBGameChinaPayment 
 } from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
@@ -40,6 +40,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GameToolRecharge: DBGameToolRecharge(mongoose),
 
     GameChina: DBGameChina(mongoose),
+    GameChinaUser: DBGameChinaUser(mongoose),
     GameChinaPayment: DBGameChinaPayment(mongoose),
 
     LogAdmin: DBLogAdmin(mongoose),
