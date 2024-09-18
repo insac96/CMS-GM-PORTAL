@@ -23,6 +23,17 @@ export interface IDBConfig {
     address: string
     prefix: string
   }
+  telebot: {
+    payment: {
+      create: string
+      receive: string
+    }
+    game: {
+      china: {
+        payment: string
+      }
+    }
+  }
   social: {
     facebook: string
     messenger: string

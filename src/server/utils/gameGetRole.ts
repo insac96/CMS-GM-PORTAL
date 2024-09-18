@@ -1,5 +1,4 @@
 import type { H3Event } from 'h3'
-import type { IDBConfig } from '~~/types'
 import axios from 'axios'
 
 interface ISendData {

@@ -203,6 +203,13 @@
         </UiFlex>
       </UForm>
     </UModal>
+
+    <!-- Modal Payment -->
+    <UModal v-model="modal.payment" :ui="{width: 'sm:max-w-[1200px]'}">
+      <UiContent title="Payment" sub="Quản lý giao dịch nạp vào trò chơi" class="p-4">
+        <ManageGameChinaPayment :game="statePayment._id" />
+      </UiContent>
+    </UModal>
   </UiContent>
 </template>
 
@@ -297,6 +304,9 @@
     _id: null,
     content: null
   })
+  const statePayment = ref({
+    _id: null
+  })
   
   // Modal
   const modal = ref({
@@ -305,7 +315,8 @@
     editImage: false,
     editAPI: false,
     editPlay: false,
-    editContent: false
+    editContent: false,
+    payment: false
   })
   
   watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
@@ -329,9 +340,11 @@
   // Actions
   const actions = (row) => [
     [{
-      label: 'Quản lý chi tiết',
-      icon: 'i-bx-link-external',
+      label: 'Duyệt nạp',
+      icon: 'i-bx-credit-card',
       click: () => {
+        statePayment.value._id = row._id
+        modal.value.payment = true
       }
     }],[{
       label: 'Sửa thông tin',

@@ -26,10 +26,6 @@
         <template #payment>
           <DataPaymentHistory :user="user" />
         </template>
-
-        <template #order>
-          <DataOrderHistory :user="user" />
-        </template>
       </UAccordion>
     </div>
   </div>
@@ -54,10 +50,6 @@ const menu = [
   {
     label: 'Nạp tiền',
     slot: 'payment'
-  },
-  {
-    label: 'Đơn hàng',
-    slot: 'order'
   }
 ]
 </script>

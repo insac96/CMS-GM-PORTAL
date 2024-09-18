@@ -19,6 +19,14 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
+useSeoMeta({
+  title: () => `Game Tool - ${configStore.config.name}`,
+  ogTitle: () => `Game Tool - ${configStore.config.name}`,
+  description: () => 'Tổng hợp các trò chơi với bộ công cụ GM hiện đại nhất',
+  ogDescription: () => 'Tổng hợp các trò chơi với bộ công cụ GM hiện đại nhất',
+})
+
 const list = ref([])
 const loading = ref(false)
 

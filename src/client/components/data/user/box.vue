@@ -19,13 +19,13 @@
           pointer
         >{{ user.username }}</UiText>
         
-        <UiFlex>
+        <UiFlex class="gap-1">
           <UBadge :color="typeFormat[user.type].color" variant="soft" class="cursor-pointer" @click="goToAdmin(user.type)">
             {{ typeFormat[user.type].label }}
           </UBadge>
 
-          <UBadge variant="soft" class="cursor-pointer" @click="useTo().navigateToSSL('/payment'), emit('action')">
-            {{ miniMoney(user.currency?.coin) }}
+          <UBadge variant="soft" class="cursor-pointer font-semibold" @click="useTo().navigateToSSL('/payment'), emit('action')">
+            {{ toMoney(user.currency?.coin) }} Xu
           </UBadge>
         </UiFlex>
       </UiFlex>
@@ -68,7 +68,7 @@ import { useClipboard } from '@vueuse/core'
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const { copy, isSupported } = useClipboard()
-const { miniMoney } = useMoney()
+const { toMoney } = useMoney()
 const emit = defineEmits(['action', 'update:userData'])
 
 const props = defineProps({

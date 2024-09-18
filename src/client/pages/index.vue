@@ -1,8 +1,81 @@
 <template>
   <div class="HomePage">
-    <DataBanner />
+    <UiFlex type="col" justify="center" class="py-24">
+      <UiText align="center" class="font-bold tracking-tight text-gray-900 sm:text-6xl text-4xl">{{ config.name }}</UiText>
+      <UiText align="center" size="lg" color="gray" class="md:mt-2 mt-0 mb-4 md:mb-6 tracking-tight max-w-xl">{{ config.description }}</UiText>
+
+      <UiFlex class="gap-1 mb-4 md:mb-6" wrap>
+        <!-- <UButton @click="navigateTo('/about')">Giới Thiệu</UButton> -->
+        <UButton color="black" size="lg" icon="i-bxs-download">Mini Client</UButton>
+      </UiFlex>
+
+      <UiImg 
+        :src="config.og_image"
+        w="16" h="9"
+        alt="Banner"
+        class="transition-all rounded-3xl shadow-md hover:shadow-lg max-w-3xl"
+        preload
+      ></UiImg>
+    </UiFlex>
+
+    <UiFlex type="col" justify="center">
+      <UiText align="center" class="font-bold tracking-tight text-gray-900 sm:text-4xl text-2xl">
+        Tại đây <span class="text-primary">chúng tôi</span> có gì ?
+      </UiText>
+
+      <div class="w-full max-w-3xl grid grid-cols-12 gap-2 md:gap-4 py-8">
+        <UCard class="md:col-span-6 col-span-6 transition-2" :ui="{ ring: 'hover:ring-primary' }">
+          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.member }}</UiText>
+          <UiText weight="bold" size="sm">Thành viên</UiText>
+          <UiText color="gray" class="text-sm md:text-base">Cộng đồng người chơi đông đảo từ tất cả các nền tảng</UiText>
+        </UCard>
+
+        <UCard class="md:col-span-6 col-span-6 transition-2 relative cursor-pointer" :ui="{ ring: 'hover:ring-primary' }" @click="navigateTo('/game/tool')">
+          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.game.tool }}</UiText>
+          <UiText weight="semibold" size="sm">Game Tool</UiText>
+          <UiText color="gray" class="text-sm md:text-base">Cung cấp các trò chơi với bộ công cụ GM tiên tiến nhất</UiText>
+          <UiIcon color="primary" name="i-bx-link-external" class="absolute top-4 right-4" />
+        </UCard>
+
+        <UCard class="md:col-span-6 col-span-6 transition-2 relative cursor-pointer" :ui="{ ring: 'hover:ring-primary' }" @click="navigateTo('/game/private')">
+          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.game.private }}</UiText>
+          <UiText weight="semibold" size="sm">Game Private</UiText>
+          <UiText color="gray" class="text-sm md:text-base">Tổng hợp tất cả các trò chơi Private hay nhất trên thị trường</UiText>
+          <UiIcon color="primary" name="i-bx-link-external" class="absolute top-4 right-4" />
+        </UCard>
+
+        <UCard class="md:col-span-6 col-span-6 transition-2 relative cursor-pointer" :ui="{ ring: 'hover:ring-primary' }" @click="navigateTo('/game/china')">
+          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.game.china }}</UiText>
+          <UiText weight="semibold" size="sm">Game China</UiText>
+          <UiText color="gray" class="text-sm md:text-base">Các trò chơi hay từ cổng trò chơi lớn nhất Trung Quốc</UiText>
+          <UiIcon color="primary" name="i-bx-link-external" class="absolute top-4 right-4" />
+        </UCard>
+      </div>
+    </UiFlex>
   </div>
 </template>
 
 <script setup>
+const { config } = useConfigStore()
+
+const home = ref({
+  member: 0,
+  game: {
+    tool: 0,
+    china: 0,
+    private: 0
+  }
+})
+
+const getHome = async () => {
+  try {
+    const data = await useAPI('config/public/home')
+    home.value = data
+  }
+  catch(e){
+    return false
+  }
+}
+
+getHome()
 </script>

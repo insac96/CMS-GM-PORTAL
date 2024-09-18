@@ -1,5 +1,5 @@
 <template>
-  <UiContent :title="category ? category.name : 'Category'" sub="Trò chơi theo thể loại">
+  <UiContent :title="category.name" sub="Trò chơi theo thể loại">
     <SelectGameOs class="block sm:inline-block mb-1" v-model="page.os" />
 
     <UiFlex class="mb-4 gap-1 flex-col sm:flex-row">
@@ -20,10 +20,20 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
 const route = useRoute()
-const category = ref(null)
+const category = ref({
+  name: 'Đang tải...'
+})
 const list = ref([])
 const loading = ref(false)
+
+useSeoMeta({
+  title: () => `${category.value.name} - ${configStore.config.name}`,
+  ogTitle: () => `${category.value.name} - ${configStore.config.name}`,
+  description: () => `Tổng hợp các trò chơi thuộc thể loại ${category.value.name}`,
+  ogDescription: () => `Tổng hợp các trò chơi thuộc thể loại ${category.value.name}`,
+})
 
 // Page
 const page = ref({

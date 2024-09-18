@@ -4,7 +4,7 @@
     :style="`aspect-ratio: ${w} / ${h}`"
   >
     <NuxtImg 
-      :src="imgLink(src)" 
+      :src="img(src)" 
       class="object-cover w-full h-full select-none"
       :sizes="props.imgSize"
       :width="props.imgW"
@@ -30,8 +30,7 @@
 </template>
 
 <script setup>
-const { imgLink } = useMakeLink()
-
+const { img } = useMakeLink()
 const props = defineProps({
   src: String,
   imgSize: String,

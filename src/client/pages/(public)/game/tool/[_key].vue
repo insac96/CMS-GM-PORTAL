@@ -1,9 +1,9 @@
 <template>
-  <div v-if="!!game">
+  <div v-if="!!game && !loading.page">
     <!-- Info -->
     <div class="grid grid-cols-12 gap-2 md:gap-4 mb-4">
       <div class="md:col-span-8 col-span-12">
-        <DataGameReview />
+        <DataGameReview :review="game.image.review" :banner="game.image.banner" />
       </div>
 
       <UiContent 
@@ -132,11 +132,29 @@
 
 <script setup>
 const runtimeConfig = useRuntimeConfig()
+const configStore = useConfigStore()
 const { miniMoney, toMoney } = useMoney()
 const { openNewTab } = useTo()
+const { img } = useMakeLink()
 const authStore = useAuthStore()
 const route = useRoute()
-const game = ref(undefined)
+const game = ref({
+  name: '',
+  description: '',
+  image: {
+    banner: null
+  }
+})
+
+useSeoMeta({
+  title: () => `${game.value.name} - Game Tool - ${configStore.config.name}`,
+  ogTitle: () => `${game.value.name} - Game Tool - ${configStore.config.name}`,
+  description: () => game.value.description,
+  ogDescription: () => game.value.description,
+  ogImage: () => img(game.value.image.banner), 
+  ogImageAlt: () => game.value.name,
+})
+
 const loading = ref({
   page: true,
   play: false,

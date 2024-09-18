@@ -5,4 +5,11 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
+useSeoMeta({
+  title: () => `Game Private - ${configStore.config.name}`,
+  ogTitle: () => `Game Private - ${configStore.config.name}`,
+  description: () => 'Tính Năng Sắp Ra Mắt',
+  ogDescription: () => 'Tính Năng Sắp Ra Mắt',
+})
 </script>

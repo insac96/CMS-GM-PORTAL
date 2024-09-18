@@ -5,16 +5,16 @@
     border-b border-gray-200 dark:border-gray-800
     px-4
   ">
-    <UiFlex justify="between" class="h-[var(--header-size)] max-h-[var(--header-size)]">
-      <LayoutManageNavSlide class="w-1/3"/>
+    <UiFlex class="h-[var(--header-size)] max-h-[var(--header-size)]">
+      <LayoutManageNavSlide class="mr-2 "/>
       
-      <UiFlex class="w-1/3 xl:justify-start justify-center">
+      <UiFlex>
         <NuxtLink to="/manage/@eni">
           <UiLogo />
         </NuxtLink>
       </UiFlex>
       
-      <UiFlex justify="end" items="center" class="w-1/3 gap-1">
+      <UiFlex justify="end" items="center" class="gap-1 ml-auto">
         <!-- <Setting /> -->
 
         <AuthHeader v-if="!!authStore.isLogin" />

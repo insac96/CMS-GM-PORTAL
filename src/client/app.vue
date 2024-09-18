@@ -1,6 +1,7 @@
 <template>
   <NuxtLayout>
     <NuxtLoadingIndicator :height="2" />
+    
     <NuxtPage />
     
     <UNotifications />
@@ -9,10 +10,9 @@
 
 <script setup>
 import colors from '#tailwind-config/theme/colors'
-const { imgLink } = useMakeLink()
+const { img } = useMakeLink()
 const appConfig = useAppConfig()
 const configStore = useConfigStore()
-const authStore = useAuthStore()
 
 // Meta Seo
 useSeoMeta({
@@ -20,7 +20,7 @@ useSeoMeta({
   ogTitle: () => configStore.config.name,
   description: () => configStore.config.description,
   ogDescription: () => configStore.config.description,
-  ogImage: () => imgLink(configStore.config.og_image),
+  ogImage: () => img(configStore.config.og_image),
   ogImageAlt: () => configStore.config.name,
   themeColor: () => colors[appConfig.ui.gray][900],
   ogType: 'website'

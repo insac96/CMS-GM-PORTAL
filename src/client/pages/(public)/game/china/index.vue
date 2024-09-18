@@ -19,6 +19,14 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
+useSeoMeta({
+  title: () => `Game China - ${configStore.config.name}`,
+  ogTitle: () => `Game China - ${configStore.config.name}`,
+  description: () => 'Tổng hợp các trò chơi trung quốc hay, hấp dẫn',
+  ogDescription: () => 'Tổng hợp các trò chơi trung quốc hay, hấp dẫn',
+})
+
 const list = ref([])
 const loading = ref(false)
 

@@ -7,7 +7,7 @@
     class="Iframe"
   ></iframe>
 
-  <DataGameToolPlayDrag :game="game" v-if="game" />
+  <DataGameToolPlayDrag :game="game" v-if="!loading && !!game" />
 
   <UModal v-model="modal.recharge">
     <DataGameToolRechargeBuy
@@ -20,19 +20,22 @@
 </template>
 
 <script setup>
-useSeoMeta({
-  title: () => `Playing Game`,
-  robots: 'none'
-})
-
 definePageMeta({
   layout: 'play',
   middleware: 'auth'
 })
 
+const configStore = useConfigStore()
 const route = useRoute()
 const loading = ref(false)
-const game = ref(undefined)
+const game = ref({
+  name: '...'
+})
+
+useSeoMeta({
+  title: () => `${game.value.name} - ${configStore.config.name}`,
+  robots: 'none'
+})
 
 const modal = ref({
   recharge: false,
@@ -80,7 +83,6 @@ const getGame = async () => {
   try {
     loading.value = true
     const data = await useAPI('game/tool/public/project/play/verify', JSON.parse(JSON.stringify(route.query)))
-
     game.value = data
     loading.value = false
   }

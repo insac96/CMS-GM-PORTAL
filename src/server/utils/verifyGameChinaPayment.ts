@@ -5,8 +5,7 @@ import type { IDBGameChina, IDBGameChinaPayment, IDBUser } from '~~/types'
 interface IBodyData {
   _id: Types.ObjectId,
   status: number,
-  coin: number,
-  reason: string
+  reason?: string
 }
 
 export default async (
@@ -66,6 +65,12 @@ export default async (
       với lý do <b>${reason}</b> 
       và được hoàn lại <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
     `
+
+    logUser(event, user._id, `
+      Nhận <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
+      từ lệnh từ chối giao dịch nạp 
+      <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
+    `)
   }
   if(status == 3){
     await DB.User.updateOne({ _id: user._id }, {
@@ -77,6 +82,7 @@ export default async (
       từ lệnh hoàn tác giao dịch nạp 
       <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
     `
+    logUser(event, user._id, realNotify)
   }
 
   // Send Notify

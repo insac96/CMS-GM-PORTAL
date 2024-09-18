@@ -13,6 +13,14 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
+useSeoMeta({
+  title: () => `Tin Tức - ${configStore.config.name}`,
+  ogTitle: () => `Tin Tức - ${configStore.config.name}`,
+  description: () => 'Tổng hợp các tin tức mới nhất về trò chơi và các thông tin khuyến mãi',
+  ogDescription: () => 'Tổng hợp các tin tức mới nhất về trò chơi và các thông tin khuyến mãi',
+})
+
 const list = ref([])
 const loading = ref(false)
 

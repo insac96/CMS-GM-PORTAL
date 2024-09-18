@@ -106,6 +106,28 @@
         </UCard>
       </template>
 
+      <template #telebot>
+        <UCard>
+          <UForm :state="state">
+            <UFormGroup label="Webhook Payment Create">
+              <UInput v-model="state.telebot.payment.create" />
+            </UFormGroup>
+
+            <UFormGroup label="Webhook Payment Receive">
+              <UInput v-model="state.telebot.payment.receive" />
+            </UFormGroup>
+
+            <UFormGroup label="Webhook Game China Payment">
+              <UInput v-model="state.telebot.game.china.payment" />
+            </UFormGroup>
+
+            <UiFlex justify="end" class="mt-4">
+              <UButton @click="update('telebot')" :loading="updating">Cập nhật</UButton>
+            </UiFlex>
+          </UForm>
+        </UCard>
+      </template>
+
       <template #facebook>
         <UCard>
           <UForm :state="state">
@@ -251,6 +273,18 @@ const state = ref({
     zalo: ''
   },
 
+  telebot: {
+    payment: {
+      create: '',
+      receive: '',
+    },
+    game: {
+      china: {
+        payment: '',
+      }
+    }
+  },
+
   facebook: {
     client_id: '',
     client_secret: '',
@@ -291,6 +325,10 @@ const menu = [
 {
   label: 'Mạng xã hội',
   slot: 'social'
+},
+{
+  label: 'Telebot',
+  slot: 'telebot'
 },
 {
   label: 'Facebook',

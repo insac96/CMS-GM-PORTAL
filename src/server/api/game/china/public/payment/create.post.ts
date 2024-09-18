@@ -1,4 +1,4 @@
-import type { IAuth, IDBGameChina, IDBGameChinaUser, IDBUser } from "~~/types"
+import type { IAuth, IDBConfig, IDBGameChina, IDBGameChinaUser, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -12,12 +12,12 @@ export default defineEventHandler(async (event) => {
     if(parseInt(coin) < 20000) throw 'Số tiền phải lớn hơn hoặc bằng 20.000đ'
 
     // Check User
-    const user = await DB.User.findOne({ _id: auth._id }).select('currency') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('username currency') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     if(coin > user.currency.coin) throw 'Số dư xu không đủ để thực hiện'
 
     // Check Game
-    const game = await DB.GameChina.findOne({ key: key, display: true }).select('_id name code') as IDBGameChina
+    const game = await DB.GameChina.findOne({ key: key, display: true }).select('name code') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User
@@ -41,14 +41,30 @@ export default defineEventHandler(async (event) => {
       $inc: { 'currency.coin': parseInt(coin) * -1 }
     })
 
-    await sendNotifyUser({
-      user: auth._id,
-      color: 'red',
-      content: `
-        Trừ <b>${coin.toLocaleString('vi-VN')}</b> Xu 
-        từ lệnh nạp 
-        <b>[Game China] ${game.name}</b> 
-        với mã giao dịch <b>${code}</b>
+    // Notify and Log
+    const notify = `
+      Trừ <b>${coin.toLocaleString('vi-VN')}</b> Xu 
+      từ lệnh nạp 
+      <b>[Game China] ${game.name}</b> 
+      với mã giao dịch <b>${code}</b>
+    `
+    await sendNotifyUser({ user: user._id, color: 'red', content: notify })
+    logUser(event, user._id, notify)
+
+    // Telebot
+    const config = await DB.Config.findOne({}).select('telebot manage_password') as IDBConfig
+    const timeFormat = formatDate(event, new Date())
+    await botTeleSendMessage(event, {
+      url: config.telebot.game.china.payment,
+      secret: config.manage_password,
+      message: `
+        Giao dịch nạp tiền vào Game China
+        » Tài khoản: ${user.username}
+        » Trò chơi: ${game.name}
+        » Mã trò chơi: ${game.code}
+        » Mã giao dịch: ${code}
+        » Số xu: ${coin.toLocaleString('vi-VN')}
+        » Thời gian: ${timeFormat.day}/${timeFormat.month}/${timeFormat.year} - ${timeFormat.hour}:${timeFormat.minute}
       `
     })
 

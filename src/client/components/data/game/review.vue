@@ -8,12 +8,12 @@ const props = defineProps(['review', 'banner'])
 const slideList = computed(() => {
   if(!props.review && !props.banner) return ['/images/null.webp']
 
-  if(props.review == 0) {
+  if(!props.review || props.review.length == 0) {
     const list = []
-    list.push(props.banner)
+    list.push(props.banner || '/images/null.webp')
     return list
   }
 
-  return game.value.images
+  return props.review
 })
 </script>

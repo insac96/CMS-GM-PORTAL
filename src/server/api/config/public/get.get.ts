@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
     .select(`
       -manage_password
       -about -privacy -terms 
+      -telebot
       -facebook.client_secret 
       -zalo.client_secret 
       -tiktok.client_secret

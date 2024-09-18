@@ -15,11 +15,11 @@ export default defineEventHandler(async (event) => {
     if(parseInt(money) > 50000000) throw 'Số tiền nhập vào quá lớn'
 
     // Config
-    const config = await DB.Config.findOne({}).select('short_name') as IDBConfig
+    const config = await DB.Config.findOne({}).select('short_name telebot manage_password') as IDBConfig
     if(!config) throw 'Không tìm thấy cấu hình trang'
 
     // Check User
-    const user = await DB.User.findOne({ _id: auth._id }).select('_id') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('username') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
     // Check Gate
@@ -71,6 +71,23 @@ export default defineEventHandler(async (event) => {
       code: code,
       token: token,
       qrcode: qrcode
+    })
+
+    // Telebot
+    const timeFormat = formatDate(event, new Date())
+    const gateReceive : string = gate.type == 1 ? 'Thẻ Cào' : `${gateSelect.name} - ${gateSelect.person} - ${gateSelect.number}`
+
+    await botTeleSendMessage(event, {
+      url: config.telebot.payment.create,
+      secret: config.manage_password,
+      message: `
+        Giao dịch nạp tiền mới
+        » Tài khoản: ${user.username}
+        » Mã giao dịch: ${payment.code}
+        » Số tiền: ${money.toLocaleString('vi-VN')}
+        » Thời gian: ${timeFormat.day}/${timeFormat.month}/${timeFormat.year} - ${timeFormat.hour}:${timeFormat.minute}
+        » Kênh nạp: ${gateReceive}
+      `
     })
 
     return resp(event, { message: 'Tạo giao dịch thành công', result: {

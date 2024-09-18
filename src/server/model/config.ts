@@ -21,6 +21,17 @@ export const DBConfig = (mongoose : Mongoose) => {
       address: { type: String, default: '' },
       prefix: { type: String, default: 'ENI' },
     },
+    telebot: {
+      payment: {
+        create: { type: String, default: '' },
+        receive: { type: String, default: '' },
+      },
+      game: {
+        china: {
+          payment: { type: String, default: '' },
+        }
+      }
+    },
     social: {
       facebook: { type: String, default: '' },
       messenger: { type: String, default: '' },
