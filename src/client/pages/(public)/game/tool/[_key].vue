@@ -91,10 +91,10 @@
     <UModal v-model="modal.play" prevent-close :ui="{ width: 'max-w-[280px] sm:max-w-[280px]' }">
       <UiContent no-dot title="Hệ Điều Hành" sub="Chọn hệ điều hành muốn chơi" class="p-4">
         <UiFlex class="gap-1 mb-4" justify="center" wrap>
-          <UButton icon="i-bxs-window-alt" :loading="loading.play" square color="gray" size="xl" :ui="{square: { xl: 'p-8' }}" @click="playUrl('web')" />
-          <UButton icon="i-bxl-android" square color="green" size="xl" :ui="{square: { xl: 'p-8' }}" @click="playUrl('android')" />
-          <UButton icon="i-bxl-apple" square color="black" size="xl" :ui="{square: { xl: 'p-8' }}" @click="playUrl('ios')" />
-          <UButton icon="i-bxl-windows" square color="blue" size="xl" :ui="{square: { xl: 'p-8' }}" @click="playUrl('windows')" />
+          <UButton icon="i-bxs-window-alt" :disabled="loading.play" square color="gray" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('web')" />
+          <UButton icon="i-bxl-android" :disabled="loading.play" square color="green" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('android')" />
+          <UButton icon="i-bxl-apple" :disabled="loading.play" square color="black" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('ios')" />
+          <UButton icon="i-bxl-windows" :disabled="loading.play" square color="blue" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('windows')" />
         </UiFlex>
 
         <UiFlex justify="end">
@@ -133,6 +133,7 @@
 <script setup>
 const runtimeConfig = useRuntimeConfig()
 const { miniMoney, toMoney } = useMoney()
+const { openNewTab } = useTo()
 const authStore = useAuthStore()
 const route = useRoute()
 const game = ref(undefined)
@@ -208,10 +209,10 @@ const playUrl = async (type) => {
     if(type == 'web'){
       const path = `/game/tool/play?url=${data.url}&token=${data.token}&game=${game.value.code}`
       const link = `http://run.${runtimeConfig.public.domain}${path}`
-      if(!!runtimeConfig.public.dev) navigateTo(path, { open: { target: '_blank'}})
-      else navigateTo(link, { open: { target: '_blank'}})
+      if(!!runtimeConfig.public.dev) openNewTab(path)
+      else openNewTab(link)
     }
-    return navigateTo(data.url, { open: { target: '_blank'} })
+    return openNewTab(data.url)
   }
   catch(e){
     loading.value.play = false

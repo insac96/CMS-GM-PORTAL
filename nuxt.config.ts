@@ -35,10 +35,10 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@pinia/nuxt',
-    '@nuxt/image',
-    '@nuxt/ui',
-    '@nuxt/icon',
+    '@pinia/nuxt', 
+    '@nuxt/image', 
+    '@nuxt/ui', 
+    '@nuxt/icon', 
     ['@nuxtjs/google-fonts', {
       display: 'swap',
       download: true,
@@ -54,8 +54,9 @@ export default defineNuxtConfig({
         { BlankLine: true },
         { Sitemap: `${process.env.CLIENT_URL}/sitemap.xml` }
       ]
-    }],
-    'nuxt-rate-limit'
+    }], 
+    'nuxt-rate-limit', 
+    '@nuxtjs/device'
   ],
 
   nuxtRateLimit: {

@@ -1,12 +1,12 @@
 <template>
   <UiFlex class="w-full min-h-full max-h-full overflow-hidden" type="col">
     <UiFlex class="justify-center min-h-[var(--header-size)] max-h-[var(--header-size)] w-full">
-      <NuxtLink to="/">
+      <NuxtLink to="/" @click="emit('to')">
         <UiLogo />
       </NuxtLink>
     </UiFlex>
 
-    <div class="w-full grow overflow-y-auto py-2">
+    <div class="w-full grow overflow-y-auto py-2 h-0">
       <UiFlex type="col" v-for="(item, index) in menu" :key="`m-${index}`" class="mx-6">
         <UiFlex 
           v-if="!item.child" 
@@ -37,6 +37,8 @@
         </div>
       </UiFlex>
     </div>
+
+    <DataSupport class="py-2 px-4 w-full" />
   </UiFlex>
 </template>
 
@@ -51,7 +53,7 @@ const activeTo = computed(() => {
 
 const goTo = (link) => {
   if(link == activeTo.value) return
-  useTo().navigateToSSL(link)
+  navigateTo(link)
   emit('to')
 }
 

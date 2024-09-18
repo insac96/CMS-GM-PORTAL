@@ -46,6 +46,6 @@ export default defineEventHandler(async (event) => {
     return resp(event, { result: { category, list, total } })
   } 
   catch (e:any) {
-    return resp(event, { code: 500, message: e.toString() })
+    return resp(event, { code: 400, message: e.toString() })
   }
 })

@@ -1,10 +1,19 @@
 export default defineEventHandler(async (event) => {
   try {
-    const { size, current, sort, search, category, platform } = await readBody(event)
-    if(!size || !current || !category || !platform) throw 'Dữ liệu phân trang sai'
+    const body = await readBody(event)
+    const { size, current, sort, search, category, platform, os } = body
+    if(!size || !current || !category || !platform || !os) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
     if(!Array.isArray(platform)) throw 'Dữ liệu nền tảng không hợp lệ'
     if(!Array.isArray(category)) throw 'Dữ liệu thể loại không hợp lệ'
+
+    const gameDB = {
+      'tool': DB.GameTool,
+      //'private': DB.GamePrivate,
+      'china': DB.GameChina
+    }
+    // @ts-expect-error
+    if(!gameDB[os]) throw 'Dữ liệu hệ điều hành sai'
 
     const sorting : any = { pin: -1 }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
@@ -24,16 +33,18 @@ export default defineEventHandler(async (event) => {
       match['category'] = { $in: category }
     }
 
-    const list = await DB.GameChina
+    // @ts-expect-error
+    const list = await gameDB[os]
     .find(match)
-    .select('name code key pin statistic description image.banner image.icon')
-    .populate({ path: 'platform', select: 'name' })
-    .populate({ path: 'category', select: 'name' })
+    .select('name code key pin statistic description image.icon')
+    .populate({ path: 'platform', select: 'name key' })
+    .populate({ path: 'category', select: 'name key' })
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)
 
-    const total = await DB.GameChina.count()
+    // @ts-expect-error
+    const total = await gameDB[os].count()
     return resp(event, { result: { list, total } })
   } 
   catch (e:any) {

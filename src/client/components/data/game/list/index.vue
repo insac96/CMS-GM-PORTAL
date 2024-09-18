@@ -1,5 +1,5 @@
 <template>
-  <DataEmpty class="h-[300px]" v-if="list.length == 0" />
+  <DataEmpty class="h-[300px]" :loading="loading" v-if="!!loading || list.length == 0" />
 
   <div v-else class="grid grid-cols-12 gap-2 md:gap-4">
     <DataGameBox 
@@ -13,5 +13,5 @@
 </template>
 
 <script setup>
-const props = defineProps(['list', 'os'])
+const props = defineProps(['loading', 'list', 'os'])
 </script>

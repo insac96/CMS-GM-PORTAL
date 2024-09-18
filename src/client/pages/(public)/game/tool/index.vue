@@ -9,7 +9,12 @@
       <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" />
     </UiFlex>
 
-    <DataGameList :list="list" os="tool" />
+    <DataGameList :loading="loading" :list="list" os="tool" />
+
+    <!-- Pagination -->
+    <UiFlex justify="end" class="mt-4" v-if="page.total > page.size">
+      <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs"/>
+    </UiFlex>
   </UiContent>
 </template>
 
@@ -19,7 +24,7 @@ const loading = ref(false)
 
 // Page
 const page = ref({
-  size: 12,
+  size: 1,
   current: 1,
   sort: {
     column: 'statistic.play',

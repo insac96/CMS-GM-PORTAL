@@ -13,5 +13,15 @@ export const useTo = () => {
     }
   }
 
-  return { navigateToSSL }
+  const openNewTab = (url : string) => {
+    const { isSafari } = useDevice()
+    if(!!isSafari)(
+      window.open(url, "mozillaTab")
+    )
+    else {
+      navigateTo(url, { open: { target: '_blank'}})
+    }
+  }
+
+  return { navigateToSSL, openNewTab }
 }
