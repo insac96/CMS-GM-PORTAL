@@ -8,35 +8,16 @@ export default defineEventHandler(async (event) => {
 
     const { game : code, token } = body
     if(!code) throw 'Không tìm thấy mã trò chơi'
+    if(!token) throw 'Không tìm thấy mã ủy quyền'
 
-    const game = await DB.GameTool
-    .findOne({ code: code, display: true })
-    .select('-content -play -price -statistic -pin -display -description -category -platform') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('secret key') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
-    if(!game.ip) throw 'Trò chơi đang bảo trì'
 
     const decoded = jwt.verify(token, game.secret) as any
+    const url = decoded.url
+    const key = game.key
 
-    const result = JSON.parse(JSON.stringify(game))
-    result.tool = { recharge: false, mail: false }
-    if(!!auth) {
-      const userGameTool = await DB.GameToolUser.findOne({
-        game: game._id,
-        user: auth._id
-      }) as IDBGameToolUser
-      if(!!userGameTool) {
-        result.tool.recharge = userGameTool.recharge
-        result.tool.mail = userGameTool.mail
-      }
-    }
-
-    delete result['ip']
-    delete result['port']
-    delete result['api']
-    delete result['secret']
-    result.url = decoded.url
-
-    return resp(event, { result: result })
+    return resp(event, { result: { url, key, code } })
   } 
   catch (e:any) {
     return resp(event, { code: 500, message: e.toString() })

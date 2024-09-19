@@ -1,23 +1,18 @@
 <template>
-  <iframe 
-    v-if="!!game"
-    title="Playing Game"
-    :src="game.url"
-    width="100%"
-    height="100%"
-    class="Iframe"
-  ></iframe>
+  <div class="w-full h-full" v-if="!!verify && !!game">
+    <iframe title="Playing Game" :src="verify.url" width="100%" height="100%" class="Iframe"></iframe>
 
-  <DataGameToolPlayDrag :game="game" v-if="!loading && !!game" />
+    <DataGameToolPlayDrag :game="game"/>
 
-  <UModal v-model="modal.recharge">
-    <DataGameToolRechargeBuy
-      :game="selectRecharge.game"
-      :recharge="selectRecharge.recharge"
-      :server="selectRecharge.server"
-      @close="modal.recharge = false" 
-    />
-  </UModal>
+    <UModal v-model="modal.recharge">
+      <DataGameToolRechargeBuy
+        :game="selectRecharge.game"
+        :recharge="selectRecharge.recharge"
+        :server="selectRecharge.server"
+        @close="modal.recharge = false" 
+      />
+    </UModal>
+  </div>
 </template>
 
 <script setup>
@@ -29,6 +24,7 @@ definePageMeta({
 const route = useRoute()
 const loading = ref(false)
 const game = ref(undefined)
+const verify = ref(undefined)
 
 const modal = ref({
   recharge: false,
@@ -75,13 +71,17 @@ onBeforeRouteLeave(() => {
 const getGame = async () => {
   try {
     loading.value = true
-    const data = await useAPI('game/tool/public/project/play/verify', JSON.parse(JSON.stringify(route.query)))
-    game.value = data
+    const verifyData = await useAPI('game/tool/public/project/play/verify', JSON.parse(JSON.stringify(route.query)))
+    const gameData = await useAPI('game/tool/public/project/key', { key: verifyData.key })
+
+    game.value = gameData
+    verify.value = verifyData
     loading.value = false
   }
   catch(e){
     loading.value = false
   }
 }
+
 onMounted(() => setTimeout(getGame, 1))
 </script>
