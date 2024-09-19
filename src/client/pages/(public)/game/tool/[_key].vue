@@ -233,7 +233,7 @@ const playUrl = async (type) => {
 
     // Download
     if(!!data.download){
-      return openNewTab(data.url)
+      return openNewTab(data.download)
     }
   }
   catch(e){
