@@ -246,7 +246,7 @@
   
   // Page
   const page = ref({
-    size: 10,
+    size: 12,
     current: 1,
     sort: {
       column: 'updatedAt',

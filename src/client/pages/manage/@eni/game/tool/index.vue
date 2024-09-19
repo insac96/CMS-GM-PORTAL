@@ -76,11 +76,11 @@
           <UInput v-model="stateAdd.name" />
         </UFormGroup>
 
-        <UFormGroup label="Tên ngắn">
+        <UFormGroup label="Mã dự án">
           <UInput v-model="stateAdd.code" />
         </UFormGroup>
 
-        <UFormGroup label="Mã dự án">
+        <UFormGroup label="Mô tả ngắn">
           <UInput v-model="stateAdd.description" />
         </UFormGroup>
 
@@ -116,7 +116,7 @@
           <UInput v-model="stateEditInfo.code" />
         </UFormGroup>
 
-        <UFormGroup label="Mã dự án">
+        <UFormGroup label="Mô tả ngắn">
           <UInput v-model="stateEditInfo.description" />
         </UFormGroup>
 
@@ -294,7 +294,7 @@
   
   // Page
   const page = ref({
-    size: 10,
+    size: 12,
     current: 1,
     sort: {
       column: 'updatedAt',
