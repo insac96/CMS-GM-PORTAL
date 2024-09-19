@@ -32,7 +32,7 @@ const loading = ref(false)
 
 // Page
 const page = ref({
-  size: 1,
+  size: 12,
   current: 1,
   sort: {
     column: 'statistic.play',
