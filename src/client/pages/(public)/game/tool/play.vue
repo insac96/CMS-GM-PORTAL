@@ -1,7 +1,8 @@
 <template>
   <iframe 
+    v-if="!!game"
     title="Playing Game"
-    :src="route.query.url"
+    :src="game.url"
     width="100%"
     height="100%"
     class="Iframe"
@@ -25,17 +26,9 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const configStore = useConfigStore()
 const route = useRoute()
 const loading = ref(false)
-const game = ref({
-  name: '...'
-})
-
-useSeoMeta({
-  title: () => `${game.value.name} - ${configStore.config.name}`,
-  robots: 'none'
-})
+const game = ref(undefined)
 
 const modal = ref({
   recharge: false,
@@ -52,7 +45,7 @@ const selectRecharge = ref({
 
 const onRecharge = async (detail) => {
   try {
-    const send =JSON.parse(JSON.stringify(detail))
+    const send = JSON.parse(JSON.stringify(detail))
     send.game = route.query.game
 
     const data = await useAPI('game/tool/public/project/recharge/check', JSON.parse(JSON.stringify(send)))
@@ -90,5 +83,5 @@ const getGame = async () => {
     loading.value = false
   }
 }
-getGame()
+onMounted(() => setTimeout(getGame, 1))
 </script>

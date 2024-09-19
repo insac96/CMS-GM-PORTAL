@@ -224,13 +224,17 @@ const playUrl = async (type) => {
     loading.value.play = false
     modal.value.play = false
 
-    if(type == 'web'){
-      const path = `/game/tool/play?url=${data.url}&token=${data.token}&game=${game.value.code}`
+    // Play In Web
+    if(!!data.token){
+      const path = `/game/tool/play?token=${data.token}&game=${game.value.code}`
       const link = `http://run.${runtimeConfig.public.domain}${path}`
-      if(!!runtimeConfig.public.dev) openNewTab(path)
-      else openNewTab(link)
+      return openNewTab(!!runtimeConfig.public.dev ? path : link)
     }
-    return openNewTab(data.url)
+
+    // Download
+    if(!!data.download){
+      return openNewTab(data.url)
+    }
   }
   catch(e){
     loading.value.play = false

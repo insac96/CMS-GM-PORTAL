@@ -1,4 +1,4 @@
-import md5 from "md5"
+import jwt from 'jsonwebtoken'
 import type { IAuth, IDBGameTool, IDBGameToolUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
@@ -15,13 +15,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 
-    const url = await gameStart(event, {
-      url: game.api.start,
-      secret: game.secret,
-      account: auth.username
-    })
-    const tokenCheck = md5(`${url}.${auth.username}.${game.secret}`)
-    if(tokenCheck != token) throw true
+    const decoded = jwt.verify(token, game.secret) as any
 
     const result = JSON.parse(JSON.stringify(game))
     result.tool = { recharge: false, mail: false }
@@ -40,6 +34,7 @@ export default defineEventHandler(async (event) => {
     delete result['port']
     delete result['api']
     delete result['secret']
+    result.url = decoded.url
 
     return resp(event, { result: result })
   } 

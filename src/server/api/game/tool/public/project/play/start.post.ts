@@ -1,4 +1,4 @@
-import md5 from "md5"
+import jwt from 'jsonwebtoken'
 import type { IAuth, IDBGameTool } from "~~/types"
 
 export default defineEventHandler(async (event) => {
@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 
+    // Get URL Play
     let result : any
     if(type == 'web'){
       const url = await gameStart(event, {
@@ -21,18 +22,18 @@ export default defineEventHandler(async (event) => {
         secret: game.secret,
         account: auth.username
       })
-      const token = md5(`${url}.${auth.username}.${game.secret}`)
-      result = { url, token }
+      const token = jwt.sign({ url : url }, game.secret, { expiresIn: '360d' })
+      result = { token }
     }
     else {
       // @ts-expect-error
       if(!game.play || !game.play[type]) throw 'Trò chơi không hỗ trợ chơi trên nền tảng này'
       // @ts-expect-error
-      const url = game.play[type]
-
-      result = { url }
+      const download = game.play[type]
+      result = { download }
     }
-    
+
+    // Update Play
     game.statistic.play = game.statistic.play + 1
     // @ts-expect-error
     await game.save()
