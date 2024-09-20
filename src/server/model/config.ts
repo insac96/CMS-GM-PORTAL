@@ -14,6 +14,10 @@ export const DBConfig = (mongoose : Mongoose) => {
     terms: { type: String },
     manage_password: { type: String, default: 'eni@gm' },
     license: { type: Boolean, default: false },
+    download: {
+      windows: { type: String, default: '' },
+      mac: { type: String, default: '' },
+    },
     contact: {
       name: { type: String, default: '' },
       phone: { type: String, default: '' },
@@ -36,6 +40,8 @@ export const DBConfig = (mongoose : Mongoose) => {
       facebook: { type: String, default: '' },
       messenger: { type: String, default: '' },
       zalo: { type: String, default: '' },
+      telegram: { type: String, default: '' },
+      tiktok: { type: String, default: '' },
     },
     facebook: {
       client_id: { type: String, default: '' },

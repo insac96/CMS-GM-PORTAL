@@ -8,7 +8,7 @@
       <SelectNewsCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" />
     </UiFlex>
 
-    <DataNewsList :list="list" />
+    <DataNewsList :list="list" :loading="loading" />
   </UiContent>
 </template>
 
@@ -22,7 +22,7 @@ useSeoMeta({
 })
 
 const list = ref([])
-const loading = ref(false)
+const loading = ref(true)
 
 // Page
 const page = ref({
@@ -42,12 +42,12 @@ const getList = async () => {
     loading.value = true
     const data = await useAPI('news/public/list/main', JSON.parse(JSON.stringify(page.value)))
 
-    loading.value = false
     list.value = data.list
     page.value.total = data.total
+    loading.value = false
   }
   catch (e) {
-    loading.value = false
+    return false
   } 
 }
 

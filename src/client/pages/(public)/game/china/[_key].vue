@@ -1,5 +1,7 @@
 <template>
-  <div v-if="!!game && !loading.page">
+  <LoadingGameChinaKey v-if="!!loading.page"/>
+
+  <div v-else>
     <!-- Info -->
     <div class="grid grid-cols-12 gap-2 md:gap-4 mb-4">
       <div class="md:col-span-8 col-span-12">
@@ -162,7 +164,7 @@ const getGame = async () => {
     loading.value.page = false
   }
   catch(e){
-    loading.value.page = false
+    return false
   }
 }
 getGame()

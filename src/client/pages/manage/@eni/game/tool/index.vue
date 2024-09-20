@@ -252,6 +252,13 @@
         </UiFlex>
       </UForm>
     </UModal>
+
+    <!-- Modal User -->
+    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
+      <UiContent title="Player" sub="Danh sách người chơi" class="p-4">
+        <ManageGameToolUser :game="stateUser._id" />
+      </UiContent>
+    </UModal>
   </UiContent>
 </template>
 
@@ -362,6 +369,9 @@
     _id: null,
     content: null
   })
+  const stateUser = ref({
+    _id: null,
+  })
   
   // Modal
   const modal = ref({
@@ -371,7 +381,8 @@
     editAPI: false,
     editPlay: false,
     editPrice: false,
-    editContent: false
+    editContent: false,
+    user: false
   })
   
   watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
@@ -394,6 +405,14 @@
   
   // Actions
   const actions = (row) => [
+    [{
+      label: 'Người chơi',
+      icon: 'i-bx-group',
+      click: () => {
+        stateUser.value._id = row._id
+        modal.value.user = true
+      }
+    }],
     [{
       label: 'Sửa thông tin',
       icon: 'i-bx-pencil',

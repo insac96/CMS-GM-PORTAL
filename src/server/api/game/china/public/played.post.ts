@@ -15,7 +15,10 @@ export default defineEventHandler(async (event) => {
     const match : any = { user: userCheck }
     if(!!search){
       const key = formatVNString(search, '-')
-      const games = await DB.GameChina.find({ key : { $regex : key, $options : 'i' }}).select('_id')
+      const games = await DB.GameChina.find({ $or: [
+        { key : { $regex : key, $options : 'i' }},
+        { code : { $regex : key, $options : 'i' }},
+      ]}).select('_id')
       match['game'] = { $in: games.map(i => i._id) }
     }
 

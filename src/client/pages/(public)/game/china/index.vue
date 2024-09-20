@@ -56,9 +56,9 @@ const getList = async () => {
     loading.value = true
     const data = await useAPI('game/china/public/list/main', JSON.parse(JSON.stringify(page.value)))
 
-    loading.value = false
     list.value = data.list
     page.value.total = data.total
+    loading.value = false
   }
   catch (e) {
     loading.value = false

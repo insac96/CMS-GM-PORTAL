@@ -14,6 +14,7 @@ export const DBUser = (mongoose : Mongoose) => {
     },
     social: {
       facebook: { type: String, default: '' },
+      messenger: { type: String, default: '' },
       zalo: { type: String, default: '' },
       telegram: { type: String, default: '' },
       tiktok: { type: String, default: '' },

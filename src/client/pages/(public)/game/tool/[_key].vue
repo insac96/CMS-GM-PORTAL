@@ -1,5 +1,7 @@
 <template>
-  <div v-if="!!game && !loading.page">
+  <LoadingGameToolKey v-if="!!loading.page"/> 
+
+  <div v-else>
     <!-- Info -->
     <div class="grid grid-cols-12 gap-2 md:gap-4 mb-4">
       <div class="md:col-span-8 col-span-12">
@@ -66,7 +68,9 @@
         </div>
 
         <!-- Alert -->
-        <UAlert class="my-4" color="gray" variant="soft" description="Nếu không mua tool, bạn vẫn có thể chơi bình thường"/>
+        <UAlert class="my-4" icon="i-bx-game" title="Bạn vẫn có thể chơi trò chơi mà không cần phải mua tool" :ui="{
+          color: { white: { solid: 'bg-gray-100' }}
+        }"/>
 
         <!-- Button -->
         <UiFlex class="gap-1">
@@ -105,27 +109,7 @@
 
     <!--Buy Tool-->
     <UModal v-model="modal.buy" prevent-close>
-      <UiContent no-dot title="Mua Tool" sub="Lựa chọn loại tool muốn mua" class="p-4">
-        <UiFlex class="mb-4">
-          <UCheckbox v-model="stateBuy.recharge" :color="!!game.tool.recharge ? 'green' : 'primary'" :disabled="!!game.tool.recharge" label="Nạp tiền" class="mr-auto" />
-          <UiText weight="semibold" size="sm" :color="!!game.tool.recharge ? 'green' : null">{{ !!game.tool.recharge ? 'Đã mua' : toMoney(game.price.recharge)+'đ' }}</UiText>
-        </UiFlex>
-
-        <UiFlex class="mb-4">
-          <UCheckbox v-model="stateBuy.mail" :color="!!game.tool.mail ? 'green' : 'primary'" :disabled="!!game.tool.mail" label="Gửi thư" class="mr-auto" />
-          <UiText weight="semibold" size="sm" :color="!!game.tool.mail ? 'green' : null">{{ !!game.tool.mail ? 'Đã mua' : toMoney(game.price.mail)+'đ' }}</UiText>
-        </UiFlex>
-
-        <UiFlex class="mb-4">
-          <UiText weight="semibold" color="gray" size="sm" class="mr-auto">Đơn giá</UiText>
-          <UiText weight="semibold" size="sm">{{ toMoney(totalPrice) }}đ</UiText>
-        </UiFlex>
-
-        <UiFlex justify="end" class="gap-1">
-          <UButton :loading="loading.buy" @click="buyTool">Mua</UButton>
-          <UButton color="gray" :disabled="loading.buy" @click="modal.buy = false">Đóng</UButton>
-        </UiFlex>
-      </UiContent>
+      <DataGameToolBuy :game="game" @close="modal.buy = false" @done="doneBuyTool"></DataGameToolBuy>
     </UModal>
   </div>
 </template>
@@ -157,12 +141,12 @@ useSeoMeta({
 
 const loading = ref({
   page: true,
-  play: false,
-  buy: false
+  play: false
 })
+
 const modal = ref({
+  buy: false,
   play: false,
-  buy: false
 })
 
 const tabRouter = {
@@ -187,19 +171,6 @@ const tabs = [{
   to: 'mail'
 }]
 
-const stateBuy = ref({
-  recharge: false,
-  mail: false
-})
-
-const totalPrice = computed(() => {
-  let total = 0
-  if(!game.value) return 0
-  if(!game.value.tool.recharge && !!stateBuy.value.recharge) total = total + game.value.price?.recharge
-  if(!game.value.tool.mail && !!stateBuy.value.mail) total = total + game.value.price?.mail
-  return total
-})
-
 watch(() => authStore.isLogin, (val) => getGame())
 
 const onTabChange = (index) => {
@@ -210,6 +181,12 @@ const onTabChange = (index) => {
 const action = (key) => {
   if(!authStore.isLogin) return authStore.setModal(true)
   modal.value[key] = true
+}
+
+const doneBuyTool = (state) => {
+  game.value.tool.recharge = state.recharge
+  game.value.tool.mail = state.mail
+  modal.value.buy = false
 }
  
 const playUrl = async (type) => {
@@ -241,26 +218,6 @@ const playUrl = async (type) => {
   }
 }
 
-const buyTool = async () => {
-  try {
-    loading.value.buy = true
-    const send = JSON.parse(JSON.stringify(stateBuy.value))
-    send.game = game.value.code
-    const data = await useAPI('game/tool/public/project/buy', send)
-    await authStore.setAuth()
-
-    stateBuy.value.recharge = data.recharge
-    stateBuy.value.mail = data.mail
-    game.value.tool.recharge = data.recharge
-    game.value.tool.mail = data.mail
-    loading.value.buy = false
-    modal.value.buy = false
-  }
-  catch(e){
-    loading.value.buy = false
-  }
-}
-
 const getGame = async () => {
   try {
     loading.value.page = true
@@ -269,12 +226,10 @@ const getGame = async () => {
     })
 
     game.value = data
-    stateBuy.value.recharge = data.tool.recharge
-    stateBuy.value.mail = data.tool.mail
     loading.value.page = false
   }
   catch(e){
-    loading.value.page = false
+    return false
   }
 }
 getGame()

@@ -16,6 +16,7 @@ export interface IDBUser {
   }
   social: {
     facebook: string
+    messenger: string
     zalo: string
     telegram: string
     tiktok: string

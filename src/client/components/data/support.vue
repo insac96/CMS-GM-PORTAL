@@ -56,9 +56,8 @@ const social = ref({
   facebook: null,
   messenger: null,
   zalo: null,
-  // telegram: null,
-  // tiktok: null,
-  // youtube: null,
+  telegram: null,
+  tiktok: null,
 })
 
 const open = (url) => {

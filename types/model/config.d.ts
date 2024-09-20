@@ -16,6 +16,10 @@ export interface IDBConfig {
   terms: string
   manage_password: string
   license: boolean
+  download: {
+    windows: string
+    mac: string
+  }
   contact: {
     name: string
     phone: string
@@ -38,6 +42,8 @@ export interface IDBConfig {
     facebook: string
     messenger: string
     zalo: string
+    telegram: string
+    tiktok: string
   }
   facebook: {
     client_id: string
@@ -71,6 +77,10 @@ export interface IDBConfigStore {
   og_image: string
   logo_image: string
   makeby: string
+  download: {
+    windows: string
+    mac: string
+  }
   contact: {
     name: string
     phone: string
@@ -82,6 +92,8 @@ export interface IDBConfigStore {
     facebook: string
     messenger: string
     zalo: string
+    telegram: string
+    tiktok: string
   }
   facebook: {
     client_id: string

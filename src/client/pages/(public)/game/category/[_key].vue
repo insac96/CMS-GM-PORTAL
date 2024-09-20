@@ -26,7 +26,7 @@ const category = ref({
   name: 'Đang tải...'
 })
 const list = ref([])
-const loading = ref(false)
+const loading = ref(true)
 
 useSeoMeta({
   title: () => `${category.value.name} - ${configStore.config.name}`,

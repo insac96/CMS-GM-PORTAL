@@ -1,6 +1,6 @@
 <template>
-  <UiContent title="About" sub="Giới thiệu về chúng tôi">
-    <DataEmpty v-if="!!loading || !about" :text="!!loading ? 'Đang tải...' : 'Không có dữ liệu'"></DataEmpty>
+  <UiContent title="Giới Thiệu" sub="Thông tin tổng quan về chúng tôi" class="w-full max-w-[700px] mx-auto">
+    <DataEmpty v-if="!!loading || !about" :loading="loading"></DataEmpty>
 
     <DataEditor :content="about" v-else />
   </UiContent>

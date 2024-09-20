@@ -2,7 +2,7 @@
   <div class="w-full h-full" v-if="!!verify && !!game">
     <iframe title="Playing Game" :src="verify.url" width="100%" height="100%" class="Iframe"></iframe>
 
-    <DataGameToolPlayDrag :game="game"/>
+    <DataGameToolPlayDrag :game="game" @buy-tool="doneBuyTool"/>
 
     <UModal v-model="modal.recharge">
       <DataGameToolRechargeBuy
@@ -68,6 +68,11 @@ onBeforeRouteLeave(() => {
   window.removeEventListener('message', onMessage, false)
 })
 
+const doneBuyTool = (state) => {
+  game.value.tool.recharge = state.recharge
+  game.value.tool.mail = state.mail
+}
+
 const getGame = async () => {
   try {
     loading.value = true
@@ -79,7 +84,7 @@ const getGame = async () => {
     loading.value = false
   }
   catch(e){
-    loading.value = false
+    return false
   }
 }
 

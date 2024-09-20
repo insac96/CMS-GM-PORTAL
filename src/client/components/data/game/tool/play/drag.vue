@@ -14,6 +14,12 @@
 
     <div class="fixed bg-black/50 w-full h-full top-0 left-0" style="z-index: 99;" v-if="!!dragging"></div>
 
+    <!--Buy Tool-->
+    <UModal v-model="modal.buy" prevent-close>
+      <DataGameToolBuy :game="game" @close="modal.buy = false" @done="doneBuyTool"></DataGameToolBuy>
+    </UModal>
+
+    <!--Recharge-->
     <UModal v-model="modal.recharge" :ui="{ width: 'lg:max-w-3xl md:max-w-2xl sm:max-w-xl' }">
       <UiContent :title="game.name" sub="Tool nạp vào trò chơi" class="p-4">
         <template #more>
@@ -28,6 +34,7 @@
       </UiContent>
     </UModal>
 
+    <!--Mail-->
     <UModal v-model="modal.mail" preventClose :ui="{ width: 'lg:max-w-3xl md:max-w-2xl sm:max-w-xl' }">
       <UiContent :title="game.name" sub="Tool gửi thư vào trò chơi" class="p-4">
         <template #more>
@@ -48,10 +55,12 @@
 import { useDraggable } from '@vueuse/core'
 
 const props = defineProps(['game'])
+const emits = defineEmits(['buyTool'])
 
 const el = ref(null)
 const dragging = ref(false)
 const modal = ref({
+  buy: false,
   recharge: false,
   mail: false
 })
@@ -70,6 +79,12 @@ const { style } = useDraggable(el, {
 
 const list = [
   [{
+    label: 'Mua Tool',
+    icon: 'i-bx-shopping-bag',
+    click: () => modal.value.buy = true,
+    disabled: !!props.game?.tool?.recharge && !!props.game?.tool?.mail
+  }],
+  [{
     label: 'Nạp game',
     icon: 'i-bx-package',
     click: () => modal.value.recharge = true
@@ -84,6 +99,11 @@ const list = [
     click: () => useTo().navigateToSSL(`/game/tool/${props.game.key}`)
   }],
 ]
+
+const doneBuyTool = (state) => {
+  emits('buyTool', state)
+  modal.value.buy = false
+}
 </script>
 
 <style lang="sass">

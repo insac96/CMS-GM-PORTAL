@@ -31,7 +31,7 @@
               <UTextarea autoresize v-model="state.description" name="input" />
             </UFormGroup>
 
-            <UFormGroup label="Logo vuông">
+            <UFormGroup label="Logo">
               <UiUploadImage v-model="state.logo_image">
                 <template #default="{ select, loading }">
                   <UInput :model-value="state.logo_image" :loading="loading" readonly @click="select"/>
@@ -45,6 +45,14 @@
                   <UInput :model-value="state.og_image" :loading="loading" readonly @click="select"/>
                 </template>
               </UiUploadImage>
+            </UFormGroup>
+
+            <UFormGroup label="Windows Mini Client">
+              <UInput v-model="state.download.windows" />
+            </UFormGroup>
+
+            <UFormGroup label="Mac Mini Client">
+              <UInput v-model="state.download.mac" />
             </UFormGroup>
 
             <UiFlex justify="end" class="mt-4">
@@ -97,6 +105,14 @@
 
             <UFormGroup label="Zalo">
               <UInput v-model="state.social.zalo" />
+            </UFormGroup>
+
+            <UFormGroup label="Telegram">
+              <UInput v-model="state.social.telegram" />
+            </UFormGroup>
+
+            <UFormGroup label="Tiktok">
+              <UInput v-model="state.social.tiktok" />
             </UFormGroup>
 
             <UiFlex justify="end" class="mt-4">
@@ -259,6 +275,11 @@ const state = ref({
   logo_image: '',
   manage_password: '',
 
+  download: {
+    windows: '',
+    mac: '',
+  },
+
   contact: {
     name: '',
     phone: '',
@@ -270,7 +291,9 @@ const state = ref({
   social: {
     facebook: '',
     messenger: '',
-    zalo: ''
+    zalo: '',
+    telegram: '',
+    tiktok: ''
   },
 
   telebot: {

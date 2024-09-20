@@ -161,7 +161,7 @@ export default defineAppConfig({
     },
 
     skeleton: {
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-3xl'
     },
 
     dropdown: {

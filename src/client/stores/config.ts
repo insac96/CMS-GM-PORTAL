@@ -9,6 +9,10 @@ export const useConfigStore = defineStore('config', () => {
     og_image: '',
     logo_image: '',
     makeby: '',
+    download: {
+      windows: '',
+      mac: '',
+    },
     contact: {
       name: '',
       phone: '',
@@ -20,6 +24,8 @@ export const useConfigStore = defineStore('config', () => {
       facebook: '',
       messenger: '',
       zalo: '',
+      telegram: '',
+      tiktok: '',
     },
     facebook: {
       client_id: '',

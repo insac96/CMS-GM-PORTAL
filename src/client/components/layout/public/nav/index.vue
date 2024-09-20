@@ -7,7 +7,9 @@
     </UiFlex>
 
     <div class="w-full grow overflow-y-auto py-2 h-0">
-      <UiFlex type="col" v-for="(item, index) in menu" :key="`m-${index}`" class="mx-6">
+      <LoadingLayoutPublicMenu v-if="!!loading" />
+
+      <UiFlex v-else type="col" v-for="(item, index) in menu" :key="`m-${index}`" class="mx-6">
         <UiFlex 
           v-if="!item.child" 
           class="LayoutPublicNavMenuItem gap-4 text-gray-500" 
@@ -46,6 +48,7 @@
 const router = useRoute()
 const emit = defineEmits(['to'])
 const menu = ref([])
+const loading = ref(true)
 
 const activeTo = computed(() => {
   return router.fullPath
@@ -59,6 +62,7 @@ const goTo = (link) => {
 
 const makeMenu = async () => {
   try {
+    loading.value = true
     const categories = await useAPI('game/public/category/select')
     const platforms = await useAPI('game/public/platform/select')
     const list =  [
@@ -77,9 +81,10 @@ const makeMenu = async () => {
       })}
     ]
     menu.value = list
+    loading.value = false
   }
   catch(e){
-
+    return false
   }
 }
 makeMenu()

@@ -12,30 +12,28 @@
       </UForm>
     </UiFlex>
 
-    <div v-if="!loading.list">
-      <DataEmpty class="h-[300px]" text="Không có gói nạp" v-if="list.length == 0" />
+    <DataEmpty class="h-[300px]" text="Không có gói nạp" :loading="loading" v-if="!!loading || list.length == 0" />
 
-      <div v-else>
-        <div class="grid grid-cols-12 gap-2 md:gap-4">
-          <UCard 
-            v-for="(item, index) in list" :key="index" 
-            class="md:col-span-3 col-span-6 cursor-pointer" 
-            :ui="{
-              divide: '',
-              ring: 'ring-0',
-              shadow: 'shadow hover:shadow-xl',
-              body: {
-                padding: 'px-4 py-4 sm:px-4 sm:py-4',
-              },
-            }"
-            @click="startBuy(item)"
-          >
-            <UiFlex type="col" class="gap-2">
-              <UAvatar icon="i-bx-package" alt="Benjamin Canac" size="3xl" />
-              <UiText size="sm" weight="semibold" color="gray" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
-            </UiFlex>
-          </UCard>
-        </div>
+    <div v-else>
+      <div class="grid grid-cols-12 gap-2 md:gap-4">
+        <UCard 
+          v-for="(item, index) in list" :key="index" 
+          class="md:col-span-3 col-span-6 cursor-pointer" 
+          :ui="{
+            divide: '',
+            ring: 'ring-0',
+            shadow: 'shadow hover:shadow-xl',
+            body: {
+              padding: 'px-4 py-4 sm:px-4 sm:py-4',
+            },
+          }"
+          @click="startBuy(item)"
+        >
+          <UiFlex type="col" class="gap-2">
+            <UAvatar icon="i-bx-package" alt="Benjamin Canac" size="3xl" />
+            <UiText size="sm" weight="semibold" color="gray" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
+          </UiFlex>
+        </UCard>
       </div>
     </div>
 
@@ -48,9 +46,7 @@
 <script setup>
 const props = defineProps(['game'])
 const list = ref([])
-const loading = ref({
-  list: true
-})
+const loading = ref(true)
 const modal = ref({
   buy: false
 })
@@ -78,15 +74,15 @@ const startBuy = (recharge) => {
 const getList = async () => {
 	try {
     if(!props.game?.tool?.recharge || !!props.game?.paygame) throw true
-    loading.value.list = true
+    loading.value = true
     const data = await useAPI('game/tool/public/project/recharge/list', JSON.parse(JSON.stringify(page.value)))
 
     list.value = data.list
     page.value.total = data.total
-    loading.value.list = false
+    loading.value = false
 	}
 	catch(e){
-    loading.value.list = false
+    loading.value = false
   }
 }
 

@@ -1,30 +1,32 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBGameTool } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    const { size, current, sort, search, user } = await readBody(event)
+    if(auth.type < 1) throw 'Bạn không phải quản trị viên'
+
+    const { size, current, sort, search, game : _id } = await readBody(event)
+    if(!_id) throw 'Không tìm thấy ID trò chơi'
     if(!size || !current || !sort) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
 
-    const userCheck = (!!user && auth.type > 0) ? user : auth._id
+    const game = await DB.GameTool.findOne({ _id: _id }).select('_id') as IDBGameTool
+    if(!game) throw 'Trò chơi không tồn tại'
     
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const match : any = { user: userCheck }
+    const match : any = { game: game._id }
     if(!!search){
-      const key = formatVNString(search, '-')
-      const games = await DB.GameTool.find({ $or: [
-        { key : { $regex : key, $options : 'i' }},
-        { code : { $regex : key, $options : 'i' }},
-      ]}).select('_id')
-      match['game'] = { $in: games.map(i => i._id) }
+      const users = await DB.User.find({
+        username : { $regex : search.toLowerCase(), $options : 'i' }
+      }).select('_id')
+      match['user'] = { $in: users.map(i => i._id) }
     }
 
     const list = await DB.GameToolUser
     .find(match)
-    .populate({ path: 'game', select: 'name code key' })
+    .populate({ path: 'user', select: 'username' })
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)

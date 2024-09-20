@@ -26,7 +26,7 @@ const platform = ref({
   name: 'Đang tải...'
 })
 const list = ref([])
-const loading = ref(false)
+const loading = ref(true)
 
 useSeoMeta({
   title: () => `${platform.value.name} - ${configStore.config.name}`,
