@@ -222,6 +222,7 @@ const actions = (row) => [
     disabled: row.status > 0,
     click: () => {
       Object.keys(stateSuccess.value).forEach(key => stateSuccess.value[key] = row[key])
+      stateSuccess.value.game = props.game
       stateSuccess.value.status = 1
       modal.value.success = true
     }
@@ -231,6 +232,7 @@ const actions = (row) => [
     disabled: row.status > 0,
     click: () => {
       Object.keys(stateRefuse.value).forEach(key => stateRefuse.value[key] = row[key])
+      stateRefuse.value.game = props.game
       stateRefuse.value.status = 2
       modal.value.refuse = true
     }

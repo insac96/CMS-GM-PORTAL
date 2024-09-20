@@ -259,6 +259,13 @@
         <ManageGameToolUser :game="stateUser._id" />
       </UiContent>
     </UModal>
+
+    <!-- Modal Recharge -->
+    <UModal v-model="modal.recharge" :ui="{width: 'sm:max-w-[900px]'}">
+      <UiContent title="Recharge" sub="Danh sách gói nạp" class="p-4">
+        <ManageGameToolRecharge :game="stateRecharge._id" />
+      </UiContent>
+    </UModal>
   </UiContent>
 </template>
 
@@ -372,6 +379,9 @@
   const stateUser = ref({
     _id: null,
   })
+  const stateRecharge = ref({
+    _id: null,
+  })
   
   // Modal
   const modal = ref({
@@ -382,7 +392,8 @@
     editPlay: false,
     editPrice: false,
     editContent: false,
-    user: false
+    user: false,
+    recharge: false
   })
   
   watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
@@ -411,6 +422,13 @@
       click: () => {
         stateUser.value._id = row._id
         modal.value.user = true
+      }
+    },{
+      label: 'Gói nạp',
+      icon: 'i-bx-package',
+      click: () => {
+        stateRecharge.value._id = row._id
+        modal.value.recharge = true
       }
     }],
     [{

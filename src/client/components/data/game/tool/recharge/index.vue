@@ -30,8 +30,9 @@
           @click="startBuy(item)"
         >
           <UiFlex type="col" class="gap-2">
-            <UAvatar icon="i-bx-package" alt="Benjamin Canac" size="3xl" />
-            <UiText size="sm" weight="semibold" color="gray" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
+            <UAvatar icon="i-bx-package" size="3xl" />
+            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
+            <UBadge size="xs" color="gray">Gói Nạp</UBadge>
           </UiFlex>
         </UCard>
       </div>

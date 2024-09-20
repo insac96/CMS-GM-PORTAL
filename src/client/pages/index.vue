@@ -75,7 +75,7 @@ const home = ref({
 
 const downloadMiniClient = () => {
   const isMiniClient = localStorage.getItem('miniclient')
-  if(!!isMiniClient) return error('Bạn đang sử dụng Mini Client rồi')
+  if(!!isMiniClient) return error('Bạn đang sử dụng Mini Client, không thể tải')
 
   if(!device.isWindows && !device.isMacOS) return error('Mini Client chỉ hỗ trợ hệ điều hành Windows và MacOS')
   if(!!device.isWindows && !config.download.windows) return error('Chúng tôi đang cập nhật link tải, vui lòng quay lại sau')
