@@ -24,7 +24,7 @@
     <UModal v-model="modal.add" preventClose>
       <UForm @submit="addAction" class="p-4">
         <UFormGroup label="Vật phẩm">
-          <SelectGameToolItem v-model="stateAdd.id" v-model:itemData="stateAdd.item" :game="game" />
+          <SelectGameToolItem v-model="stateAdd.item" :game="game" />
         </UFormGroup>
 
         <UFormGroup label="Số lượng">
@@ -59,7 +59,6 @@
 </template>
 
 <script setup>
-const toast = useToast()
 const props = defineProps(['modelValue', 'game'])
 const emit = defineEmits(['update:modelValue'])
 const list = ref(props.modelValue || [])
@@ -78,7 +77,7 @@ const columns = [
 ]
 
 const stateAdd = ref({
-  id: null,
+  item: null,
   amount: 1
 })
 
@@ -94,7 +93,7 @@ const modal = ref({
 })
 
 watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
-  id: null,
+  item: null,
   amount: 1
 }))
 
@@ -107,14 +106,17 @@ const openEdit = (row, index) => {
 
 const addAction = () => {
   try {
-    if(!stateAdd.value.id || !stateAdd.value.amount) throw 'Vui lòng nhập đầy đủ'
+    if(!stateAdd.value.item || !stateAdd.value.amount) throw 'Vui lòng nhập đầy đủ'
     if(stateAdd.value.amount < 1) throw 'Số lượng phải lớn hơn 0'
 
     const data = JSON.parse(JSON.stringify(stateAdd.value))
-    const check = list.value.find(i => i.id === data.id)
+    const check = list.value.find(i => i.id === data.item.id)
     if(!!check) throw 'Vật phẩm đã tồn tại'
 
-    list.value.push(data)
+    list.value.push({
+      amount: data.amount,
+      ...data.item
+    })
 
     emit('update:modelValue', list.value)
     modal.value.add = false

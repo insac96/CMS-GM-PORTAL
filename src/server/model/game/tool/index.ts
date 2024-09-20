@@ -32,6 +32,7 @@ export const DBGameTool = (mongoose : Mongoose) => {
       mail: { type: String, default: '' },
       recharge: { type: String, default: '' },
       os: { type: String, default: '' },
+      items: { type: String, default: '' },
     },
 
     play: {

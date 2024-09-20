@@ -36,6 +36,7 @@ export interface IDBGameTool {
     mail: string
     recharge: string
     os: string
+    items: string
   }
 
   play: {

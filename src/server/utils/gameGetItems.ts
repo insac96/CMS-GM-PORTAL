@@ -3,7 +3,8 @@ import axios from 'axios'
 
 interface ISendData {
   url: string
-  secret: string
+  secret: string,
+  key: string
 }
 
 export default async (event: H3Event, data : ISendData) : Promise<any> => {
