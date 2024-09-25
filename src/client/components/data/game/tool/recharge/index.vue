@@ -39,13 +39,14 @@
     </div>
 
     <UModal v-model="modal.buy" prevent-close>
-      <DataGameToolRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false" />
+      <DataGameToolRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false, emits('close')" />
     </UModal>
   </div>
 </template>
 
 <script setup>
 const props = defineProps(['game'])
+const emits = defineEmits(['close'])
 const list = ref([])
 const loading = ref(true)
 const modal = ref({

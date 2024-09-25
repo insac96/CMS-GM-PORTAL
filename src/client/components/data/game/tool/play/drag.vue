@@ -26,7 +26,7 @@
           <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.recharge = false"></UButton>
         </template>
 
-        <DataGameToolRecharge :game="game" />
+        <DataGameToolRecharge :game="game" @close="modal.recharge = false" />
 
         <UiFlex justify="end" class="mt-2">
           <UButton color="gray" @click="modal.recharge = false">Đóng</UButton>
@@ -41,7 +41,7 @@
           <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.mail = false"></UButton>
         </template>
 
-        <DataGameToolMail :game="game">
+        <DataGameToolMail :game="game" @close="modal.mail = false">
           <template #close="{ loading }">
             <UButton color="gray" :disabled="loading" @click="modal.mail = false">Đóng</UButton>
           </template>
