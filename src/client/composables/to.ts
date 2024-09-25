@@ -16,7 +16,7 @@ export const useTo = () => {
   const openNewTab = (url : string) => {
     const { isSafari } = useDevice()
     if(!!isSafari)(
-      window.open(url, "mozillaTab")
+      setTimeout(() => window.open(url, '_blank'))
     )
     else {
       navigateTo(url, { open: { target: '_blank'}})

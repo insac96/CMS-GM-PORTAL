@@ -8,7 +8,7 @@ export { IDBSpend } from './spend'
 export { IDBNotifyUser } from './notify'
 export { 
   IDBGamePlatform, IDBGameCategory, 
-  IDBGameTool, IDBGameToolUser, IDBGameToolRecharge,
+  IDBGameTool, IDBGameToolUser, IDBGameToolRecharge, IDBGameToolItem,
   IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment 
 } from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
@@ -36,6 +36,7 @@ export interface IGlobalDB {
   GameTool: Model<IDBGameTool>
   GameToolUser: Model<IDBGameToolUser>
   GameToolRecharge: Model<IDBGameToolRecharge>
+  GameToolItem: Model<IDBGameToolItem>
 
   GameChina: Model<IDBGameChina>
   GameChinaUser: Model<IDBGameChinaUser>

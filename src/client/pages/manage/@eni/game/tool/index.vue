@@ -31,6 +31,10 @@
           <UBadge color="gray" variant="soft">{{ row.category.name }}</UBadge>
         </template>
 
+        <template #coin-data="{ row }">
+          {{ useMoney().toMoney(row.coin) }}
+        </template>
+
         <template #ip-data="{ row }">
           {{ row.ip || '...' }}
         </template>
@@ -266,6 +270,13 @@
         <ManageGameToolRecharge :game="stateRecharge._id" />
       </UiContent>
     </UModal>
+
+    <!-- Modal Item -->
+    <UModal v-model="modal.item" :ui="{width: 'sm:max-w-[600px]'}">
+      <UiContent title="Item" sub="Danh sách vật phẩm" class="p-4">
+        <ManageGameToolItem :game="stateItem._id" />
+      </UiContent>
+    </UModal>
   </UiContent>
 </template>
 
@@ -284,6 +295,10 @@
     },{
       key: 'category',
       label: 'Thể loại'
+    },{
+      key: 'coin',
+      label: 'Doanh thu',
+      sortable: true
     },{
       key: 'ip',
       label: 'IP'
@@ -382,6 +397,10 @@
   const stateRecharge = ref({
     _id: null,
   })
+  const stateItem = ref({
+    _id: null,
+    code: null
+  })
   
   // Modal
   const modal = ref({
@@ -393,7 +412,8 @@
     editPrice: false,
     editContent: false,
     user: false,
-    recharge: false
+    recharge: false,
+    item: false
   })
   
   watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
@@ -429,6 +449,14 @@
       click: () => {
         stateRecharge.value._id = row._id
         modal.value.recharge = true
+      }
+    },{
+      label: 'Vật phẩm',
+      icon: 'i-bx-box',
+      click: () => {
+        stateItem.value._id = row._id
+        stateItem.value.code = row.code
+        modal.value.item = true
       }
     }],
     [{

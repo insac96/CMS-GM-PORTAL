@@ -36,7 +36,6 @@ export interface IDBGameTool {
     mail: string
     recharge: string
     os: string
-    items: string
   }
 
   play: {
@@ -76,8 +75,17 @@ export interface IDBGameToolUser {
 
 export interface IDBGameToolRecharge {
   _id: Types.ObjectId
+
   game: Types.ObjectId | IDBGameTool
   recharge_id: string
   recharge_name: string
   save_pay: number
+}
+
+export interface IDBGameToolItem {
+  _id: Types.ObjectId
+
+  game: Types.ObjectId | IDBGameTool
+  item_id: string
+  item_name: string
 }

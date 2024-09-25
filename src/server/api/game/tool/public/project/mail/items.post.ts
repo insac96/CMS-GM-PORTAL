@@ -8,17 +8,23 @@ export default defineEventHandler(async (event) => {
     const { key, game : code } = body
     if(!code) throw 'Không tìm thấy mã trò chơi'
 
-    const game = await DB.GameTool.findOne({ code: code, display: true }).select('ip api secret') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('_id') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
-    if(!game.ip) throw 'Trò chơi đang bảo trì'
 
-    const data = await gameGetItems(event, {
-      url: game.api.items,
-      secret: game.secret,
-      key: key
-    })
+    const match : any = { game: game._id }
+    if(!!key){
+      match['$or'] = [
+        { item_name: { $regex : key, $options : 'i' }},
+        { item_id: { $regex : key, $options : 'i' }},
+      ]
+    }
 
-    return resp(event, { result: data })
+    const items = await DB.GameToolItem
+    .find(match)
+    .select('item_id item_name')
+    .limit(20)
+
+    return resp(event, { result: items })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

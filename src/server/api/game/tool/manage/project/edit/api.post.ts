@@ -20,8 +20,7 @@ export default defineEventHandler(async (event) => {
       roles: `http://${ip}:${port}/api/action/roles.php`,
       mail: `http://${ip}:${port}/api/action/mail.php`,
       recharge: `http://${ip}:${port}/api/action/recharge.php`,
-      os: `http://${ip}:${port}/api/action/os.php`,
-      items: `http://${ip}:${port}/api/action/items.php`,
+      os: `http://${ip}:${port}/api/action/os.php`
     }
 
     await DB.GameTool.updateOne({ _id: _id }, body)

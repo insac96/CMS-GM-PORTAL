@@ -18,5 +18,6 @@ dist/server
 .env
 image-*
 excel-*
+json-*
 
 

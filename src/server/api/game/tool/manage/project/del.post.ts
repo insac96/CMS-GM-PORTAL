@@ -1,4 +1,4 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBGameTool } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -8,10 +8,14 @@ export default defineEventHandler(async (event) => {
     const { _id } = await readBody(event)
     if(!_id) throw 'Dữ liệu đầu vào không hợp lệ'
 
-    const game = await DB.GameTool.findOne({ _id: _id }).select('name')
+    const game = await DB.GameTool.findOne({ _id: _id }).select('name') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
+    await DB.GameToolUser.deleteMany({ game: game._id })
+    await DB.GameToolRecharge.deleteMany({ game: game._id })
+    await DB.GameToolItem.deleteMany({ game: game._id })
     await DB.GameTool.deleteOne({ _id: _id })
+
     logAdmin(event, `Xóa trò chơi <b>${game.name}</b>`)
 
     return resp(event, { message: 'Xóa trò chơi thành công' })

@@ -9,7 +9,7 @@ import { DBSpend } from './spend'
 import { DBNotifyUser } from './notify'
 import { 
   DBGamePlatform, DBGameCategory, 
-  DBGameTool, DBGameToolUser, DBGameToolRecharge,
+  DBGameTool, DBGameToolUser, DBGameToolRecharge, DBGameToolItem,
   DBGameChina, DBGameChinaUser, DBGameChinaPayment 
 } from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
@@ -38,6 +38,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GameTool: DBGameTool(mongoose),
     GameToolUser: DBGameToolUser(mongoose),
     GameToolRecharge: DBGameToolRecharge(mongoose),
+    GameToolItem: DBGameToolItem(mongoose),
 
     GameChina: DBGameChina(mongoose),
     GameChinaUser: DBGameChinaUser(mongoose),

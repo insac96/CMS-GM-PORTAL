@@ -41,8 +41,7 @@ const searchItem = async (key) => {
 
   return items.map(i => ({
     id: i.item_id,
-    name: i.item_name,
-    image: i.item_image
+    name: i.item_name
   })).filter(Boolean)
 }
 </script>
