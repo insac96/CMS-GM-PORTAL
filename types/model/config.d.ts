@@ -99,10 +99,12 @@ export interface IDBConfigStore {
     client_id: string
     client_version: string
     client_verify: string
+    client_ads: string
   }
   google: {
     client_id: string
     client_verify: string
+    client_ads: string
   }
   tiktok: {
     client_id: string

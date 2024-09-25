@@ -8,10 +8,11 @@
       class="lg:col-span-3 md:col-span-4 col-span-6"
       :game="item"
       :os="os"
+      :gm="gm"
     />
   </div>
 </template>
 
 <script setup>
-const props = defineProps(['loading', 'list', 'os'])
+const props = defineProps(['loading', 'list', 'os', 'gm'])
 </script>

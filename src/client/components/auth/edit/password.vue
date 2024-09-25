@@ -36,7 +36,7 @@ const validate = (state) => {
 const submit = async () => {
   try {
     loading.value = true
-    await useAPI('auth/edit/password', JSON.parse(JSON.stringify(state.value)))
+    await useAPI('auth/public/edit/password', JSON.parse(JSON.stringify(state.value)))
     await setAuth()
 
     loading.value = false

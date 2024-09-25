@@ -2,18 +2,12 @@ import type { IAuth } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
-    const { size, current, sort, search, secret } = await readBody(event)
+    const auth = await getAuth(event) as IAuth
+    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
+
+    const { size, current, sort, search } = await readBody(event)
     if(!size || !current || !search) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
-
-    if(!secret){
-      const auth = await getAuth(event) as IAuth
-      if(auth.type < 1) throw 'Bạn không phải quản trị viên'
-    }
-    else {
-      const runtimeConfig = useRuntimeConfig()
-      if(secret != runtimeConfig.apiSecret) throw 'Khóa bí mật không đúng'
-    }
 
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1

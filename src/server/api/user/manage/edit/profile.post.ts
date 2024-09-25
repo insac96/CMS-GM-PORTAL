@@ -4,7 +4,7 @@ import type { IAuth, IDBUser } from '~~/types'
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 1) throw 'Bạn không phải quản trị viên'
+    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const { _id, email, phone, password, type, block } = await readBody(event)
     if(!_id) throw 'Dữ liệu đầu vào không hợp lệ'
@@ -13,10 +13,7 @@ export default defineEventHandler(async (event) => {
 
     const user = await DB.User.findOne({_id: _id})
     .select('username email phone type block') as IDBUser
-
     if(!user) throw 'Người dùng không tồn tại'
-    if(user.type == 3 && auth.type < 3) throw 'Không thể sửa thông tin tài khoản'
-    if(user.type == 2 && auth.type < 3) throw 'Không thể sửa thông tin tài khoản'
 
     const update : any = { type: type, block: block }
     const change = []
@@ -38,9 +35,6 @@ export default defineEventHandler(async (event) => {
       change.push('Mật khẩu')
     }
     if(user.type != type){
-      if(type == 3 && auth.type < 3) throw 'Không thể nâng quyền tài khoản'
-      if(type == 2 && auth.type < 3) throw 'Không thể nâng quyền tài khoản'
-
       update['type'] = type
       change.push('Quyền tài khoản')
     }

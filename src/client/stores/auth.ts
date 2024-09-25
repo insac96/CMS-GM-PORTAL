@@ -11,13 +11,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function setAuth () {
-    const auth = await useAPI('auth/get') as IDBUserStore
+    const auth = await useAPI('auth/public/get') as IDBUserStore
     isLogin.value = true
     profile.value = auth
   }
 
   async function removeAuth () {
-    await useAPI('auth/sign/out')
+    await useAPI('auth/public/sign/out')
     isLogin.value = false
     profile.value = undefined
   }

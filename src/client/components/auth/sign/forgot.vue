@@ -55,7 +55,7 @@ const submit = async () => {
   try {
     loading.value = true
 
-    await useAPI('auth/sign/forgot', JSON.parse(JSON.stringify(state.value)))
+    await useAPI('auth/public/sign/forgot', JSON.parse(JSON.stringify(state.value)))
     await authStore.setAuth()
     
     loading.value = false

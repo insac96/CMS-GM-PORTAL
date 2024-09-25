@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/game/${os}/${game.key}`">
+  <NuxtLink :to="to">
     <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
       divide: '',
       ring: 'ring-0',
@@ -19,8 +19,9 @@
         <UiImg :src="game.image?.banner" w="16" h="9" />
       </template>
 
+
       <UiFlex class="gap-4">
-        <UAvatar :src="game.image?.icon" :alt="game.code" class="hidden md:flex" />
+        <UAvatar :src="game.image?.icon" :alt="game.code" class="hidden md:flex" v-if="!gm" />
 
         <div>
           <UiText color="gray" weight="semibold" class="line-clamp-1 text-sm sm:text-base">
@@ -35,12 +36,21 @@
 
       <template #footer>
         <UiFlex>
-          <UiFlex class="gap-2 hidden sm:flex">
+          <UiFlex class="gap-2 hidden sm:flex" v-if="!gm">
             <UiIcon name="i-bxs-star" :color="!!game.pin ? 'primary' : 'gray'" />
             <UiText color="gray" size="xs" weight="semibold" class="relative top-[1px]" v-if="game.statistic.play > 0">{{ useMoney().miniMoney(game.statistic.play) }}</UiText>
           </UiFlex>
 
-          <UButton class="ml-auto w-full justify-center sm:w-auto" icon="i-bx-play">Chơi</UButton>
+          <UButton 
+            :class="{
+              '!w-full': !!gm,
+              'ml-auto w-full justify-center sm:w-auto': true
+            }"
+            :icon="!!gm ? 'i-bxs-edit' : 'i-bx-play'"
+            block
+          >
+            {{ !!gm ? 'Quản Lý' : 'Chơi' }}
+          </UButton>
         </UiFlex>
       </template>
     </UCard>
@@ -48,5 +58,10 @@
 </template>
 
 <script setup>
-const props = defineProps(['game', 'os'])
+const props = defineProps(['game', 'os', 'gm'])
+
+const to = computed(() => {
+  if(!props.gm) return `/game/${props.os}/${props.game?.key}`
+  if(!!props.gm) return `/manage/@gm/${props.os}/${props.game?.key}`
+})
 </script>

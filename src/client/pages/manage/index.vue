@@ -38,8 +38,8 @@ const state = ref({
 const submit = async () => {
   try {
     loading.value = true
-    const link = await useAPI('auth/eni', JSON.parse(JSON.stringify(state.value)))
-    useTo().navigateToSSL(link)
+    const link = await useAPI('auth/manage/eni', JSON.parse(JSON.stringify(state.value)))
+    navigateTo(link)
   }
   catch(e){
     loading.value = false

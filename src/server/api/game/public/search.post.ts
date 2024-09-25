@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
     .skip((current - 1) * size)
 
     // @ts-expect-error
-    const total = await gameDB[os].count()
+    const total = await gameDB[os].count(match)
     return resp(event, { result: { list, total } })
   } 
   catch (e:any) {

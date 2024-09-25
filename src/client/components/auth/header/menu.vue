@@ -34,6 +34,10 @@
     <UModal v-model="modal.history.game" :ui="{width: 'sm:max-w-[900px]'}">
       <DataGamePlayed />
     </UModal>
+
+    <UModal v-model="modal.game.manage" :ui="{width: 'sm:max-w-[900px]'}">
+      <ManageGameGM class="p-4" />
+    </UModal>
   </UiFlex>
 </template>
 
@@ -48,17 +52,26 @@ const modal = ref({
   history: {
     game: false,
     payment: false
+  },
+  game: {
+    manage: false
   }
 })
 
 const menuUser = computed(() => {
   const list = []
-  if(authStore.profile.type > 0){
+  if(authStore.profile.type == 3){
     list.push([{
       label: 'Quản trị viên',
       icon: 'i-bx-shield-quarter',
-      disabled: authStore.profile.type == 0,
       click: () => navigateTo('/manage')
+    }])
+  }
+  if(authStore.profile.type > 1){
+    list.push([{
+      label: 'Quản lý trò chơi',
+      icon: 'i-bx-server',
+      click: () => modal.value.game.manage = true
     }])
   }
 

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
     let select : any
     if(!!_id) {
-      if(auth.type < 1){
+      if(auth.type < 3){
         if(auth._id == _id) select = '-password -token'
         else select = '-password -email -phone -reg -social -currency -token'
       }

@@ -52,7 +52,7 @@ const state = ref({
 const submit = async () => {
   try {
     loading.value.edit = true
-    await useAPI('auth/edit/profile', JSON.parse(JSON.stringify(state.value)))
+    await useAPI('auth/public/edit/profile', JSON.parse(JSON.stringify(state.value)))
 
     loading.value.edit = false
   }

@@ -3,7 +3,7 @@ import type { IAuth, IDBGameTool } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 1) throw 'Bạn không phải quản trị viên'
+    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const { size, current, sort, search, game : _id } = await readBody(event)
     if(!_id) throw 'Không tìm thấy ID trò chơi'

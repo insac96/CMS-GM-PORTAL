@@ -13,6 +13,7 @@
         xl:max-h-[calc(100vh-var(--header-size))] xl:overflow-y-auto
         border-r border-gray-200 dark:border-gray-800
         p-4
+        z-[1]
       ">
         <LayoutManageNav />
       </div>

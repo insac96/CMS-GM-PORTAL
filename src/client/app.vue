@@ -1,7 +1,10 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout class="relative">
+    <UiAnimStar />
+    <UiAnimLine />
+
     <NuxtLoadingIndicator :height="2" />
-    
+
     <NuxtPage />
     
     <UNotifications />

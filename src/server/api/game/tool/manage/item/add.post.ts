@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   try {
     const runtimeConfig = useRuntimeConfig()
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 2) throw 'Chỉ Admin mới có thể thao tác'
+    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const body = await readBody(event)
     const { items, game : _id } = body

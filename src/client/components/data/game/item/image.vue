@@ -20,7 +20,6 @@
 </template>
 
 <script setup>
-const configStore = useConfigStore()
 const props = defineProps({
   game: String,
   src: String,

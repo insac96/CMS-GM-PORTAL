@@ -55,12 +55,10 @@ const signOut = async () => {
 const submit = async () => {
   try {
     loading.value = true
-    await useAPI('auth/update/username', JSON.parse(JSON.stringify(state.value)))
+    await useAPI('auth/public/update/username', JSON.parse(JSON.stringify(state.value)))
 
     loading.value = false
     modal.value = false
-
-    const auth = await useAPI('auth/get')
     setAuth(auth)
   }
   catch (e) {
