@@ -174,7 +174,7 @@ const checkChinaAccount = async () => {
 const signChinaAccount = async () => {
   try {
     loading.value.china = true
-    const data = await useAPI('game/china/public/sign/youxi', JSON.parse(JSON.stringify(stateChina.value)))
+    await useAPI('game/china/public/sign/youxi', JSON.parse(JSON.stringify(stateChina.value)))
 
     loading.value.china = false
     modal.value.china = false
