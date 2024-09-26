@@ -22,6 +22,9 @@ export const DBUser = (mongoose : Mongoose) => {
     currency: {
       coin: { type: Number, default: 0, index: true }
     },
+    china: {
+      youxi: { type: Boolean, default: false },
+    },
     type: { type: Number, default: 0, index: true }, // 0 - Member, 1 - Smod, 2 - Dev, 3 - Admin, 99 - Robot
     block: { type: Boolean, default: false }, // 0 - False, 1 - True
     token: { type: String },

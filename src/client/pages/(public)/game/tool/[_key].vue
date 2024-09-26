@@ -92,17 +92,17 @@
     </div>
 
     <!--Play-->
-    <UModal v-model="modal.play" prevent-close :ui="{ width: 'max-w-[280px] sm:max-w-[280px]' }">
+    <UModal v-model="modal.play" prevent-close>
       <UiContent no-dot title="Hệ Điều Hành" sub="Chọn hệ điều hành muốn chơi" class="p-4">
-        <UiFlex class="gap-1 mb-4" justify="center" wrap>
-          <UButton icon="i-bxs-window-alt" :disabled="loading.play" square color="gray" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('web')" />
-          <UButton icon="i-bxl-android" :disabled="loading.play" square color="green" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('android')" />
-          <UButton icon="i-bxl-apple" :disabled="loading.play" square color="black" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('ios')" />
-          <UButton icon="i-bxl-windows" :disabled="loading.play" square color="blue" size="xl" :ui="{square: { xl: 'p-7' }, icon: { size: { xl: 'h-8 w-8' }}}" @click="playUrl('windows')" />
-        </UiFlex>
+        <template #more>
+          <UButton icon="i-bx-x" color="gray" class="ml-auto" square :disabled="loading.play" @click="modal.play = false"></UButton>
+        </template>
 
-        <UiFlex justify="end">
-          <UButton color="gray" :disabled="loading.play" @click="modal.play = false">Đóng</UButton>
+        <UiFlex class="gap-1" justify="center" wrap>
+          <UButton v-if="game.play.web" icon="i-bxs-window-alt" :disabled="loading.play" color="white" size="xl" @click="playUrl('web')">Web</UButton>
+          <UButton v-if="game.play.android" icon="i-bxl-android" :disabled="loading.play" color="green" size="xl" @click="playUrl('android')">Android</UButton>
+          <UButton v-if="game.play.ios" icon="i-bxl-apple" :disabled="loading.play" color="black" size="xl" @click="playUrl('ios')">Iphone</UButton>
+          <UButton v-if="game.play.windows" icon="i-bxl-windows" :disabled="loading.play" color="blue" size="xl" @click="playUrl('windows')">Windows</UButton>
         </UiFlex>
       </UiContent> 
     </UModal>

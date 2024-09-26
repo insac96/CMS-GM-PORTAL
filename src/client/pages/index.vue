@@ -9,7 +9,7 @@
 
       <UiFlex class="gap-1 mb-4 md:mb-6" wrap>
         <UButton color="primary" size="lg" icon="i-bxs-book-open" @click="navigateTo('/about')">Giới Thiệu</UButton>
-        <UButton color="black" size="lg" icon="i-bxs-download" @click="downloadMiniClient()">Mini Client</UButton>
+        <UButton color="black" size="lg" icon="i-bxs-download" @click="downloadMiniClient()" v-if="!!device.isWindows">Mini Client</UButton>
       </UiFlex>
 
       <UiImg 

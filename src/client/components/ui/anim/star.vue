@@ -3,6 +3,7 @@
     <div id='stars'></div>
     <div id='stars2'></div>
     <div id='stars3'></div>
+    <div id='stars4'></div>
   </div>
 </template>
 
@@ -17,6 +18,7 @@
 $shadows-small:  multiple-box-shadow(700)
 $shadows-medium: multiple-box-shadow(200)
 $shadows-big:    multiple-box-shadow(100)
+$shadows-big2:    multiple-box-shadow(100)
 
 #StarAnim
   position: fixed
@@ -78,6 +80,25 @@ $shadows-big:    multiple-box-shadow(100)
     height: 3px
     background: transparent
     box-shadow: $shadows-big
+    border-radius: 50%
+
+#stars4
+  position: relative
+  width: 4px
+  height: 4px
+  background: transparent
+  box-shadow: $shadows-big2
+  animation: animStar 150s linear infinite
+  border-radius: 50%
+    
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 4px
+    height: 4px
+    background: transparent
+    box-shadow: $shadows-big2
     border-radius: 50%
 
 @keyframes animStar

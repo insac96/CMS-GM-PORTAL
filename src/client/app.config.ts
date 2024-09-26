@@ -5,7 +5,6 @@ export default defineAppConfig({
     gray: 'cool',
 
     button: {
-      base: 'z-[1]',
       default: {
         loadingIcon: 'i-bx-loader-alt'
       },

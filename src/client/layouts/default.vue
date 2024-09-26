@@ -1,6 +1,11 @@
 <template>
   <div class="LayoutPublic relative h-full min-h-full">
-    <div class="LayoutPublicNav hidden lg:block border-r border-gray-200 min-h-full h-full">
+    <div class="
+      LayoutPublicNav 
+      hidden lg:block 
+      border-r border-gray-100 min-h-full h-full
+      bg-white/75 dark:bg-transparent backdrop-blur-xl
+    ">
       <LayoutPublicNav />
     </div>
 

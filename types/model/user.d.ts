@@ -24,6 +24,9 @@ export interface IDBUser {
   currency: {
     coin: number
   }
+  china: {
+    youxi: boolean
+  }
   type: number
   block: boolean
   token: string
