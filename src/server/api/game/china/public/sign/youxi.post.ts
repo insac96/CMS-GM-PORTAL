@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       user.china.youxi = true
       await user.save()
       
-      resp(event, { code: 200, result: true })
+      return resp(event, { code: 200, result: true })
   }
   catch(e : any){
     return resp(event, { code: 400, message: e.toString() })
