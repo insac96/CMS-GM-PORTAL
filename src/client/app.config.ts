@@ -54,6 +54,7 @@ export default defineAppConfig({
     },
 
     badge: {
+      base: 'relative',
       variant: {
         soft: 'bg-{color}-500 bg-opacity-10'
       },

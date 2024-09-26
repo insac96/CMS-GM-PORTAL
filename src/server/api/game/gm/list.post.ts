@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
     // @ts-expect-error
     const list = await gameDB[os]
     .find(match)
-    .select('name code key pin statistic description image.banner image.icon')
+    .select('_id name code key pin statistic description image.banner image.icon')
     .populate({ path: 'platform', select: 'name' })
     .populate({ path: 'category', select: 'name' })
     .sort(sorting)

@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
     const { key } = await readBody(event)
     if(!key) throw 'Không tìm thấy khóa trò chơi'
 
-    const game = await DB.GameTool.aggregate([
+    const game = await DB.GameChina.aggregate([
       { $match: { key: key } },
       {
         $lookup: {
@@ -31,18 +31,19 @@ export default defineEventHandler(async (event) => {
       { $unwind: { path: '$category'} },
       {
         $lookup: {
-          from: "GameToolUser",
+          from: "GameChinaPayment",
           localField: "_id",
           foreignField: "game",
           pipeline: [
+            { $match: { status: 1 } },
             { $project: { coin: 1 }}
           ],
-          as: "users"
+          as: "payments"
         }
       },
       {
         $addFields: {
-          coin: { $sum: '$users.coin' }
+          coin: { $sum: '$payments.coin' }
         }
       },
       { $limit: 1 },

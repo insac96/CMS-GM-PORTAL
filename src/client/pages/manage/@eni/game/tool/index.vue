@@ -136,516 +136,192 @@
         </UiFlex>
       </UForm>
     </UModal>
-
-    <!-- Modal Edit Image -->
-    <UModal v-model="modal.editImage" preventClose>
-      <UForm :state="stateEditImage" @submit="editImageAction" class="p-4">
-        <UFormGroup label="Banner (16:9)">
-          <UiUploadImage v-model="stateEditImage.banner">
-            <template #default="{ select, loading }">
-              <UInput :model-value="stateEditImage.banner" :loading="loading" readonly @click="select"/>
-            </template>
-          </UiUploadImage>
-        </UFormGroup>
-
-        <UFormGroup label="Logo (1:1)">
-          <UiUploadImage v-model="stateEditImage.logo">
-            <template #default="{ select, loading }">
-              <UInput :model-value="stateEditImage.logo" :loading="loading" readonly @click="select"/>
-            </template>
-          </UiUploadImage>
-        </UFormGroup>
-
-        <UFormGroup label="Icon (1:1)">
-          <UiUploadImage v-model="stateEditImage.icon">
-            <template #default="{ select, loading }">
-              <UInput :model-value="stateEditImage.icon" :loading="loading" readonly @click="select"/>
-            </template>
-          </UiUploadImage>
-        </UFormGroup>
-
-        <UFormGroup label="Reviews">
-          <UiUploadImages v-model="stateEditImage.review"></UiUploadImages>
-        </UFormGroup>
-
-        <UiFlex justify="end" class="mt-6">
-          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
-          <UButton color="gray" @click="modal.editImage = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
-    <!-- Modal Edit API -->
-    <UModal v-model="modal.editAPI" preventClose>
-      <UForm :state="stateEditAPI" @submit="editAPIAction" class="p-4">
-        <UFormGroup label="Địa chỉ IP">
-          <UInput v-model="stateEditAPI.ip" />
-        </UFormGroup>
-
-        <UFormGroup label="Port API">
-          <UInput v-model="stateEditAPI.port" type="number" />
-        </UFormGroup>
-
-        <UFormGroup label="Mã ủy quyền">
-          <UInput v-model="stateEditAPI.secret" />
-        </UFormGroup>
-
-        <UiFlex justify="end" class="mt-6">
-          <UiFlex class="mr-auto">
-            <UToggle v-model="stateEditAPI.paygame" class="mr-2" />
-            <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" />
-          </UiFlex>
-          
-          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
-          <UButton color="gray" @click="modal.editAPI = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
-    <!-- Modal Edit Play -->
-    <UModal v-model="modal.editPlay" preventClose>
-      <UForm :state="stateEditPlay" @submit="editPlayAction" class="p-4">
-        <UFormGroup label="Link chơi Web">
-          <UInput v-model="stateEditPlay.web" />
-        </UFormGroup>
-
-        <UFormGroup label="Linh Tải Android">
-          <UInput v-model="stateEditPlay.android" />
-        </UFormGroup>
-
-        <UFormGroup label="Linh Tải IOS">
-          <UInput v-model="stateEditPlay.ios" />
-        </UFormGroup>
-
-        <UFormGroup label="Linh Tải Windows">
-          <UInput v-model="stateEditPlay.windows" />
-        </UFormGroup>
-
-        <UiFlex justify="end" class="mt-6">
-          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
-          <UButton color="gray" @click="modal.editPlay = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
-    <!-- Modal Edit Price -->
-    <UModal v-model="modal.editPrice" preventClose>
-      <UForm :state="stateEditPrice" @submit="editPriceAction" class="p-4">
-        <UFormGroup label="Giá Tool nạp">
-          <UInput v-model="stateEditPrice.recharge" type="number" />
-        </UFormGroup>
-
-        <UFormGroup label="Giá Tool gửi thư">
-          <UInput v-model="stateEditPrice.mail" type="number" />
-        </UFormGroup>
-
-        <UiFlex justify="end" class="mt-6">
-          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
-          <UButton color="gray" @click="modal.editPrice = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
-    <!-- Modal Edit Content -->
-    <UModal v-model="modal.editContent" preventClose :ui="{width: 'sm:max-w-[calc(90%)] md:max-w-[calc(80%)] lg:max-w-4xl'}">
-      <UForm :state="stateEditContent" @submit="editContentAction" class="p-4">
-        <UiEditor v-model="stateEditContent.content"></UiEditor>
-        <UiFlex justify="end" class="mt-4">
-          <UButton type="submit" :loading="loading.edit">Lưu</UButton>
-          <UButton color="gray" @click="modal.editContent = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
-    <!-- Modal User -->
-    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
-      <UiContent title="Player" sub="Danh sách người chơi" class="p-4">
-        <ManageGameToolUser :game="stateUser._id" />
-      </UiContent>
-    </UModal>
-
-    <!-- Modal Recharge -->
-    <UModal v-model="modal.recharge" :ui="{width: 'sm:max-w-[900px]'}">
-      <UiContent title="Recharge" sub="Danh sách gói nạp" class="p-4">
-        <ManageGameToolRecharge :game="stateRecharge._id" />
-      </UiContent>
-    </UModal>
-
-    <!-- Modal Item -->
-    <UModal v-model="modal.item" :ui="{width: 'sm:max-w-[600px]'}">
-      <UiContent title="Item" sub="Danh sách vật phẩm" class="p-4">
-        <ManageGameToolItem :game="stateItem._id" />
-      </UiContent>
-    </UModal>
   </UiContent>
 </template>
 
 <script setup>
-  // List
-  const list = ref([])
-  
-  // Columns
-  const columns = [
-    {
-      key: 'name',
-      label: 'Tên',
-    },{
-      key: 'platform',
-      label: 'Nền tảng',
-    },{
-      key: 'category',
-      label: 'Thể loại'
-    },{
-      key: 'coin',
-      label: 'Doanh thu',
-      sortable: true
-    },{
-      key: 'ip',
-      label: 'IP'
-    },{
-      key: 'pin',
-      label: 'Ghim',
-      sortable: true
-    },{
-      key: 'display',
-      label: 'Hiển thị',
-      sortable: true
-    },{
-      key: 'updatedAt',
-      label: 'Cập nhật',
-      sortable: true
-    },{
-      key: 'actions',
-      label: 'Chức năng',
-    }
-  ]
-  const selectedColumns = ref([...columns])
-  
-  // Page
-  const page = ref({
-    size: 12,
-    current: 1,
-    sort: {
-      column: 'updatedAt',
-      direction: 'desc'
-    },
-    search: {
-      key: null,
-    },
-    total: 0
-  })
-  watch(() => page.value.size, () => getList())
-  watch(() => page.value.current, () => getList())
-  watch(() => page.value.sort.column, () => getList())
-  watch(() => page.value.sort.direction, () => getList())
-  watch(() => page.value.search.key, (val) => !val && getList())
-  
-  // State
-  const stateAdd = ref({
-    platform: null,
-    category: null,
-    name: null,
-    code: null,
-    description: null,
-    pin: false,
-    display: true,
-  })
-  const stateEditInfo = ref({
-    _id: null,
-    platform: null,
-    category: null,
-    name: null,
-    code: null,
-    description: null,
-    pin: null,
-    display: null,
-  })
-  const stateEditImage = ref({
-    _id: null,
-    banner: null,
-    logo: null,
-    icon: null,
-    review: null,
-  })
-  const stateEditAPI = ref({
-    _id: null,
-    ip: null,
-    port: null,
-    mobile: null,
-    paygame: null,
-    secret: null
-  })
-  const stateEditPlay = ref({
-    _id: null,
-    web: null,
-    windows: null,
-    android: null,
-    ios: null,
-  })
-  const stateEditPrice = ref({
-    _id: null,
-    recharge: null,
-    mail: null
-  })
-  const stateEditContent = ref({
-    _id: null,
-    content: null
-  })
-  const stateUser = ref({
-    _id: null,
-  })
-  const stateRecharge = ref({
-    _id: null,
-  })
-  const stateItem = ref({
-    _id: null,
-    code: null
-  })
-  
-  // Modal
-  const modal = ref({
-    add: false,
-    editInfo: false,
-    editImage: false,
-    editAPI: false,
-    editPlay: false,
-    editPrice: false,
-    editContent: false,
-    user: false,
-    recharge: false,
-    item: false
-  })
-  
-  watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
-    platform: null,
-    category: null,
-    name: null,
-    code: null,
-    description: null,
-    pin: false,
-    display: true,
-  }))
-  
-  // Loading
-  const loading = ref({
-    load: true,
-    add: false,
-    edit: false,
-    del: false
-  })
-  
-  // Actions
-  const actions = (row) => [
-    [{
-      label: 'Người chơi',
-      icon: 'i-bx-group',
-      click: () => {
-        stateUser.value._id = row._id
-        modal.value.user = true
-      }
-    },{
-      label: 'Gói nạp',
-      icon: 'i-bx-package',
-      click: () => {
-        stateRecharge.value._id = row._id
-        modal.value.recharge = true
-      }
-    },{
-      label: 'Vật phẩm',
-      icon: 'i-bx-box',
-      click: () => {
-        stateItem.value._id = row._id
-        stateItem.value.code = row.code
-        modal.value.item = true
-      }
-    }],
-    [{
-      label: 'Sửa thông tin',
-      icon: 'i-bx-pencil',
-      click: () => {
-        Object.keys(stateEditInfo.value).forEach(key => stateEditInfo.value[key] = row[key])
-        stateEditInfo.value.category = row.category._id
-        stateEditInfo.value.platform = row.platform._id
-        modal.value.editInfo = true
-      }
-    },{
-      label: 'Sửa hình ảnh',
-      icon: 'i-bx-image-add',
-      click: () => {
-        Object.keys(stateEditImage.value).forEach(key => stateEditImage.value[key] = row.image[key])
-        stateEditImage.value._id = row._id
-        modal.value.editImage = true
-      }
-    },{
-      label: 'Sửa tin tức',
-      icon: 'i-bxs-book-content',
-      click: async () => {
-        try {
-          const content = await useAPI('game/tool/manage/project/get/content', { _id: row._id })
-          stateEditContent.value._id = row._id
-          stateEditContent.value.content = content
-          modal.value.editContent = true
-        }
-        catch (e) {
-          return
-        }
-      }
-    }],[{
-      label: 'Sửa API Game',
-      icon: 'i-bx-planet',
-      click: () => {
-        Object.keys(stateEditAPI.value).forEach(key => stateEditAPI.value[key] = row[key])
-        modal.value.editAPI = true
-      }
-    },{
-      label: 'Sửa link chơi',
-      icon: 'i-bx-credit-card',
-      click: () => {
-        Object.keys(stateEditPlay.value).forEach(key => stateEditPlay.value[key] = row.play[key])
-        stateEditPlay.value._id = row._id
-        modal.value.editPlay = true
-      }
-    },{
-      label: 'Sửa giá Tool',
-      icon: 'i-bx-credit-card',
-      click: () => {
-        Object.keys(stateEditPrice.value).forEach(key => stateEditPrice.value[key] = row.price[key])
-        stateEditPrice.value._id = row._id
-        modal.value.editPrice = true
-      }
-    }],[{
-      label: 'Xóa trò chơi',
-      icon: 'i-bx-trash',
-      click: () => delAction(row._id)
-    }]
-  ]
-   
-  // Fetch
-  const getList = async () => {
-    try {
-      loading.value.load = true
-      const data = await useAPI('game/tool/manage/project/list', JSON.parse(JSON.stringify(page.value)))
-  
-      loading.value.load = false
-      list.value = data.list
-      page.value.total = data.total
-    }
-    catch (e) {
-      loading.value.load = false
-    } 
-  }
-  
-  const addAction = async () => {
-    try {
-      loading.value.add = true
-      await useAPI('game/tool/manage/project/add', JSON.parse(JSON.stringify(stateAdd.value)))
-  
-      loading.value.add = false
-      modal.value.add = false
-      getList()
-    }
-    catch (e) {
-      loading.value.add = false
-    }
-  }
-  
-  const editInfoAction = async () => {
-    try {
-      loading.value.edit = true
-      await useAPI('game/tool/manage/project/edit/info', JSON.parse(JSON.stringify(stateEditInfo.value)))
-  
-      loading.value.edit = false
-      modal.value.editInfo = false
-      getList()
-    }
-    catch (e) {
-      loading.value.edit = false
-    }
-  }
+// List
+const list = ref([])
 
-  const editImageAction = async () => {
-    try {
-      loading.value.edit = true
-      await useAPI('game/tool/manage/project/edit/image', JSON.parse(JSON.stringify(stateEditImage.value)))
-  
-      loading.value.edit = false
-      modal.value.editImage = false
-      getList()
-    }
-    catch (e) {
-      loading.value.edit = false
-    }
+// Columns
+const columns = [
+  {
+    key: 'name',
+    label: 'Tên',
+  },{
+    key: 'platform',
+    label: 'Nền tảng',
+  },{
+    key: 'category',
+    label: 'Thể loại'
+  },{
+    key: 'coin',
+    label: 'Doanh thu',
+    sortable: true
+  },{
+    key: 'ip',
+    label: 'IP'
+  },{
+    key: 'pin',
+    label: 'Ghim',
+    sortable: true
+  },{
+    key: 'display',
+    label: 'Hiển thị',
+    sortable: true
+  },{
+    key: 'updatedAt',
+    label: 'Cập nhật',
+    sortable: true
+  },{
+    key: 'actions',
+    label: 'Chức năng',
   }
+]
+const selectedColumns = ref([...columns])
 
-  const editAPIAction = async () => {
-    try {
-      loading.value.edit = true
-      await useAPI('game/tool/manage/project/edit/api', JSON.parse(JSON.stringify(stateEditAPI.value)))
-  
-      loading.value.edit = false
-      modal.value.editAPI = false
-      getList()
-    }
-    catch (e) {
-      loading.value.edit = false
-    }
-  }
+// Page
+const page = ref({
+  size: 12,
+  current: 1,
+  sort: {
+    column: 'updatedAt',
+    direction: 'desc'
+  },
+  search: {
+    key: null,
+  },
+  total: 0
+})
+watch(() => page.value.size, () => getList())
+watch(() => page.value.current, () => getList())
+watch(() => page.value.sort.column, () => getList())
+watch(() => page.value.sort.direction, () => getList())
+watch(() => page.value.search.key, (val) => !val && getList())
 
-  const editPlayAction = async () => {
-    try {
-      loading.value.edit = true
-      await useAPI('game/tool/manage/project/edit/play', JSON.parse(JSON.stringify(stateEditPlay.value)))
-  
-      loading.value.edit = false
-      modal.value.editPlay = false
-      getList()
-    }
-    catch (e) {
-      loading.value.edit = false
-    }
-  }
+// State
+const stateAdd = ref({
+  platform: null,
+  category: null,
+  name: null,
+  code: null,
+  description: null,
+  pin: false,
+  display: true,
+})
+const stateEditInfo = ref({
+  _id: null,
+  platform: null,
+  category: null,
+  name: null,
+  code: null,
+  description: null,
+  pin: null,
+  display: null,
+})
 
-  const editPriceAction = async () => {
-    try {
-      loading.value.edit = true
-      await useAPI('game/tool/manage/project/edit/price', JSON.parse(JSON.stringify(stateEditPrice.value)))
-  
-      loading.value.edit = false
-      modal.value.editPrice = false
-      getList()
-    }
-    catch (e) {
-      loading.value.edit = false
-    }
-  }
+// Modal
+const modal = ref({
+  add: false,
+  editInfo: false
+})
 
-  const editContentAction = async () => {
-    try {
-      loading.value.edit = true
-      await useAPI('game/tool/manage/project/edit/content', JSON.parse(JSON.stringify(stateEditContent.value)))
+watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
+  platform: null,
+  category: null,
+  name: null,
+  code: null,
+  description: null,
+  pin: false,
+  display: true,
+}))
+
+// Loading
+const loading = ref({
+  load: true,
+  add: false,
+  edit: false,
+  del: false
+})
+
+// Actions
+const actions = (row) => [
+  [{
+    label: 'Quản lý',
+    icon: 'i-bx-server',
+    click: () => useTo().openNewTab(`/manage/@gm/tool/${row.key}`)
+  }],[{
+    label: 'Sửa thông tin',
+    icon: 'i-bx-pencil',
+    click: () => {
+      Object.keys(stateEditInfo.value).forEach(key => stateEditInfo.value[key] = row[key])
+      stateEditInfo.value.category = row.category._id
+      stateEditInfo.value.platform = row.platform._id
+      modal.value.editInfo = true
+    }
+  }],[{
+    label: 'Xóa trò chơi',
+    icon: 'i-bx-trash',
+    click: () => delAction(row._id)
+  }]
+]
   
-      loading.value.edit = false
-      modal.value.editContent = false
-      getList()
-    }
-    catch (e) {
-      loading.value.edit = false
-    }
+// Fetch
+const getList = async () => {
+  try {
+    loading.value.load = true
+    const data = await useAPI('game/tool/manage/project/list', JSON.parse(JSON.stringify(page.value)))
+
+    loading.value.load = false
+    list.value = data.list
+    page.value.total = data.total
   }
-  
-  const delAction = async (_id) => {
-    try {
-      loading.value.del = true
-      await useAPI('game/tool/manage/project/del', { _id })
-  
-      loading.value.del = false
-      getList()
-    }
-    catch (e) {
-      loading.value.del = false
-    }
+  catch (e) {
+    loading.value.load = false
+  } 
+}
+
+const addAction = async () => {
+  try {
+    loading.value.add = true
+    await useAPI('game/tool/manage/project/add', JSON.parse(JSON.stringify(stateAdd.value)))
+
+    loading.value.add = false
+    modal.value.add = false
+    getList()
   }
-  
-  getList()
-  </script>
+  catch (e) {
+    loading.value.add = false
+  }
+}
+
+const editInfoAction = async () => {
+  try {
+    loading.value.edit = true
+    await useAPI('game/tool/manage/project/edit/info', JSON.parse(JSON.stringify(stateEditInfo.value)))
+
+    loading.value.edit = false
+    modal.value.editInfo = false
+    getList()
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const delAction = async (_id) => {
+  try {
+    loading.value.del = true
+    await useAPI('game/tool/manage/project/del', { _id })
+
+    loading.value.del = false
+    getList()
+  }
+  catch (e) {
+    loading.value.del = false
+  }
+}
+
+getList()
+</script>
   

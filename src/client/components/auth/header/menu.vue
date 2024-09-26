@@ -36,7 +36,7 @@
     </UModal>
 
     <UModal v-model="modal.game.manage" :ui="{width: 'sm:max-w-[900px]'}">
-      <ManageGameGM class="p-4" />
+      <ManageGameGM class="p-4" @to="modal.game.manage = false"/>
     </UModal>
   </UiFlex>
 </template>

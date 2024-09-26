@@ -21,14 +21,53 @@ export default defineEventHandler(async (event) => {
       ]
     }
 
-    const list = await DB.GameChina
-    .find(match)
-    .select('-content -createdAt')
-    .populate({ path: 'platform', select: 'name' })
-    .populate({ path: 'category', select: 'name' })
-    .sort(sorting)
-    .limit(size)
-    .skip((current - 1) * size)
+    const list = await DB.GameChina.aggregate([
+      { $match: match },
+      {
+        $lookup: {
+          from: "GamePlatform",
+          localField: "platform",
+          foreignField: "_id",
+          pipeline: [
+            { $project: { name: 1 }}
+          ],
+          as: "platform"
+        }
+      },
+      { $unwind: { path: '$platform'} },
+      {
+        $lookup: {
+          from: "GameCategory",
+          localField: "category",
+          foreignField: "_id",
+          pipeline: [
+            { $project: { name: 1 }}
+          ],
+          as: "category"
+        }
+      },
+      { $unwind: { path: '$category'} },
+      {
+        $lookup: {
+          from: "GameChinaPayment",
+          localField: "_id",
+          foreignField: "game",
+          pipeline: [
+            { $match: { status: 1 } },
+            { $project: { coin: 1 }}
+          ],
+          as: "payments"
+        }
+      },
+      {
+        $addFields: {
+          coin: { $sum: '$payments.coin' }
+        }
+      },
+      { $sort: sorting },
+      { $skip: (current - 1) * size },
+      { $limit: size },
+    ])
 
     const total = await DB.GameChina.count(match)
     return resp(event, { result: { list, total } })

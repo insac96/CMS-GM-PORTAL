@@ -11,7 +11,7 @@
       <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto grow" />
     </UiFlex>
 
-    <DataGameList :loading="loading" :list="list" :os="page.os" :gm="true" />
+    <DataGameList :loading="loading" :list="list" :os="page.os" :gm="true" @click="emits('to')"/>
 
     <!-- Pagination -->
     <UiFlex justify="end" class="mt-4" v-if="page.total > page.size">
@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+const emits = defineEmits(['to'])
 const list = ref([])
 const loading = ref(false)
 

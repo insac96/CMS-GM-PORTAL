@@ -287,5 +287,5 @@ const refuseAction = async () => {
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>
