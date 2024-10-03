@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User
-    const user = await DB.GamePrivateUser.findOne({ user: userID, game: game._id }).select('_id') as IDBGamePrivateUser
+    const user = await DB.GamePrivateUser.findOne({ _id: userID, game: game._id }).select('_id') as IDBGamePrivateUser
     if(!user) throw 'Người chơi không tồn tại'
 
     // Update

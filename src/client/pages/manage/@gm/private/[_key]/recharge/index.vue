@@ -308,5 +308,5 @@ const delAction = async (_id) => {
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

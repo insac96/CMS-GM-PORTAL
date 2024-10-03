@@ -68,6 +68,7 @@ export interface IDBGamePrivate {
   statistic: {
     play: number
     view: number
+    user: number
   }
 
   manager: Array<Types.ObjectId>

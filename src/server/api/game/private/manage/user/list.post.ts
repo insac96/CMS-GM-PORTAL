@@ -24,12 +24,40 @@ export default defineEventHandler(async (event) => {
       match['user'] = { $in: users.map(i => i._id) }
     }
 
-    const list = await DB.GamePrivateUser
-    .find(match)
-    .populate({ path: 'user', select: 'username' })
-    .sort(sorting)
-    .limit(size)
-    .skip((current - 1) * size)
+    const list = await DB.GamePrivateUser.aggregate([
+      { $match: match },
+      {
+        $lookup: {
+          from: "User",
+          localField: "user",
+          foreignField: "_id",
+          pipeline: [
+            { $project: { username: 1 }}
+          ],
+          as: "user"
+        }
+      },
+      { $unwind: { path: '$user'} },
+      {
+        $lookup: {
+          from: "GamePrivatePayment",
+          localField: "_id",
+          foreignField: "user",
+          pipeline: [
+            { $project: { coin: 1 }}
+          ],
+          as: "payments"
+        }
+      },
+      { 
+        $addFields: { 
+          payments: { $sum: '$payments.coin' }
+        }
+      },
+      { $sort: sorting },
+      { $skip: (current - 1) * size },
+      { $limit: size },
+    ])
 
     const total = await DB.GamePrivateUser.count(match)
     return resp(event, { result: { list, total } })

@@ -17,11 +17,8 @@ export default defineEventHandler(async (event) => {
     .select('_id') as IDBGamePrivateUser
     if(!!userGame) throw 'Bạn đã đăng ký trò chơi này rồi'
 
-    const newUserGame = await DB.GamePrivateUser.create({
-      game: game._id, 
-      user: auth._id
-    })
-
+    const newUserGame = await DB.GamePrivateUser.create({ game: game._id, user: auth._id })
+    await DB.GamePrivate.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
     return resp(event, { result: newUserGame })
   } 
   catch (e:any) {

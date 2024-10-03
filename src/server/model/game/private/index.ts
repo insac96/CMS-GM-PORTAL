@@ -73,6 +73,7 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
     statistic: {
       play: { type: Number, index: true, default: 0 },
       view: { type: Number, index: true, default: 0 },
+      user: { type: Number, index: true, default: 0 },
     },
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

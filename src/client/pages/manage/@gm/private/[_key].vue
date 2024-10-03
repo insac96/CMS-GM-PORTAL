@@ -56,11 +56,11 @@
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Khuyến mãi nạp</UiText>
-              <UiText weight="semibold" size="sm">{{ useRate().data(game.rate.payment).number }}%</UiText>
+              <UiText weight="semibold" size="sm">+{{ useRate().data(game.rate.payment).number }}%</UiText>
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Giảm giá</UiText>
-              <UiText weight="semibold" size="sm">{{ useRate().data(game.rate.shop).number }}%</UiText>
+              <UiText weight="semibold" size="sm">-{{ useRate().data(game.rate.shop).number }}%</UiText>
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Cập nhật cuối</UiText>
@@ -399,7 +399,7 @@ const actions = (row) => [
 const menus = (row) => [
   [
     {
-      label: 'Doanh thu',
+      label: 'Thống kê',
       icon: 'i-bx-stats',
       click: () => navigateTo(`/manage/@gm/private/${row.key}`)
     },{
@@ -439,6 +439,11 @@ const menus = (row) => [
       click: () => navigateTo(`/manage/@gm/private/${row.key}/shop/pack`)
     },
   ],[
+    {
+      label: 'Sự kiện',
+      icon: 'i-bx-calendar',
+      click: () => navigateTo(`/manage/@gm/private/${row.key}/event`)
+    },
     {
       label: 'Giftcode',
       icon: 'i-bx-barcode',

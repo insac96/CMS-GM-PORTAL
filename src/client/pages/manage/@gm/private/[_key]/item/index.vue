@@ -134,5 +134,5 @@ const addAction = async () => {
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

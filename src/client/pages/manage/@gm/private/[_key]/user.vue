@@ -23,18 +23,26 @@
           </UBadge>
         </template>
 
-        <template #recharge-data="{ row }">
-          <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.recharge"></UiIcon>
-          <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
+        <template #[`currency.gcoin-data`]="{ row }">
+          {{ toMoney(row.currency.gcoin || 0) }}
         </template>
 
-        <template #mail-data="{ row }">
-          <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.mail"></UiIcon>
-          <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
+        <template #payments-data="{ row }">
+          {{ toMoney(row.payments || 0) }}
+        </template>
+
+        <template #block-data="{ row }">
+          <UBadge :color="row.block == 1 ? 'red' : 'gray'" variant="soft">{{ row.block == 1 ? 'Có' : 'Không' }}</UBadge>
         </template>
 
         <template #createdAt-data="{ row }">
           {{ useDayJs().displayFull(row.createdAt) }}
+        </template>
+
+        <template #actions-data="{ row }">
+          <UDropdown :items="actions(row)">
+            <UButton color="gray" icon="i-bx-dots-horizontal-rounded" />
+          </UDropdown>
         </template>
       </UTable>
     </UCard>
@@ -62,7 +70,7 @@
     <!-- Modal Edit Currency-->
     <UModal v-model="modal.editCurrency" preventClose>
       <UForm :state="stateEditCurrency" @submit="editCurrencyAction" class="p-4">
-        <UFormGroup label="Xu Web">
+        <UFormGroup label="GCoin">
           <UInput v-model="stateEditCurrency.plus.gcoin" type="number" v-if="stateEditCurrency.type == 'plus'" />
           <UInput v-model="stateEditCurrency.origin.gcoin" type="number" v-if="stateEditCurrency.type == 'origin'" />
         </UFormGroup>
@@ -110,7 +118,7 @@
         </UFormGroup>
 
 				<UFormGroup label="Tuần">
-          <UInput v-model="stateEditSpend.spend.day.gcoin" type="number" />
+          <UInput v-model="stateEditSpend.spend.week.gcoin" type="number" />
         </UFormGroup>
 
         <UFormGroup label="Tháng">
@@ -154,6 +162,7 @@
 
 <script setup>
 const game = useAttrs().game
+const { toMoney } = useMoney()
 
 // List
 const list = ref([])
@@ -166,21 +175,14 @@ const columns = [
   },{
     key: 'block',
     label: 'Khóa',
+    sortable: true
   },{
     key: 'currency.gcoin',
     label: 'Xu Game',
 		sortable: true
   },{
-    key: 'pay.total.gcoin',
+    key: 'payments',
     label: 'Tổng nạp',
-		sortable: true
-  },{
-    key: 'spend.total.gcoin',
-    label: 'Tổng tiêu',
-		sortable: true
-  },{
-    key: 'login.total',
-    label: 'Đăng nhập',
 		sortable: true
   },{
     key: 'createdAt',
@@ -275,6 +277,59 @@ const loading = ref({
   load: true,
 	edit: false
 })
+
+const actions = (row) => [
+  [{
+    label: 'Sửa thông tin',
+    icon: 'i-bx-pencil',
+    click: () => {
+      Object.keys(stateEditAuth.value).forEach(key => stateEditAuth.value[key] = row[key])
+      stateEditAuth.value._id = row._id
+      modal.value.editAuth = true
+    }
+  }],[{
+    label: 'Thêm GCoin',
+    icon: 'i-bx-coin-stack',
+    click: () => {
+      stateEditCurrency.value._id = row._id
+      stateEditCurrency.value.type = 'plus'
+      modal.value.editCurrency = true
+    }
+  },{
+    label: 'Sửa GCoin',
+    icon: 'i-bx-coin',
+    click: () => {
+      Object.keys(stateEditCurrency.value.origin).forEach(key => stateEditCurrency.value.origin[key] = row[key])
+      stateEditCurrency.value._id = row._id
+      stateEditCurrency.value.type = 'origin'
+      modal.value.editCurrency = true
+    }
+  }],[{
+    label: 'Sửa tích nạp',
+    icon: 'i-bx-wallet',
+    click: () => {
+      stateEditPay.value.pay = JSON.parse(JSON.stringify(row.pay))
+      stateEditPay.value._id = row._id
+      modal.value.editPay = true
+    }
+  },{
+    label: 'Sửa tiêu phí',
+    icon: 'i-bx-wallet-alt',
+    click: () => {
+      stateEditSpend.value.spend = JSON.parse(JSON.stringify(row.spend))
+      stateEditSpend.value._id = row._id
+      modal.value.editSpend = true
+    }
+  },{
+    label: 'Sửa đăng nhập',
+    icon: 'i-bx-calendar',
+    click: () => {
+      stateEditLogin.value.login = JSON.parse(JSON.stringify(row.login))
+      stateEditLogin.value._id = row._id
+      modal.value.editLogin = true
+    }
+  }]
+]
  
 // Fetch
 const getList = async () => {
@@ -308,7 +363,7 @@ const editAuthAction = async () => {
 const editCurrencyAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('game/private/manage/user/edit/auth/currency', JSON.parse(JSON.stringify(stateEditCurrency.value)))
+    await useAPI('game/private/manage/user/edit/currency', JSON.parse(JSON.stringify(stateEditCurrency.value)))
 
     loading.value.edit = false
     modal.value.editCurrency = false
@@ -336,7 +391,7 @@ const editPayAction = async () => {
 const editSpendAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('game/private/manage/user/edit/auth/spend', JSON.parse(JSON.stringify(stateEditSpend.value)))
+    await useAPI('game/private/manage/user/edit/spend', JSON.parse(JSON.stringify(stateEditSpend.value)))
 
     loading.value.edit = false
     modal.value.editSpend = false
@@ -350,7 +405,7 @@ const editSpendAction = async () => {
 const editLoginAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('game/private/manage/user/edit/auth/login', JSON.parse(JSON.stringify(stateEditLogin.value)))
+    await useAPI('game/private/manage/user/edit/login', JSON.parse(JSON.stringify(stateEditLogin.value)))
 
     loading.value.edit = false
     modal.value.editLogin = false
@@ -361,5 +416,5 @@ const editLoginAction = async () => {
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>
