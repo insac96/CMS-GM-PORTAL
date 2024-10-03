@@ -1,6 +1,6 @@
 <template>
   <div class="relative h-full min-h-full">
-    <LayoutGmToolHeader />
+    <LayoutGmHeader />
 
     <UContainer class="py-4">
       <slot></slot>

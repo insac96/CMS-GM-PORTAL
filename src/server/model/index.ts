@@ -8,9 +8,26 @@ import { DBPayment } from './payment'
 import { DBSpend } from './spend'
 import { DBNotifyUser } from './notify'
 import { 
-  DBGamePlatform, DBGameCategory, 
-  DBGameTool, DBGameToolUser, DBGameToolRecharge, DBGameToolItem,
-  DBGameChina, DBGameChinaUser, DBGameChinaPayment 
+  DBGamePlatform, 
+  DBGameCategory, 
+
+  DBGameTool, 
+  DBGameToolUser, 
+  DBGameToolRecharge, 
+  DBGameToolItem,
+
+  DBGameChina, 
+  DBGameChinaUser, 
+  DBGameChinaPayment,
+
+  DBGamePrivate,
+  DBGamePrivateUser, DBGamePrivateUserLogin,
+  DBGamePrivatePayment,
+  DBGamePrivateRecharge, DBGamePrivateRechargeHistory,
+  DBGamePrivateItem, DBGamePrivateItemBox,
+  DBGamePrivateShopItem, DBGamePrivateShopItemHistory,
+  DBGamePrivateShopPack, DBGamePrivateShopPackHistory,
+  DBGamePrivateGiftcode, DBGamePrivateGiftcodeHistory,
 } from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
@@ -43,6 +60,21 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GameChina: DBGameChina(mongoose),
     GameChinaUser: DBGameChinaUser(mongoose),
     GameChinaPayment: DBGameChinaPayment(mongoose),
+
+    GamePrivate: DBGamePrivate(mongoose),
+    GamePrivateUser: DBGamePrivateUser(mongoose),
+    GamePrivateUserLogin: DBGamePrivateUserLogin(mongoose),
+    GamePrivatePayment: DBGamePrivatePayment(mongoose),
+    GamePrivateRecharge: DBGamePrivateRecharge(mongoose),
+    GamePrivateRechargeHistory: DBGamePrivateRechargeHistory(mongoose),
+    GamePrivateItem: DBGamePrivateItem(mongoose),
+    GamePrivateItemBox: DBGamePrivateItemBox(mongoose),
+    GamePrivateShopItem: DBGamePrivateShopItem(mongoose),
+    GamePrivateShopItemHistory: DBGamePrivateShopItemHistory(mongoose),
+    GamePrivateShopPack: DBGamePrivateShopPack(mongoose),
+    GamePrivateShopPackHistory: DBGamePrivateShopPackHistory(mongoose),
+    GamePrivateGiftcode: DBGamePrivateGiftcode(mongoose),
+    GamePrivateGiftcodeHistory: DBGamePrivateGiftcodeHistory(mongoose),
 
     LogAdmin: DBLogAdmin(mongoose),
     LogUser: DBLogUser(mongoose),

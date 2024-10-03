@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
 
     delete body['_id']
     await DB.GameTool.updateOne({ _id: _id }, { play: body })
-    logAdmin(event, `Sửa thông tin link chơi trò chơi Tool <b>${game.name}</b>`)
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

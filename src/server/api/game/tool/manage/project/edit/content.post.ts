@@ -12,7 +12,6 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
 
     await DB.GameTool.updateOne({ _id: _id },{ content: content })
-    logAdmin(event, `Sửa nội dung giới thiệu trò chơi <b>${game.name}</b>`)
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

@@ -1,5 +1,6 @@
 import type { Types } from 'mongoose'
 import type { IDBUser } from '../user'
+import type { IDBGamePlatform, IDBGameCategory } from '../game'
 
 export interface IDBGameTool {
   _id: Types.ObjectId

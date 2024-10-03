@@ -12,7 +12,6 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
 
     await DB.GameChina.updateOne({ _id: _id },{ content: content })
-    logAdmin(event, `Sửa nội dung giới thiệu trò chơi China <b>${game.name}</b>`)
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

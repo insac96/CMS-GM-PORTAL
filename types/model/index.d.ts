@@ -7,9 +7,26 @@ export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
 export { IDBNotifyUser } from './notify'
 export { 
-  IDBGamePlatform, IDBGameCategory, 
-  IDBGameTool, IDBGameToolUser, IDBGameToolRecharge, IDBGameToolItem,
-  IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment 
+  IDBGamePlatform, 
+  IDBGameCategory, 
+
+  IDBGameTool, 
+  IDBGameToolUser, 
+  IDBGameToolRecharge, 
+  IDBGameToolItem,
+
+  IDBGameChina, 
+  IDBGameChinaUser, 
+  IDBGameChinaPayment,
+
+  IDBGamePrivate,
+  IDBGamePrivateUser, IDBGamePrivateUserLogin,
+  IDBGamePrivatePayment,
+  IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
+  IDBGamePrivateItem, IDBGamePrivateItemBox,
+  IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
+  IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
+  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory
 } from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
@@ -41,6 +58,21 @@ export interface IGlobalDB {
   GameChina: Model<IDBGameChina>
   GameChinaUser: Model<IDBGameChinaUser>
   GameChinaPayment: Model<IDBGameChinaPayment>
+
+  GamePrivate: Model<IDBGamePrivate>
+  GamePrivateUser: Model<IDBGamePrivateUser>
+  GamePrivateUserLogin: Model<IDBGamePrivateUserLogin>
+  GamePrivatePayment: Model<IDBGamePrivatePayment>
+  GamePrivateRecharge: Model<IDBGamePrivateRecharge>
+  GamePrivateRechargeHistory: Model<IDBGamePrivateRechargeHistory>
+  GamePrivateItem: Model<IDBGamePrivateItem>
+  GamePrivateItemBox: Model<IDBGamePrivateItemBox>
+  GamePrivateShopItem: Model<IDBGamePrivateShopItem>
+  GamePrivateShopItemHistory: Model<IDBGamePrivateShopItemHistory>
+  GamePrivateShopPack: Model<IDBGamePrivateShopPack>
+  GamePrivateShopPackHistory: Model<IDBGamePrivateShopPackHistory>
+  GamePrivateGiftcode: Model<IDBGamePrivateGiftcode>
+  GamePrivateGiftcodeHistory: Model<IDBGamePrivateGiftcodeHistory>
 
   LogAdmin: Model<IDBLogAdmin>
   LogUser: Model<IDBLogUser>

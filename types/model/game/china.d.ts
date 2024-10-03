@@ -1,4 +1,6 @@
 import type { Types } from 'mongoose'
+import type { IDBUser } from '../user'
+import type { IDBGamePlatform, IDBGameCategory } from '../game'
 
 export interface IDBGameChina {
   _id: Types.ObjectId
@@ -53,7 +55,7 @@ export interface IDBGameChinaPayment {
   createdAt: Date
   updatedAt: Date
 
-  user: Types.ObjectId
+  user: Types.ObjectId | IDBUser
   game: Types.ObjectId | IDBGameChina
   code: string
   status: number

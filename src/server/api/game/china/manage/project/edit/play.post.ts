@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
 
     delete body['_id']
     await DB.GameChina.updateOne({ _id: _id }, { play: body })
-    logAdmin(event, `Sửa thông tin link chơi trò chơi China <b>${game.name}</b>`)
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

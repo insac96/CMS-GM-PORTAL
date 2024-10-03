@@ -39,7 +39,7 @@ export const DBGameChina = (mongoose : Mongoose) => {
     timestamps: true
   })
 
-  schema.index({ name: 'text', key: 'text' })
+  schema.index({ name: 'text', key: 'text', code: 'text' })
 
   const model = mongoose.model('GameChina', schema, 'GameChina')
   return model 

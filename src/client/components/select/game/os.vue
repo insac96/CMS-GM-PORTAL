@@ -34,7 +34,6 @@ const items = [{
 }, {
   label: 'Game Private',
   icon: 'i-fluent-games-28-filled',
-  disabled: true
 }, {
   label: 'Game China',
   icon: 'i-jam-gamepad-f',

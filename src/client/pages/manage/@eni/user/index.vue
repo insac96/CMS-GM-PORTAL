@@ -194,6 +194,7 @@ const stateEditAuth = ref({
 })
 
 const stateEditCurrency = ref({
+  _id: null,
   type: null,
   plus: {
     coin: 0,

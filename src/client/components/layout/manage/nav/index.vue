@@ -89,6 +89,7 @@ const navItems = [
       { label: 'Nền tảng', to: '/manage/@eni/game/platform' },
       { label: 'Thể loại', to: '/manage/@eni/game/category' },  
       { label: 'Game Tool', to: '/manage/@eni/game/tool' },
+      { label: 'Game Private', to: '/manage/@eni/game/private' },
       { label: 'Game China', to: '/manage/@eni/game/china' },
     ]
   },

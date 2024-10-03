@@ -16,8 +16,6 @@ export default defineEventHandler(async (event) => {
     await DB.GameToolItem.deleteMany({ game: game._id })
     await DB.GameTool.deleteOne({ _id: _id })
 
-    logAdmin(event, `Xóa trò chơi <b>${game.name}</b>`)
-
     return resp(event, { message: 'Xóa trò chơi thành công' })
   } 
   catch (e:any) {

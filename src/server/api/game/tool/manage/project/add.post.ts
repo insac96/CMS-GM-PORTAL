@@ -24,7 +24,6 @@ export default defineEventHandler(async (event) => {
 
     body.key = key
     await DB.GameTool.create(body)
-    logAdmin(event, `Thêm trò chơi <b>${name}</b>`)
 
     return resp(event, { message: 'Thêm trò chơi thành công' })
   } 

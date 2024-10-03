@@ -1,6 +1,16 @@
 import type { Types } from 'mongoose'
 export { IDBGameTool, IDBGameToolUser, IDBGameToolRecharge, IDBGameToolItem } from './tool'
 export { IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment } from './china'
+export {
+  IDBGamePrivate,
+  IDBGamePrivateUser, IDBGamePrivateUserLogin,
+  IDBGamePrivatePayment,
+  IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
+  IDBGamePrivateItem, IDBGamePrivateItemBox,
+  IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
+  IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
+  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory
+} from './private'
 
 export interface IDBGamePlatform {
   _id: Types.ObjectId

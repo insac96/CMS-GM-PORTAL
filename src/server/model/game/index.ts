@@ -2,6 +2,7 @@ import type { Mongoose } from 'mongoose'
 import type { IDBGamePlatform, IDBGameCategory } from '~~/types'
 export * from './tool'
 export * from './china'
+export * from './private'
 
 export const DBGamePlatform = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGamePlatform>({ 

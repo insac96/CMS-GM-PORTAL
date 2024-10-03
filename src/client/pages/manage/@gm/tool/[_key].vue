@@ -63,7 +63,6 @@
     <ManageGameToolRecharge :game="game._id" v-if="tab == 1" />
     <ManageGameToolItem :game="game._id" v-if="tab == 2" />
 
-
     <!-- Modal Edit Info -->
     <UModal v-model="modal.editInfo" preventClose>
       <UForm :state="stateEditInfo" @submit="editInfoAction" class="p-4">

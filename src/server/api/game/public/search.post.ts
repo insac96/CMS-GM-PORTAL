@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
     const gameDB = {
       'tool': DB.GameTool,
-      //'private': DB.GamePrivate,
+      'private': DB.GamePrivate,
       'china': DB.GameChina
     }
     // @ts-expect-error

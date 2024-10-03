@@ -1,5 +1,15 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGamePrivate } from '~~/types'
+import type { 
+  IDBGamePrivate, 
+  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory, 
+  IDBGamePrivateItem, IDBGamePrivateItemBox, 
+  IDBGamePrivatePayment, 
+  IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
+  IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory, 
+  IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory, 
+  IDBGamePrivateUser, 
+  IDBGamePrivateUserLogin 
+} from '~~/types'
 
 export const DBGamePrivate = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGamePrivate>({ 
@@ -22,6 +32,7 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
     ip: { type: String, default: '' },
     port: { type: Number, default: 80 },
     mobile: { type: Boolean, default: false },
+    paygame: { type: Boolean, default: false },
     secret: { type: String, default: '@Secret' },
     api: {
       start: { type: String, default: '' },
@@ -30,7 +41,38 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
       roles: { type: String, default: ''},
       mail: { type: String, default: '' },
       recharge: { type: String, default: '' },
+      level: { type: String, default: '' },
+      power: { type: String, default: '' },
       os: { type: String, default: '' },
+    },
+
+    play: {
+      web: { type: String, default: '' },
+      windows: { type: String, default: '' },
+      android: { type: String, default: '' },
+      ios: { type: String, default: '' },
+    },
+
+    rate: {
+      payment: {
+        default: { type: Number, default: 0 },
+        limit: {
+          number: { type: Number, default: 0 },
+          expired: { type: Date },
+        }
+      },
+      shop: {
+        default: { type: Number, default: 0 },
+        limit: {
+          number: { type: Number, default: 0 },
+          expired: { type: Date },
+        }
+      }
+    },
+
+    statistic: {
+      play: { type: Number, index: true, default: 0 },
+      view: { type: Number, index: true, default: 0 },
     },
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
@@ -41,8 +83,298 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
     timestamps: true
   })
 
-  schema.index({ name: 'text', key: 'text' })
+  schema.index({ name: 'text', key: 'text', code: 'text' })
 
   const model = mongoose.model('GamePrivate', schema, 'GamePrivate')
   return model 
 }
+
+// User
+export const DBGamePrivateUser = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateUser>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    block: { type: Boolean, index: true, default: false },
+
+    currency: {
+      gcoin: { type: Number, index: true, default: 0 },
+    },
+
+    pay: {
+      day: {
+        coin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      week: {
+        coin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      month: {
+        coin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      total: {
+        coin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      running: {
+        day: { type: Number, index: true, default: 0 },
+        receive: { type: Number, index: true, default: 0 },
+      },
+      musty: Array<number>
+    },
+
+    spend: {
+      day: {
+        gcoin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      week: {
+        gcoin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      month: {
+        gcoin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      },
+      total: {
+        gcoin: { type: Number, index: true, default: 0 },
+        count: { type: Number, index: true, default: 0 },
+      }
+    },
+
+    login: {
+      week: { type: Number, index: true, default: 0 },
+      month: { type: Number, index: true, default: 0 },
+      total: { type: Number, index: true, default: 0 },
+    }
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateUser', schema, 'GamePrivateUser')
+  return model 
+}
+
+export const DBGamePrivateUserLogin = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateUserLogin>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateUserLogin', schema, 'GamePrivateUserLogin')
+  return model 
+}
+
+// Payment
+export const DBGamePrivatePayment = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivatePayment>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    code: { type: String },
+    coin: { type: Number, index: true, default: 0 },
+    gcoin: { type: Number, index: true, default: 0 },
+  }, {
+    timestamps: true
+  })
+
+  schema.index({ code: 'text' })
+
+  const model = mongoose.model('GamePrivatePayment', schema, 'GamePrivatePayment')
+  return model 
+}
+
+// Recharge
+export const DBGamePrivateRecharge = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateRecharge>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    recharge_id: { type: String },
+    recharge_name: { type: String },
+    save_pay: { type: Number, default: 0 },
+    price: { type: Number, default: 0 },
+    pin: { type: Boolean, default: false },
+    display: { type: Boolean, default: true },
+  }, {
+    timestamps: true
+  })
+
+  schema.index({ recharge_id: 'text', recharge_name: 'text' })
+  const model = mongoose.model('GamePrivateRecharge', schema, 'GamePrivateRecharge')
+  return model 
+}
+
+export const DBGamePrivateRechargeHistory = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateRechargeHistory>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    recharge: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateRecharge' },
+
+    price: { type: Number },
+    server: { type: String },
+    role: { type: String },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateRechargeHistory', schema, 'GamePrivateRechargeHistory')
+  return model 
+}
+
+// Item
+export const DBGamePrivateItem = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateItem>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    item_id: { type: String },
+    item_name: { type: String },
+    item_image: { type: String }
+  }, {
+    timestamps: true
+  })
+  
+  schema.index({ item_id: 'text', item_name: 'text' })
+  const model = mongoose.model('GamePrivateItem', schema, 'GamePrivateItem')
+  return model 
+}
+
+export const DBGamePrivateItemBox = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateItemBox>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    name: { type: String },
+    gift: [{
+      item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
+      amount: { type: Number, index: true },
+    }]
+  }, {
+    timestamps: true
+  })
+  
+  schema.index({ name: 'text' })
+  const model = mongoose.model('GamePrivateItemBox', schema, 'GamePrivateItemBox')
+  return model 
+}
+
+// Shop Item
+export const DBGamePrivateShopItem = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateShopItem>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
+
+    amount: { type: Number, default: 0 },
+    price: { type: Number, default: 0 },
+    limit: { type: Number, default: 0 },
+    pin: { type: Boolean, default: false },
+    display: { type: Boolean, default: true },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateShopItem', schema, 'GamePrivateShopItem')
+  return model 
+}
+
+export const DBGamePrivateShopItemHistory = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateShopItemHistory>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
+
+    price: { type: Number },
+    amount: { type: Number },
+    server: { type: String },
+    role: { type: String },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateShopItemHistory', schema, 'GamePrivateShopItemHistory')
+  return model 
+}
+
+// Shop Pack
+export const DBGamePrivateShopPack = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateShopPack>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    name: { type: String },
+    gift: [{
+      item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
+      amount: { type: Number, index: true },
+    }],
+    price: { type: Number, default: 0 },
+    limit: { type: Number, default: 0 },
+    pin: { type: Boolean, default: false },
+    display: { type: Boolean, default: true },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateShopPack', schema, 'GamePrivateShopPack')
+  return model 
+}
+
+export const DBGamePrivateShopPackHistory = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateShopPackHistory>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    pack: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateShopPack' },
+
+    price: { type: Number },
+    amount: { type: Number },
+    server: { type: String },
+    role: { type: String },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateShopPackHistory', schema, 'GamePrivateShopPackHistory')
+  return model 
+}
+
+// Giftcode
+export const DBGamePrivateGiftcode = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateGiftcode>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    code: { type: String },
+    servers: [{ type: String }],
+    users:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    gift: [{
+      item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
+      amount: { type: Number, index: true },
+    }],
+    limit: { type: Number, default: 0 },
+    expired: { type: Date },
+    public: { type: Boolean, default: false },
+    justone: { type: Boolean, default: false },
+    display: { type: Boolean, default: true },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateGiftcode', schema, 'GamePrivateGiftcode')
+  return model 
+}
+
+export const DBGamePrivateGiftcodeHistory = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateGiftcodeHistory>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    giftcode: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateGiftcode' },
+
+    server: { type: String },
+    role: { type: String },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateGiftcodeHistory', schema, 'GamePrivateGiftcodeHistory')
+  return model 
+}
+
