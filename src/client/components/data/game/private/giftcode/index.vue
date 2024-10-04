@@ -40,6 +40,16 @@
         <UButton type="submit" :loading="loading.receive" :disabled="!!loading.check" v-if="!!giftcode">Nhận Thưởng</UButton>
       </UiFlex>
     </UForm>
+
+    <UModal v-model="modal.history" prevent-close :ui="{width: 'sm:max-w-[700px]'}">
+      <UiContent title="Lịch Sử" sub="Các mã Giftcode đã nhập" no-dot class="p-4">
+        <template #more>
+          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.history = false"></UButton>
+        </template>
+
+        <DataGamePrivateGiftcodeHistory :game="props.game.key" />
+      </UiContent>
+    </UModal>
   </UiContent>
 </template>
 
