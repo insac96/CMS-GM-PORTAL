@@ -5,14 +5,14 @@
   }">
     <template #header>
       <UiFlex justify="between">
-        <SelectItemBox @change="mergeGift" class="min-w-[180px] mr-2" />
+        <SelectGamePrivateItemBox @change="mergeGift" :game="props.game" class="min-w-[180px] mr-2" />
         <UButton color="gray" @click="modal.add = true">Thêm mới</UButton>
       </UiFlex>
     </template>
 
     <UTable :columns="columns" :rows="list">
       <template #image-data="{ row }">
-        <DataItemImage :src="row.image" :type="row.type" />
+        <DataGamePrivateItemImage :src="row.item_image" size="40" />
       </template>
 
       <template #amount-data="{ row }">
@@ -29,7 +29,7 @@
     <UModal v-model="modal.add" preventClose>
       <UForm @submit="addAction" class="p-4">
         <UFormGroup label="Vật phẩm">
-          <SelectItem v-model="stateAdd._id" v-model:itemData="stateAdd.item" :types="types" />
+          <SelectGamePrivateItem v-model="stateAdd._id" v-model:itemData="stateAdd.item" :game="props.game" />
         </UFormGroup>
 
         <UFormGroup label="Số lượng">
@@ -47,7 +47,7 @@
     <UModal v-model="modal.edit" preventClose>
       <UForm @submit="editAction" class="p-4">
         <UFormGroup label="Vật phẩm">
-          <UInput v-model="stateEdit.name" readonly />
+          <UInput v-model="stateEdit.item_name" readonly />
         </UFormGroup>
 
         <UFormGroup label="Số lượng">
@@ -64,10 +64,10 @@
 </template>
 
 <script setup>
-const toast = useToast()
+const { error } = useNotify()
 const props = defineProps({
   modelValue: Array,
-  types: { type: Array, default: () => [] }
+  game: String
 })
 const emit = defineEmits(['update:modelValue'])
 const list = ref(props.modelValue || [])
@@ -77,7 +77,7 @@ const columns = [
     key: 'image',
     label: 'Vật phẩm',
   },{
-    key: 'name',
+    key: 'item_name',
     label: 'Tên',
   },{
     key: 'amount',
@@ -96,7 +96,7 @@ const stateAdd = ref({
 
 const stateEdit = ref({
   index: null,
-  name: null,
+  item_name: null,
   amount: null
 })
 
@@ -111,18 +111,9 @@ watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
   amount: 1
 }))
 
-const showError = (text) => {
-  toast.add({
-    title: 'Lỗi',
-    description: text,
-    icon: 'i-bx-error',
-    color: 'red'
-  })
-}
-
 const openEdit = (row, index) => {
   stateEdit.value.index = index
-  stateEdit.value.name = row.name
+  stateEdit.value.item_name = row.item_name
   stateEdit.value.amount = row.amount
   modal.value.edit = true
 }
@@ -162,7 +153,7 @@ const addAction = () => {
     modal.value.add = false
   }
   catch (e) {
-    showError(e.toString())
+    error(e.toString())
   }
 }
 
@@ -177,7 +168,7 @@ const editAction = () => {
     modal.value.edit = false
   }
   catch (e) {
-    showError(e.toString())
+    error(e.toString())
   }
 }
 
@@ -189,7 +180,7 @@ const delAction = (index) => {
     emit('update:modelValue', list.value)
   }
   catch (e) {
-    showError(e.toString())
+    error(e.toString())
   }
 }
 </script>

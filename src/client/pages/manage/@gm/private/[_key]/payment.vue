@@ -69,11 +69,11 @@ const columns = [
     label: 'Tài khoản',
   },{
     key: 'coin',
-    label: 'Xu Web',
+    label: 'Xu Mua',
     sortable: true
   },{
-    key: 'coin',
-    label: 'Xu Game',
+    key: 'gcoin',
+    label: 'GCoin nhận',
     sortable: true
   },{
     key: 'createdAt',

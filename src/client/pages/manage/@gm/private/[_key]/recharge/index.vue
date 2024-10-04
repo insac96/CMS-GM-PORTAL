@@ -1,5 +1,5 @@
 <template>
-  <UiContent title="Gói Nạp" sub="Danh sách gói nạp trong trò chơi">
+  <UiContent title="Gói Nạp" sub="Danh sách gói nạp trong trò chơi" no-dot>
 		<template #more>
 			<UButton 
 				icon="i-bx-time" 
@@ -38,11 +38,11 @@
         </template>
 
 				<template #pin-data="{ row }">
-          <UBadge :color="row.pin == 1 ? 'green' : 'gray'" variant="soft">{{ row.pin == 1 ? 'Có' : 'Không' }}</UBadge>
+          <UBadge :color="!!row.pin ? 'green' : 'gray'" variant="soft">{{ !!row.pin  ? 'Có' : 'Không' }}</UBadge>
         </template>
 
         <template #display-data="{ row }">
-          <UBadge :color="row.display == 1 ? 'green' : 'gray'" variant="soft">{{ row.display == 1 ? 'Hiện' : 'Ẩn' }}</UBadge>
+          <UBadge :color="!!row.display ? 'green' : 'gray'" variant="soft">{{ !!row.display ? 'Hiện' : 'Ẩn' }}</UBadge>
         </template>
 
         <template #actions-data="{ row }">
@@ -234,7 +234,7 @@ const loading = ref({
 // Actions
 const actions = (row) => [
   [{
-    label: 'Sửa thông tin',
+    label: 'Sửa gói nạp',
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
@@ -242,7 +242,7 @@ const actions = (row) => [
       modal.value.edit = true
     }
   }],[{
-    label: 'Xóa gói',
+    label: 'Xóa gói nạp',
     icon: 'i-bx-trash',
     click: async () => {
       Object.keys(stateDel.value).forEach(key => stateDel.value[key] = row[key])

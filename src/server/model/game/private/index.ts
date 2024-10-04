@@ -196,10 +196,10 @@ export const DBGamePrivateRecharge = (mongoose : Mongoose) => {
 
     recharge_id: { type: String },
     recharge_name: { type: String },
-    save_pay: { type: Number, default: 0 },
-    price: { type: Number, default: 0 },
-    pin: { type: Boolean, default: false },
-    display: { type: Boolean, default: true },
+    save_pay: { type: Number, default: 0, index: true },
+    price: { type: Number, default: 0, index: true },
+    pin: { type: Boolean, default: false, index: true },
+    display: { type: Boolean, default: true, index: true },
   }, {
     timestamps: true
   })
@@ -267,11 +267,11 @@ export const DBGamePrivateShopItem = (mongoose : Mongoose) => {
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
     item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
 
-    amount: { type: Number, default: 0 },
-    price: { type: Number, default: 0 },
-    limit: { type: Number, default: 0 },
-    pin: { type: Boolean, default: false },
-    display: { type: Boolean, default: true },
+    amount: { type: Number, default: 0, index: true },
+    price: { type: Number, default: 0, index: true },
+    limit: { type: Number, default: 0, index: true },
+    pin: { type: Boolean, default: false, index: true },
+    display: { type: Boolean, default: true, index: true },
   }, {
     timestamps: true
   })
@@ -286,8 +286,8 @@ export const DBGamePrivateShopItemHistory = (mongoose : Mongoose) => {
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
     item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
 
-    price: { type: Number },
-    amount: { type: Number },
+    price: { type: Number, index: true },
+    amount: { type: Number, index: true },
     server: { type: String },
     role: { type: String },
   }, {
@@ -308,13 +308,15 @@ export const DBGamePrivateShopPack = (mongoose : Mongoose) => {
       item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
       amount: { type: Number, index: true },
     }],
-    price: { type: Number, default: 0 },
-    limit: { type: Number, default: 0 },
-    pin: { type: Boolean, default: false },
-    display: { type: Boolean, default: true },
+    price: { type: Number, default: 0, index: true },
+    limit: { type: Number, default: 0, index: true },
+    pin: { type: Boolean, default: false, index: true },
+    display: { type: Boolean, default: true, index: true },
   }, {
     timestamps: true
   })
+
+  schema.index({ name: 'text' })
 
   const model = mongoose.model('GamePrivateShopPack', schema, 'GamePrivateShopPack')
   return model 
@@ -326,8 +328,8 @@ export const DBGamePrivateShopPackHistory = (mongoose : Mongoose) => {
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
     pack: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateShopPack' },
 
-    price: { type: Number },
-    amount: { type: Number },
+    price: { type: Number, index: true },
+    amount: { type: Number, index: true },
     server: { type: String },
     role: { type: String },
   }, {
@@ -345,19 +347,21 @@ export const DBGamePrivateGiftcode = (mongoose : Mongoose) => {
 
     code: { type: String },
     servers: [{ type: String }],
-    users:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     gift: [{
       item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
       amount: { type: Number, index: true },
     }],
-    limit: { type: Number, default: 0 },
-    expired: { type: Date },
-    public: { type: Boolean, default: false },
-    justone: { type: Boolean, default: false },
-    display: { type: Boolean, default: true },
+    limit: { type: Number, default: 0, index: true },
+    expired: { type: Date, index: true },
+    public: { type: Boolean, default: false, index: true },
+    justone: { type: Boolean, default: false, index: true },
+    display: { type: Boolean, default: true, index: true },
   }, {
     timestamps: true
   })
+
+  schema.index({ code: 'text' })
 
   const model = mongoose.model('GamePrivateGiftcode', schema, 'GamePrivateGiftcode')
   return model 

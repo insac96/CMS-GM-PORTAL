@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
           username : { $regex : search.key.toLowerCase(), $options : 'i' }
         }).select('_id')
         const usersGame = await DB.GamePrivateUser.find({
-          user: { $in: users.map(i => i._id) }
+          user: { $in: users.map(i => i._id) },
+          game: game._id
         }).select('_id')
         
         match['user'] = { $in: usersGame.map(i => i._id) }

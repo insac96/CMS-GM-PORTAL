@@ -31,17 +31,17 @@
 
         <!-- Statistic -->
         <UiFlex class="my-4" justify="center">
-          <UiFlex type="col" class="grow border-r">
+          <UiFlex type="col" class="grow">
             <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.view) }}</UiText>
             <UiText color="gray" size="xs">Lượt xem</UiText>
           </UiFlex>
 
-          <UiFlex type="col" class="grow border-l">
+          <UiFlex type="col" class="grow border-l border-r">
             <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.play) }}</UiText>
             <UiText color="gray" size="xs">Lượt chơi</UiText>
           </UiFlex>
 
-          <UiFlex type="col" class="grow border-l">
+          <UiFlex type="col" class="grow">
             <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.user) }}</UiText>
             <UiText color="gray" size="xs">Người chơi</UiText>
           </UiFlex>
@@ -62,6 +62,11 @@
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Giảm giá cửa hàng</UiText>
             <UiText weight="semibold" size="sm">-{{ useRate().data(game.rate.shop).number }}%</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3" v-if="!!game.user">
+            <UiText weight="semibold" color="gray" size="sm">GCoin của bạn</UiText>
+            <UiText weight="semibold" size="sm">{{ toMoney(game.user.currency.gcoin) }}</UiText>
           </UiFlex>
         </div>
 
@@ -89,13 +94,22 @@
     </div>
 
     <!--Payment-->
-    <UModal v-model="modal.payment" prevent-close>
-      
+    <UModal v-model="modal.payment" prevent-close :ui="{width: 'sm:max-w-[800px]'}">
+      <DataGamePrivatePayment 
+        :game="game" 
+        @close="modal.payment = false" 
+        @done="donePayment"
+        class="p-4"
+      /> 
     </UModal>
 
     <!--Giftcode-->
     <UModal v-model="modal.giftcode" prevent-close>
-
+      <DataGamePrivateGiftcode
+        :game="game" 
+        @close="modal.giftcode = false" 
+        class="p-4"
+      /> 
     </UModal>
 
     <!--Play-->
@@ -187,6 +201,11 @@ const action = (key) => {
   modal.value[key] = true
 }
 
+const donePayment = async () => {
+  await authStore.setAuth()
+  await getUser()
+}
+
 const playUrl = async (type) => {
   try {
     loading.value.play = true
@@ -218,6 +237,7 @@ const playUrl = async (type) => {
 
 const regGame = async () => {
   try {
+    if(!authStore.isLogin) return authStore.setModal(true)
     loading.value.reg = true
     const data = await useAPI('game/private/public/project/reg', {
       game: game.value.code
@@ -227,7 +247,20 @@ const regGame = async () => {
     loading.value.reg = false
   }
   catch(e){
-    loading.value.reg = true
+    loading.value.reg = false
+  }
+}
+
+const getUser = async () => {
+  try {
+    const data = await useAPI('game/private/public/user/get', {
+      game: game.value.code
+    })
+
+    game.value.user = data
+  }
+  catch(e){
+    return false
   }
 }
 

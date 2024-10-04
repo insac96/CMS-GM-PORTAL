@@ -1,4 +1,4 @@
-interface IDBGameTool {
+interface IData {
   default: any
   limit: {
     number: any
@@ -7,7 +7,7 @@ interface IDBGameTool {
 }
 
 export const useRate = () => {
-  const data = (data : IDBGameTool) => {
+  const data = (data : IData) => {
     let number = 0
     let time : any = ''
     const defaultRate = parseInt(data.default || 0)

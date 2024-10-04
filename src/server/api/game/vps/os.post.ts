@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
 
     let DBSelect : any
     if(type == 'tool') DBSelect = DB.GameTool
+    if(type == 'private') DBSelect = DB.GamePrivate
 
     const game = await DBSelect.findOne({ code: code, display: true }).select('_id ip api secret')
     if(!game) throw 'Trò chơi không tồn tại'

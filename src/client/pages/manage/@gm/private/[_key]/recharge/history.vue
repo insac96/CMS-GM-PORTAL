@@ -1,5 +1,16 @@
 <template>
-  <UiContent title="Lịch Sử Mua Gói Nạp" sub="Danh sách giao dịch mua gói nạp của người chơi">
+  <UiContent title="Lịch Sử Mua Gói Nạp" sub="Giao dịch mua gói nạp của người chơi" no-dot>
+    <template #more>
+			<UButton 
+				icon="i-bx-list-ul" 
+				size="xs" 
+				class="ml-auto"
+				:to="`/manage/@gm/private/${game.key}/recharge`"
+			>
+				Danh sách
+			</UButton>
+		</template>
+
     <UiFlex class="mb-4 gap-1">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
       <UForm :state="page" @submit="page.current = 1, getList()">

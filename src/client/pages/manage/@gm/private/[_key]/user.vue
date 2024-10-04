@@ -178,7 +178,7 @@ const columns = [
     sortable: true
   },{
     key: 'currency.gcoin',
-    label: 'Xu Game',
+    label: 'GCoin',
 		sortable: true
   },{
     key: 'payments',

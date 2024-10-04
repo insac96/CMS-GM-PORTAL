@@ -18,6 +18,9 @@
         :columns="selectedColumns" 
         :rows="list"
       >
+        <template #item_image-data="{ row }">
+          <DataGamePrivateItemImage :src="row.item_image" :game="game.code" :size="45" />
+        </template>
       </UTable>
     </UCard>
 

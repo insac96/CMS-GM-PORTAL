@@ -23,7 +23,6 @@
 const props = defineProps({
   game: String,
   src: String,
-  type: [ String, Number ],
   size: { type: [ String, Number, undefined ], default: 55 }
 })
 

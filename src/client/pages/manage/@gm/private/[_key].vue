@@ -34,14 +34,19 @@
           </UiFlex>
 
           <UiFlex class="my-4" justify="center">
-            <UiFlex type="col" class="grow border-r">
+            <UiFlex type="col" class="grow">
               <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.view) }}</UiText>
               <UiText color="gray" size="xs">Lượt xem</UiText>
             </UiFlex>
 
-            <UiFlex type="col" class="grow border-l">
+            <UiFlex type="col" class="grow border-l border-r">
               <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.play) }}</UiText>
               <UiText color="gray" size="xs">Lượt chơi</UiText>
+            </UiFlex>
+
+            <UiFlex type="col" class="grow">
+              <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.user) }}</UiText>
+              <UiText color="gray" size="xs">Người chơi</UiText>
             </UiFlex>
           </UiFlex>
 

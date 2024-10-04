@@ -2,26 +2,26 @@
   <USelectMenu
     v-model="itemSelect"
     :searchable="searchItem"
-    :multiple="props.multiple"
     size="lg"
     by="_id"
     class="grow"
+    debounce
   >
     <template #label>
-      {{ !!select ? select.name : 'Tìm kiếm vật phẩm' }}
+      {{ !!select ? select.item_name : 'Tìm kiếm vật phẩm' }}
     </template>
 
     <template #option="{ option: item }">
-      {{ item.name }}
+      {{ item.item_name }}
     </template>
   </USelectMenu>
 </template>
 
 <script setup>
 const props = defineProps({
-  modelValue: String,
+  modelValue: Object,
   itemData: Object,
-  types: { type: Array, default: () => [] }
+  game: String
 })
 
 const emit = defineEmits(['update:modelValue', 'update:itemData'])
@@ -39,17 +39,7 @@ watch(itemSelect, val => {
 })
 
 const searchItem = async (key) => {
-  const items = await useAPI('item/search', {
-    key: key,
-    types: JSON.parse(JSON.stringify(props.types))
-  })
-
-  return items.map(i => ({ 
-    _id: i._id, 
-    item_id: i.item_id,
-    name: i.item_name,
-    image: i.item_image,
-    type: i.type
-  })).filter(Boolean)
+  const items = await useAPI('game/private/manage/item/select', { key: key, game: props.game })
+  return items.filter(Boolean)
 }
 </script>
