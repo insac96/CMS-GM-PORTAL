@@ -1,10 +1,6 @@
 <template>
-  <DataEmpty 
-    v-if="!game.tool?.recharge || !!game.paygame"
-    class="h-[300px]" 
-    :text="!game.tool?.recharge ? 'Vui lòng mua tool để sử dụng' : 'Trò chơi có thể nạp trực tiếp trong game'" 
-  />
-  
+  <DataEmpty v-if="!!game.paygame" class="h-[300px]" text="Trò chơi có thể nạp trực tiếp trong game" />
+
   <div v-else>
     <UiFlex class="mb-2 gap-1 flex-col sm:flex-row">
       <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
@@ -32,31 +28,39 @@
           <UiFlex type="col" class="gap-2">
             <UAvatar icon="i-bx-package" size="3xl" />
             <UiText size="sm" weight="bold" color="primary" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
-            <UBadge size="xs" color="gray">Gói Nạp</UBadge>
+            <UBadge size="xs" color="gray" class="px-3">{{ useMoney().toMoney(item.price) }}</UBadge>
           </UiFlex>
         </UCard>
       </div>
+
+      <!-- Pagination -->
+      <UiFlex justify="center" class="mt-4">
+        <UPagination :max="5" :page-count="page.size" :total="page.total" v-model="page.current" size="2xs" />
+      </UiFlex>
     </div>
 
     <UModal v-model="modal.buy" prevent-close>
-      <DataGameToolRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false, emits('close')" />
+      <DataGamePrivateShopRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false, emits('close')" @done="modal.buy = false, emits('done')" />
     </UModal>
   </div>
 </template>
 
 <script setup>
 const props = defineProps(['game'])
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close', 'done'])
+
 const list = ref([])
 const loading = ref(true)
+
 const modal = ref({
   buy: false
 })
+
 const page = ref({
   size: 12,
   current: 1,
   sort: {
-    column: 'recharge_id',
+    column: 'price',
     direction: 'asc'
   },
   search: null,
@@ -75,9 +79,9 @@ const startBuy = (recharge) => {
 
 const getList = async () => {
 	try {
-    if(!props.game?.tool?.recharge || !!props.game?.paygame) throw true
+    if(!!props.game?.paygame) throw true
     loading.value = true
-    const data = await useAPI('game/tool/public/project/recharge/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/private/public/shop/recharge/list', JSON.parse(JSON.stringify(page.value)))
 
     list.value = data.list
     page.value.total = data.total

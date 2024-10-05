@@ -83,7 +83,7 @@
     <!--Content-->
     <div class="grid grid-cols-12">
       <div class="xl:col-span-8 col-span-12">
-        <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-1"></UTabs>
+        <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block"></UTabs>
 
         <div class="py-4">
           <NuxtPage :game="game" />

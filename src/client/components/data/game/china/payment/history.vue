@@ -26,7 +26,7 @@
         </template>
 
         <template #coin-data="{ row }">
-          <UBadge size="sm" color="gray">{{ useMoney().toMoney(row.coin) }} xu</UBadge>
+          <UBadge size="sm" color="gray">{{ useMoney().toMoney(row.coin) }}</UBadge>
         </template>
 
         <template #status-data="{ row }">
