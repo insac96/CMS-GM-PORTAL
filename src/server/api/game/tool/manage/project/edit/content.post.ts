@@ -1,17 +1,18 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBGameTool } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
-    const { _id, content } = await readBody(event)
-    if(!_id || !content) throw 'Dữ liệu đầu vào không đủ'
+    const { _id : gameID, content } = await readBody(event)
+    if(!gameID) throw 'Không tìm thấy mã trò chơi'
+    if(!content) throw 'Dữ liệu đầu vào không đủ'
 
-    const game = await DB.GameTool.findOne({ _id: _id }).select('name')
+    const game = await DB.GameTool.findOne({ _id: gameID }).select('name manager') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
-    await DB.GameTool.updateOne({ _id: _id },{ content: content })
+    await DB.GameTool.updateOne({ _id: game._id },{ content: content })
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

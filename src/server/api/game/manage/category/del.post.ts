@@ -1,4 +1,4 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBGameCategory } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -8,16 +8,18 @@ export default defineEventHandler(async (event) => {
     const { _id } = await readBody(event)
     if(!_id) throw 'Dữ liệu đầu vào không hợp lệ'
 
-    const category = await DB.GameCategory.findOne({ _id: _id }).select('name')
+    const category = await DB.GameCategory.findOne({ _id: _id }).select('name') as IDBGameCategory
     if(!category) throw 'Thể loại không tồn tại'
     
-    const games = await DB.GameTool.count({ category: _id })
-    if(games > 0) throw 'Không thể xóa thể loại đã có trò chơi'
+    const gamesTool = await DB.GameTool.count({ category: category._id })
+    const gamesChina = await DB.GameChina.count({ category: category._id })
+    const gamesPrivate = await DB.GamePlatform.count({ category: category._id })
+    if(gamesTool > 0 || gamesChina > 0 || gamesPrivate > 0) throw 'Không thể xóa nền tảng đã có trò chơi'
 
-    await DB.GameCategory.deleteOne({ _id: _id })
+    await DB.GameCategory.deleteOne({ _id: category._id })
     logAdmin(event, `Xóa thể loại trò chơi <b>${category.name}</b>`)
 
-    return resp(event, { message: 'Xóa thể loại thành công' })
+    return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

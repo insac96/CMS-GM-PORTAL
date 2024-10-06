@@ -33,6 +33,7 @@ export interface IDBGameChina {
   statistic: {
     play: number
     view: number
+    user: number
   }
 
   manager: Array<Types.ObjectId>

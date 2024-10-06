@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['user', 'game', 'reload'])
+const props = defineProps(['game', 'reload'])
 
 const loading = ref({
   load: true,
@@ -91,7 +91,6 @@ const page = ref({
     end: null
   },
   total: 0,
-  user: props.user || null,
   game: props.game
 })
 watch(() => page.value.size, () => getList())

@@ -54,6 +54,7 @@ export interface IDBGameTool {
   statistic: {
     play: number
     view: number
+    user: number
   }
 
   manager: Array<Types.ObjectId>

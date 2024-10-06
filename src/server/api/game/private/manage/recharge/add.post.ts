@@ -3,7 +3,6 @@ import type { IAuth, IDBGamePrivate, IDBGamePrivateRecharge } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const body = await readBody(event)
     const { recharge_id, recharge_name, save_pay, price, game : gameID } = body
@@ -16,8 +15,9 @@ export default defineEventHandler(async (event) => {
       || parseInt(price) <= 0
     ) throw 'Dữ liệu đầu vào không hợp lệ'
 
-    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('manager') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
     const checkDup = await DB.GamePrivateRecharge.findOne({ recharge_id: recharge_id, game: game._id }).select('_id') as IDBGamePrivateRecharge
     if(!!checkDup) throw 'Mã vật phẩm đã tồn tại'

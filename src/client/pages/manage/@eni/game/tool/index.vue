@@ -128,11 +128,25 @@
           <SelectDisplay v-model="stateEditInfo.display" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <SelectPin v-model="stateEditInfo.pin" class="mr-auto" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
+    <!-- Modal Edit Manager -->
+    <UModal v-model="modal.editManager" preventClose>
+      <UForm :state="stateEditManager" @submit="editManagereAction" class="p-4">
+        <UFormGroup>
+          <SelectUsers v-model="stateEditManager.manager" :type="1" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton color="gray" @click="modal.editManager = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
       </UForm>
     </UModal>
@@ -219,11 +233,16 @@ const stateEditInfo = ref({
   pin: null,
   display: null,
 })
+const stateEditManager = ref({
+  _id: null,
+  manager: null
+})
 
 // Modal
 const modal = ref({
   add: false,
-  editInfo: false
+  editInfo: false,
+  editManager: false
 })
 
 watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
@@ -258,6 +277,13 @@ const actions = (row) => [
       stateEditInfo.value.category = row.category._id
       stateEditInfo.value.platform = row.platform._id
       modal.value.editInfo = true
+    }
+  },{
+    label: 'Sửa người quản lý',
+    icon: 'i-bx-group',
+    click: () => {
+      Object.keys(stateEditManager.value).forEach(key => stateEditManager.value[key] = row[key])
+      modal.value.editManager = true
     }
   }],[{
     label: 'Xóa trò chơi',
@@ -302,6 +328,23 @@ const editInfoAction = async () => {
 
     loading.value.edit = false
     modal.value.editInfo = false
+    getList()
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const editManagereAction = async () => {
+  try {
+    loading.value.edit = true
+
+    const clone = JSON.parse(JSON.stringify(stateEditManager.value))
+    clone.manager = clone.manager.map(i => i._id)
+    await useAPI('game/tool/manage/project/edit/manager', clone)
+
+    loading.value.edit = false
+    modal.value.editManager = false
     getList()
   }
   catch (e) {

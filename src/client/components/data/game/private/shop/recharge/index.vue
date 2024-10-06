@@ -2,10 +2,15 @@
   <DataEmpty v-if="!!game.paygame" class="h-[300px]" text="Trò chơi có thể nạp trực tiếp trong game" />
 
   <div v-else>
-    <UiFlex class="mb-2 gap-1 flex-col sm:flex-row">
+    <UiFlex class="mb-2 gap-1" justify="between">
       <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
+
+      <UButtonGroup>
+        <UButton square icon="i-bx-coin-stack" />
+        <UButton color="gray">{{ useMoney().toMoney(game.user.currency.gcoin) }}</UButton>
+      </UButtonGroup>
     </UiFlex>
 
     <DataEmpty class="h-[300px]" text="Không có gói nạp" :loading="loading" v-if="!!loading || list.length == 0" />
@@ -25,16 +30,22 @@
           }"
           @click="startBuy(item)"
         >
-          <UiFlex type="col" class="gap-2">
-            <UAvatar icon="i-bx-package" size="3xl" />
-            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
-            <UBadge size="xs" color="gray" class="px-3">{{ useMoney().toMoney(item.price) }}</UBadge>
+          <UiFlex type="col">
+            <UAvatar icon="i-bx-package" size="3xl" class="mb-2"/>
+
+            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1 mb-0.5">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
+            <UiText size="xs" weight="semibold" class="line-clamp-1" color="gray">Gói Nạp</UiText>
+
+            <UButtonGroup size="2xs" class="mt-2.5">
+              <UButton square icon="i-bx-coin-stack" />
+              <UButton color="gray">{{ useMoney().toMoney(item.price) }}</UButton>
+            </UButtonGroup>
           </UiFlex>
         </UCard>
       </div>
 
       <!-- Pagination -->
-      <UiFlex justify="center" class="mt-4">
+      <UiFlex justify="center" class="mt-3" v-if="page.total > page.size">
         <UPagination :max="5" :page-count="page.size" :total="page.total" v-model="page.current" size="2xs" />
       </UiFlex>
     </div>

@@ -1,5 +1,9 @@
+import type { IAuth } from "~~/types"
+
 export default defineEventHandler(async (event) => {
   try {
+    const auth = await getAuth(event) as IAuth
+
     const { size, current, sort, search, category, platform, os } = await readBody(event)
     if(!size || !current || !category || !platform || !os) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
@@ -18,6 +22,9 @@ export default defineEventHandler(async (event) => {
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true }
+    if(auth.type < 3) {
+      match['manager'] = { $eq: auth._id }
+    }
     if(!!search){
       const key = formatVNString(search, '-')
       match['$or'] = [

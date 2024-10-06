@@ -3,13 +3,14 @@ import type { IAuth, IDBGamePrivate } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    const body = await readBody(event)
 
+    const body = await readBody(event)
     const { key, game : code } = body
     if(!code) throw 'Không tìm thấy mã trò chơi'
 
-    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('manager') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
     const match : any = { game: game._id }
     if(!!key){

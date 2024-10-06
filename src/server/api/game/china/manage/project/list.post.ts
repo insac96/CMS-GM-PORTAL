@@ -60,6 +60,17 @@ export default defineEventHandler(async (event) => {
         }
       },
       {
+        $lookup: {
+          from: "User",
+          localField: "manager",
+          foreignField: "_id",
+          pipeline: [
+            { $project: { username: 1 }}
+          ],
+          as: "manager"
+        }
+      },
+      {
         $addFields: {
           coin: { $sum: '$payments.coin' }
         }

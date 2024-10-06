@@ -37,6 +37,7 @@ const props = defineProps({
   modelValue: [ String, Array ],
   userData: Object,
   multiple: Boolean,
+  type: Number
 })
 
 const emit = defineEmits(['update:modelValue', 'update:userData'])
@@ -74,8 +75,9 @@ const reset = () => {
 }
 
 const searchUser = async (key) => {
-  const users = await useAPI('user/search', {
-    key: key
+  const users = await useAPI('user/public/search', {
+    key: key,
+    type: props.type
   })
   return users.map(user => ({ _id: user._id, label: user.username })).filter(Boolean)
 }

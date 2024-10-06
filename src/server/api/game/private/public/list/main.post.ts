@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
     .limit(size)
     .skip((current - 1) * size)
 
-    const total = await DB.GamePrivate.count()
+    const total = await DB.GamePrivate.count(match)
     return resp(event, { result: { list, total } })
   } 
   catch (e:any) {

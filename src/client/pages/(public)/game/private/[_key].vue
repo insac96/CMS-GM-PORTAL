@@ -75,7 +75,7 @@
         <div v-else>
           <UButton icon="i-bx-play" block size="lg" class="mb-1" @click="action('play')">Chơi Ngay</UButton>
           <UiFlex class="gap-1">
-            <UButton icon="i-bx-credit-card" class="grow justify-center" size="lg" @click="action('payment')" color="rose">Nạp GCoin</UButton>
+            <UButton icon="i-bx-credit-card" class="grow justify-center" size="lg" @click="action('payment')" color="rose">GCoin</UButton>
             <UButton icon="i-bx-barcode" class="grow justify-center" size="lg" @click="action('giftcode')" color="black">Giftcode</UButton>
           </UiFlex>
         </div>
@@ -119,7 +119,16 @@
           <UButton icon="i-bx-x" color="gray" class="ml-auto" square :disabled="loading.play" @click="modal.play = false"></UButton>
         </template>
 
-        <UiFlex class="gap-1" justify="center" wrap>
+        <UAlert 
+          v-if="!game.play.web && !game.play.android && !game.play.ios && !game.play.windows"
+          color="green" 
+          variant="soft" 
+          icon="i-bx-bell" 
+          title="Thông Báo"
+          description="Trò chơi đang bảo trì, vui lòng quay lại sau"
+        ></UAlert>
+
+        <UiFlex class="gap-1" justify="center" wrap v-else>
           <UButton v-if="game.play.web" icon="i-bxs-window-alt" :disabled="loading.play" color="white" size="xl" @click="playUrl('web')">Web</UButton>
           <UButton v-if="game.play.android" icon="i-bxl-android" :disabled="loading.play" color="green" size="xl" @click="playUrl('android')">Android</UButton>
           <UButton v-if="game.play.ios" icon="i-bxl-apple" :disabled="loading.play" color="black" size="xl" @click="playUrl('ios')">Iphone</UButton>

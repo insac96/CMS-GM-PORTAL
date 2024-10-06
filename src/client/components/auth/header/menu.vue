@@ -67,7 +67,7 @@ const menuUser = computed(() => {
       click: () => navigateTo('/manage')
     }])
   }
-  if(authStore.profile.type > 1){
+  if(authStore.profile.type > 0){
     list.push([{
       label: 'Quản lý trò chơi',
       icon: 'i-bx-server',

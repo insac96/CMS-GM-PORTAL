@@ -1,9 +1,17 @@
+import type { IAuth, IDBGameTool } from "~~/types"
+
 export default defineEventHandler(async (event) => {
   try {
+    const auth = await getAuth(event) as IAuth
+
     const { key } = await readBody(event)
     if(!key) throw 'Không tìm thấy khóa trò chơi'
 
-    const game = await DB.GameTool.aggregate([
+    const game = await DB.GameTool.findOne({ key: key }).select('manager') as IDBGameTool
+    if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
+
+    const result = await DB.GameTool.aggregate([
       { $match: { key: key } },
       {
         $lookup: {
@@ -48,8 +56,8 @@ export default defineEventHandler(async (event) => {
       { $limit: 1 },
     ])
 
-    if(game.length < 1) throw 'Trò chơi không tồn tại'
-    return resp(event, { result: game[0] })
+    if(result.length < 1) throw 'Trò chơi không tồn tại'
+    return resp(event, { result: result[0] })
   } 
   catch (e:any) {
     return resp(event, { code: 500, message: e.toString() })

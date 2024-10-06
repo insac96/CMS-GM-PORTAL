@@ -6,7 +6,7 @@
       </div>
 
       <div class="md:col-span-7 col-span-12">
-        <UiContent :title="game.name" :sub="game.description">
+        <UiContent :title="game.name" :sub="game.description" no-dot>
           <template #more>
             <UiFlex class="gap-1 ml-auto">
               <UDropdown :items="actions(game)">
@@ -83,22 +83,6 @@
     <!-- Modal Edit Info -->
     <UModal v-model="modal.editInfo" preventClose>
       <UForm :state="stateEditInfo" @submit="editInfoAction" class="p-4">
-        <UFormGroup label="Nền tảng">
-          <SelectGamePlatform v-model="stateEditInfo.platform" :disabled="authStore.profile.type < 3" />
-        </UFormGroup>
-
-        <UFormGroup label="Danh mục">
-          <SelectGameCategory v-model="stateEditInfo.category" :disabled="authStore.profile.type < 3" />
-        </UFormGroup>
-
-        <UFormGroup label="Tên">
-          <UInput v-model="stateEditInfo.name" :disabled="authStore.profile.type < 3" />
-        </UFormGroup>
-
-        <UFormGroup label="Mã dự án">
-          <UInput v-model="stateEditInfo.code" :disabled="authStore.profile.type < 3" />
-        </UFormGroup>
-
         <UFormGroup label="Mô tả ngắn">
           <UInput v-model="stateEditInfo.description" />
         </UFormGroup>
@@ -175,7 +159,7 @@
             <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" />
           </UiFlex>
           
-          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton type="submit" :loading="loading.edit" :disabled="authStore.profile.type < 3">Sửa</UButton>
           <UButton color="gray" @click="modal.editAPI = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
       </UForm>

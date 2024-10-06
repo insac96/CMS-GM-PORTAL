@@ -46,7 +46,17 @@ export default defineEventHandler(async (event) => {
     })
 
     await DB.GamePrivateUser.updateOne({ _id: userGame._id }, {
-      $inc: { 'currency.gcoin': gcoin }
+      $inc: { 
+        'currency.gcoin': gcoin ,
+        'pay.day.coin': coin,
+        'pay.week.coin': coin,
+        'pay.month.coin': coin,
+        'pay.total.coin': coin,
+        'pay.day.count': 1,
+        'pay.week.count': 1,
+        'pay.month.count': 1,
+        'pay.total.count': 1,
+      }
     })
 
     // Notify and Log

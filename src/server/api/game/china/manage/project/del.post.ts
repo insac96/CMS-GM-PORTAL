@@ -5,17 +5,17 @@ export default defineEventHandler(async (event) => {
     const auth = await getAuth(event) as IAuth
     if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
-    const { _id } = await readBody(event)
-    if(!_id) throw 'Dữ liệu đầu vào không hợp lệ'
+    const { _id : gameID } = await readBody(event)
+    if(!gameID) throw 'Không tìm thấy mã trò chơi'
 
-    const game = await DB.GameChina.findOne({ _id: _id }).select('name') as IDBGameChina
+    const game = await DB.GameChina.findOne({ _id: gameID }).select('name') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'
 
     await DB.GameChinaUser.deleteMany({ game: game._id })
     await DB.GameChinaPayment.deleteMany({ game: game._id })
-    await DB.GameChina.deleteOne({ _id: _id })
+    await DB.GameChina.deleteOne({ _id: game._id })
 
-    return resp(event, { message: 'Xóa trò chơi thành công' })
+    return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

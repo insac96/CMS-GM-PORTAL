@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('currency') as IDBGamePrivateUser
     if(!userGame) throw 'Vui lòng chơi trò chơi trước khi mua'
 
-    const shopItem = await DB.GamePrivateShopItem.findOne({ _id: shopItemID, game: game._id }) as IDBGamePrivateShopItem
+    const shopItem = await DB.GamePrivateShopItem.findOne({ _id: shopItemID, game: game._id, display: true }) as IDBGamePrivateShopItem
     if(!shopItem) throw 'Vật phẩm bày bán không tồn tại'
 
     const item = await DB.GamePrivateItem.findOne({ _id: shopItem.item, game: game._id }) as IDBGamePrivateItem

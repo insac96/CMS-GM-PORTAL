@@ -12,13 +12,10 @@ export default defineEventHandler(async (event) => {
     const game = await DB.GameTool.findOne({ code: code, display: true }).select('_id') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
-    const rechargeGameTool = await DB.GameToolRecharge.findOne({ 
-      recharge_id: item_id,
-      game: game._id
-    }) as IDBGameToolRecharge
+    const recharge = await DB.GameToolRecharge.findOne({ recharge_id: item_id, game: game._id }) as IDBGameToolRecharge
     let rechargeSend : any
 
-    if(!rechargeGameTool){
+    if(!recharge){
       rechargeSend = {
         recharge_id: item_id,
         recharge_name: item_name,
@@ -31,7 +28,7 @@ export default defineEventHandler(async (event) => {
       rechargeSend._id = newRecharge._id
     }
     else {
-      rechargeSend = rechargeGameTool
+      rechargeSend = recharge
     }
 
     const result = {

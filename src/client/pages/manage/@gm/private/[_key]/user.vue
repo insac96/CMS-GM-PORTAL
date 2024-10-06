@@ -299,8 +299,8 @@ const actions = (row) => [
     label: 'Sửa GCoin',
     icon: 'i-bx-coin',
     click: () => {
-      Object.keys(stateEditCurrency.value.origin).forEach(key => stateEditCurrency.value.origin[key] = row[key])
       stateEditCurrency.value._id = row._id
+      stateEditCurrency.value.origin.gcoin = row.currency.gcoin
       stateEditCurrency.value.type = 'origin'
       modal.value.editCurrency = true
     }

@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 
-    const userGameTool = await DB.GameToolUser.findOne({ game: game._id, user: auth._id }) as IDBGameToolUser
-    if(!userGameTool) throw 'Bạn chưa mua bất cứ tool nào'
-    if(!userGameTool.recharge) throw 'Vui lòng mua tool nạp trước'
+    const userGame = await DB.GameToolUser.findOne({ game: game._id, user: auth._id }) as IDBGameToolUser
+    if(!userGame) throw 'Bạn chưa mua bất cứ tool nào'
+    if(!userGame.recharge) throw 'Vui lòng mua tool nạp trước'
 
     const rechargeGameTool = await DB.GameToolRecharge.findOne({ _id: recharge_id, game: game._id }) as IDBGameToolRecharge
     if(!rechargeGameTool) throw 'Gói nạp không tồn tại'
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
       save_pay: rechargeGameTool.save_pay
     })
 
-    return resp(event, { message: 'Nạp vào trò chơi thành công' })
+    return resp(event, { message: 'Gửi thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

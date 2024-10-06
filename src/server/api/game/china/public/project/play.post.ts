@@ -3,8 +3,8 @@ import type { IAuth, IDBGameChina, IDBGameChinaUser } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    const body = await readBody(event)
 
+    const body = await readBody(event)
     const { game : code, type } = body
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!type) throw 'Không tìm thấy hệ điều hành chơi'
@@ -22,7 +22,10 @@ export default defineEventHandler(async (event) => {
     await game.save()
 
     const userGameChina = await DB.GameChinaUser.findOne({ user: auth._id, game: game._id }) as IDBGameChinaUser
-    if(!userGameChina) DB.GameChinaUser.create({ user: auth._id, game: game._id })
+    if(!userGameChina) {
+      await DB.GameChinaUser.create({ user: auth._id, game: game._id })
+      await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
+    }
 
     return resp(event, { result: { url } })
   } 

@@ -21,8 +21,8 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User
-    const userGameChina = await DB.GameChinaUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGameChinaUser
-    if(!userGameChina) throw 'Vui lòng chơi game trước khi nạp'
+    const userGame = await DB.GameChinaUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGameChinaUser
+    if(!userGame) throw 'Vui lòng chơi game trước khi nạp'
 
     // Make Code, Token
     const countPayment = await DB.GameChinaPayment.count()

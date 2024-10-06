@@ -1,4 +1,4 @@
-import type { IAuth, IDBGameChina, IDBGameChinaPayment } from "~~/types"
+import type { IAuth, IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -15,6 +15,10 @@ export default defineEventHandler(async (event) => {
     const game = await DB.GameChina.findOne({ key: key, display: true }).select('name') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'
 
+    // Check User
+    const userGame = await DB.GameChinaUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGameChinaUser
+    if(!userGame) throw 'Chưa có dữ liệu chơi game'
+
     // Check Payment
     const payment = await DB.GameChinaPayment.findOne({ _id: _id }) as IDBGameChinaPayment
     if(!payment) throw 'Giao dịch không tồn tại'
@@ -27,7 +31,7 @@ export default defineEventHandler(async (event) => {
       ...body
     }, game)
     
-    return resp(event, { message: 'Hoàn tác lệnh nạp thành công' })
+    return resp(event, { message: 'Thao tác thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

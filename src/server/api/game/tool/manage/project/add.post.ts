@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
     body.key = key
     await DB.GameTool.create(body)
 
-    return resp(event, { message: 'Thêm trò chơi thành công' })
+    return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

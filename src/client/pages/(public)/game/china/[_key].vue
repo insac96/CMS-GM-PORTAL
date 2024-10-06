@@ -31,14 +31,19 @@
 
         <!-- Statistic -->
         <UiFlex class="my-4" justify="center">
-          <UiFlex type="col" class="grow border-r">
+          <UiFlex type="col" class="grow">
             <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.view) }}</UiText>
             <UiText color="gray" size="xs">Lượt xem</UiText>
           </UiFlex>
 
-          <UiFlex type="col" class="grow border-l">
+          <UiFlex type="col" class="grow border-l border-r">
             <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.play) }}</UiText>
             <UiText color="gray" size="xs">Lượt chơi</UiText>
+          </UiFlex>
+
+          <UiFlex type="col" class="grow">
+            <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.user) }}</UiText>
+            <UiText color="gray" size="xs">Người chơi</UiText>
           </UiFlex>
         </UiFlex>
 
@@ -65,7 +70,16 @@
           <UButton icon="i-bx-x" color="gray" class="ml-auto" square :disabled="loading.play" @click="modal.play = false"></UButton>
         </template>
 
-        <UiFlex class="gap-1" justify="center" wrap>
+        <UAlert 
+          v-if="!game.play.web && !game.play.android && !game.play.ios && !game.play.windows"
+          color="green" 
+          variant="soft" 
+          icon="i-bx-bell" 
+          title="Thông Báo"
+          description="Trò chơi đang bảo trì, vui lòng quay lại sau"
+        ></UAlert>
+
+        <UiFlex class="gap-1" justify="center" wrap v-else>
           <UButton v-if="game.play.web" icon="i-bxs-window-alt" :disabled="loading.play" color="white" size="xl" @click="playUrl('web')">Web</UButton>
           <UButton v-if="game.play.android" icon="i-bxl-android" :disabled="loading.play" color="green" size="xl" @click="playUrl('android')">Android</UButton>
           <UButton v-if="game.play.ios" icon="i-bxl-apple" :disabled="loading.play" color="black" size="xl" @click="playUrl('ios')">Iphone</UButton>

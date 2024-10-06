@@ -13,12 +13,12 @@ export default defineEventHandler(async (event) => {
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const game = await DB.GameTool.findOne({ code: code }).select('_id') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('_id') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
     const match : any = { game: game._id }
     if(search){
-      match['$text'] = { $search: search }
+      match['$text'] = { '$search': search }
     }
 
     const list = await DB.GameToolRecharge

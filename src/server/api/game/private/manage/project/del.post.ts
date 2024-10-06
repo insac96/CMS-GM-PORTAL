@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     await DB.GamePrivateGiftcode.deleteMany({ game: game._id })
     await DB.GamePrivateGiftcodeHistory.deleteMany({ game: game._id })
     await DB.GamePrivatePayment.deleteMany({ game: game._id })
-    await DB.GamePrivate.deleteOne({ _id: _id })
+    await DB.GamePrivate.deleteOne({ _id: game._id })
 
     return resp(event, { message: 'Xóa trò chơi thành công' })
   } 

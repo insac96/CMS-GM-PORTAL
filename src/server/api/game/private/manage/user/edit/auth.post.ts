@@ -3,7 +3,6 @@ import type { IAuth, IDBGamePrivate, IDBGamePrivateUser } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const body = await readBody(event)
     const { _id : userID, game : gameID, block } = body
@@ -11,8 +10,9 @@ export default defineEventHandler(async (event) => {
     if(!gameID) throw 'Không tìm thấy mã trò chơi'
 
     // Check Game
-    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('manager') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
     // Check User
     const user = await DB.GamePrivateUser.findOne({ _id: userID, game: game._id }).select('block') as IDBGamePrivateUser

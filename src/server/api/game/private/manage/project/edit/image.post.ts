@@ -1,20 +1,21 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBGamePrivate } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const body = await readBody(event)
-    const { _id, review } = body
-    if(!_id || !review) throw 'Dữ liệu đầu vào không đủ'
+    const { _id : gameID, review } = body
+    if(!gameID) throw 'Không tìm thấy ID trò chơi'
+    if(!review) throw 'Dữ liệu đầu vào không đủ'
     if(!Array.isArray(review)) throw 'Dữ liệu hình ảnh review không hợp lệ'
 
-    const game = await DB.GamePrivate.findOne({ _id: _id }).select('name')
+    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('name manager') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
     delete body['_id']
-    await DB.GamePrivate.updateOne({ _id: _id }, { image: body })
+    await DB.GamePrivate.updateOne({ _id: game._id }, { image: body })
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

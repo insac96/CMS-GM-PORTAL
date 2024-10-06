@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('currency') as IDBGamePrivateUser
     if(!userGame) throw 'Vui lòng chơi trò chơi trước khi mua'
 
-    const recharge = await DB.GamePrivateRecharge.findOne({ _id: rechargeID, game: game._id }) as IDBGamePrivateRecharge
+    const recharge = await DB.GamePrivateRecharge.findOne({ _id: rechargeID, game: game._id, display: true }) as IDBGamePrivateRecharge
     if(!recharge) throw 'Gói nạp game không tồn tại'
 
     // Make Total Price

@@ -87,7 +87,7 @@ export default async (
 
   // Send Notify
   if(!!sendNotify) await sendNotifyUser({
-    user: payment.user,
+    user: payment.user as Types.ObjectId,
     color: status == 1 ? 'green' : (status == 2 ? 'red' : 'orange'),
     content: realNotify
   })

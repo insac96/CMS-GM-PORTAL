@@ -1,21 +1,22 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBGameCategory, IDBGamePlatform, IDBGameTool } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
     const body = await readBody(event)
-    const { _id, platform, category, name, code, description } = body
-    if(!_id || !platform || !category || !name || !code || !description) throw 'Dữ liệu đầu vào không hợp lệ'
+    const { _id : gameID, platform, category, name, code, description } = body
+    if(!gameID) throw 'Không tìm thấy mã trò chơi'
+    if(!platform || !category || !name || !code || !description) throw 'Dữ liệu đầu vào không hợp lệ'
     
-    const game = await DB.GameTool.findOne({ _id: _id }).select('name code')
+    const game = await DB.GameTool.findOne({ _id: gameID }).select('name code manager') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
-    const platformCheck = await DB.GamePlatform.findOne({ _id: platform }).select('_id')
+    const platformCheck = await DB.GamePlatform.findOne({ _id: platform }).select('_id') as IDBGamePlatform
     if(!platformCheck) throw 'Nền tảng không tồn tại'
 
-    const categoryCheck = await DB.GameCategory.findOne({ _id: category }).select('_id')
+    const categoryCheck = await DB.GameCategory.findOne({ _id: category }).select('_id') as IDBGameCategory
     if(!categoryCheck) throw 'Thể loại không tồn tại'
 
     if(game.name != name){
@@ -31,7 +32,7 @@ export default defineEventHandler(async (event) => {
     }
 
     delete body['_id']
-    await DB.GameTool.updateOne({ _id: _id }, body)
+    await DB.GameTool.updateOne({ _id: game._id }, body)
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

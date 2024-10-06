@@ -1,4 +1,4 @@
-import type { IAuth, IDBGameTool, IDBGameToolRecharge, IDBGameToolUser } from "~~/types"
+import type { IAuth, IDBGameTool, IDBGameToolUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
       items: items
     })
 
-    return resp(event, { message: 'Gửi thư vào trò chơi thành công' })
+    return resp(event, { message: 'Gửi thư thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

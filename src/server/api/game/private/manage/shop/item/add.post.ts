@@ -3,7 +3,6 @@ import type { IAuth, IDBGamePrivate, IDBGamePrivateItem, IDBGamePrivateShopItem 
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên'
 
     const body = await readBody(event)
     const { item, amount, price, limit, game : gameID  } = body
@@ -13,8 +12,9 @@ export default defineEventHandler(async (event) => {
     if(!!isNaN(parseInt(price)) || parseInt(price) < 1) throw 'Giá tiền không hợp lệ'
     if(!!isNaN(parseInt(limit))|| parseInt(limit) < 0) throw 'Giới hạn không hợp lệ'
 
-    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ _id: gameID }).select('manager') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
+    await getAuthGM(event, auth, game)
 
     const itemData = await DB.GamePrivateItem.findOne({ _id: item, game: game._id }).select('_id') as IDBGamePrivateItem
     if(!itemData) throw 'Vật phẩm không tồn tại'

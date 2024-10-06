@@ -20,13 +20,11 @@ export default defineEventHandler(async (event) => {
     result.tool = { recharge: false, mail: false }
     const auth = await getAuth(event, false)
     if(!!auth) {
-      const userGameTool = await DB.GameToolUser.findOne({
-        game: game._id,
-        user: (auth as IAuth)._id
-      }) as IDBGameToolUser
-      if(!!userGameTool) {
-        result.tool.recharge = userGameTool.recharge
-        result.tool.mail = userGameTool.mail
+      const userGame = await DB.GameToolUser.findOne({ game: game._id, user: (auth as IAuth)._id }) as IDBGameToolUser
+
+      if(!!userGame) {
+        result.tool.recharge = userGame.recharge
+        result.tool.mail = userGame.mail
       }
     }
 

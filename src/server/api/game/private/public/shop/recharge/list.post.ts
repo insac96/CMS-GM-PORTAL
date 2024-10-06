@@ -1,8 +1,7 @@
-import type { IAuth, IDBGamePrivate } from "~~/types"
+import type { IDBGamePrivate } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
-    const auth = await getAuth(event) as IAuth
     const body = await readBody(event)
 
     const { size, current, sort, search, game : code } = body
@@ -13,12 +12,12 @@ export default defineEventHandler(async (event) => {
     const sorting : any = { pin: -1 }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const game = await DB.GamePrivate.findOne({ code: code }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('_id') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
     const match : any = { game: game._id, display: true }
     if(search){
-      match['$text'] = { $search: search }
+      match['$text'] = { '$search': search }
     }
 
     const list = await DB.GamePrivateRecharge

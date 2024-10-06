@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const match : any = { user: userCheck }
+    const match : any = { user: userCheck, display: true }
     if(!!search){
       const key = formatVNString(search, '-')
       const games = await DB.GameTool.find({ $or: [

@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
     const user = await DB.User.count()
     const gameTool = await DB.GameTool.count({ display: true })
     const gameChina = await DB.GameChina.count({ display: true })
-    const gamePrivate = 0
+    const gamePrivate = await DB.GamePrivate.count({ display: true })
 
     return resp(event, { result: {
       member: user,

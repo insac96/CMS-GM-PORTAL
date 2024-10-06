@@ -1,4 +1,4 @@
-import type { IAuth, IDBGameChina } from "~~/types"
+import type { IAuth, IDBGameChina, IDBGameChinaUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -8,17 +8,20 @@ export default defineEventHandler(async (event) => {
     if(!size || !current || !search) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
 
+    // Check Game
     const game = await DB.GameChina.findOne({ key: key, display: true }).select('_id') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'
 
-    const userCheck = (!!user && auth.type > 0) ? user : auth._id
+    // Check User
+    const userGame = await DB.GameChinaUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGameChinaUser
+    if(!userGame) throw 'Chưa có dữ liệu chơi trò chơi'
     
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const match : any = { user: userCheck, game: game._id }
+    const match : any = { user: auth._id, game: game._id }
     if(search.key && search.by){
-      match['$text'] = { '$search': search.key }
+      match['code'] = { $regex : search.key.toLowerCase(), $options : 'i' }
     }
     if(!!range && !!range['start'] && !!range['end']){
       match['createdAt'] = { $gte: new Date(range['start']), $lte: new Date(range['end']) }

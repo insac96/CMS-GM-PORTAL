@@ -5,18 +5,18 @@ export default defineEventHandler(async (event) => {
     const auth = await getAuth(event) as IAuth
     if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
 
-    const { _id } = await readBody(event)
-    if(!_id) throw 'Dữ liệu đầu vào không hợp lệ'
+    const { _id: gameID } = await readBody(event)
+    if(!gameID) throw 'Không tìm thấy mã trò chơi'
 
-    const game = await DB.GameTool.findOne({ _id: _id }).select('name') as IDBGameTool
+    const game = await DB.GameTool.findOne({ _id: gameID }).select('name') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
     await DB.GameToolUser.deleteMany({ game: game._id })
     await DB.GameToolRecharge.deleteMany({ game: game._id })
     await DB.GameToolItem.deleteMany({ game: game._id })
-    await DB.GameTool.deleteOne({ _id: _id })
+    await DB.GameTool.deleteOne({ _id: game._id })
 
-    return resp(event, { message: 'Xóa trò chơi thành công' })
+    return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

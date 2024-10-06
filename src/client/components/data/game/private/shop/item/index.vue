@@ -1,9 +1,14 @@
 <template>
   <div>
-    <UiFlex class="mb-2 gap-1 flex-col sm:flex-row">
+    <UiFlex class="mb-2 gap-1" justify="between">
       <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
+
+      <UButtonGroup>
+        <UButton square icon="i-bx-coin-stack" />
+        <UButton color="gray">{{ useMoney().toMoney(game.user.currency.gcoin) }}</UButton>
+      </UButtonGroup>
     </UiFlex>
 
     <DataEmpty class="h-[300px]" text="Không có vật phẩm bày bán" :loading="loading" v-if="!!loading || list.length == 0" />
@@ -23,16 +28,22 @@
           }"
           @click="startBuy(shop)"
         >
-          <UiFlex type="col" class="gap-2">
-            <DataGamePrivateItemImage :src="shop.item.item_image" size="80" />
-            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1">{{ shop.item.item_name || 'Gói Nạp' }}</UiText>
-            <UBadge size="xs" color="gray" class="px-3">{{ useMoney().toMoney(shop.price) }}</UBadge>
+          <UiFlex type="col">
+            <DataGamePrivateItemImage :src="shop.item.item_image" size="80" class="mb-2" />
+
+            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1 mb-0.5">{{ shop.item.item_name }}</UiText>
+            <UiText size="xs" weight="semibold" class="line-clamp-1" color="gray">Vật Phẩm</UiText>
+            
+            <UButtonGroup size="2xs" class="mt-2.5">
+              <UButton square icon="i-bx-coin-stack" />
+              <UButton color="gray">{{ useMoney().toMoney(shop.price) }}</UButton>
+            </UButtonGroup>
           </UiFlex>
         </UCard>
       </div>
 
       <!-- Pagination -->
-      <UiFlex justify="center" class="mt-4">
+      <UiFlex justify="center" class="mt-3" v-if="page.total > page.size">
         <UPagination :max="5" :page-count="page.size" :total="page.total" v-model="page.current" size="2xs" />
       </UiFlex>
     </div>
