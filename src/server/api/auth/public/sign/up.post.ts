@@ -11,7 +11,8 @@ export default defineEventHandler(async (event) => {
     if (!username) throw 'Vui lòng nhập tài khoản'
     if (username.length < 6 || username.length > 12) throw 'Tài khoản trong khoảng 6-12 ký tự'
     if (!!username.match(/\s/g)) throw 'Tài khoản không có khoảng cách'
-    if (!(/^[a-z0-9]*$/g).test(username)) throw 'Tài khoản không có ký tự đặc biệt và viết hoa'
+    if (!(/^[a-z0-9]*$/g).test(username)) throw 'Tài khoản không có ký tự đặc biệt và chữ viết hoa'
+    if (!(/^[a-z][a-z0-9]*$/g).test(username)) throw 'Bắt đầu phải bằng một chữ cái'
     if (!!username.includes('admin')
       || !!username.includes('smod')
       || !!username.includes('robot')
