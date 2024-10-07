@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!type) throw 'Kiểu sự kiện không hỗ trợ'
 
-    const auth = await getAuth(event, false) as IAuth | null
     const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('_id') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 

@@ -224,6 +224,7 @@ const playUrl = async (type) => {
     loading.value.play = false
     modal.value.play = false
 
+    getGame()
     useTo().openNewTab(data.url)
   }
   catch(e){

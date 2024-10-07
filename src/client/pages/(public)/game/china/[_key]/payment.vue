@@ -1,11 +1,15 @@
 <template>
 	<div v-if="game">
 		<div v-if="!authStore.isLogin">
-			<DataEmpty text="Vui lòng đăng nhập trước" />
+			<DataEmpty class="h-[300px]" text="Vui lòng đăng nhập trước" />
 		</div>
 
 		<div v-else>
-			<UForm ref="form" :state="state" :validate="validate" @submit="submit">
+			<div v-if="!game.user">
+				<DataEmpty class="h-[300px]" text="Vui lòng chơi game trước khi nạp" />
+			</div>
+
+			<UForm v-else ref="form" :state="state" :validate="validate" @submit="submit">
 				<UFormGroup label="Nhập số tiền" name="coin">
 					<UiFlex class="gap-1">
 						<UInput class="grow" size="md" v-model="state.coin" type="number" placeholder="Nhỏ nhất 20.000" />
