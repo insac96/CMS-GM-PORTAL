@@ -1,5 +1,9 @@
 <template>
-  <UiContent title="Game Manage" sub="Danh sách game đang quản lý">
+  <UiContent title="Game Manage" sub="Danh sách game đang quản lý" no-dot>
+    <template #more>
+      <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="emits('close')"></UButton>
+    </template>
+
     <SelectGameOs v-model="page.os" class="mb-1"/>
 
     <UiFlex class="mb-4 gap-1 flex-col sm:flex-row">
@@ -21,12 +25,12 @@
 </template>
 
 <script setup>
-const emits = defineEmits(['to'])
+const emits = defineEmits(['to', 'close'])
 const list = ref([])
 const loading = ref(false)
 
 const page = ref({
-  size: 6,
+  size: 12,
   current: 1,
   sort: {
     column: 'statistic.play',

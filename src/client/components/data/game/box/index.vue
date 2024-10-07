@@ -16,7 +16,11 @@
       }
     }">
       <template #header>
-        <UiImg :src="game.image?.banner" w="16" h="9" />
+        <div class="relative">
+          <UiImg :src="game.image?.banner" w="16" h="9" />
+
+          <UButton square class="absolute top-2 left-2" v-if="!!game.pin" color="green" icon="i-bxs-star" size="xs" />
+        </div>
       </template>
 
 
@@ -28,29 +32,28 @@
             {{ game.name }}
           </UiText>
           
-          <UiText color="gray" class="line-clamp-2 text-xs sm:text-sm">
+          <UiText color="gray" class="line-clamp-2 text-xs sm:text-sm sm:min-h-[40px] min-h-[32px]">
             {{ game.description }}
           </UiText>
         </div>
       </UiFlex>
 
       <template #footer>
-        <UiFlex>
-          <UiFlex class="gap-2 hidden sm:flex" v-if="!gm">
-            <UiIcon name="i-bxs-star" :color="!!game.pin ? 'primary' : 'gray'" />
-            <UiText color="gray" size="xs" weight="semibold" class="relative top-[1px]" v-if="game.statistic.play > 0">{{ useMoney().miniMoney(game.statistic.play) }}</UiText>
-          </UiFlex>
+        <UiFlex class="gap-1" justify="center">
+          <UBadge size="xs" color="gray" variant="soft">
+            <UiIcon name="i-bx-show" size="4"/>
+            <UiText class="mx-0.5">{{ useMoney().miniMoney(game.statistic.view) }}</UiText>
+          </UBadge>
 
-          <UButton 
-            :class="{
-              '!w-full': !!gm,
-              'ml-auto w-full justify-center sm:w-auto': true
-            }"
-            :icon="!!gm ? 'i-bxs-edit' : 'i-bx-play'"
-            block
-          >
-            {{ !!gm ? 'Quản Lý' : 'Chơi' }}
-          </UButton>
+          <UBadge size="xs" color="gray" variant="soft">
+            <UiIcon name="i-bx-play" size="4"/>
+            <UiText class="mx-0.5">{{ useMoney().miniMoney(game.statistic.play) }}</UiText>
+          </UBadge>
+
+          <UBadge size="xs" color="gray" variant="soft">
+            <UiIcon name="i-bx-group" size="4"/>
+            <UiText class="mx-0.5">{{ useMoney().miniMoney(game.statistic.user) }}</UiText>
+          </UBadge>
         </UiFlex>
       </template>
     </UCard>

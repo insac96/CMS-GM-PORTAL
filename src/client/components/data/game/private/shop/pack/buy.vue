@@ -22,7 +22,7 @@
       </UFormGroup>
 
       <UFormGroup label="Vật phẩm" name="gift">
-        <DataGamePrivateItemList :items="shop.gift" justify="center" size="50" />
+        <DataGamePrivateItemList :items="shop.gift" justify="center" size="50" :game="game.code" />
       </UFormGroup>
 
       <UFormGroup label="Thông tin đơn hàng" name="info">

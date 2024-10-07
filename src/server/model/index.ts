@@ -28,6 +28,7 @@ import {
   DBGamePrivateShopItem, DBGamePrivateShopItemHistory,
   DBGamePrivateShopPack, DBGamePrivateShopPackHistory,
   DBGamePrivateGiftcode, DBGamePrivateGiftcodeHistory,
+  DBGamePrivateEvent, DBGamePrivateEventHistory
 } from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
@@ -75,6 +76,8 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GamePrivateShopPackHistory: DBGamePrivateShopPackHistory(mongoose),
     GamePrivateGiftcode: DBGamePrivateGiftcode(mongoose),
     GamePrivateGiftcodeHistory: DBGamePrivateGiftcodeHistory(mongoose),
+    GamePrivateEvent: DBGamePrivateEvent(mongoose),
+    GamePrivateEventHistory: DBGamePrivateEventHistory(mongoose),
 
     LogAdmin: DBLogAdmin(mongoose),
     LogUser: DBLogUser(mongoose),

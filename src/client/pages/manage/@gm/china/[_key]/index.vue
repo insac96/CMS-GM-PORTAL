@@ -113,7 +113,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['game'])
+const game = useAttrs().game
 const { toMoney } = useMoney()
 
 // List
@@ -166,7 +166,7 @@ const page = ref({
     by: 'CODE'
   },
   total: 0,
-  game: props.game
+  game: game._id
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -180,7 +180,7 @@ const stateSuccess = ref({
   code: null,
   coin: null,
   status: null,
-  game: props.game
+  game: game._id
 })
 const stateRefuse = ref({
   _id: null,
@@ -188,7 +188,7 @@ const stateRefuse = ref({
   coin: null,
   reason: null,
   status: null,
-  game: props.game
+  game: game._id
 })
 const stateUser = ref(undefined)
 
@@ -222,7 +222,7 @@ const actions = (row) => [
     disabled: row.status > 0,
     click: () => {
       Object.keys(stateSuccess.value).forEach(key => stateSuccess.value[key] = row[key])
-      stateSuccess.value.game = props.game
+      stateSuccess.value.game = game._id
       stateSuccess.value.status = 1
       modal.value.success = true
     }
@@ -232,7 +232,7 @@ const actions = (row) => [
     disabled: row.status > 0,
     click: () => {
       Object.keys(stateRefuse.value).forEach(key => stateRefuse.value[key] = row[key])
-      stateRefuse.value.game = props.game
+      stateRefuse.value.game = game._id
       stateRefuse.value.status = 2
       modal.value.refuse = true
     }

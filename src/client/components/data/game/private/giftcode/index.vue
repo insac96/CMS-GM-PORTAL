@@ -13,12 +13,12 @@
       </UFormGroup>
 
       <div v-if="!!giftcode">
-        <UFormGroup label="Máy chủ" name="server_id">
-          <SelectGameServer v-model="state.server_id" :game="game.code" type="private" />
+        <UFormGroup label="Máy chủ" name="server">
+          <SelectGameServer v-model="state.server" :game="game.code" type="private" />
         </UFormGroup>
 
-        <UFormGroup label="Nhân vật" name="role_id" v-if="!!state.server_id">
-          <SelectGameRole v-model="state.role_id" :server="state.server_id" :game="game.code" type="private" />
+        <UFormGroup label="Nhân vật" name="role" v-if="!!state.server">
+          <SelectGameRole v-model="state.role" :server="state.server" :game="game.code" type="private" />
         </UFormGroup>
 
         <UFormGroup label="Giới hạn">
@@ -31,7 +31,7 @@
 
         <UFormGroup label="Phần thưởng" >
           <UCard :ui="{ body: { padding: 'p-2 sm:p-2' } }">
-            <DataGamePrivateItemList :items="giftcode.gift" justify="center" />
+            <DataGamePrivateItemList :items="giftcode.gift" justify="center" :game="game.code" />
           </UCard>
         </UFormGroup>
       </div>
@@ -47,7 +47,7 @@
           <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.history = false"></UButton>
         </template>
 
-        <DataGamePrivateGiftcodeHistory :game="props.game.key" />
+        <DataGamePrivateGiftcodeHistory :game="props.game.code" />
       </UiContent>
     </UModal>
   </UiContent>
@@ -71,15 +71,17 @@ const modal = ref({
 // State
 const state = ref({
   code: null,
-  server_id: null,
-  role_id: null,
-  game: props.game.key,
+  server: null,
+  role: null,
+  game: props.game.code,
 })
 
 // Validate
-const validate = (st) => {
+const validate = (state) => {
   const errors = []
-  if (!st.code) errors.push({ path: 'code', message: 'Vui lòng nhập đầy đủ' })
+  if (!state.code) errors.push({ path: 'code', message: 'Vui lòng nhập đầy đủ' })
+  if (!state.server) errors.push({ path: 'server', message: 'Vui lòng chọn máy chủ' })
+  if (!state.role) errors.push({ path: 'role', message: 'Vui lòng chọn nhân vật' })
   return errors
 }
 

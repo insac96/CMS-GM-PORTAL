@@ -31,7 +31,7 @@
         :rows="list"
       >
         <template #[`item.item_image-data`]="{ row }">
-          <DataGamePrivateItemImage :src="row.item.item_image" />
+          <DataGamePrivateItemImage :src="row.item.item_image" :game="game.code" />
         </template>
 
         <template #amount-data="{ row }">

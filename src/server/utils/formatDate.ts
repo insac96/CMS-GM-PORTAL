@@ -6,6 +6,7 @@ export default (event: H3Event, date?: Date) : IFormatDate => {
   
   return {
     day: !!dateFormat ? dateFormat.get('date') : 0,
+    week: !!dateFormat ? dateFormat.week() : 0,
     month: !!dateFormat ? dateFormat.get('month') + 1 : 0,
     year: !!dateFormat ? dateFormat.get('year') : 0,
     hour: !!dateFormat ? dateFormat.get('hour') : 0,

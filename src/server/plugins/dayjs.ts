@@ -1,11 +1,11 @@
 import dayjs from 'dayjs'
-// import utc from 'dayjs/plugin/utc'
-// dayjs.extend(utc)
+import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 declare global {
   var DayJS : any
 }
 
 export default defineNitroPlugin(async (nitroApp) => {
+  dayjs.extend(weekOfYear)
   global.DayJS = dayjs
 })

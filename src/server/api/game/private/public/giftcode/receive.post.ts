@@ -6,25 +6,25 @@ export default defineEventHandler(async (event) => {
 
     // Check Body
     const body = await readBody(event)
-    const { game : key, code, server_id, role_id } = body
-    if(!key) throw 'Không tìm thấy mã trò chơi'
+    const { game : gameCode, code, server, role } = body
+    if(!gameCode) throw 'Không tìm thấy mã trò chơi'
     if(!code) throw 'Không tìm thấy mã quà tặng'
-    if(!server_id) throw 'Không tìm thấy ID máy chủ'
-    if(!role_id) throw 'Không tìm thấy ID nhân vật'
+    if(!server) throw 'Không tìm thấy ID máy chủ'
+    if(!role) throw 'Không tìm thấy ID nhân vật'
 
     // Check Game
-    const game = await DB.GamePrivate.findOne({ key: key, display: true }).select('ip api secret') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: gameCode, display: true }).select('ip api secret') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User Game
     const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGamePrivateUser
-    if(!userGame) throw 'Vui lòng chơi game trước khi nhận mã'
+    if(!userGame) throw 'Vui lòng chơi game trước khi nhận thưởng'
 
     // Check Giftcode
     const upCode = code.trim().toUpperCase()
     const giftcode = await DB.GamePrivateGiftcode
     .findOne({ code: upCode, game: game._id, display: true })
-    .populate({ path: 'gift.item', select: 'item_id item_name item_image' }) as IDBGamePrivateGiftcode
+    .populate({ path: 'gift.item', select: 'item_id item_name' }) as IDBGamePrivateGiftcode
     if(!giftcode) throw 'Mã không tồn tại'
     if(giftcode.gift.length == 0) throw 'Mã chưa có phần thưởng để nhận'
 
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
 
     // Check Use
     if(!giftcode.justone){
-      const countReceiveUser = await DB.GamePrivateGiftcodeHistory.count({ user: userGame._id, giftcode: giftcode._id, server: server_id })
+      const countReceiveUser = await DB.GamePrivateGiftcodeHistory.count({ user: userGame._id, giftcode: giftcode._id, server: server })
       if(countReceiveUser > 0) throw 'Bạn đã nhận mã này ở máy chủ này rồi'
     }
     else {
@@ -62,8 +62,8 @@ export default defineEventHandler(async (event) => {
       url: game.api.mail,
       secret: game.secret,
       account: auth.username,
-      server_id: server_id,
-      role_id: role_id,
+      server_id: server,
+      role_id: role,
       title: 'Web Giftcode',
       content: 'Vật phẩm nhận từ Giftcode trên Web',
       items: giftItem
@@ -74,8 +74,8 @@ export default defineEventHandler(async (event) => {
       game: game._id,
       user: userGame._id,
       giftcode: giftcode._id,
-      server: server_id,
-      role: role_id
+      server: server,
+      role: role
     })
 
     return resp(event, { message: 'Nhận thưởng thành công' })

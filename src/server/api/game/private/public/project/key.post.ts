@@ -16,19 +16,7 @@ export default defineEventHandler(async (event) => {
     .select('-ip -port -secret -api')
     if(!game) throw 'Trò chơi không tồn tại'
 
-    const result = JSON.parse(JSON.stringify(game))
-
-    const auth = await getAuth(event, false)
-    if(!!auth) {
-      const userGame = await DB.GamePrivateUser.findOne({
-        game: game._id, user: (auth as IAuth)._id
-      }) as IDBGamePrivateUser
-
-      if(!!userGame) result.user = userGame
-      else result.user = null
-    }
-
-    return resp(event, { result: result })
+    return resp(event, { result: game })
   } 
   catch (e:any) {
     return resp(event, { code: 500, message: e.toString() })

@@ -4,7 +4,7 @@
       <div 
         v-for="item in tabs" 
         :key="item.value"
-        class="py-2 px-4 text-sm rounded-tl-2xl rounded-tr-2xl cursor-pointer"
+        class="py-2 px-4 text-sm rounded-tl-2xl rounded-tr-2xl cursor-pointer select-none"
         :class="{
           'bg-white': tab == item.value
         }"
@@ -14,19 +14,19 @@
       </div>
     </UiFlex>
 
-    <div class="bg-white rounded-2xl min-h-[200px] p-2" :class="{
+    <div class="bg-white rounded-2xl p-2" :class="{
       'rounded-tl-none': tab == 1
     }">
-      <DataGamePrivateShopRecharge :game="game" v-if="tabs[tab-1]['key'] == 'recharge'" @done="emit('done-recharge')"/>
-      <DataGamePrivateShopItem :game="game" v-if="tabs[tab-1]['key'] == 'item'" @done="emit('done-item')" />
-      <DataGamePrivateShopPack :game="game" v-if="tabs[tab-1]['key'] == 'pack'" @done="emit('done-pack')" />
+      <DataGamePrivateShopRecharge :game="game" v-if="tabs[tab-1]['key'] == 'recharge'" @done="updatePrivateShopBuy"/>
+      <DataGamePrivateShopItem :game="game" v-if="tabs[tab-1]['key'] == 'item'" @done="updatePrivateShopBuy" />
+      <DataGamePrivateShopPack :game="game" v-if="tabs[tab-1]['key'] == 'pack'" @done="updatePrivateShopBuy" />
     </div>
   </div>
 </template>
 
 <script setup>
+const { updatePrivateShopBuy } = useGameStore()
 const props = defineProps(['game'])
-const emits = defineEmits(['done-recharge', 'done-item', 'done-pack'])
 
 const tab = ref(1)
 

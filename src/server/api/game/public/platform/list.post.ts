@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const platform = await DB.GamePlatform.findOne({ key: key }) as IDBGamePlatform
     if(!platform) throw 'Nền tảng không tồn tại'
 
-    const sorting : any = { pin: -1 }
+    const sorting : any = { pin: -1, createdAt: -1 }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true, platform: platform._id }

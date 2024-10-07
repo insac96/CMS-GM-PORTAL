@@ -62,11 +62,11 @@
       </div>
     </div>
 
-    <UTabs v-model="tab" :items="items" :content="false" class="mb-4"></UTabs>
+    <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
 
-    <ManageGameToolUser :game="game._id" v-if="tab == 0" />
-    <ManageGameToolRecharge :game="game._id" v-if="tab == 1" />
-    <ManageGameToolItem :game="game._id" v-if="tab == 2" />
+    <div>
+      <NuxtPage :game="game" />
+    </div>
 
     <!-- Modal Edit Info -->
     <UModal v-model="modal.editInfo" preventClose>
@@ -230,17 +230,30 @@ const loading = ref({
 })
 
 // Tabs
-const tab = ref(0)
-const items = [{
+const tabRouter = {
+  'manage-@gm-tool-_key': 0,
+  'manage-@gm-tool-_key-recharge': 1,
+  'manage-@gm-tool-_key-item': 2,
+}
+const tab = ref(tabRouter[route.name])
+const tabs = [{
   label: 'Người chơi',
   icon: 'i-bx-group',
+  to: ''
 }, {
   label: 'Gói nạp',
   icon: 'i-bx-package',
+  to: 'recharge'
 }, {
   label: 'Vật phẩm',
   icon: 'i-bx-box',
+  to: 'item'
 }]
+
+const onTabChange = (index) => {
+  const tabSelect = tabs[index]
+  navigateTo(`/manage/@gm/tool/${route.params._key}/${tabSelect.to}`)
+}
 
 // State
 const stateEditInfo = ref({
@@ -450,5 +463,6 @@ const getGame = async () => {
     return false
   }
 }
+
 getGame()
 </script>

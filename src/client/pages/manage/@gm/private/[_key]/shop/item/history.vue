@@ -35,7 +35,7 @@
         </template>
 
 				<template #item-data="{ row }">
-          <DataGamePrivateItem :item="row.item" :amount="row.amount"/>
+          <DataGamePrivateItem :item="row.item" :amount="row.amount" :game="game.code" />
         </template>
 
         <template #price-data="{ row }">

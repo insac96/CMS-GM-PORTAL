@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const category = await DB.GameCategory.findOne({ key: key }) as IDBGameCategory
     if(!category) throw 'Thể loại không tồn tại'
 
-    const sorting : any = { pin: -1 }
+    const sorting : any = { pin: -1, createdAt: -1 }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true, category: category._id }

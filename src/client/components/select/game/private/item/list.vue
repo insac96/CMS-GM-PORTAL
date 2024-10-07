@@ -12,7 +12,7 @@
 
     <UTable :columns="columns" :rows="list">
       <template #image-data="{ row }">
-        <DataGamePrivateItemImage :src="row.item_image" size="40" />
+        <DataGamePrivateItemImage :src="row.item_image" size="40" :game="props.game" />
       </template>
 
       <template #amount-data="{ row }">

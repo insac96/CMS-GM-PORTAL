@@ -4,6 +4,6 @@ export default defineNuxtRouteMiddleware(async () => {
     if(!authStore.isLogin || !authStore.profile) throw 'Vui lòng đăng nhập trước'
   }
   catch (e:any) {
-    return useTo().navigateToSSL('/')
+    return navigateTo('/')
   }
 })

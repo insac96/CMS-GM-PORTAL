@@ -50,6 +50,10 @@ export const useAPI = async (path : string, post?: any, options: any = {}) => {
       removeAuth()
       return Promise.reject(message)
     }
+    else if(code == 403) {
+      navigateTo('/')
+      return Promise.reject(message)
+    }
     else {
       return Promise.reject(message)
     }

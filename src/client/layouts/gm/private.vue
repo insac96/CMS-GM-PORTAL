@@ -7,3 +7,8 @@
     </UContainer>
   </div>
 </template>
+
+<script setup>
+const authStore = useAuthStore()
+watch(() => authStore.isLogin, (val) => !val && navigateTo('/'))
+</script>

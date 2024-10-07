@@ -1,5 +1,5 @@
 <template>
-  <UiContent title="Gói Nạp" sub="Danh sách gói nạp trong trò chơi" no-dot>
+  <UiContent title="Cửa Hàng Gói Nạp" sub="Danh sách gói nạp trong trò chơi" no-dot>
 		<template #more>
 			<UButton 
 				icon="i-bx-time" 

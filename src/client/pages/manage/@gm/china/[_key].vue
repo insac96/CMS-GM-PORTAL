@@ -58,7 +58,9 @@
       </div>
     </div>
 
-    <ManageGameChinaPayment :game="game._id" />
+    <div>
+      <NuxtPage :game="game" />
+    </div>
 
     <!-- Modal Edit Info -->
     <UModal v-model="modal.editInfo" preventClose>
@@ -341,5 +343,6 @@ const getGame = async () => {
     return false
   }
 }
+
 getGame()
 </script>

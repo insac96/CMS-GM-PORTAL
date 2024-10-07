@@ -22,7 +22,7 @@
         </template>
 
         <template #gift-data="{ row }">
-          <DataGamePrivateItemList :items="row.gift" class="min-w-[400px] max-w-[400px]" />
+          <DataGamePrivateItemList :items="row.gift" class="min-w-[400px] max-w-[400px]" :game="game.code" />
         </template>
         
         <template #updatedAt-data="{ row }">

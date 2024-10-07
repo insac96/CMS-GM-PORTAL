@@ -5,7 +5,7 @@
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
 
-      <UButtonGroup>
+      <UButtonGroup v-if="game.user">
         <UButton square icon="i-bx-coin-stack" />
         <UButton color="gray">{{ useMoney().toMoney(game.user.currency.gcoin) }}</UButton>
       </UButtonGroup>
@@ -17,7 +17,7 @@
       <div class="grid grid-cols-12 gap-2 md:gap-4">
         <UCard 
           v-for="(shop, index) in list" :key="index" 
-          class="md:col-span-3 col-span-6 cursor-pointer" 
+          class="md:col-span-3 col-span-6 cursor-pointer transition-2" 
           :ui="{
             divide: '',
             ring: 'ring-0',
@@ -31,7 +31,7 @@
           <UiFlex type="col" class="gap-2">
             <UiText size="sm" weight="bold" color="primary" class="line-clamp-1">{{ shop.name || 'Gói Vật Phẩm' }}</UiText>
 
-            <DataGamePrivateItemList :items="shop.gift" justify="center" size="50" class="my-3" :max="2"/>
+            <DataGamePrivateItemList :items="shop.gift" justify="center" size="50" class="my-3" :max="2" :game="game.code"/>
 
             <UiText size="xs" weight="bold" class="line-clamp-1" color="gray">{{ shop.gift.length }} vật phẩm</UiText>
             
@@ -50,14 +50,15 @@
     </div>
 
     <UModal v-model="modal.buy" prevent-close>
-      <DataGamePrivateShopPackBuy :shop="shopSelect" :game="game" @close="modal.buy = false, emits('close')" @done="modal.buy = false, emits('done')" />
+      <DataGamePrivateShopPackBuy :shop="shopSelect" :game="game" @close="modal.buy = false" @done="modal.buy = false, emits('done')" />
     </UModal>
   </div>
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const props = defineProps(['game'])
-const emits = defineEmits(['close', 'done'])
+const emits = defineEmits(['done'])
 
 const list = ref([])
 const loading = ref(true)
@@ -83,6 +84,8 @@ watch(() => page.value.search, (val) => !val && getList())
 const shopSelect = ref(undefined)
 
 const startBuy = (shop) => {
+  if(!authStore.isLogin) return authStore.setModal(true)
+  if(!props.game.user) return useNotify().error('Vui lòng đăng ký chơi trước')
   shopSelect.value = shop
   modal.value.buy = true
 }

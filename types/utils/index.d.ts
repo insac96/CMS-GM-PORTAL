@@ -14,6 +14,7 @@ export interface IResp {
 
 export interface IFormatDate {
   day: number
+  week: number
   month: number
   year: number
   hour: number

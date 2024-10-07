@@ -43,7 +43,7 @@ const validate = (state) => {
 const send = async () => {
   try {
     loading.value = true
-    await useAPI('game/tool/public/project/recharge/send', JSON.parse(JSON.stringify(state.value)))
+    await useAPI('game/tool/public/recharge/send', JSON.parse(JSON.stringify(state.value)))
 
     loading.value = false
     emits('close')

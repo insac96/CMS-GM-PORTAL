@@ -53,7 +53,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['game'])
+const game = useAttrs().game
 
 // List
 const list = ref([])
@@ -87,7 +87,7 @@ const page = ref({
   },
   search: null,
   total: 0,
-  game: props.game
+  game: game._id
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -127,5 +127,5 @@ const getList = async () => {
     loading.value.load = false
   } 
 }
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

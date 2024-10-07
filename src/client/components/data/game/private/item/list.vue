@@ -1,12 +1,12 @@
 <template>
   <UiFlex wrap :justify="justify" class="gap-2">
     <UiText color="gray" v-if="!items || list.length == 0">{{empty || 'Không có phần thưởng'}}</UiText>
-    <DataGamePrivateItem v-for="(item, index) in list" :key="index" :item="item" :amount="item.amount" :size="size" />
+    <DataGamePrivateItem v-for="(item, index) in list" :key="index" :item="item" :amount="item.amount" :size="size" :game="game" />
   </UiFlex>
 </template>
 
 <script setup>
-const props = defineProps(['items', 'empty', 'justify', 'size', 'max'])
+const props = defineProps(['items', 'empty', 'justify', 'size', 'max', 'game'])
 
 const list = computed(() => {
   if(!props.max) return props.items

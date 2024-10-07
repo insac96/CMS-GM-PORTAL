@@ -26,6 +26,10 @@
         <template #payment>
           <DataPaymentHistory :user="user" />
         </template>
+
+        <template #played>
+          <DataGamePlayed :user="user" />
+        </template>
       </UAccordion>
     </div>
   </div>
@@ -39,17 +43,9 @@ const route = useRoute()
 const userData = ref(null)
 
 const menu = [
-  {
-    label: 'Dòng thời gian',
-    slot: 'log'
-  },
-  {
-    label: 'Địa chỉ IP',
-    slot: 'ip'
-  },
-  {
-    label: 'Nạp tiền',
-    slot: 'payment'
-  }
+  { label: 'Dòng thời gian', slot: 'log' },
+  { label: 'Địa chỉ IP', slot: 'ip' },
+  { label: 'Nạp tiền', slot: 'payment' },
+  { label: 'Trò chơi đã chơi', slot: 'played' },
 ]
 </script>

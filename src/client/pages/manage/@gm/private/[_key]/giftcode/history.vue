@@ -73,8 +73,7 @@ const columns = [
     label: 'Tài khoản',
   },{
     key: 'giftcode',
-    label: 'Mã',
-    sortable: true
+    label: 'Mã'
   },{
     key: 'server',
     label: 'Máy chủ',

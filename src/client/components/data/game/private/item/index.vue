@@ -8,7 +8,8 @@
     <DataGamePrivateItemImage 
       class="p-1"
       :size="size"
-      :src="item.item_image" 
+      :src="item.item_image"
+      :game="game" 
       @click="modal = true" 
     />
 
@@ -31,7 +32,7 @@
 
     <UModal v-model="modal" :ui="{ width: 'max-w-[220px] sm:max-w-[220px]' }">
       <UCard :ui="{ body: { padding: 'p-4 sm:p-4' } }">
-        <DataGamePrivateItemImage :src="item.item_image" :size="120" class="mx-auto" />
+        <DataGamePrivateItemImage :src="item.item_image" :size="120" class="mx-auto" :game="game" />
 
         <UiFlex type="col" class="mt-4">
           <UiText align="center" weight="bold" color="gray" class="leading-5">{{ item.item_name }}</UiText>
@@ -49,7 +50,8 @@ const { miniMoney, toMoney } = useMoney()
 const props = defineProps({
   item: Object,
   amount: [ String, Number ],
-  size: { type: [ String, Number ]}
+  size: { type: [ String, Number ]},
+  game: { type: String }
 })
 
 const modal = ref(false)

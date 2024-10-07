@@ -30,6 +30,7 @@ export interface IDBUser {
   type: number
   block: boolean
   token: string
+  
   // Function
   save: {
     () : void

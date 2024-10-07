@@ -35,8 +35,8 @@
       <DataGamePlayed />
     </UModal>
 
-    <UModal v-model="modal.game.manage" :ui="{width: 'sm:max-w-[900px]'}">
-      <ManageGameGM class="p-4" @to="modal.game.manage = false"/>
+    <UModal v-model="modal.game.manager" :ui="{width: 'sm:max-w-[900px]'}">
+      <ManageGameGM class="p-4" @to="modal.game.manager = false" @close="modal.game.manager = false" />
     </UModal>
   </UiFlex>
 </template>
@@ -54,7 +54,7 @@ const modal = ref({
     payment: false
   },
   game: {
-    manage: false
+    manager: false
   }
 })
 
@@ -71,7 +71,7 @@ const menuUser = computed(() => {
     list.push([{
       label: 'Quản lý trò chơi',
       icon: 'i-bx-server',
-      click: () => modal.value.game.manage = true
+      click: () => modal.value.game.manager = true
     }])
   }
 

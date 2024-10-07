@@ -26,7 +26,8 @@ export {
   IDBGamePrivateItem, IDBGamePrivateItemBox,
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
-  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory
+  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory,
+  IDBGamePrivateEvent, IDBGamePrivateEventHistory
 } from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
@@ -73,6 +74,8 @@ export interface IGlobalDB {
   GamePrivateShopPackHistory: Model<IDBGamePrivateShopPackHistory>
   GamePrivateGiftcode: Model<IDBGamePrivateGiftcode>
   GamePrivateGiftcodeHistory: Model<IDBGamePrivateGiftcodeHistory>
+  GamePrivateEvent: Model<IDBGamePrivateEvent>
+  GamePrivateEventHistory: Model<IDBGamePrivateEventHistory>
 
   LogAdmin: Model<IDBLogAdmin>
   LogUser: Model<IDBLogUser>

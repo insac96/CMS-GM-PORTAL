@@ -83,8 +83,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['game'])
-
+const game = useAttrs().game
 // List
 const list = ref([])
 
@@ -119,7 +118,7 @@ const page = ref({
   },
   search: null,
   total: 0,
-  game: props.game
+  game: game._id
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -132,18 +131,18 @@ const stateAdd = ref({
   recharge_id: null,
   recharge_name: null,
   save_pay: null,
-  game: props.game
+  game: game._id
 })
 const stateEdit = ref({
   _id: null,
   recharge_id: null,
   recharge_name: null,
   save_pay: null,
-  game: props.game
+  game: game._id
 })
 const stateDel = ref({
   _id: null,
-  game: props.game
+  game: game._id
 })
 
 // Modal
@@ -156,7 +155,7 @@ watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
   recharge_id: null,
   recharge_name: null,
   save_pay: null,
-  game: props.game
+  game: game._id
 }))
 
 // Loading
@@ -174,7 +173,7 @@ const actions = (row) => [
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
-      stateEdit.value.game = props.game
+      stateEdit.value.game = game._id
       modal.value.edit = true
     }
   }],[{
@@ -182,7 +181,7 @@ const actions = (row) => [
     icon: 'i-bx-trash',
     click: async () => {
       Object.keys(stateDel.value).forEach(key => stateDel.value[key] = row[key])
-      stateDel.value.game = props.game
+      stateDel.value.game = game._id
       await delAction()
     }
   }]
@@ -244,5 +243,5 @@ const delAction = async (_id) => {
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

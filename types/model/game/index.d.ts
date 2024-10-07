@@ -9,7 +9,8 @@ export {
   IDBGamePrivateItem, IDBGamePrivateItemBox,
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
-  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory
+  IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory,
+  IDBGamePrivateEvent, IDBGamePrivateEventHistory
 } from './private'
 
 export interface IDBGamePlatform {

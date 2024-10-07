@@ -7,7 +7,7 @@
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
 
-      <UButtonGroup>
+      <UButtonGroup v-if="game.user">
         <UButton square icon="i-bx-coin-stack" />
         <UButton color="gray">{{ useMoney().toMoney(game.user.currency.gcoin) }}</UButton>
       </UButtonGroup>
@@ -19,7 +19,7 @@
       <div class="grid grid-cols-12 gap-2 md:gap-4">
         <UCard 
           v-for="(item, index) in list" :key="index" 
-          class="md:col-span-3 col-span-6 cursor-pointer" 
+          class="md:col-span-3 col-span-6 cursor-pointer transition-2" 
           :ui="{
             divide: '',
             ring: 'ring-0',
@@ -51,14 +51,15 @@
     </div>
 
     <UModal v-model="modal.buy" prevent-close>
-      <DataGamePrivateShopRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false, emits('close')" @done="modal.buy = false, emits('done')" />
+      <DataGamePrivateShopRechargeBuy :recharge="rechargeSelect" :game="game" @close="modal.buy = false" @done="modal.buy = false, emits('done')" />
     </UModal>
   </div>
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const props = defineProps(['game'])
-const emits = defineEmits(['close', 'done'])
+const emits = defineEmits(['done'])
 
 const list = ref([])
 const loading = ref(true)
@@ -84,6 +85,8 @@ watch(() => page.value.search, (val) => !val && getList())
 const rechargeSelect = ref(undefined)
 
 const startBuy = (recharge) => {
+  if(!authStore.isLogin) return authStore.setModal(true)
+  if(!props.game.user) return useNotify().error('Vui lòng đăng ký chơi trước')
   rechargeSelect.value = recharge
   modal.value.buy = true
 }

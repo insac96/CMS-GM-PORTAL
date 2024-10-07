@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     // @ts-expect-error
     if(!gameDB[os]) throw 'Dữ liệu hệ điều hành sai'
 
-    const sorting : any = { pin: -1 }
+    const sorting : any = { pin: -1, createdAt: -1 }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true }

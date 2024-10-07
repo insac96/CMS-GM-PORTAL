@@ -4,12 +4,12 @@ export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
 
-    const { size, current, sort, search, range, game : key } = await readBody(event)
-    if(!key) throw 'Không tìm thấy mã trò chơi'
+    const { size, current, sort, search, range, game : gameCode } = await readBody(event)
+    if(!gameCode) throw 'Không tìm thấy mã trò chơi'
     if(!size || !current || !search) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
 
-    const game = await DB.GamePrivate.findOne({ key: key, display: true }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: gameCode, display: true }).select('_id') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
     
     const userGame = await DB.GamePrivateUser.findOne({ user: auth._id, game: game._id }).select('_id') as IDBGamePrivateUser

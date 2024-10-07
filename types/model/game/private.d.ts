@@ -140,6 +140,11 @@ export interface IDBGamePrivateUser {
     month: number
     total: number
   }
+
+  // Function
+  save: {
+    () : void
+  }
 }
 
 export interface IDBGamePrivateUserLogin {
@@ -317,6 +322,36 @@ export interface IDBGamePrivateGiftcodeHistory {
   user: Types.ObjectId | IDBGamePrivateUser
   game: Types.ObjectId | IDBGamePrivate
   giftcode: Types.ObjectId | IDBGamePrivateGiftcode
+
+  server: string
+  role: string
+}
+
+// Event
+export interface IDBGamePrivateEvent {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  game: Types.ObjectId | IDBGamePrivate
+
+  type: string
+  need: number
+  gift: Array<{
+    item: Types.ObjectId | IDBItem,
+    amount: number
+  }>
+  display: boolean
+}
+
+export interface IDBGamePrivateEventHistory {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  user: Types.ObjectId | IDBGamePrivateUser
+  game: Types.ObjectId | IDBGamePrivate
+  event: Types.ObjectId | IDBGamePrivateEvent
 
   server: string
   role: string

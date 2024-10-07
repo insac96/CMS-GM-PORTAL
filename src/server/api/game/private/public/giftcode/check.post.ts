@@ -6,12 +6,12 @@ export default defineEventHandler(async (event) => {
 
     // Check Body
     const body = await readBody(event)
-    const { game : key, code } = body
-    if(!key) throw 'Không tìm thấy mã trò chơi'
+    const { game : gameCode, code } = body
+    if(!gameCode) throw 'Không tìm thấy mã trò chơi'
     if(!code) throw 'Vui lòng nhập đầy đủ mã'
 
     // Check Game
-    const game = await DB.GamePrivate.findOne({ key: key, display: true }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: gameCode, display: true }).select('_id') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User Game

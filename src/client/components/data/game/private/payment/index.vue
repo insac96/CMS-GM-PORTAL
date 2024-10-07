@@ -5,7 +5,7 @@
     </template>
 
     <UForm ref="form" :state="state" :validate="validate" @submit="submit">
-      <UFormGroup label="Khuyến mãi chuyển">
+      <UFormGroup label="Khuyến mãi">
         <UInput 
           size="md" 
           :model-value="`+ ${useRate().data(game.rate.payment).number}% GCoin nhận`" 
@@ -21,7 +21,7 @@
       </UFormGroup>
 
       <UFormGroup label="Lịch sử nạp">
-        <DataGamePrivatePaymentHistory :game="props.game.key" :reload="reloadHistory" />
+        <DataGamePrivatePaymentHistory :game="props.game.code" :reload="reloadHistory" />
       </UFormGroup>
     </UForm>
   </UiContent>
@@ -37,7 +37,7 @@ const reloadHistory = ref(0)
 // State
 const state = ref({
   coin: null,
-	game: props.game.key
+	game: props.game.code
 })
 
 // Validate

@@ -37,7 +37,7 @@ watch(itemSelect, val => {
 })
 
 const searchItem = async (key) => {
-  const items = await useAPI('game/tool/public/project/mail/items', { key: key, game: props.game })
+  const items = await useAPI('game/tool/public/mail/items', { key: key, game: props.game })
 
   return items.map(i => ({
     id: i.item_id,

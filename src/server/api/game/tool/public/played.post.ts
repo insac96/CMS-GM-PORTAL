@@ -7,12 +7,12 @@ export default defineEventHandler(async (event) => {
     if(!size || !current || !sort) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
 
-    const userCheck = (!!user && auth.type > 0) ? user : auth._id
+    const userCheck = (!!user && auth.type == 3) ? user : auth._id
     
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const match : any = { user: userCheck, display: true }
+    const match : any = { user: userCheck }
     if(!!search){
       const key = formatVNString(search, '-')
       const games = await DB.GameTool.find({ $or: [

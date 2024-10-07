@@ -18,7 +18,7 @@
       <div class="grid grid-cols-12 gap-2 md:gap-4">
         <UCard 
           v-for="(item, index) in list" :key="index" 
-          class="md:col-span-3 col-span-6 cursor-pointer" 
+          class="md:col-span-3 col-span-6 cursor-pointer transition-2" 
           :ui="{
             divide: '',
             ring: 'ring-0',
@@ -29,10 +29,16 @@
           }"
           @click="startBuy(item)"
         >
-          <UiFlex type="col" class="gap-2">
-            <UAvatar icon="i-bx-package" size="3xl" />
-            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
-            <UBadge size="xs" color="gray">Gói Nạp</UBadge>
+          <UiFlex type="col">
+            <UAvatar icon="i-bx-package" size="3xl" class="mb-2"/>
+
+            <UiText size="sm" weight="bold" color="primary" class="line-clamp-1 mb-0.5">{{ item.recharge_name || 'Gói Nạp' }}</UiText>
+            <UiText size="xs" weight="semibold" class="line-clamp-1" color="gray">Gói Nạp</UiText>
+
+            <UButtonGroup size="2xs" class="mt-2.5">
+              <UButton square icon="i-bx-coin-stack" />
+              <UButton color="gray">Tool</UButton>
+            </UButtonGroup>
           </UiFlex>
         </UCard>
       </div>
@@ -77,7 +83,7 @@ const getList = async () => {
 	try {
     if(!props.game?.tool?.recharge || !!props.game?.paygame) throw true
     loading.value = true
-    const data = await useAPI('game/tool/public/project/recharge/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/tool/public/recharge/list', JSON.parse(JSON.stringify(page.value)))
 
     list.value = data.list
     page.value.total = data.total

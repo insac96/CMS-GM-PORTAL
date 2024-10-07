@@ -1,4 +1,4 @@
-import type { IAuth, IDBGamePrivate, IDBGamePrivateUser, IDBUser } from "~~/types"
+import type { IAuth, IDBGamePrivate, IDBGamePrivatePayment, IDBGamePrivateUser, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
 
     // Check Body
     const body = await readBody(event)
-    const { game : key, coin } = body
-    if(!key) throw 'Không tìm thấy mã trò chơi'
+    const { game : gameCode, coin } = body
+    if(!gameCode) throw 'Không tìm thấy mã trò chơi'
     if(!!isNaN(parseInt(coin)) || parseInt(coin) < 1) throw 'Số Xu không hợp lệ'
 
     // Check User
@@ -16,14 +16,15 @@ export default defineEventHandler(async (event) => {
     if(coin > user.currency.coin) throw 'Số dư xu không đủ để thực hiện'
 
     // Check Game
-    const game = await DB.GamePrivate.findOne({ key: key, display: true }).select('name code rate.payment') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: gameCode, display: true }).select('name code rate.payment') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User Game
-    const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGamePrivateUser
+    const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('pay') as IDBGamePrivateUser
     if(!userGame) throw 'Vui lòng chơi game trước khi nạp'
 
     // Make Code, Token
+    const lastPayment = await DB.GamePrivatePayment.findOne({ user: userGame._id, game: game._id }).select('createdAt').limit(1) as IDBGamePrivatePayment
     const countPayment = await DB.GamePrivatePayment.count()
     const prefix = game.code.trim().toUpperCase()
     const code = prefix + (countPayment > 9 ? countPayment : `0${countPayment}`) + Math.floor(Math.random() * (99 - 10) + 10)
@@ -33,6 +34,7 @@ export default defineEventHandler(async (event) => {
     const gcoin = parseInt(coin) + Math.floor(parseInt(coin) * (bonus / 100))
 
     // Create
+    const time = new Date()
     await DB.GamePrivatePayment.create({
       user: userGame._id,
       game: game._id,
@@ -41,10 +43,33 @@ export default defineEventHandler(async (event) => {
       code: code,
     })
 
-    await DB.User.updateOne({ _id: auth._id }, {
-      $inc: { 'currency.coin': parseInt(coin) * -1 }
-    })
+    // Update Pay Running
+    if(userGame.pay.running.day == 0 || !lastPayment) userGame.pay.running.day = 1
+    else {
+      const payNowTime = formatDate(event, time)
+      const payLastTime = formatDate(event, lastPayment.createdAt)
+      if(payNowTime.day != payLastTime.day || payNowTime.month != payLastTime.month || payNowTime.year !=  payLastTime.year){
+        const nowStart = payNowTime.dayjs.startOf('day').unix()
+        const lastStart = payLastTime.dayjs.startOf('day').unix()
+        if((nowStart - lastStart) > (24 * 60 * 60)){
+          userGame.pay.running.day = 1
+          userGame.pay.running.receive = 0
+        }
+        else {
+          userGame.pay.running.day = userGame.pay.running.day + 1
+        }
+      }
+    }
 
+    // Update Pay Musty
+    const hasMoneyMusty = userGame.pay.musty.find(i => i == parseInt(coin))
+    if(!hasMoneyMusty) userGame.pay.musty.push(parseInt(coin))
+    
+    // Update Coin
+    await DB.User.updateOne({ _id: auth._id }, { $inc: { 'currency.coin': parseInt(coin) * -1 }})
+
+    // Update Gcoin And Pay
+    await userGame.save()
     await DB.GamePrivateUser.updateOne({ _id: userGame._id }, {
       $inc: { 
         'currency.gcoin': gcoin ,

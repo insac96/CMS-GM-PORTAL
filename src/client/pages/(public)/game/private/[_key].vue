@@ -142,10 +142,11 @@
 <script setup>
 const runtimeConfig = useRuntimeConfig()
 const configStore = useConfigStore()
+const authStore = useAuthStore()
+const gameStore = useGameStore()
 const { miniMoney, toMoney } = useMoney()
 const { openNewTab } = useTo()
 const { img } = useMakeLink()
-const authStore = useAuthStore()
 const route = useRoute()
 const game = ref({
   name: '',
@@ -163,8 +164,6 @@ useSeoMeta({
   ogImage: () => img(game.value.image.banner), 
   ogImageAlt: () => game.value.name,
 })
-
-watch(() => authStore.isLogin, (val) => getGame())
 
 const loading = ref({
   page: true,
@@ -279,13 +278,18 @@ const getGame = async () => {
     const data = await useAPI('game/private/public/project/key', {
       key: route.params._key
     })
-
     game.value = data
+
+    await getUser()
     loading.value.page = false
   }
   catch(e){
     return false
   }
 }
+
+watch(() => authStore.isLogin, (val) => getGame())
+watch(() => gameStore.action.private.shop.buy, (val) => getUser())
+watch(() => gameStore.action.private.event.receive, (val) => getUser())
 getGame()
 </script>

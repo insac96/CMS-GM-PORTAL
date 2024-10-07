@@ -1,6 +1,7 @@
 import type { Mongoose } from 'mongoose'
 import type { 
   IDBGamePrivate, 
+  IDBGamePrivateEvent, IDBGamePrivateEventHistory, 
   IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory, 
   IDBGamePrivateItem, IDBGamePrivateItemBox, 
   IDBGamePrivatePayment, 
@@ -380,6 +381,42 @@ export const DBGamePrivateGiftcodeHistory = (mongoose : Mongoose) => {
   })
 
   const model = mongoose.model('GamePrivateGiftcodeHistory', schema, 'GamePrivateGiftcodeHistory')
+  return model 
+}
+
+// Event
+export const DBGamePrivateEvent = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateEvent>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+
+    type: { type: String },
+    need: { type: Number, default: 0, index: true },
+    gift: [{
+      item: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateItem' },
+      amount: { type: Number, index: true },
+    }],
+    display: { type: Boolean, default: true, index: true },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateEvent', schema, 'GamePrivateEvent')
+  return model 
+}
+
+export const DBGamePrivateEventHistory = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateEventHistory>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    event: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateEvent' },
+
+    server: { type: String },
+    role: { type: String },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateEventHistory', schema, 'GamePrivateEventHistory')
   return model 
 }
 

@@ -6,6 +6,7 @@ export default defineEventHandler(async (event) => {
     const auth = await getAuth(event) as IAuth
 
     const { size, current, sort, search, game : gameID } = await readBody(event)
+    if(!gameID) throw 'Không tìm thấy ID trò chơi'
     if(!size || !current) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
     if(!search || !search.by) throw 'Dữ liệu tìm kiếm sai'

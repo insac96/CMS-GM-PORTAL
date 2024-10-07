@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-const props = defineProps(['game'])
+const game = useAttrs().game
 
 // List
 const list = ref([])
@@ -77,7 +77,7 @@ const page = ref({
   },
   search: null,
   total: 0,
-  game: props.game
+  game: game._id
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -88,7 +88,7 @@ watch(() => page.value.search, (val) => !val && getList())
 // State
 const stateAdd = ref({
   items: null,
-  game: props.game
+  game: game._id
 })
 
 // Modal
@@ -131,5 +131,5 @@ const addAction = async () => {
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

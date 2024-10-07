@@ -27,8 +27,8 @@
         <img :src="imgSelect" class="max-h-[90vh] w-auto object-contain"/>
       </UiFlex>
 
-      <UiFlex class="absolute -top-0 -right-0" @click="open = false">
-        <UButton :ui="{ rounded: 'rounded-none rounded-l-3xl rounded-b-3xl' }" icon="i-bx-x" ></UButton>
+      <UiFlex class="absolute top-2 right-2">
+        <UButton color="black" size="xs" icon="i-bx-x" @click="open = false"></UButton>
       </UiFlex>
     </UModal>
   </div>

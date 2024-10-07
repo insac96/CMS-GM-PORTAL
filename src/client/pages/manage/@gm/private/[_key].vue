@@ -396,16 +396,11 @@ const menus = (row) => [
       icon: 'i-bx-group',
       click: () => navigateTo(`/manage/@gm/private/${row.key}/user`)
     },{
-      label: 'Nạp tiền',
+      label: 'Nạp GCoin',
       icon: 'i-bx-credit-card',
       click: () => navigateTo(`/manage/@gm/private/${row.key}/payment`)
     },
   ],[
-    {
-      label: 'Gói nạp',
-      icon: 'i-bx-cylinder',
-      click: () => navigateTo(`/manage/@gm/private/${row.key}/recharge`)
-    },
     {
       label: 'Vật phẩm',
       icon: 'i-bx-pyramid',
@@ -417,6 +412,11 @@ const menus = (row) => [
       click: () => navigateTo(`/manage/@gm/private/${row.key}/item/box`)
     }
   ],[
+    {
+      label: 'Cửa hàng gói nạp',
+      icon: 'i-bx-cylinder',
+      click: () => navigateTo(`/manage/@gm/private/${row.key}/recharge`)
+    },
     {
       label: 'Cửa hàng vật phẩm',
       icon: 'i-bx-shopping-bag',
@@ -537,5 +537,6 @@ const getGame = async () => {
     return false
   }
 }
+
 getGame()
 </script>

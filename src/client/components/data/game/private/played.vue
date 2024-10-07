@@ -24,7 +24,11 @@
       </template>
 
       <template #payment-data="{ row }">
-        <UBadge size="sm" color="gray">{{ row.payment ? useMoney().toMoney(row.payment) : '0' }} xu</UBadge>
+        {{ row.payment ? useMoney().toMoney(row.payment) : '0' }}
+      </template>
+
+      <template #[`currency.gcoin-data`]="{ row }">
+        {{ row.currency.gcoin ? useMoney().toMoney(row.currency.gcoin) : '0' }}
       </template>
 
       <template #createdAt-data="{ row }">
@@ -54,6 +58,10 @@ const columns = [
   },{
     key: 'payment',
     label: 'Tổng nạp',
+    sortable: true
+  },{
+    key: 'currency.gcoin',
+    label: 'GCoin',
     sortable: true
   },{
     key: 'createdAt',

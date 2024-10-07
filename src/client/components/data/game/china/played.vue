@@ -24,7 +24,7 @@
       </template>
 
       <template #payment-data="{ row }">
-        <UBadge size="sm" color="gray">{{ row.payment ? useMoney().toMoney(row.payment) : '0' }} xu</UBadge>
+        {{ row.payment ? useMoney().toMoney(row.payment) : '0' }}
       </template>
 
       <template #createdAt-data="{ row }">

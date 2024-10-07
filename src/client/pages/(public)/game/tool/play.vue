@@ -44,7 +44,7 @@ const onRecharge = async (detail) => {
     const send = JSON.parse(JSON.stringify(detail))
     send.game = route.query.game
 
-    const data = await useAPI('game/tool/public/project/recharge/check', JSON.parse(JSON.stringify(send)))
+    const data = await useAPI('game/tool/public/recharge/check', JSON.parse(JSON.stringify(send)))
     selectRecharge.value.recharge = data.recharge
     selectRecharge.value.server = data.server
     modal.value.recharge = true

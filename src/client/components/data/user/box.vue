@@ -107,8 +107,7 @@ const getUserBox = async () => {
   try {
     loading.value = true
     const get = await useAPI('user/public/profile', {
-      _id: props.fetchId,
-      secret: route.params._secret
+      _id: props.fetchId
     })
 
     user.value = get

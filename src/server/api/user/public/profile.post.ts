@@ -3,7 +3,7 @@ import type { IAuth } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    const { user : _id } = await readBody(event)
+    const { _id } = await readBody(event)
 
     let select : any
     if(!!_id) {
@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
       else select = '-password -token'
     }
     if(!_id) select = '-password -token'
+
 
     const user = await DB.User
     .findOne({ _id: _id ? _id : auth._id })

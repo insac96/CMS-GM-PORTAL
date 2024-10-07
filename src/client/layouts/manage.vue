@@ -34,5 +34,5 @@ useSeoMeta({
 })
 
 const authStore = useAuthStore()
-watch(() => authStore.isLogin, (val) => !val && useTo().navigateToSSL('/'))
+watch(() => authStore.isLogin, (val) => !val && navigateTo('/'))
 </script>

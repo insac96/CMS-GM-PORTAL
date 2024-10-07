@@ -33,7 +33,7 @@
         </template>
 
         <template #gift-data="{ row }">
-          <DataGamePrivateItemList :items="row.gift" class="max-w-[300px]" :size="45" />
+          <DataGamePrivateItemList :items="row.gift" class="max-w-[300px]" :size="45" :game="game.code" />
         </template>
 
         <template #price-data="{ row }">
