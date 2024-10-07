@@ -9,6 +9,6 @@ export default defineNuxtRouteMiddleware(async () => {
     return navigateTo('/manage/@eni')
   }
   catch (e:any) {
-    return navigateTo('/manage')
+    return false
   }
 })
