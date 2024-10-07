@@ -77,10 +77,15 @@ export default defineAppConfig({
 
     notifications: {
       position: 'right-0 top-0 bottom-auto',
+      container: 'px-2 sm:px-2 py-2 sm:py-2',
     },
     
     notification: {
       background: 'dark:bg-black/50 backdrop-blur',
+      title: 'text-xs font-semibold',
+      rounded: 'rounded-3xl',
+      ring: 'ring-0',
+      gap: 'gap-2',
       progress: {
         base: 'h-0.5'
       }
