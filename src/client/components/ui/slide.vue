@@ -12,11 +12,11 @@
         icon: 'i-bx-chevrons-right',
       }"
       class="rounded-3xl overflow-hidden"
-      :arrows="images.length > 1 ? true : false"
+      :arrows="(!!arrow && images.length > 1) ? true : false"
       ref="carouselRef"
     >
       <UiFlex class="w-full bg-gray-50 overflow-hidden cursor-pointer" justify="center" style="aspect-ratio: 16 / 9" @click="viewImg(item)">
-        <UiImg :src="item" h="100%" />
+        <UiImg :src="item" h="100%" class="h-full max-h-full" />
       </UiFlex>
     </UCarousel>
 
@@ -40,6 +40,10 @@ const props = defineProps({
   auto: {
     type: Boolean,
     default: true
+  },
+  arrow: {
+    type: Boolean,
+    default: false
   }
 })
 const carouselRef = ref()
