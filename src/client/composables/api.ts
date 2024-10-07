@@ -1,11 +1,14 @@
 import type { IResp } from '~~/types'
 
 export const useAPI = async (path : string, post?: any, options: any = {}) => {
-  const { data, error } = await useFetch(`/api/${path}`, {
+  const option = {
     method: !!post ? 'POST' : 'GET',
     body: !!post ? post : null,
     ...options
-  })
+  }
+
+  // @ts-expect-error
+  const { data, error } = await useFetch(`/api/${path}`, option)
 
   if(error.value) {
     const statusCode = error.value.statusCode
