@@ -69,6 +69,7 @@ export interface IDBGamePrivate {
     play: number
     view: number
     user: number
+    revenue: number
   }
 
   manager: Array<Types.ObjectId>
@@ -139,6 +140,7 @@ export interface IDBGamePrivateUser {
     week: number
     month: number
     total: number
+    update: Date
   }
 
   // Function

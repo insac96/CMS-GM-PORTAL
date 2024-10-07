@@ -17,7 +17,8 @@ import {
   DBGameToolItem,
 
   DBGameChina, 
-  DBGameChinaUser, 
+  DBGameChinaUser,
+  DBGameToolPayment,
   DBGameChinaPayment,
 
   DBGamePrivate,
@@ -55,6 +56,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
 
     GameTool: DBGameTool(mongoose),
     GameToolUser: DBGameToolUser(mongoose),
+    GameToolPayment: DBGameToolPayment(mongoose),
     GameToolRecharge: DBGameToolRecharge(mongoose),
     GameToolItem: DBGameToolItem(mongoose),
 

@@ -1,4 +1,4 @@
-import type { IAuth, IDBGamePrivateUser, IDBGamePrivate } from "~~/types"
+import type { IAuth, IDBGamePrivateUser, IDBGamePrivate, IDBGamePrivateUserLogin } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -19,6 +19,61 @@ export default defineEventHandler(async (event) => {
 
     // Check Block
     if(!!userGame.block) throw 'Bạn bị chặn khỏi trò chơi này'
+
+    // Get Date
+    const now  = new Date()
+    const nowDate = formatDate(event, now)
+    const lastDate = formatDate(event, userGame.login.update)
+    userGame.login.update = now
+
+    // User Login
+    let createNewLogin = false
+    const lastLogin = await DB.GamePrivateUserLogin
+    .findOne({ user: userGame._id, game: game._id })
+    .sort({ createdAt: -1 })
+    .limit(1) as IDBGamePrivateUserLogin
+    if(!lastLogin) {
+      createNewLogin = true
+    }
+    else {
+      const lastLoginDate = formatDate(event, lastLogin.createdAt)
+      if(lastLoginDate.day != nowDate.day) createNewLogin = true
+    }
+    if(!!createNewLogin) await DB.GamePrivateUserLogin.create({ user: userGame._id, game: game._id })
+
+    // Update If Is Next Day
+    if(lastDate.day != nowDate.day || lastDate.month != nowDate.month || lastDate.year != nowDate.year){
+      userGame.login.week = userGame.login.week + 1
+      userGame.login.month = userGame.login.month + 1
+      userGame.login.total = userGame.login.total + 1
+      userGame.pay.day.coin = 0
+      userGame.pay.day.count = 0
+      userGame.pay.musty = []
+      userGame.spend.day.gcoin = 0
+      userGame.spend.day.count = 0
+    }
+
+    // Update If Is Next Week
+    if(lastDate.week != nowDate.week || lastDate.month != nowDate.month || lastDate.year != nowDate.year){
+      userGame.login.week = 1
+      userGame.pay.week.coin = 0
+      userGame.pay.week.count = 0
+      userGame.spend.week.gcoin = 0
+      userGame.spend.week.count = 0
+    }
+
+    // Update If Is Next Month
+    if(lastDate.month != nowDate.month || lastDate.year != nowDate.year){
+      userGame.login.month = 1
+      userGame.pay.month.coin = 0
+      userGame.pay.month.count = 0
+      userGame.spend.month.gcoin = 0
+      userGame.spend.month.count = 0
+    }
+
+    // Save
+    await userGame.save()
+
     return resp(event, { result: userGame })
   } 
   catch (e:any) {

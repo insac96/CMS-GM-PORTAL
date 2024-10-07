@@ -47,6 +47,19 @@
           </UiFlex>
         </UiFlex>
 
+        <!-- Mini Info -->
+        <div class="my-4">
+          <UiFlex justify="between" class="mb-3">
+            <UiText weight="semibold" color="gray" size="sm">Ra mắt</UiText>
+            <UiText weight="semibold" size="sm">{{ useDayJs().fromTime(game.createdAt) }}</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3">
+            <UiText weight="semibold" color="gray" size="sm">Tỷ lệ nạp</UiText>
+            <UiText weight="semibold" size="sm">{{ game.rate?.pay || '1.5' }}</UiText>
+          </UiFlex>
+        </div>
+
         <!-- Button -->
         <UButton icon="i-bx-play" size="lg" block :loading="loading.china" @click="checkChinaAccount()">Chơi Ngay</UButton>
       </UiContent>

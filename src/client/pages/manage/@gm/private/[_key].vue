@@ -53,9 +53,9 @@
           <div class="my-4">
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Doanh thu</UiText>
-              <UiText weight="semibold" size="sm">{{ game.coin ? toMoney(game.coin) : '...' }}</UiText>
+              <UiText weight="semibold" size="sm">{{ toMoney(game.statistic.revenue) }}</UiText>
             </UiFlex>
-            <UiFlex justify="between" class="mb-3" v-if="authStore.profile.type > 1">
+            <UiFlex justify="between" class="mb-3" v-if="authStore.profile.type == 3">
               <UiText weight="semibold" color="gray" size="sm">IP Game</UiText>
               <UiText weight="semibold" size="sm">{{ game.ip || '...' }}</UiText>
             </UiFlex>
@@ -88,11 +88,11 @@
         </UFormGroup>
 
         <UFormGroup label="Hiển thị">
-          <SelectDisplay v-model="stateEditInfo.display" />
+          <SelectDisplay v-model="stateEditInfo.display" :disabled="authStore.profile.type < 3" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-6">
-          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" />
+          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="authStore.profile.type < 3" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
@@ -387,14 +387,15 @@ const actions = (row) => [
 // Menu
 const menus = (row) => [
   [
+    // {
+    //   label: 'Thống kê',
+    //   icon: 'i-bx-stats',
+    //   click: () => navigateTo(`/manage/@gm/private/${row.key}`)
+    // },
     {
-      label: 'Thống kê',
-      icon: 'i-bx-stats',
-      click: () => navigateTo(`/manage/@gm/private/${row.key}`)
-    },{
       label: 'Người chơi',
       icon: 'i-bx-group',
-      click: () => navigateTo(`/manage/@gm/private/${row.key}/user`)
+      click: () => navigateTo(`/manage/@gm/private/${row.key}`)
     },{
       label: 'Nạp GCoin',
       icon: 'i-bx-credit-card',

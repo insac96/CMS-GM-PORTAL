@@ -30,10 +30,15 @@ export interface IDBGameChina {
     ios: string
   }
 
+  rate: {
+    pay: string
+  }
+
   statistic: {
     play: number
     view: number
     user: number
+    revenue: number
   }
 
   manager: Array<Types.ObjectId>

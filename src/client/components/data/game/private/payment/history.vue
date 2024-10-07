@@ -30,7 +30,7 @@
         </template>
 
         <template #gcoin-data="{ row }">
-          <UBadge size="sm" color="gray">{{ useMoney().toMoney(row.coin) }}</UBadge>
+          <UBadge size="sm" color="gray">{{ useMoney().toMoney(row.gcoin) }}</UBadge>
         </template>
 
         <template #createdAt-data="{ row }">

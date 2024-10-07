@@ -53,6 +53,9 @@ export default async (
       Bạn được duyệt thành công giao dịch nạp
       <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
     `
+    
+    // Update revenue game
+    await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': payment.coin }})
   }
   if(status == 2){
     await DB.User.updateOne({ _id: user._id }, {

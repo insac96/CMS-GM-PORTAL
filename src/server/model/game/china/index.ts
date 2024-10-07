@@ -26,10 +26,15 @@ export const DBGameChina = (mongoose : Mongoose) => {
       ios: { type: String, default: '' },
     },
 
+    rate: {
+      pay: { type: String, default: '1.5' },
+    },
+
     statistic: {
       play: { type: Number, index: true, default: 0 },
       view: { type: Number, index: true, default: 0 },
       user: { type: Number, index: true, default: 0 },
+      revenue: { type: Number, index: true, default: 0 },
     },
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

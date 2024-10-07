@@ -56,6 +56,14 @@ export default defineEventHandler(async (event) => {
       result = { recharge: userGame.recharge, mail: userGame.mail }
     }
 
+    // Update revenue game
+    await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': totalPrice }})
+    await DB.GameToolPayment.create({
+      user: user._id,
+      game: game._id,
+      coin: totalPrice
+    })
+
     return resp(event, { result: result })
   } 
   catch (e:any) {

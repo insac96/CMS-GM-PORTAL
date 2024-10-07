@@ -47,7 +47,11 @@
           <div class="my-4">
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Doanh thu</UiText>
-              <UiText weight="semibold" size="sm">{{ game.coin ? toMoney(game.coin) : '...' }}</UiText>
+              <UiText weight="semibold" size="sm">{{ toMoney(game.statistic.revenue) }}</UiText>
+            </UiFlex>
+            <UiFlex justify="between" class="mb-3">
+              <UiText weight="semibold" color="gray" size="sm">Tỷ lệ nạp</UiText>
+              <UiText weight="semibold" size="sm">{{ game.rate.pay }}</UiText>
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Cập nhật cuối</UiText>
@@ -69,12 +73,16 @@
           <UInput v-model="stateEditInfo.description" />
         </UFormGroup>
 
+        <UFormGroup label="Tỷ lệ nạp">
+          <UInput v-model="stateEditInfo.rate.pay" />
+        </UFormGroup>
+
         <UFormGroup label="Hiển thị">
-          <SelectDisplay v-model="stateEditInfo.display" />
+          <SelectDisplay v-model="stateEditInfo.display" :disabled="authStore.profile.type < 3" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-6">
-          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" />
+          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="authStore.profile.type < 3" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
@@ -180,6 +188,9 @@ const stateEditInfo = ref({
   name: null,
   code: null,
   description: null,
+  rate: {
+    pay: null
+  },
   pin: null,
   display: null,
 })

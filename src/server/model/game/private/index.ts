@@ -75,6 +75,7 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
       play: { type: Number, index: true, default: 0 },
       view: { type: Number, index: true, default: 0 },
       user: { type: Number, index: true, default: 0 },
+      revenue: { type: Number, index: true, default: 0 },
     },
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
@@ -150,6 +151,7 @@ export const DBGamePrivateUser = (mongoose : Mongoose) => {
       week: { type: Number, index: true, default: 0 },
       month: { type: Number, index: true, default: 0 },
       total: { type: Number, index: true, default: 0 },
+      update: { type: Date, default: Date.now() },
     }
   }, {
     timestamps: true

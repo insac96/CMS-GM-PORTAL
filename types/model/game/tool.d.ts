@@ -55,6 +55,7 @@ export interface IDBGameTool {
     play: number
     view: number
     user: number
+    revenue: number
   }
 
   manager: Array<Types.ObjectId>
@@ -74,6 +75,16 @@ export interface IDBGameToolUser {
   recharge: boolean
   mail: boolean
 
+  coin: number
+}
+
+export interface IDBGameToolPayment {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  user: Types.ObjectId | IDBUser
+  game: Types.ObjectId | IDBGameTool
   coin: number
 }
 

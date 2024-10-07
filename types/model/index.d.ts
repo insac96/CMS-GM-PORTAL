@@ -12,6 +12,7 @@ export {
 
   IDBGameTool, 
   IDBGameToolUser, 
+  IDBGameToolPayment,
   IDBGameToolRecharge, 
   IDBGameToolItem,
 
@@ -53,6 +54,7 @@ export interface IGlobalDB {
 
   GameTool: Model<IDBGameTool>
   GameToolUser: Model<IDBGameToolUser>
+  GameToolPayment: Model<IDBGameToolPayment>
   GameToolRecharge: Model<IDBGameToolRecharge>
   GameToolItem: Model<IDBGameToolItem>
 

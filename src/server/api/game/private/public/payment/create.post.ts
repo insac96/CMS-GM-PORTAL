@@ -84,6 +84,9 @@ export default defineEventHandler(async (event) => {
       }
     })
 
+    // Update revenue game
+    await DB.GamePrivate.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': coin }})
+
     // Notify and Log
     const notify = `
       Trừ <b>${coin.toLocaleString('vi-VN')}</b> Xu 
