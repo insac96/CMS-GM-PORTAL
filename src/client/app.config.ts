@@ -101,7 +101,10 @@ export default defineAppConfig({
 
     pagination: {
       wrapper: 'flex items-center gap-1',
-      rounded: '!rounded-full min-w-[32px] justify-center'
+      rounded: '!rounded-full min-w-[32px] justify-center',
+      default: {
+        size: 'xs'
+      }
     },
 
     popover: {

@@ -44,7 +44,7 @@
 
       <!-- Pagination -->
       <UiFlex justify="center" class="mt-3" v-if="page.total > page.size">
-        <UPagination :max="5" :page-count="page.size" :total="page.total" v-model="page.current" size="2xs" />
+        <UPagination :max="5" :page-count="page.size" :total="page.total" v-model="page.current" />
       </UiFlex>
     </div>
 

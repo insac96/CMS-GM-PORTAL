@@ -15,7 +15,7 @@
 
           <!-- Pagination -->
           <UiFlex justify="end">
-            <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="2xs"/>
+            <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" />
           </UiFlex>
         </div>
       </div>
