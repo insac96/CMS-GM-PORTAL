@@ -1,7 +1,7 @@
 <template>
   <UiContent title="Game Manage" sub="Danh sách game đang quản lý" no-dot>
     <template #more>
-      <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="emits('close')"></UButton>
+      <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="emits('close')"></UButton>
     </template>
 
     <SelectGameOs v-model="page.os" class="mb-1"/>

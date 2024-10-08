@@ -1,7 +1,7 @@
 <template>
   <UiContent no-dot title="Cửa Hàng Gói" sub="Mua gói vật phẩm vào trong game" class="p-4">
     <template #more>
-      <UButton icon="i-bx-x" square color="gray" class="ml-auto" size="xs" @click="emits('close')"></UButton>
+      <UButton icon="i-bx-x" square color="gray" class="ml-auto" size="2xs" @click="emits('close')"></UButton>
     </template>
 
     <UForm :state="state" :validate="validate" @submit="buy">

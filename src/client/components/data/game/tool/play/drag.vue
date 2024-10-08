@@ -23,7 +23,7 @@
     <UModal v-model="modal.recharge" :ui="{ width: 'lg:max-w-3xl md:max-w-2xl sm:max-w-xl' }">
       <UiContent :title="game.name" sub="Tool nạp vào trò chơi" class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.recharge = false"></UButton>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.recharge = false"></UButton>
         </template>
 
         <DataGameToolRecharge :game="game" @close="modal.recharge = false" />
@@ -38,7 +38,7 @@
     <UModal v-model="modal.mail" preventClose :ui="{ width: 'lg:max-w-3xl md:max-w-2xl sm:max-w-xl' }">
       <UiContent :title="game.name" sub="Tool gửi thư vào trò chơi" class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.mail = false"></UButton>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.mail = false"></UButton>
         </template>
 
         <DataGameToolMail :game="game" @close="modal.mail = false">

@@ -8,7 +8,7 @@
       <UInput icon="i-bxs-lock" v-model="state.password" type="password" />
     </UFormGroup>
 
-    <UiFlex justify="between" class="mt-6">
+    <UiFlex justify="between" class="mt-4">
       <UiText pointer size="sm" color="gray" @click="emit('up')">Đăng ký tài khoản ?</UiText>
       <UButton type="submit" :loading="loading">Xác Nhận</UButton>
     </UiFlex>

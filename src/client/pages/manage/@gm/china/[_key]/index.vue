@@ -85,7 +85,7 @@
           <UInput :model-value="toMoney(stateSuccess.coin)" readonly />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.success">Duyệt</UButton>
           <UButton color="gray" @click="modal.success = false" :disabled="loading.success" class="ml-1">Đóng</UButton>
         </UiFlex>
@@ -103,7 +103,7 @@
           <UTextarea v-model="stateRefuse.reason" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.refuse" color="red">Từ chối</UButton>
           <UButton color="gray" @click="modal.refuse = false" :disabled="loading.refuse" class="ml-1">Đóng</UButton>
         </UiFlex>

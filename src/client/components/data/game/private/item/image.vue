@@ -6,7 +6,7 @@
     w="1" h="1" 
     class="
       transition-all 
-      rounded-3xl 
+      rounded-lg 
     "
     :style="{
       minWidth: size ? `${size}px` : null,

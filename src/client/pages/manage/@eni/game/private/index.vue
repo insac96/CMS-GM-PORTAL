@@ -92,7 +92,7 @@
           <SelectDisplay v-model="stateAdd.display" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <SelectPin v-model="stateAdd.pin" class="mr-auto" />
 
           <UButton type="submit" :loading="loading.add">Thêm</UButton>
@@ -128,7 +128,7 @@
           <SelectDisplay v-model="stateEditInfo.display" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <SelectPin v-model="stateEditInfo.pin" class="mr-auto" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
@@ -196,7 +196,7 @@ const selectedColumns = ref([...columns])
 
 // Page
 const page = ref({
-  size: 12,
+  size: 10,
   current: 1,
   sort: {
     column: 'updatedAt',

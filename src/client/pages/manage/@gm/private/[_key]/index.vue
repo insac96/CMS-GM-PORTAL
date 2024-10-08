@@ -103,7 +103,7 @@
           <UInput v-model="stateEditPay.pay.total.coin" type="number" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editPay = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>

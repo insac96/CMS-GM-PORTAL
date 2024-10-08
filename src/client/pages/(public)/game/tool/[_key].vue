@@ -73,9 +73,9 @@
         </div>
 
         <!-- Alert -->
-        <UAlert class="my-4" icon="i-bx-game" title="Bạn vẫn có thể chơi trò chơi mà không cần phải mua tool" :ui="{
+        <!-- <UAlert class="my-4" icon="i-bx-game" title="Bạn vẫn có thể chơi trò chơi mà không cần phải mua tool" :ui="{
           color: { white: { solid: 'bg-gray-100' }}
-        }"/>
+        }"/> -->
 
         <!-- Button -->
         <UiFlex class="gap-1">
@@ -86,13 +86,15 @@
     </div>
 
     <!--Content-->
-    <div class="grid grid-cols-12">
-      <div class="xl:col-span-8 col-span-12">
-        <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block"></UTabs>
+    <div class="grid grid-cols-12 gap-4">
+      <div class="xl:col-span-8 md:col-span-12 col-span-12">
+        <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
+        
+        <NuxtPage :game="game" />
+      </div>
 
-        <div class="py-4">
-          <NuxtPage :game="game" />
-        </div>
+      <div class="xl:col-span-4 md:col-span-12 col-span-12">
+        <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="tool"/>
       </div>
     </div>
 
@@ -100,7 +102,7 @@
     <UModal v-model="modal.play" prevent-close>
       <UiContent no-dot title="Hệ Điều Hành" sub="Chọn hệ điều hành muốn chơi" class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" color="gray" class="ml-auto" square :disabled="loading.play" @click="modal.play = false"></UButton>
+          <UButton icon="i-bx-x" color="gray" class="ml-auto" size="2xs" square :disabled="loading.play" @click="modal.play = false"></UButton>
         </template>
 
         <UAlert 

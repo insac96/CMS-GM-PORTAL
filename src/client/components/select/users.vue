@@ -29,7 +29,7 @@
           <SelectUser v-model:user-data="stateAdd" :type="props.type" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit">Thêm</UButton>
           <UButton color="gray" @click="modal.add = false" class="ml-1">Đóng</UButton>
         </UiFlex>

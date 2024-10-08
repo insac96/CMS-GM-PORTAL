@@ -8,7 +8,7 @@ export default defineAppConfig({
       default: {
         loadingIcon: 'i-bx-loader-alt'
       },
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
       color: {
         gray: {
           solid: 'ring-0'
@@ -17,18 +17,18 @@ export default defineAppConfig({
     },
 
     buttonGroup: {
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
     },
 
     avatar: {
-      rounded: 'rounded-3xl'
+      rounded: 'rounded-lg'
     },
 
     card: {
       divide: 'divide-gray-100',
       ring: 'ring-gray-100',
       base: 'relative overflow-x-hidden overflow-visible',
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
     },
 
     input: {
@@ -37,7 +37,7 @@ export default defineAppConfig({
         size: 'lg',
         loadingIcon: 'i-bx-loader-alt'
       },
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
       color: {
         gray: {
           outline: 'ring-0 bg-gray-100 '
@@ -49,7 +49,7 @@ export default defineAppConfig({
       variant: {
         soft: 'bg-{color}-500 bg-opacity-10'
       },
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
     },
 
     badge: {
@@ -57,7 +57,7 @@ export default defineAppConfig({
       variant: {
         soft: 'bg-{color}-500 bg-opacity-10'
       },
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
     },
 
     modal: {
@@ -66,7 +66,7 @@ export default defineAppConfig({
         background: 'bg-white/25 dark:bg-black/50 backdrop-blur'
       },
       base: 'overflow-x-hidden overflow-visible',
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
     },
 
     slideover: {
@@ -83,7 +83,7 @@ export default defineAppConfig({
     notification: {
       background: 'dark:bg-black/50 backdrop-blur',
       title: 'text-xs font-semibold',
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
       ring: 'ring-0',
       gap: 'gap-2',
       progress: {
@@ -113,7 +113,7 @@ export default defineAppConfig({
     },
 
     popover: {
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
     },
 
     select: {
@@ -121,7 +121,7 @@ export default defineAppConfig({
         loadingIcon: 'i-bx-loader-alt',
         color: 'gray',
       },
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
       color: {
         gray: {
           outline: 'ring-0 bg-gray-100'
@@ -130,9 +130,9 @@ export default defineAppConfig({
     },
 
     selectMenu: {
-      rounded: 'rounded-2xl',
+      rounded: 'rounded-lg',
       option: {
-        rounded: 'rounded-3xl',
+        rounded: 'rounded-md',
         padding: 'px-3 py-1.5',
       }
     },
@@ -141,7 +141,7 @@ export default defineAppConfig({
       default: {
         color: 'gray',
       },
-      rounded: 'rounded-3xl',
+      rounded: 'rounded-lg',
       color: {
         gray: {
           outline: 'ring-0 bg-gray-100'
@@ -151,32 +151,32 @@ export default defineAppConfig({
 
     tabs: {
       list: {
-        rounded: 'rounded-3xl',
+        rounded: 'rounded-lg',
         marker: {
-          rounded: 'rounded-3xl',
+          rounded: 'rounded-lg',
         },
         tab: {
-          rounded: 'rounded-3xl',
+          rounded: 'rounded-lg',
         }
       }
     },
 
     verticalNavigation: {
-      rounded: 'rounded-3xl',
-      base: 'before:rounded-3xl',
+      rounded: 'rounded-lg',
+      base: 'before:rounded-lg',
       badge: {
-        base: 'rounded-3xl',
+        base: 'rounded-lg',
       }
     },
 
     skeleton: {
-      rounded: 'rounded-3xl'
+      rounded: 'rounded-lg'
     },
 
     dropdown: {
-      rounded: 'rounded-xl',
+      rounded: 'rounded-lg',
       item: {
-        rounded: 'rounded-3xl',
+        rounded: 'rounded-md',
       }
     }
   }

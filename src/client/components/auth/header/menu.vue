@@ -11,7 +11,7 @@
     <UModal v-model="modal.edit.info">
       <UiContent title="Chỉnh Sửa" sub="Cập nhật thông tin cá nhân" class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.edit.info = false"></UButton>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.edit.info = false"></UButton>
         </template>
         <AuthEditProfile />
       </UiContent>
@@ -20,7 +20,7 @@
     <UModal v-model="modal.edit.password">
       <UiContent title="Bảo Mật" sub="Thay đổi mật khẩu" class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.edit.password = false"></UButton>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.edit.password = false"></UButton>
         </template>
         
         <AuthEditPassword @done="modal.edit.password = false" />

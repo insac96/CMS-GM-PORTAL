@@ -68,7 +68,8 @@ const getList = async () => {
     category.value = data.category
     list.value = data.list
     page.value.total = data.total
-    loading.value = false
+
+    setTimeout(() => loading.value = false, 700)
   }
   catch (e) {
     loading.value = false

@@ -91,7 +91,7 @@
           <SelectDisplay v-model="stateEditInfo.display" :disabled="authStore.profile.type < 3" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="authStore.profile.type < 3" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
@@ -131,7 +131,7 @@
           <UiUploadImages v-model="stateEditImage.review"></UiUploadImages>
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editImage = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
@@ -153,7 +153,7 @@
           <UInput v-model="stateEditAPI.secret" :disabled="authStore.profile.type < 3"/>
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UiFlex class="mr-auto">
             <UToggle v-model="stateEditAPI.paygame" :disabled="authStore.profile.type < 3" class="mr-2" />
             <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" />
@@ -184,7 +184,7 @@
           <UInput v-model="stateEditPlay.windows" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editPlay = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
@@ -216,7 +216,7 @@
           </UiFlex>
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editRate = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>

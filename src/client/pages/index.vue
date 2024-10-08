@@ -16,7 +16,7 @@
         :src="config.og_image"
         w="16" h="9"
         alt="Banner"
-        class="transition-all rounded-3xl shadow-md hover:shadow-lg max-w-3xl"
+        class="transition-all rounded-lg shadow-md hover:shadow-lg max-w-3xl"
         preload
       ></UiImg>
     </UiFlex>

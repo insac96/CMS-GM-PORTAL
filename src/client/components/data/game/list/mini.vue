@@ -5,7 +5,7 @@
 
       <div class="grow">
         <NuxtLink :to="`/game/${os}/${game.key}`" @click="emits('to')">
-          <UiText color="gray" weight="semibold" class="line-clamp-1 text-sm sm:text-base hover:text-primary">
+          <UiText color="gray" weight="semibold" class="line-clamp-2 text-xs sm:text-sm hover:text-primary mb-0.5">
             {{ game.name }}
           </UiText>
         </NuxtLink>
@@ -21,7 +21,7 @@
         </UiFlex>
       </div>
 
-      <NuxtLink :to="`/game/${os}/${game.key}`" @click="emits('to')">
+      <NuxtLink :to="`/game/${os}/${game.key}`" @click="emits('to')" v-if="!noIcon">
         <UiIcon name="i-bx-link-external" size="5" color="gray"></UiIcon>
       </NuxtLink>
     </UiFlex>
@@ -29,6 +29,6 @@
 </template>
 
 <script setup>
-const props = defineProps(['os', 'list'])
+const props = defineProps(['os', 'list', 'noIcon'])
 const emits = defineEmits(['to'])
 </script>

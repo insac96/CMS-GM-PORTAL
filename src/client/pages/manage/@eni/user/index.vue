@@ -93,7 +93,7 @@
           <SelectAuthType v-model="stateEditAuth.type" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.editAuth">Sửa</UButton>
           <UButton color="gray" @click="modal.editAuth = false" :disabled="loading.editAuth" class="ml-1">Đóng</UButton>
         </UiFlex>
@@ -112,7 +112,7 @@
           <UTextarea v-model="stateEditCurrency.reason" />
         </UFormGroup>
 
-        <UiFlex justify="end" class="mt-6">
+        <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.editCurrency">
             {{ stateEditCurrency.type == 'plus' ? 'Thêm' : 'Sửa' }}
           </UButton>

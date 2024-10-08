@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-gray-100 rounded-3xl p-2">
+  <UCard :ui="{ background: 'bg-gray-100', body: { padding: 'p-2 sm:p-2' }}">
     <UiFlex>
       <div 
         v-for="item in tabs" 
         :key="item.value"
-        class="py-2 px-4 text-sm rounded-tl-2xl rounded-tr-2xl cursor-pointer select-none"
+        class="py-2 px-4 text-sm rounded-tl-lg rounded-tr-lg cursor-pointer select-none"
         :class="{
           'bg-white': tab == item.value
         }"
@@ -14,14 +14,14 @@
       </div>
     </UiFlex>
 
-    <div class="bg-white rounded-2xl p-2" :class="{
+    <div class="bg-white rounded-lg p-2" :class="{
       'rounded-tl-none': tab == 1
     }">
       <DataGamePrivateShopRecharge :game="game" v-if="tabs[tab-1]['key'] == 'recharge'" @done="updatePrivateShopBuy"/>
       <DataGamePrivateShopItem :game="game" v-if="tabs[tab-1]['key'] == 'item'" @done="updatePrivateShopBuy" />
       <DataGamePrivateShopPack :game="game" v-if="tabs[tab-1]['key'] == 'pack'" @done="updatePrivateShopBuy" />
     </div>
-  </div>
+  </UCard>
 </template>
 
 <script setup>

@@ -28,9 +28,9 @@
       <UiContent title="Thông Báo" class="w-[300px] sm:w-[400px] max-w-sreen overflow-hidden p-4" no-dot>
         <template #more >
           <UiFlex class="gap-1 ml-auto">
-            <UButton color="gray" size="xs" :loading="loading.read" icon="i-bx-check-double" @click=read v-if="list.length > 0"></UButton>
-            <UButton color="gray" size="xs" :loading="loading.del" icon="i-bx-trash" @click=del v-if="list.length > 0"></UButton>
-            <UButton color="gray" size="xs" icon="i-bx-x" @click="open = false"></UButton>
+            <UButton color="gray" size="2xs" :loading="loading.read" icon="i-bx-check-double" @click=read v-if="list.length > 0"></UButton>
+            <UButton color="gray" size="2xs" :loading="loading.del" icon="i-bx-trash" @click=del v-if="list.length > 0"></UButton>
+            <UButton color="gray" size="2xs" icon="i-bx-x" @click="open = false"></UButton>
           </UiFlex>
         </template>
 
@@ -114,7 +114,8 @@ const getList = async () => {
     
     list.value = data.list
     page.value.total = data.total
-    loading.value.list = false
+
+    setTimeout(() => loading.value.list = false, 700)
   }
   catch(e){
     loading.value.list = false

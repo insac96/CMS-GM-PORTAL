@@ -1,11 +1,11 @@
 <template>
   <div>
-    <UiFlex justify="center" >
-      <UTabs v-model="tab" :items="tabs"></UTabs>
+    <UiFlex justify="center">
+      <UTabs v-model="tab" :items="tabs" class="mt-2"></UTabs>
     </UiFlex>
 
     <!-- Table -->
-		<UCard :ui="{ body: { padding: 'p-0 sm:p-0' } }">
+		<div>
 			<LoadingTable v-if="loading" />
 
 			<UTable :columns="columns" :rows="list">
@@ -26,7 +26,7 @@
           >{{ statusShow(row.status, row.need) }}</UButton>
 				</template>
 			</UTable>
-		</UCard>
+		</div>
 
     <UModal v-model="modal.receive" prevent-close>
       <DataGamePrivateEventReceive 

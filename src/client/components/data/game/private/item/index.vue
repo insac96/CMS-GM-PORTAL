@@ -3,7 +3,7 @@
     relative inline-block
     hover:ring-primary-500
     cursor-pointer
-    rounded-3xl 
+    rounded-lg 
   ">
     <DataGamePrivateItemImage 
       class="p-1"
@@ -18,7 +18,7 @@
       class="
         absolute
         bottom-1 right-1
-        rounded-md
+        rounded-lg
         px-[5px]
         bg-gray-600
         cursor-pointer

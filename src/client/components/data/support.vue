@@ -5,7 +5,7 @@
     <UModal v-model="modal">
       <UiContent title="Liên Hệ Hỗ Trợ" sub="Bạn có thể liên hệ với chúng tôi qua các hình thức sau" class="p-4" no-dot>
         <template #more>
-          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal = false"></UButton>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal = false"></UButton>
         </template>
 
         <UiFlex class="mb-6">

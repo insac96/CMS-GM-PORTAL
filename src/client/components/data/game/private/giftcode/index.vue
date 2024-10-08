@@ -1,7 +1,7 @@
 <template>
   <UiContent title="Giftcode" sub="Mã quà tặng trò chơi" no-dot>
     <template #more>
-      <UButton icon="i-bx-x" square color="gray" class="ml-auto" size="xs" @click="emits('close')"></UButton>
+      <UButton icon="i-bx-x" square color="gray" class="ml-auto" size="2xs" @click="emits('close')"></UButton>
     </template>
 
     <UForm ref="form" :state="state" :validate="validate" @submit="receive">
@@ -44,7 +44,7 @@
     <UModal v-model="modal.history" prevent-close :ui="{width: 'sm:max-w-[700px]'}">
       <UiContent title="Lịch Sử" sub="Các mã Giftcode đã nhập" no-dot class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" class="ml-auto" size="sm" color="gray" square @click="modal.history = false"></UButton>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.history = false"></UButton>
         </template>
 
         <DataGamePrivateGiftcodeHistory :game="props.game.code" />

@@ -8,9 +8,9 @@
       </UiFlex>
       
       <div v-if="sub">
-        <UiText class="text-xs lg:text-sm inline" color="gray">{{ !showMore ? sub.slice(0, 200) : sub }}</UiText>
+        <UiText class="text-xs lg:text-sm inline" color="gray">{{ !showMore ? sub.slice(0, 100) : sub }}</UiText>
         <UiText class="text-xs lg:text-sm inline" color="gray" v-if="!showMore">...</UiText>
-        <UiText class="text-xs lg:text-sm inline cursor-pointer" color="primary" v-if="!showMore" @click="showMore = true">Xem thêm</UiText>
+        <UiText class="text-xs lg:text-sm inline cursor-pointer" color="primary" v-if="!!sub && sub.length > 100" @click="showMore = !showMore">{{ !showMore ? 'Xem thêm' : 'Ẩn' }}</UiText>
       </div>
     </div>
 
@@ -31,7 +31,7 @@ const showMore = ref(false)
 
 const checkSub = () => {
   if(!props.sub) return showMore.value = true
-  if(props.sub.length > 200) return showMore.value = false
+  if(props.sub.length > 100) return showMore.value = false
   return showMore.value = true
 }
 checkSub()

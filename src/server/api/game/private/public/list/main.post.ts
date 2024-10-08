@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   try {
-    const { size, current, sort, search, category, platform } = await readBody(event)
+    const { size, current, sort, search, category, platform, skip } = await readBody(event)
     if(!size || !current || !category || !platform) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
     if(!Array.isArray(platform)) throw 'Dữ liệu nền tảng không hợp lệ'
@@ -22,6 +22,9 @@ export default defineEventHandler(async (event) => {
     }
     if(category.length > 0){
       match['category'] = { $in: category }
+    }
+    if(skip){
+      match['_id'] = { $ne: skip }
     }
 
     const list = await DB.GamePrivate

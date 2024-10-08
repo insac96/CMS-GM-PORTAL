@@ -1,7 +1,7 @@
 <template>
   <UiContent title="Nạp GCoin" sub="Chuyển Xu thành GCoin của trò chơi" no-dot>
     <template #more>
-      <UButton icon="i-bx-x" square color="gray" class="ml-auto" size="xs" @click="emits('close')"></UButton>
+      <UButton icon="i-bx-x" square color="gray" class="ml-auto" size="2xs" @click="emits('close')"></UButton>
     </template>
 
     <UForm ref="form" :state="state" :validate="validate" @submit="submit">

@@ -55,7 +55,7 @@
             <UInput v-model="stateAdd.icon" />
           </UFormGroup>
   
-          <UiFlex justify="end" class="mt-6">
+          <UiFlex justify="end" class="mt-4">
             <UButton type="submit" :loading="loading.add">Thêm</UButton>
             <UButton color="gray" @click="modal.add = false" :disabled="loading.add" class="ml-1">Đóng</UButton>
           </UiFlex>
@@ -73,7 +73,7 @@
             <UInput v-model="stateEdit.icon" />
           </UFormGroup>
   
-          <UiFlex justify="end" class="mt-6">
+          <UiFlex justify="end" class="mt-4">
             <UButton type="submit" :loading="loading.edit">Sửa</UButton>
             <UButton color="gray" @click="modal.edit = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
           </UiFlex>
