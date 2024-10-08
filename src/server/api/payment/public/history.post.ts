@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 
     const match : any = { user: userCheck }
     if(search.key && search.by){
-      match['$text'] = { '$search': search.key }
+      match['code'] = { $regex : search.key.toLowerCase(), $options : 'i' }
     }
     if(!!range && !!range['start'] && !!range['end']){
       match['createdAt'] = { $gte: new Date(range['start']), $lte: new Date(range['end']) }

@@ -79,7 +79,7 @@
           <SelectDisplay v-model="stateAdd.display" />
         </UFormGroup>
 
-        <UiFlex class="mt-6">
+        <UiFlex class="mt-4">
           <SelectPin v-model="stateAdd.pin" class="mr-auto" />
 
           <UButton type="submit" :loading="loading.add">Thêm</UButton>
@@ -115,7 +115,7 @@
           <SelectDisplay v-model="stateEdit.display" />
         </UFormGroup>
 
-        <UiFlex class="mt-6">
+        <UiFlex class="mt-4">
           <SelectPin v-model="stateEdit.pin" class="mr-auto" />
 
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
@@ -244,7 +244,7 @@ const actions = (row) => [
   [{
     label: 'Xem trực tiếp',
     icon: 'i-bx-link-external',
-    click: () => window.open(`/news/${row._id}`, '_blank')
+    click: () => window.open(`/news/${row.key}`, '_blank')
   }],
   [{
     label: 'Sửa thông tin',

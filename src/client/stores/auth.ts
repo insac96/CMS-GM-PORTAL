@@ -11,9 +11,9 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function setAuth () {
-    const auth = await useAPI('auth/public/get') as IDBUserStore
+    const auth = await useAPI('auth/public/get') 
     isLogin.value = true
-    profile.value = auth
+    profile.value = auth 
   }
 
   async function removeAuth () {

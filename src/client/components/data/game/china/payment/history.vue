@@ -158,6 +158,7 @@ const stateUndo = ref({
 const openUndo = (row) => {
   stateUndo.value._id = row._id
   stateUndo.value.code = row.code
+  stateUndo.value.reason = null
   modal.value.undo = true
 }
 

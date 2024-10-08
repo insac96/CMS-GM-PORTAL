@@ -29,7 +29,10 @@ export default defineEventHandler(async (event) => {
         if(userUpdate.currency.coin < 0) userUpdate.currency.coin = 0
         await userUpdate.save()
 
-        logUser(event, user._id, `Nhận <b>${change.join(', ')}</b> từ quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`)
+        const notify = `Nhận <b>${change.join(', ')}</b> từ quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`
+        logUser(event, user._id, notify)
+        await sendNotifyUser({ user: user._id, content: notify})
+
         logAdmin(event, `Thêm <b>${change.join(', ')}</b> cho tài khoản <b>${user.username}</b> với lý do <b>${reason}</b>`)
       }
     }
@@ -41,10 +44,12 @@ export default defineEventHandler(async (event) => {
       update['currency'] = origin
       
       const change = []
-      
       if(origin.coin != user.currency.coin){
-        change.push('xu')
-        logUser(event, user._id, `Số <b>xu</b> được thay đổi từ <b>${user.currency.coin.toLocaleString('vi-VN')}</b> thành <b>${origin.coin.toLocaleString('vi-VN')}</b> bởi quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`)
+        change.push('Xu')
+
+        const notify = `Số <b>Xu</b> được thay đổi từ <b>${user.currency.coin.toLocaleString('vi-VN')}</b> thành <b>${origin.coin.toLocaleString('vi-VN')}</b> bởi quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`
+        logUser(event, user._id, notify)
+        await sendNotifyUser({ user: user._id, content: notify })
       }
 
       if(change.length > 0){

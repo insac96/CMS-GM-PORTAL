@@ -13,10 +13,10 @@ export const useAPI = async (path : string, post?: any, options: any = {}) => {
   if(error.value) {
     const statusCode = error.value.statusCode
     const message = error.value.message
-    if(process.server){
+    if(import.meta.server){
       throw createError({ statusCode, message })
     }
-    if(process.client){
+    if(import.meta.client){
       showError({ statusCode, statusMessage:message })
       return Promise.reject(false)
     }
@@ -25,25 +25,19 @@ export const useAPI = async (path : string, post?: any, options: any = {}) => {
     if(!data.value) return Promise.reject(false)
     const { code, message, result } = data.value as IResp
 
-    if(!!message && process.client){
-      const toast = useToast()
-      toast.add({
-        title: 'Thông báo',
-        description: message,
-        color: code == 200 ? 'green' : 'red',
-        icon: code == 200 ? 'i-bx-check' : 'i-bx-error',
-        timeout: 2000
-      })
+    if(!!message && import.meta.client){
+      if(code == 200) useNotify().success(message)
+      else useNotify().error(message)
     }
 
     if(code == 200) {
       return Promise.resolve(result || null)
     }
     else if(code == 500){
-      if(process.server){
+      if(import.meta.server){
         throw createError({ statusCode:code, message:message })
       }
-      if(process.client){
+      if(import.meta.client){
         showError({ statusCode:code, statusMessage:message })
         return Promise.reject(message)
       }

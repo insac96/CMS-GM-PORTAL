@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
     if(!title || !reason || !time) throw 'Vui lòng nhập đầy đủ thông tin'
     if(!!isNaN(parseInt(money)) || parseInt(money) < 0) throw 'Dữ liệu tiền tệ không hợp lệ'
     if(!Array.isArray(images)) throw 'Dữ liệu hình ảnh không hợp lệ'
+    if(reason.length > 50) throw 'Lý do không vượt quá 50 ký tự'
 
     body.time = new Date(time)
     body.user = auth._id

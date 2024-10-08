@@ -34,8 +34,8 @@
         </template>
 
         <template #action-data="{ row }">
-          <UButton v-if="!row.block" color="gray" size="xs" icon="i-bxs-lock-alt" @click="block(row.ip, 'block')" :loading="loading.block" />
-          <UButton v-if="!!row.block" color="gray" size="xs" icon="i-bxs-lock-open-alt" @click="block(row.ip, 'unblock')" :loading="loading.block" />
+          <UButton v-if="!row.block" color="gray" size="xs" icon="i-bxs-lock-alt" @click="startBlock(row.ip, 'block')" :loading="loading.block" />
+          <UButton v-if="!!row.block" color="gray" size="xs" icon="i-bxs-lock-open-alt" @click="startBlock(row.ip, 'unblock')" :loading="loading.block" />
         </template>
       </UTable>
     </UCard>
@@ -49,6 +49,22 @@
     <!--Modal User Info-->
     <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
       <ManageUser :user="stateUser" />
+    </UModal>
+
+    <!--Modal User Info-->
+    <UModal v-model="modal.block" preventClose>
+      <UiContent :title="stateBlock.action == 'block' ? 'Khóa IP' : 'Mở Khóa IP'" class="p-4" no-dot>
+        <UAlert title="Chú Ý" icon="i-bxs-info-circle" :color="stateBlock.action == 'block' ? 'red' : 'green'" variant="soft">
+          <template #description>
+            Bạn chắc chắn muốn {{ stateBlock.action == 'block' ? 'chặn' : 'mở khóa' }} IP <b>{{ stateBlock.ip }}</b> truy cập !
+          </template>
+        </UAlert>
+
+        <UiFlex class="mt-4" justify="end">
+          <UButton @click="block" :loading="loading.block" :color="stateBlock.action == 'block' ? 'red' : 'green'">Xác Nhận</UButton>
+          <UButton color="gray" @click="modal.block = false" :disabled="loading.block" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UiContent>
     </UModal>
   </UiContent>
 </template>
@@ -102,16 +118,23 @@ watch(() => page.value.search.key, (val) => !val && getList())
 
 // Modal
 const modal = ref({
-  user: false
+  user: false,
+  block: false
 })
 
 // Loading
 const loading = ref({
-  load: true
+  load: true,
+  block: false
 })
 
 // State
 const stateUser = ref(undefined)
+
+const stateBlock = ref({
+  ip: null,
+  action: null
+})
 
 // View User
 const viewUser = (_id) => {
@@ -119,13 +142,21 @@ const viewUser = (_id) => {
   stateUser.value = _id
 }
 
-// Fetch
-const block = async (ip, action) => {
-  try {
-    loading.value.true = true
-    await useAPI('ip/user/block', { ip, action })
+// View Block
+const startBlock = (ip, action) => {
+  stateBlock.value.ip = ip
+  stateBlock.value.action = action
+  modal.value.block = true
+}
 
-    loading.value.true = false
+// Fetch
+const block = async () => {
+  try {
+    loading.value.block = true
+    await useAPI('ip/user/block', JSON.parse(JSON.stringify(stateBlock.value)))
+
+    loading.value.block = false
+    modal.value.block = false
     getList()
   }
   catch (e) {
