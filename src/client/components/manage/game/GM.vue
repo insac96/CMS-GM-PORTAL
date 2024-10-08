@@ -1,18 +1,18 @@
 <template>
   <UiContent title="Game Manage" sub="Danh sách game đang quản lý" no-dot>
     <template #more>
-      <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="emits('close')"></UButton>
+      <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="emits('close')" :disabled="!!loading"></UButton>
     </template>
 
-    <SelectGameOs v-model="page.os" class="mb-1"/>
+    <SelectGameOs v-model="page.os" class="mb-1" :disabled="!!loading"/>
 
     <UiFlex class="mb-4 gap-1 flex-col sm:flex-row">
       <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto grow">
-        <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
+        <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" :disabled="!!loading" />
       </UForm>
 
-      <SelectGamePlatform v-model="page.platform" multiple size="sm" class="w-full sm:w-auto grow" />
-      <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto grow" />
+      <SelectGamePlatform v-model="page.platform" multiple size="sm" class="w-full sm:w-auto grow" :disabled="!!loading" />
+      <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto grow" :disabled="!!loading" />
     </UiFlex>
 
     <DataGameList :loading="loading" :list="list" :os="page.os" :gm="true" @click="emits('to')"/>
@@ -27,7 +27,7 @@
 <script setup>
 const emits = defineEmits(['to', 'close'])
 const list = ref([])
-const loading = ref(false)
+const loading = ref(true)
 
 const page = ref({
   size: 12,
@@ -58,7 +58,8 @@ const getList = async () => {
 
     list.value = data.list
     page.value.total = data.total
-    loading.value = false
+
+    setTimeout(() => loading.value = false, 700)
   }
   catch (e) {
     loading.value = false

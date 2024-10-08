@@ -112,7 +112,7 @@ const getUserBox = async () => {
 
     user.value = get
     emit('update:userData', get)
-    setTimeout(() => loading.value = false, 500)
+    setTimeout(() => loading.value = false, 700)
   }
   catch(e) {
     loading.value = false

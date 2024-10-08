@@ -1,5 +1,5 @@
 <template>
-  <UTabs v-model="tab" :items="items" :content="false">
+  <UTabs v-model="tab" :items="items" :content="false" :disabled="disabled">
     <template #default="{ item }">
       <UiFlex class="gap-1">
         <span class="truncate hidden sm:block">{{ item.label.split(' ')[0] }}</span>
@@ -12,6 +12,7 @@
 <script setup>
 const props = defineProps({
   modelValue: String,
+  disabled: Boolean
 })
 const emit = defineEmits(['update:modelValue'])
 

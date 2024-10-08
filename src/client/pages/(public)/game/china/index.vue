@@ -2,18 +2,18 @@
   <UiContent title="Game China" sub="Trò chơi trung quốc hay">
     <UiFlex class="mb-4 gap-1 flex-col sm:flex-row">
       <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
-        <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
+        <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" :disabled="!!loading" />
       </UForm>
 
-      <SelectGamePlatform v-model="page.platform" multiple size="sm" class="w-full sm:w-auto" />
-      <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" />
+      <SelectGamePlatform v-model="page.platform" multiple size="sm" class="w-full sm:w-auto" :disabled="!!loading" />
+      <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" :disabled="!!loading" />
     </UiFlex>
 
     <DataGameList :loading="loading" :list="list" os="china" />
 
     <!-- Pagination -->
-    <UiFlex justify="end" class="mt-4" v-if="page.total > page.size">
-      <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs"/>
+    <UiFlex justify="center" class="mt-4">
+      <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs" :disabled="!!loading"/>
     </UiFlex>
   </UiContent>
 </template>
@@ -58,7 +58,7 @@ const getList = async () => {
 
     list.value = data.list
     page.value.total = data.total
-    
+
     setTimeout(() => loading.value = false, 700)
   }
   catch (e) {
