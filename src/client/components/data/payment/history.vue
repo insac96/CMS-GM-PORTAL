@@ -155,6 +155,7 @@ const statusFormat = {
   0: { label: 'Đang chờ', color: 'orange' },
   1: { label: 'Thành công', color: 'green' },
   2: { label: 'Từ chối', color: 'red' },
+  3: { label: 'Hoàn tác', color: 'blue' },
 }
 
 const stateUndo = ref({

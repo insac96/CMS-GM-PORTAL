@@ -19,7 +19,7 @@ export default async (
   if(
     !!isNaN(parseInt(String(status))) 
     || parseInt(String(status)) < 1 
-    || parseInt(String(status)) > 2
+    || parseInt(String(status)) > 3
   ) throw 'Mã trạng thái không hợp lệ'
   if(
     !!isNaN(parseInt(String(money))) 
@@ -49,7 +49,7 @@ export default async (
 
   // Update Payment
   const time = new Date()
-  const verify_person = !!verifier ? verifier : bot._id
+  const verify_person = realStatus == 3 ? user._id : !!verifier ? verifier : bot._id
   await DB.Payment.updateOne({ _id: _id }, {
     money: realMoney,
     status: realStatus,
@@ -90,9 +90,13 @@ export default async (
       })
     }
   }
-  else {
+  else if(realStatus == 2){
     realNotify = `Bạn bị từ chối giao dịch <b>${payment.code}</b> với lý do <b>${realReason}</b>`
     logAdmin(event, `Từ chối giao dịch nạp tiền <b>${payment.code}</b> với lý do <b>${realReason}</b>`, verify_person)
+  }
+  else {
+    realNotify = `Bạn đã hoàn tác giao dịch nạp tiền <b>${payment.code}</b> với lý do <b>${realReason}</b>`
+    logUser(event, user._id, `Hoàn tác giao dịch nạp tiền <b>${payment.code}</b>`)
   }
 
   // Send Notify

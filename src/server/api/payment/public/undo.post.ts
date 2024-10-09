@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     await verifyPayment(event, {
       _id: payment._id,
       money: payment.money,
-      status: 2,
+      status: 3,
       reason: reason
     }, undefined, false)
 

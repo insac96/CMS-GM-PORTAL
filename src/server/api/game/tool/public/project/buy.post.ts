@@ -33,9 +33,14 @@ export default defineEventHandler(async (event) => {
       newUserGame.coin = totalPrice
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
-      await DB.GameToolUser.create(newUserGame)
+      const newUserGameData = await DB.GameToolUser.create(newUserGame)
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
       await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
+      await DB.GameToolPayment.create({
+        user: newUserGameData._id,
+        game: game._id,
+        coin: totalPrice
+      })
       result = { recharge: newUserGame.recharge, mail: newUserGame.mail }
     }
     
@@ -53,16 +58,16 @@ export default defineEventHandler(async (event) => {
       // @ts-expect-error
       await userGame.save()
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
+      await DB.GameToolPayment.create({
+        user: userGame._id,
+        game: game._id,
+        coin: totalPrice
+      })
       result = { recharge: userGame.recharge, mail: userGame.mail }
     }
 
     // Update revenue game
     await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': totalPrice }})
-    await DB.GameToolPayment.create({
-      user: user._id,
-      game: game._id,
-      coin: totalPrice
-    })
 
     return resp(event, { result: result })
   } 
