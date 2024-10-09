@@ -358,3 +358,14 @@ export interface IDBGamePrivateEventHistory {
   server: string
   role: string
 }
+
+// Comment
+export interface IDBGamePrivateComment {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  user: Types.ObjectId | IDBGamePrivateUser
+  game: Types.ObjectId | IDBGamePrivate
+  content: string
+}

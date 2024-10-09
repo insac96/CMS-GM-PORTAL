@@ -9,7 +9,8 @@ import type {
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory, 
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory, 
   IDBGamePrivateUser, 
-  IDBGamePrivateUserLogin 
+  IDBGamePrivateUserLogin,
+  IDBGamePrivateComment 
 } from '~~/types'
 
 export const DBGamePrivate = (mongoose : Mongoose) => {
@@ -422,3 +423,16 @@ export const DBGamePrivateEventHistory = (mongoose : Mongoose) => {
   return model 
 }
 
+// Comment
+export const DBGamePrivateComment = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateComment>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    content: { type: String }
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateComment', schema, 'GamePrivateComment')
+  return model 
+}

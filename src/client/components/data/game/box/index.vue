@@ -1,8 +1,9 @@
 <template>
   <NuxtLink :to="to">
-    <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
+    <UCard class="overflow-hidden transition-2 cursor-pointer " :ui="{
+      base: '',
       divide: '',
-      ring: 'ring-0',
+      ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
       shadow: 'shadow hover:shadow-xl',
       header: {
         padding: 'p-0 p-0 sm:p-0',
@@ -19,7 +20,7 @@
         <div class="relative">
           <UiImg :src="game.image?.banner" w="16" h="9" />
 
-          <UButton square class="absolute top-2 left-2" v-if="!!game.pin" color="green" icon="i-bxs-star" size="xs" />
+          <UiIcon class="absolute top-2 left-2 jump-anim" v-if="!!game.pin" color="primary" name="i-bxs-star" size="5" />
         </div>
       </template>
 

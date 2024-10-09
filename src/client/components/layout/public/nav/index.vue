@@ -40,7 +40,10 @@
       </UiFlex>
     </div>
 
-    <DataSupport class="py-2 px-4 w-full" />
+    <UiFlex class="w-full p-4 gap-1">
+      <DataSupport class="w-full" />
+      <Setting />
+    </UiFlex>
   </UiFlex>
 </template>
 

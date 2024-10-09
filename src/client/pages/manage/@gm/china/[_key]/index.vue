@@ -24,9 +24,9 @@
         </template>
 
         <template #user-data="{ row }">
-          <span v-if="!row.user">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.user._id)">
-            {{ row.user.username }}
+          <span v-if="!row.user ">...</span>
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+            {{ row.user.user ? row.user.user.username : '...' }}
           </UBadge>
         </template>
 
@@ -41,14 +41,14 @@
         </template>
 
         <template #verify_person-data="{ row }">
-          <span v-if="!row.verify_person">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.verify_person._id)">
-            {{ row.verify_person.username }}
+          <span v-if="!row.verify.person">...</span>
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+            {{ row.verify.person.username }}
           </UBadge>
         </template>
 
         <template #verify_time-data="{ row }">
-          {{ row.verify_time ? useDayJs().displayFull(row.verify_time) : '...' }}
+          {{ row.verify ? useDayJs().displayFull(row.verify.time) : '...' }}
         </template>
 
         <template #createdAt-data="{ row }">
@@ -68,11 +68,6 @@
       <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Chọn cột" />
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" />
     </UiFlex>
-
-    <!-- Modal User View -->
-    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
-      <ManageUser :user="stateUser" />
-    </UModal>
 
     <!-- Modal Success -->
     <UModal v-model="modal.success" preventClose>
@@ -190,13 +185,11 @@ const stateRefuse = ref({
   status: null,
   game: game._id
 })
-const stateUser = ref(undefined)
 
 // Modal
 const modal = ref({
   success: false,
-  refuse: false,
-  user: false,
+  refuse: false
 })
 
 // Loading
@@ -238,11 +231,6 @@ const actions = (row) => [
     }
   }]
 ]
-
-const viewUser = (_id) => {
-  stateUser.value = _id
-  modal.value.user = true
-}
  
 // Fetch
 const getList = async () => {

@@ -83,7 +83,7 @@ export interface IDBGameToolPayment {
   createdAt: Date
   updatedAt: Date
 
-  user: Types.ObjectId | IDBUser
+  user: Types.ObjectId | IDBGameToolUser
   game: Types.ObjectId | IDBGameTool
   coin: number
 }
@@ -103,4 +103,14 @@ export interface IDBGameToolItem {
   game: Types.ObjectId | IDBGameTool
   item_id: string
   item_name: string
+}
+
+export interface IDBGameToolComment {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  user: Types.ObjectId | IDBGameToolUser
+  game: Types.ObjectId | IDBGameTool
+  content: string
 }

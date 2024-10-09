@@ -1,22 +1,16 @@
 <template>
-  <div>
-    <UCard :ui="{ 
-      body: { padding: 'p-0 sm:p-0' },
-      header: { padding: 'px-3 sm:px-3 py-2 sm:py-2' },
-      footer: { padding: 'p-2 sm:p-2' },
-    }">
-      <template #header>
-        <UiFlex>
-          <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
+  <UiContent title="Lịch Sử Nạp" sub="Danh sách các giao dịch nạp Xu" class="p-4" no-dot>
+    <div>
+      <UiFlex>
+        <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
 
-          <UForm @submit="getList" class="max-w-[9rem] mr-auto">
-            <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm"></UInput>
-          </UForm>
-          
-          <SelectDate time v-model="page.range.start" placeholder="Bắt đầu" size="sm" class="ml-1 max-w-[140px]"/>
-          <SelectDate time v-model="page.range.end" placeholder="Kết thúc" size="sm" class="ml-1 max-w-[140px]"/>
-        </UiFlex>
-      </template>
+        <UForm @submit="getList" class="max-w-[9rem] mr-auto">
+          <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm"></UInput>
+        </UForm>
+        
+        <SelectDate time v-model="page.range.start" placeholder="Bắt đầu" size="sm" class="ml-1 max-w-[140px]"/>
+        <SelectDate time v-model="page.range.end" placeholder="Kết thúc" size="sm" class="ml-1 max-w-[140px]"/>
+      </UiFlex>
 
       <LoadingTable v-if="loading.load" />
 
@@ -48,13 +42,11 @@
         </template>
       </UTable>
 
-      <template #footer>
-        <UiFlex justify="between">
-          <UButton color="gray" icon="i-bx-check" v-if="totalSuccess != 0">{{ toMoney(totalSuccess) }}</UButton>
-          <UPagination class="ml-auto" v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
-        </UiFlex>
-      </template>
-    </UCard>
+      <UiFlex justify="between">
+        <UButton color="gray" icon="i-bx-check" v-if="totalSuccess != 0">{{ toMoney(totalSuccess) }}</UButton>
+        <UPagination class="ml-auto" v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
+      </UiFlex>
+    </div>
 
     <!-- Modal View -->
     <UModal v-model="modal.payment" prevent-close>
@@ -82,7 +74,7 @@
         </UiFlex>
       </UForm>
     </UModal>
-  </div>
+  </UiContent>
 </template>
 
 <script setup>

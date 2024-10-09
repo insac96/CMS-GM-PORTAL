@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGameTool, IDBGameToolUser, IDBGameToolPayment, IDBGameToolRecharge, IDBGameToolItem } from '~~/types'
+import type { IDBGameTool, IDBGameToolUser, IDBGameToolPayment, IDBGameToolRecharge, IDBGameToolItem, IDBGameToolComment } from '~~/types'
 
 export const DBGameTool = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameTool>({ 
@@ -84,7 +84,7 @@ export const DBGameToolUser = (mongoose : Mongoose) => {
 
 export const DBGameToolPayment = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameToolPayment>({ 
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GameToolUser' },
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameTool' },
     coin: { type: Number, index: true, default: 0 },
   }, {
@@ -117,6 +117,19 @@ export const DBGameToolItem = (mongoose : Mongoose) => {
   
   schema.index({ item_id: 'text', item_name: 'text' })
   const model = mongoose.model('GameToolItem', schema, 'GameToolItem')
+  return model 
+}
+
+export const DBGameToolComment = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGameToolComment>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GameToolUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameTool' },
+    content: { type: String }
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GameToolComment', schema, 'GameToolComment')
   return model 
 }
 

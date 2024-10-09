@@ -25,15 +25,20 @@ export default defineEventHandler(async (event) => {
         const users = await DB.User.find({
           username : { $regex : search.key.toLowerCase(), $options : 'i' }
         }).select('_id')
+        const usersGame = await DB.GameChinaUser.find({
+          user: { $in: users.map(i => i._id) },
+          game: game._id
+        }).select('_id')
         
-        match['user'] = { $in: users.map(i => i._id) }
+        match['user'] = { $in: usersGame.map(i => i._id) }
       }
     }
 
     const list = await DB.GameChinaPayment
     .find(match)
-    .populate({ path: 'user', select: 'username' })
+    .populate({ path: 'user', select: 'user', populate: { path: 'user', select: 'username' }})
     .populate({ path: 'game', select: 'name' })
+    .populate({ path: 'verify.person', select: 'username' })
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)

@@ -1,12 +1,12 @@
 <template>
-  <UCard :ui="{ background: 'bg-gray-100', body: { padding: 'p-2 sm:p-2' }}">
+  <UCard :ui="{ background: 'bg-gray-100 dark:bg-gray-800', body: { padding: 'p-2 sm:p-2' }}">
     <UiFlex>
       <div 
         v-for="item in tabs" 
         :key="item.value"
         class="py-2 px-4 text-sm rounded-tl-lg rounded-tr-lg cursor-pointer select-none"
         :class="{
-          'bg-white': tab == item.value
+          'bg-white dark:bg-gray-900': tab == item.value
         }"
         @click="tab = item.value"
       >
@@ -14,7 +14,7 @@
       </div>
     </UiFlex>
 
-    <div class="bg-white rounded-lg" :class="{
+    <div class="bg-white dark:bg-gray-900 rounded-lg" :class="{
       'rounded-tl-none': tab == 1
     }">
       <DataGamePrivateEventLogin :game="game" v-if="tabs[tab-1]['key'] == 'login'" @start-receive="updatePrivateEventReceive" />

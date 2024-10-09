@@ -98,11 +98,9 @@
       </div>
     </UForm>
 
-    <div>
-      <UiText weight="bold" class="mb-4">Lịch sử giao dịch</UiText>
-
+    <UCard :ui="{ body: { padding: 'p-2 sm:p-2' }}">
       <DataPaymentHistory :reload="reloadHistory" />
-    </div>
+    </UCard>
   </div>
 </template>
 

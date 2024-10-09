@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3'
 import type { Types } from 'mongoose'
-import type { IDBGameChina, IDBGameChinaPayment, IDBUser } from '~~/types'
+import type { IDBGameChina, IDBGameChinaPayment, IDBGameChinaUser, IDBUser } from '~~/types'
 
 interface IBodyData {
   _id: Types.ObjectId,
@@ -24,19 +24,24 @@ export default async (
   if((status == 2 || status == 3) && !reason) throw 'Không tìm thấy lý do từ chối'
 
   // Get Payment
-  const payment = await DB.GameChinaPayment.findOne({ _id: _id }) as IDBGameChinaPayment
+  const payment = await DB.GameChinaPayment.findOne({ game: game._id, _id: _id }) as IDBGameChinaPayment
   if(!payment) throw 'Giao dịch không tồn tại'
   if(payment.status > 0) throw 'Không thể thao tác trên giao dịch này'
+
+  // Get User Game
+  const userGame = await DB.GameChinaUser.findOne({ game: game._id, _id: payment.user }).select('user') as IDBGameChinaUser
+  if(!userGame) throw 'Chưa có dữ liệu chơi game'
 
   // Get Other
   const bot = await DB.User.findOne({'username': 'bot'}).select('_id') as IDBUser
   if(!bot) throw 'Không tìm thấy thông tin Bot'
-  const user = await DB.User.findOne({ _id: payment.user }).select('_id') as IDBUser
+  const user = await DB.User.findOne({ _id: userGame.user }).select('_id') as IDBUser
   if(!user) throw 'Không tìm thấy thông tin tài khoản'
+
 
   // Update Payment
   const time = new Date()
-  const verify_person = !!verifier ? verifier : bot._id
+  const verify_person = status == 3 ? user._id : (!!verifier ? verifier : bot._id)
   await DB.GameChinaPayment.updateOne({ _id: _id }, {
     status: status,
     verify: {
@@ -58,9 +63,7 @@ export default async (
     await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': payment.coin }})
   }
   if(status == 2){
-    await DB.User.updateOne({ _id: user._id }, {
-      $inc: { 'currency.coin': payment.coin }
-    })
+    await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': payment.coin }})
     
     realNotify = `
       Bạn bị từ chối giao dịch nạp 
@@ -76,9 +79,7 @@ export default async (
     `)
   }
   if(status == 3){
-    await DB.User.updateOne({ _id: user._id }, {
-      $inc: { 'currency.coin': payment.coin }
-    })
+    await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': payment.coin }})
 
     realNotify = `
       Nhận <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
@@ -90,7 +91,7 @@ export default async (
 
   // Send Notify
   if(!!sendNotify) await sendNotifyUser({
-    user: payment.user as Types.ObjectId,
+    user: user._id as Types.ObjectId,
     color: status == 1 ? 'green' : (status == 2 ? 'red' : 'orange'),
     content: realNotify
   })

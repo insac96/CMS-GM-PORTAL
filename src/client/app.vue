@@ -1,6 +1,6 @@
 <template>
   <UiAnimStar />
-  <UiAnimLine />
+  
   <NuxtLayout class="relative">
     <NuxtLoadingIndicator :height="2" />
     <NuxtPage />

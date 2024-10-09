@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Check User
-    const userGame = await DB.GameChinaUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGameChinaUser
+    const userGame = await DB.GameChinaUser.findOne({ game: game._id, user: user._id }).select('_id') as IDBGameChinaUser
     if(!userGame) throw 'Vui lòng chơi game trước khi nạp'
 
     // Make Code, Token
@@ -31,13 +31,13 @@ export default defineEventHandler(async (event) => {
     
     // Create
     await DB.GameChinaPayment.create({
-      user: auth._id,
+      user: userGame._id,
       game: game._id,
       coin: parseInt(coin),
       code: code,
     })
 
-    await DB.User.updateOne({ _id: auth._id }, {
+    await DB.User.updateOne({ _id: user._id }, {
       $inc: { 'currency.coin': parseInt(coin) * -1 }
     })
 

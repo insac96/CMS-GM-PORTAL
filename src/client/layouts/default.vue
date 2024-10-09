@@ -3,7 +3,8 @@
     <div class="
       LayoutPublicNav 
       hidden lg:block 
-      border-r border-gray-100 min-h-full h-full
+      border-r border-gray-100 dark:border-gray-800
+      min-h-full h-full
       bg-white/75 dark:bg-transparent backdrop-blur-xl
     ">
       <LayoutPublicNav />

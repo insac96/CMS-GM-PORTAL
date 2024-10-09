@@ -22,7 +22,7 @@
           class="md:col-span-3 col-span-6 cursor-pointer transition-2" 
           :ui="{
             divide: '',
-            ring: 'ring-0',
+            ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
             shadow: 'shadow hover:shadow-xl',
             body: {
               padding: 'px-4 py-4 sm:px-4 sm:py-4',

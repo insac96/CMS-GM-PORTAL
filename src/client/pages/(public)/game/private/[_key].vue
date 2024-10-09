@@ -36,7 +36,7 @@
             <UiText color="gray" size="xs">Lượt xem</UiText>
           </UiFlex>
 
-          <UiFlex type="col" class="grow border-l border-r">
+          <UiFlex type="col" class="grow border-l border-r dark:border-gray-800">
             <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.play) }}</UiText>
             <UiText color="gray" size="xs">Lượt chơi</UiText>
           </UiFlex>
@@ -91,6 +91,7 @@
       </div>
 
       <div class="xl:col-span-4 md:col-span-12 col-span-12">
+        <DataGameComment :game="game" os="private" class="mb-4"/>
         <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="private"/>
       </div>
     </div>

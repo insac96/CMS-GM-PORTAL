@@ -1,6 +1,18 @@
 import type { Types } from 'mongoose'
-export { IDBGameTool, IDBGameToolUser, IDBGameToolPayment, IDBGameToolRecharge, IDBGameToolItem } from './tool'
-export { IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment } from './china'
+export { 
+  IDBGameTool, 
+  IDBGameToolUser, 
+  IDBGameToolPayment, 
+  IDBGameToolRecharge, 
+  IDBGameToolItem ,
+  IDBGameToolComment
+} from './tool'
+export { 
+  IDBGameChina, 
+  IDBGameChinaUser, 
+  IDBGameChinaPayment, 
+  IDBGameChinaComment 
+} from './china'
 export {
   IDBGamePrivate,
   IDBGamePrivateUser, IDBGamePrivateUserLogin,
@@ -10,7 +22,8 @@ export {
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
   IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory,
-  IDBGamePrivateEvent, IDBGamePrivateEventHistory
+  IDBGamePrivateEvent, IDBGamePrivateEventHistory,
+  IDBGamePrivateComment
 } from './private'
 
 export interface IDBGamePlatform {

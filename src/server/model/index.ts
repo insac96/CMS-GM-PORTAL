@@ -15,11 +15,13 @@ import {
   DBGameToolUser, 
   DBGameToolRecharge, 
   DBGameToolItem,
+  DBGameToolComment,
 
   DBGameChina, 
   DBGameChinaUser,
   DBGameToolPayment,
   DBGameChinaPayment,
+  DBGameChinaComment,
 
   DBGamePrivate,
   DBGamePrivateUser, DBGamePrivateUserLogin,
@@ -29,7 +31,8 @@ import {
   DBGamePrivateShopItem, DBGamePrivateShopItemHistory,
   DBGamePrivateShopPack, DBGamePrivateShopPackHistory,
   DBGamePrivateGiftcode, DBGamePrivateGiftcodeHistory,
-  DBGamePrivateEvent, DBGamePrivateEventHistory
+  DBGamePrivateEvent, DBGamePrivateEventHistory,
+  DBGamePrivateComment
 } from './game'
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
@@ -59,10 +62,12 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GameToolPayment: DBGameToolPayment(mongoose),
     GameToolRecharge: DBGameToolRecharge(mongoose),
     GameToolItem: DBGameToolItem(mongoose),
+    GameToolComment: DBGameToolComment(mongoose),
 
     GameChina: DBGameChina(mongoose),
     GameChinaUser: DBGameChinaUser(mongoose),
     GameChinaPayment: DBGameChinaPayment(mongoose),
+    GameChinaComment: DBGameChinaComment(mongoose),
 
     GamePrivate: DBGamePrivate(mongoose),
     GamePrivateUser: DBGamePrivateUser(mongoose),
@@ -80,6 +85,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GamePrivateGiftcodeHistory: DBGamePrivateGiftcodeHistory(mongoose),
     GamePrivateEvent: DBGamePrivateEvent(mongoose),
     GamePrivateEventHistory: DBGamePrivateEventHistory(mongoose),
+    GamePrivateComment: DBGamePrivateComment(mongoose),
 
     LogAdmin: DBLogAdmin(mongoose),
     LogUser: DBLogUser(mongoose),

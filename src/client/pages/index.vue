@@ -22,7 +22,7 @@
     </UiFlex>
 
     <UiFlex type="col" justify="center">
-      <UiText align="center" class="font-bold tracking-tight text-gray-900 sm:text-4xl text-2xl">
+      <UiText align="center" class="font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl text-2xl">
         Tại đây <span class="text-primary">chúng tôi</span> có gì ?
       </UiText>
 

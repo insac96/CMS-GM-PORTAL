@@ -1,28 +1,12 @@
 <template>
   <UPopover class="h-[32px] w-[32px]" :popper="{ placement: 'bottom-end' }" v-model:open="open">
-    <UAvatar 
-      size="sm" 
-      icon="i-bx-bell" 
-      :chip-color="authStore.profile.notify > 0 ? 'primary' : null" 
-      :chip-text="authStore.profile.notify > 0 ? authStore.profile.notify : ''" 
-      :chip-position="authStore.profile.notify > 0 ? 'top-right' : null"
-      :ui="{
-        icon: {
-          base: 'text-gray-700 flex-shrink-0',
-          size: {
-            sm: 'h-5 w-5',
-          }
-        },
-        size: {
-          sm: 'h-[32px] w-[32px] p-1.5',
-        },
-        chip: {
-          size: {
-            sm: 'h-3 min-w-[0.75rem] text-[8px] p-0.5'
-          }
-        }
-      }" 
-    />
+    <UChip size="md" :show="authStore.profile.notify > 0">
+      <UButton
+        class="relative p-1.5"
+        icon="i-bx-bell"
+        color="gray" square
+      ></UButton>
+    </UChip>
 
     <template #panel>
       <UiContent title="Thông Báo" class="w-[300px] sm:w-[400px] max-w-sreen overflow-hidden p-4" no-dot>

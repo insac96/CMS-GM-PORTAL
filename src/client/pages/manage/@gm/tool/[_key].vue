@@ -33,7 +33,7 @@
               <UiText color="gray" size="xs">Lượt xem</UiText>
             </UiFlex>
 
-            <UiFlex type="col" class="grow border-l border-r">
+            <UiFlex type="col" class="grow border-l border-r dark:border-gray-800">
               <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.play) }}</UiText>
               <UiText color="gray" size="xs">Lượt chơi</UiText>
             </UiFlex>

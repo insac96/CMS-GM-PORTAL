@@ -3,7 +3,7 @@
     <div class="UiContentHeader mb-4">
       <UiFlex class="gap-4">
         <UiText weight="bold" class="lg:text-lg">{{ title || '...' }}</UiText>
-        <UiFlex class="UiContentDivider bg-gray-200" v-if="!noDot"></UiFlex>
+        <UiFlex class="UiContentDivider bg-gray-200 dark:bg-gray-800" v-if="!noDot"></UiFlex>
         <slot name="more"></slot>
       </UiFlex>
       

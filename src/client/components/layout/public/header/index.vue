@@ -7,7 +7,7 @@
     flex items-center gap-1
     h-[var(--header-size)] max-h-[var(--header-size)]
     px-4
-    border-b border-gray-200
+    border-b border-gray-100 dark:border-gray-800
   ">
     <LayoutPublicNavHeader class="lg:hidden" />
 

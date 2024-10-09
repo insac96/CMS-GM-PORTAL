@@ -15,10 +15,12 @@ export {
   IDBGameToolPayment,
   IDBGameToolRecharge, 
   IDBGameToolItem,
+  IDBGameToolComment,
 
   IDBGameChina, 
   IDBGameChinaUser, 
   IDBGameChinaPayment,
+  IDBGameChinaComment,
 
   IDBGamePrivate,
   IDBGamePrivateUser, IDBGamePrivateUserLogin,
@@ -28,7 +30,8 @@ export {
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
   IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory,
-  IDBGamePrivateEvent, IDBGamePrivateEventHistory
+  IDBGamePrivateEvent, IDBGamePrivateEventHistory,
+  IDBGamePrivateComment
 } from './game'
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
@@ -57,10 +60,12 @@ export interface IGlobalDB {
   GameToolPayment: Model<IDBGameToolPayment>
   GameToolRecharge: Model<IDBGameToolRecharge>
   GameToolItem: Model<IDBGameToolItem>
+  GameToolComment: Model<IDBGameToolComment>
 
   GameChina: Model<IDBGameChina>
   GameChinaUser: Model<IDBGameChinaUser>
   GameChinaPayment: Model<IDBGameChinaPayment>
+  GameChinaComment: Model<IDBGameChinaComment>
 
   GamePrivate: Model<IDBGamePrivate>
   GamePrivateUser: Model<IDBGamePrivateUser>
@@ -78,6 +83,7 @@ export interface IGlobalDB {
   GamePrivateGiftcodeHistory: Model<IDBGamePrivateGiftcodeHistory>
   GamePrivateEvent: Model<IDBGamePrivateEvent>
   GamePrivateEventHistory: Model<IDBGamePrivateEventHistory>
+  GamePrivateComment: Model<IDBGamePrivateComment>
 
   LogAdmin: Model<IDBLogAdmin>
   LogUser: Model<IDBLogUser>

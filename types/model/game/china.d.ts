@@ -61,7 +61,7 @@ export interface IDBGameChinaPayment {
   createdAt: Date
   updatedAt: Date
 
-  user: Types.ObjectId | IDBUser
+  user: Types.ObjectId | IDBGameChinaUser
   game: Types.ObjectId | IDBGameChina
   code: string
   status: number
@@ -71,4 +71,14 @@ export interface IDBGameChinaPayment {
     time: Date
     reason: string
   }
+}
+
+export interface IDBGameChinaComment {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  user: Types.ObjectId | IDBGameChinaUser
+  game: Types.ObjectId | IDBGameChina
+  content: string
 }

@@ -97,8 +97,8 @@ export default defineAppConfig({
     },
 
     table: {
-      divide: 'divide-gray-100',
-      tbody: 'divide-gray-100',
+      divide: 'divide-gray-100 dark:divide-gray-800',
+      tbody: 'divide-gray-100 dark:divide-gray-800',
       th: {
         base: 'whitespace-nowrap'
       }

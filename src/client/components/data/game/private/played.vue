@@ -1,18 +1,12 @@
 <template>
-  <UCard :ui="{ 
-    body: { padding: 'p-0 sm:p-0' },
-    header: { padding: 'px-3 sm:px-3 py-2 sm:py-2' },
-    footer: { padding: 'p-2 sm:p-2' },
-  }">
-    <template #header>
-      <UiFlex>
-        <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
+  <div>
+    <UiFlex>
+      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
 
-        <UForm @submit="getList" class="max-w-[9rem] mr-auto">
-          <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm"></UInput>
-        </UForm>
-      </UiFlex>
-    </template>
+      <UForm @submit="getList" class="max-w-[9rem] mr-auto">
+        <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm"></UInput>
+      </UForm>
+    </UiFlex>
 
     <LoadingTable v-if="loading" />
 
@@ -36,12 +30,10 @@
       </template>
     </UTable>
 
-    <template #footer>
-      <UiFlex justify="end">
-        <UPagination class="ml-auto" v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
-      </UiFlex>
-    </template>
-  </UCard>
+    <UiFlex justify="end">
+      <UPagination class="ml-auto" v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
+    </UiFlex>
+  </div>
 </template>
 
 <script setup>

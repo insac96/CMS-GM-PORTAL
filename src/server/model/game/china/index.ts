@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment } from '~~/types'
+import type { IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment, IDBGameChinaComment } from '~~/types'
 
 export const DBGameChina = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameChina>({ 
@@ -65,7 +65,7 @@ export const DBGameChinaUser = (mongoose : Mongoose) => {
 
 export const DBGameChinaPayment = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameChinaPayment>({ 
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GameChinaUser' },
     game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameChina' },
     code: { type: String },
     coin: { type: Number, index: true, default: 0 },
@@ -82,5 +82,18 @@ export const DBGameChinaPayment = (mongoose : Mongoose) => {
   schema.index({ code: 'text' })
 
   const model = mongoose.model('GameChinaPayment', schema, 'GameChinaPayment')
+  return model 
+}
+
+export const DBGameChinaComment = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGameChinaComment>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GameChinaUser' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameChina' },
+    content: { type: String }
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GameChinaComment', schema, 'GameChinaComment')
   return model 
 }
