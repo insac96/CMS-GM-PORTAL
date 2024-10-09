@@ -19,8 +19,7 @@
       </UiFlex>
        
       <UForm :state="state" class="mt-4" @submit="submit" v-if="!!authStore.isLogin">
-        <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn...">
-        </UInput>
+        <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn..."></UInput>
       </UForm>
     </UiContent>
   </UCard>

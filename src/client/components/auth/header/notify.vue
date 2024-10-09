@@ -20,7 +20,7 @@
 
         <DataEmpty text="Không có thông báo mới" :loading="loading.list" v-if="!!loading.list || list.length == 0"></DataEmpty>
 
-        <UiFlex type="col" class="divide-y divide-gray-100 max-h-[60vh] overflow-y-auto" v-else>
+        <UiFlex type="col" class="divide-y divide-gray-100 dark:divide-gray-800 max-h-[60vh] overflow-y-auto" v-else>
           <UiFlex class="w-full py-2 gap-4" v-for="(item, index) in list" :key="index">
             <UButton variant="soft" :color="item.color" icon="i-bx-bell" />
             

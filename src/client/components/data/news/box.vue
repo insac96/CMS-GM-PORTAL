@@ -2,7 +2,7 @@
   <NuxtLink :to="`/news/${news.key}`">
     <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
       divide: '',
-      ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
+      ring: 'ring-0 dark:ring-1 dark:ring-gray-800 hover:dark:ring-2 hover:dark:ring-primary-500',
       shadow: 'shadow hover:shadow-xl',
       header: {
         padding: 'p-0 p-0 sm:p-0',
