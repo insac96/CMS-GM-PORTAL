@@ -15,7 +15,7 @@
       :arrows="(!!arrow && images.length > 1) ? true : false"
       ref="carouselRef"
     >
-      <UiFlex class="w-full bg-gray-50 overflow-hidden cursor-pointer" justify="center" style="aspect-ratio: 16 / 9" @click="viewImg(item)">
+      <UiFlex class="w-full bg-gray-50 dark:bg-gray-800 overflow-hidden cursor-pointer" justify="center" style="aspect-ratio: 16 / 9" @click="viewImg(item)">
         <UiImg :src="item" h="100%" class="h-full max-h-full" />
       </UiFlex>
     </UCarousel>
