@@ -44,7 +44,10 @@ const props = defineProps({
 })
 
 const loading = ref(true)
-const onLoad = () => (loading.value = false)
+const onLoad = () => {
+  if(!props.src) return
+  loading.value = false
+}
 </script>
 
 <style lang="sass">

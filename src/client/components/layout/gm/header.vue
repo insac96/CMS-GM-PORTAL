@@ -1,7 +1,7 @@
 <template>
   <header class="
     sticky top-0 z-50 
-    bg-white/75 dark:bg-transparent backdrop-blur-xl
+    bg-white/75 dark:bg-gray-900 backdrop-blur-xl
     border-b border-gray-200 dark:border-gray-800
     px-4
   ">

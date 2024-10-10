@@ -5,7 +5,7 @@
       hidden lg:block 
       border-r border-gray-100 dark:border-gray-800
       min-h-full h-full
-      bg-white/75 dark:bg-transparent backdrop-blur-xl
+      bg-white/75 dark:bg-gray-900 backdrop-blur-xl
     ">
       <LayoutPublicNav />
     </div>
@@ -13,7 +13,7 @@
     <div class="LayoutPublicMain relative">
       <LayoutPublicHeader />
 
-      <UContainer class="py-4 sm:py-6 lg:py-8" :ui="{ constrained: 'max-w-[1100px] w-full' }">
+      <UContainer class="py-4 sm:py-6 lg:py-8" :ui="{ constrained: 'max-w-[1200px] w-full' }">
         <slot></slot>
       </UContainer>
     </div>

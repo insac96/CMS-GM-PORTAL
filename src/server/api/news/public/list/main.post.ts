@@ -15,7 +15,8 @@ export default defineEventHandler(async (event) => {
 
     const list = await DB.News
     .find(match)
-    .select('title description key og_image')
+    .select('title description key og_image createdAt')
+    .populate({ path: 'category', select: 'name color' })
     .sort({ pin: -1, createdAt: -1 })
     .limit(size)
     .skip((current - 1) * size)

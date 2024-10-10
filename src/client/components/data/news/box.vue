@@ -28,6 +28,18 @@
           {{ news.description }}
         </UiText>
       </div>
+
+      <template #footer>
+        <UiFlex justify="between">
+          <UiText color="gray" weight="semibold" class="text-xs mr-auto">
+            {{ useDayJs().displayTime(news.createdAt) }}
+          </UiText>
+
+          <UBadge :color="news.category?.color || 'primary'">
+            {{ news.category?.name || 'News' }}
+          </UBadge>
+        </UiFlex>
+      </template>
     </UCard>
   </NuxtLink>
 </template>

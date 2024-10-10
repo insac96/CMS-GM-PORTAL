@@ -12,7 +12,7 @@
         xl:sticky xl:top-[var(--header-size)]
         xl:max-h-[calc(100vh-var(--header-size))] xl:overflow-y-auto
         border-r border-gray-100 dark:border-gray-800
-        bg-white/75 dark:bg-transparent backdrop-blur-xl
+        bg-white/75 dark:bg-gray-900 backdrop-blur-xl
         p-4
       ">
         <LayoutManageNav />
