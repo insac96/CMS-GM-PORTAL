@@ -15,13 +15,13 @@ export default defineEventHandler(async (event) => {
 
     delete body['_id']
     body.api = {
-      start: `http://${ip}:${port}/api/action/start.php`,
-      server: `http://${ip}:${port}/api/action/server.php`,
-      role: `http://${ip}:${port}/api/action/role.php`,
-      roles: `http://${ip}:${port}/api/action/roles.php`,
-      mail: `http://${ip}:${port}/api/action/mail.php`,
-      recharge: `http://${ip}:${port}/api/action/recharge.php`,
-      os: `http://${ip}:${port}/api/action/os.php`
+      start: `http://${ip}:${port}/api/action/start.php?type=tool`,
+      server: `http://${ip}:${port}/api/action/server.php?type=tool`,
+      role: `http://${ip}:${port}/api/action/role.php?type=tool`,
+      roles: `http://${ip}:${port}/api/action/roles.php?type=tool`,
+      mail: `http://${ip}:${port}/api/action/mail.php?type=tool`,
+      recharge: `http://${ip}:${port}/api/action/recharge.php?type=tool`,
+      os: `http://${ip}:${port}/api/action/os.php?type=tool`
     }
 
     await DB.GameTool.updateOne({ _id: game._id }, body)

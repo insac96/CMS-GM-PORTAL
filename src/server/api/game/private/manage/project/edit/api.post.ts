@@ -15,15 +15,15 @@ export default defineEventHandler(async (event) => {
 
     delete body['_id']
     body.api = {
-      start: `http://${ip}:${port}/api/action/start.php`,
-      server: `http://${ip}:${port}/api/action/server.php`,
-      role: `http://${ip}:${port}/api/action/role.php`,
-      roles: `http://${ip}:${port}/api/action/roles.php`,
-      mail: `http://${ip}:${port}/api/action/mail.php`,
-      recharge: `http://${ip}:${port}/api/action/recharge.php`,
-      level: `http://${ip}:${port}/api/action/rank_level.php`,
-      power: `http://${ip}:${port}/api/action/rank_power.php`,
-      os: `http://${ip}:${port}/api/action/os.php`
+      start: `http://${ip}:${port}/api/action/start.php?type=private`,
+      server: `http://${ip}:${port}/api/action/server.php?type=private`,
+      role: `http://${ip}:${port}/api/action/role.php?type=private`,
+      roles: `http://${ip}:${port}/api/action/roles.php?type=private`,
+      mail: `http://${ip}:${port}/api/action/mail.php?type=private`,
+      recharge: `http://${ip}:${port}/api/action/recharge.php?type=private`,
+      level: `http://${ip}:${port}/api/action/rank_level.php?type=private`,
+      power: `http://${ip}:${port}/api/action/rank_power.php?type=private`,
+      os: `http://${ip}:${port}/api/action/os.php?type=private`
     }
 
     await DB.GamePrivate.updateOne({ _id: game._id }, body)
