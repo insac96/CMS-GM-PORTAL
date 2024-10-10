@@ -82,7 +82,7 @@ export default defineNuxtConfig({
   ],
 
   colorMode: {
-    preference: 'light'
+    preference: 'dark'
   },
 
   icon: {
