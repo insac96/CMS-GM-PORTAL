@@ -6,7 +6,7 @@
       </div>
 
       <div class="md:col-span-7 col-span-12">
-        <UiContent :title="game.name" :sub="game.description" no-dot>
+        <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
           <template #more>
             <UiFlex class="gap-1 ml-auto">
               <UDropdown :items="actions(game)">

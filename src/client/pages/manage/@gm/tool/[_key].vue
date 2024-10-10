@@ -6,7 +6,7 @@
       </div>
 
       <div class="md:col-span-7 col-span-12">
-        <UiContent :title="game.name" :sub="game.description" no-dot>
+        <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
           <template #more>
             <UDropdown :items="actions(game)" class="ml-auto">
               <UButton color="gray" icon="i-bx-cog" :disabled="loading.del"/>

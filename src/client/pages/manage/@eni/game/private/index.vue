@@ -160,8 +160,8 @@ const list = ref([])
 // Columns
 const columns = [
   {
-    key: 'name',
-    label: 'Tên',
+    key: 'code',
+    label: 'Mã',
   },{
     key: 'platform',
     label: 'Nền tảng',

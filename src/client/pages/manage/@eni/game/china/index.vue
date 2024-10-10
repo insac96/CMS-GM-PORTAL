@@ -156,6 +156,9 @@ const list = ref([])
 // Columns
 const columns = [
   {
+    key: 'code',
+    label: 'Mã',
+  },{
     key: 'name',
     label: 'Tên',
   },{
