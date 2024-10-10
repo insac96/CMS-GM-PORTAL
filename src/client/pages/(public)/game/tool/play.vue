@@ -9,7 +9,7 @@
         :game="selectRecharge.game"
         :recharge="selectRecharge.recharge"
         :server="selectRecharge.server"
-        @close="modal.recharge = false" 
+        @close="modal.recharge = false"
       />
     </UModal>
   </div>

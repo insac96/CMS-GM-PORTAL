@@ -163,6 +163,9 @@ const columns = [
     key: 'code',
     label: 'Mã',
   },{
+    key: 'name',
+    label: 'Tên',
+  },{
     key: 'platform',
     label: 'Nền tảng',
   },{

@@ -10,6 +10,7 @@
         :recharge="selectRecharge.recharge"
         :server="selectRecharge.server"
         @close="modal.recharge = false" 
+        @done="doneRecharge" 
       />
     </UModal>
   </div>
@@ -59,6 +60,11 @@ const onMessage = (e) => {
   const detail = e.data
   if(!detail) return
   onRecharge(detail)
+}
+
+const doneRecharge = async () => {
+  await getUser()
+  modal.recharge = false
 }
 
 const donePayment = async () => {
