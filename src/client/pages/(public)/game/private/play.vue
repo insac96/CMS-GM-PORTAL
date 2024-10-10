@@ -64,7 +64,7 @@ const onMessage = (e) => {
 }
 
 const doneRecharge = async () => {
-  modal.recharge = false
+  modal.value.recharge = false
   await getUser()
 }
 
