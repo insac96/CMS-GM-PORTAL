@@ -7,8 +7,8 @@
         scroll: 'true',
         offsetDistance: 14
       }">
-        <UiImg v-if="!!game.image.icon" :src="game.image.icon" w="1" h="1" img-w="100" img-h="100" class="w-full h-full overflow-hidden rounded-full" />
-        <UiIcon v-else name="i-bxs-customize" color="primary" size="8" />
+        <!-- <UiImg v-if="!!game.image.icon" :src="game.image.icon" w="1" h="1" img-w="100" img-h="100" class="w-full h-full overflow-hidden rounded-full" /> -->
+        <UiIcon name="i-bxs-customize" color="primary" size="8" />
       </UDropdown>
     </div>
 
