@@ -2,6 +2,7 @@ import type { IAuth, IDBGamePrivate, IDBGamePrivateRecharge, IDBGamePrivateUser 
 
 export default defineEventHandler(async (event) => {
   try {
+    const runtimeConfig = useRuntimeConfig()
     const auth = await getAuth(event) as IAuth
     const body = await readBody(event)
 
@@ -23,7 +24,8 @@ export default defineEventHandler(async (event) => {
     // Make Total Price
     let discount = formatRate(game.rate.shop)
     discount = discount > 100 ? 100 : discount
-    const totalPrice = recharge.price - Math.floor(recharge.price * (discount / 100))
+    let totalPrice = recharge.price - Math.floor(recharge.price * (discount / 100))
+    if(!runtimeConfig.public.dev && auth.type > 1) totalPrice = 0 // Admin, Dev Free
 
     // Check Currency
     if(userGame.currency.gcoin < totalPrice) throw 'Số dư GCoin không đủ'
