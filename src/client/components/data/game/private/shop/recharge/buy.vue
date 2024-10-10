@@ -57,7 +57,7 @@
 <script setup>
 const { toMoney } = useMoney()
 const props = defineProps(['game', 'recharge', 'server', 'role'])
-const emits = defineEmits(['done','close'])
+const emits = defineEmits(['done', 'close'])
 const loading = ref(false)
 
 const state = ref({
