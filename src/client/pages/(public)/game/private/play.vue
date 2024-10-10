@@ -43,6 +43,7 @@ const selectRecharge = ref({
 
 const onRecharge = async (detail) => {
   try {
+    if(!detail.item_id || !detail.item_name || !detail.price) return
     const send = JSON.parse(JSON.stringify(detail))
     send.game = route.query.game
 
