@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const send = await axios.get(url.href)
     const res = send.data
 
-    await DB.GamePrivateItem.deleteMany({})
+    await DB.GamePrivateItem.deleteMany({ game: game._id })
 
     const list = res.map((i : IDBGamePrivateItem) => ({ 
       item_id: i.item_id, 
