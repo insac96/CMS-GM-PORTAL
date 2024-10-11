@@ -10,11 +10,11 @@
           <template #more>
             <UiFlex class="gap-1 ml-auto">
               <UDropdown :items="actions(game)">
-                <UButton color="gray" icon="i-bx-cog" :disabled="loading.del"/>
+                <UButton color="gray" icon="i-bx-cog" />
               </UDropdown>
 
               <UDropdown :items="menus(game)">
-                <UButton color="gray" icon="i-bx-menu-alt-right" :disabled="loading.del"/>
+                <UButton color="gray" icon="i-bx-menu-alt-right" />
               </UDropdown>
             </UiFlex>
           </template>
@@ -439,6 +439,17 @@ const menus = (row) => [
       icon: 'i-bx-barcode',
       click: () => navigateTo(`/manage/@gm/private/${row.key}/giftcode`)
     }
+  ],[
+    {
+      label: 'Nhân vật',
+      icon: 'i-bxs-user-account',
+      click: () => navigateTo(`/manage/@gm/private/${row.key}/game/roles`)
+    },
+    // {
+    //   label: 'GM Thư',
+    //   icon: 'i-bx-mail-send',
+    //   click: () => navigateTo(`/manage/@gm/private/${row.key}/game/mail`)
+    // }
   ]
 ]
 

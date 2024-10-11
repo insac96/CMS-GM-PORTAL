@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <UiContent title="Gói Nạp" sub="Danh sách gói nạp trò chơi">
     <UiFlex class="mb-4 gap-1">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]"/>
       <UForm :state="page" @submit="page.current = 1, getList()" class="mr-auto">
@@ -79,7 +79,7 @@
         </UiFlex>
       </UForm>
     </UModal>
-  </div>
+  </UiContent>
 </template>
 
 <script setup>

@@ -185,21 +185,26 @@ const modal = ref({
 const tabRouter = {
   'game-private-_key': 0,
   'game-private-_key-shop': 1,
-  'game-private-_key-event': 2
+  'game-private-_key-event': 2,
+  'game-private-_key-rank': 3,
 }
 const tab = ref(tabRouter[route.name])
 const tabs = [{
-  label: 'Tin tức',
+  label: 'Tin Tức',
   icon: 'i-bx-news',
   to: ''
 },{
-  label: 'Cửa hàng',
+  label: 'Cửa Hàng',
   icon: 'i-bx-store',
   to: 'shop'
 },{
-  label: 'Sự kiện',
+  label: 'Sự Kiện',
   icon: 'i-bx-calendar',
   to: 'event'
+},{
+  label: 'Xếp Hạng',
+  icon: 'i-bx-bar-chart-alt-2',
+  to: 'rank'
 }]
 
 const onTabChange = (index) => {

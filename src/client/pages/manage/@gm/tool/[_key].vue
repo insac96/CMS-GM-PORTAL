@@ -8,9 +8,15 @@
       <div class="md:col-span-7 col-span-12">
         <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
           <template #more>
-            <UDropdown :items="actions(game)" class="ml-auto">
-              <UButton color="gray" icon="i-bx-cog" :disabled="loading.del"/>
-            </UDropdown>
+            <UiFlex class="gap-1 ml-auto">
+              <UDropdown :items="actions(game)">
+                <UButton color="gray" icon="i-bx-cog" />
+              </UDropdown>
+
+              <UDropdown :items="menus(game)">
+                <UButton color="gray" icon="i-bx-menu-alt-right"/>
+              </UDropdown>
+            </UiFlex>
           </template>
 
           <UiFlex wrap class="gap-1">
@@ -61,8 +67,6 @@
         </UiContent>
       </div>
     </div>
-
-    <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
 
     <div>
       <NuxtPage :game="game" />
@@ -229,32 +233,6 @@ const loading = ref({
   edit: false
 })
 
-// Tabs
-const tabRouter = {
-  'manage-@gm-tool-_key': 0,
-  'manage-@gm-tool-_key-recharge': 1,
-  'manage-@gm-tool-_key-item': 2,
-}
-const tab = ref(tabRouter[route.name])
-const tabs = [{
-  label: 'Người chơi',
-  icon: 'i-bx-group',
-  to: ''
-}, {
-  label: 'Gói nạp',
-  icon: 'i-bx-package',
-  to: 'recharge'
-}, {
-  label: 'Vật phẩm',
-  icon: 'i-bx-box',
-  to: 'item'
-}]
-
-const onTabChange = (index) => {
-  const tabSelect = tabs[index]
-  navigateTo(`/manage/@gm/tool/${route.params._key}/${tabSelect.to}`)
-}
-
 // State
 const stateEditInfo = ref({
   _id: null,
@@ -365,6 +343,41 @@ const actions = (row) => [
       modal.value.editPrice = true
     }
   }]
+]
+
+// Menu
+const menus = (row) => [
+  [
+    // {
+    //   label: 'Thống kê',
+    //   icon: 'i-bx-stats',
+    //   click: () => navigateTo(`/manage/@gm/private/${row.key}`)
+    // },
+    {
+      label: 'Người chơi',
+      icon: 'i-bx-group',
+      click: () => navigateTo(`/manage/@gm/tool/${row.key}`)
+    },{
+      label: 'Gói nạp',
+      icon: 'i-bx-cylinder',
+      click: () => navigateTo(`/manage/@gm/tool/${row.key}/recharge`)
+    },{
+      label: 'Vật phẩm',
+      icon: 'i-bx-pyramid',
+      click: () => navigateTo(`/manage/@gm/tool/${row.key}/item`)
+    },
+  ],[
+    {
+      label: 'Nhân vật',
+      icon: 'i-bxs-user-account',
+      click: () => navigateTo(`/manage/@gm/tool/${row.key}/game/roles`)
+    },
+    // {
+    //   label: 'GM Thư',
+    //   icon: 'i-bx-mail-send',
+    //   click: () => navigateTo(`/manage/@gm/private/${row.key}/game/mail`)
+    // }
+  ]
 ]
 
 const editInfoAction = async () => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <UiContent title="Người Chơi" sub="Danh sách tài khoản đã mua Tool">
     <UiFlex class="mb-4 gap-1">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
       <UForm :state="page" @submit="page.current = 1, getList()">
@@ -49,7 +49,7 @@
     <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[800px]'}">
       <ManageUser :user="stateUser" />
     </UModal>
-  </div>
+  </UiContent>
 </template>
 
 <script setup>
