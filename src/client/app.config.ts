@@ -131,8 +131,11 @@ export default defineAppConfig({
 
     selectMenu: {
       rounded: 'rounded-lg',
+      padding: 'p-0',
+      shadow: 'shadow-xl',
+      ring: 'ring-0 dark:ring-1',
       option: {
-        rounded: 'rounded-md',
+        rounded: 'rounded-none',
         padding: 'px-3 py-1.5',
       }
     },
@@ -174,9 +177,13 @@ export default defineAppConfig({
     },
 
     dropdown: {
+      padding: 'p-0',
+      shadow: 'shadow-xl',
       rounded: 'rounded-lg',
+      ring: 'ring-0 dark:ring-1',
       item: {
-        rounded: 'rounded-md',
+        rounded: 'rounded-none',
+        padding: 'px-2 py-2'
       }
     }
   }

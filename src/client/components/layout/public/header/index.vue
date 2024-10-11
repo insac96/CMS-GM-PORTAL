@@ -13,9 +13,10 @@
 
     <LayoutPublicHeaderSearch />
     
-    <UiFlex justify="end" items="center" class="ml-auto">
+    <UiFlex justify="end" items="center" class="ml-auto gap-1">
       <AuthSign v-if="!authStore.isLogin" />
       <LazyAuthHeader v-else />
+      <Setting />
     </UiFlex>
   </header>
 </template>

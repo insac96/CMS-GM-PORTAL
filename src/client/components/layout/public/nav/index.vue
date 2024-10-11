@@ -42,7 +42,6 @@
 
     <UiFlex class="w-full p-4 gap-1">
       <DataSupport class="w-full" />
-      <Setting />
     </UiFlex>
   </UiFlex>
 </template>
