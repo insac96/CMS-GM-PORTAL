@@ -2,8 +2,6 @@ import type { IAuth } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
-    const auth = await getAuth(event) as IAuth
-
     const { game: code, type } = await readBody(event)
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!type) throw 'Không tìm thấy loại trò chơi'
