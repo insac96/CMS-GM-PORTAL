@@ -1,8 +1,9 @@
 <template>
   <div class="relative">
-    <div class="p-4">
-      <SelectGameServer v-model="state.server_id" :game="game.code" type="private" size="md" />
-    </div>
+    <UiFlex class="px-4 py-2 border-b border-gray-100 dark:border-gray-800" justify="between">
+      <UiText size="sm" weight="semibold">Máy chủ</UiText>
+      <SelectGameServer v-model="state.server_id" :game="game.code" type="private" size="sm" />
+    </UiFlex>
 
     <LoadingTable v-if="!!loading" />
 

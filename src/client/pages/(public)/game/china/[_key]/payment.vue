@@ -10,9 +10,10 @@
 			</div>
 
 			<UForm v-else ref="form" :state="state" :validate="validate" @submit="submit">
-				<UFormGroup label="Nhập số tiền" name="coin">
+				<UFormGroup label="Chọn số lượng tệ nạp" name="coin" help="Sử dụng tiền nền tảng có thể mua các gói nạp trong trò chơi">
 					<UiFlex class="gap-1">
-						<UInput class="grow" size="md" v-model="state.coin" type="number" placeholder="Nhỏ nhất 20.000" />
+						<USelectMenu v-model="state.coin" :options="moneys" value-attribute="value" size="md" class="grow" />
+
 						<UButton type="submit" size="md" :loading="loading" color="red">Xác Nhận</UButton>
 					</UiFlex>
 				</UFormGroup>
@@ -34,15 +35,25 @@ const reloadHistory = ref(0)
 
 // State
 const state = ref({
-  coin: null,
+  coin: 3500,
 	game: game.key
 })
+
+// Moneys
+const moneys = [
+	{ label: `1 tệ - ${3500} Xu`, value: 3500 },
+	{ label: `5 tệ - ${3500 * 5} Xu`, value: 3500 * 5 },
+	{ label: `10 tệ - ${3500 * 10} Xu`, value: 3500 * 10 },
+	{ label: `20 tệ - ${3500 * 20} Xu`, value: 3500 * 20 },
+	{ label: `30 tệ - ${3500 * 30} Xu`, value: 3500 * 30 },
+	{ label: `50 tệ - ${3500 * 50} Xu`, value: 3500 * 50 },
+	{ label: `100 tệ - ${3500 * 100} Xu`, value: 3500 * 100 },
+]
 
 // Validate
 const validate = (st) => {
   const errors = []
   if (!st.coin) errors.push({ path: 'coin', message: 'Vui lòng nhập đầy đủ' })
-	else if (!!st.coin && st.coin < 20000) errors.push({ path: 'coin', message: 'Vui lòng nhập tối thiểu 20.000' })
   return errors
 }
 

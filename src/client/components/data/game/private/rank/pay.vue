@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <UiFlex class="p-4 gap-1" justify="center">
+    <UiFlex class="px-4 py-2 border-b border-gray-100 dark:border-gray-800 gap-1" justify="center">
       <SelectDate v-model="page.range.start" placeholder="Bắt đầu" size="sm" class="max-w-[140px]"/>
       <SelectDate v-model="page.range.end" placeholder="Kết thúc" size="sm" class="max-w-[140px]"/>
     </UiFlex>

@@ -1,11 +1,11 @@
 <template>
-  <UiContent title="Payment" sub="Quản lý giao dịch nạp tiền">
+  <UiContent title="Payment Yuan" sub="Quản lý giao dịch nạp tiền nền tảng trung quốc">
     <UiFlex class="mb-4 gap-1">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
       <UForm :state="page" @submit="page.current = 1, getList()">
         <UiFlex class="gap-1">
           <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
-          <USelectMenu v-model="page.search.by" :options="['CODE', 'USER']" />
+          <USelectMenu v-model="page.search.by" :options="['CODE', 'USER', 'GAME']" />
         </UiFlex>
       </UForm>
     </UiFlex>
@@ -20,24 +20,23 @@
         :rows="list"
       >
         <template #code-data="{ row }">
-          <UiText weight="semibold" color="primary" pointer @click="viewPayment(row._id)">{{ row.code }}</UiText>
+          <UiText weight="semibold" color="primary">{{ row.code }}</UiText>
         </template>
 
         <template #user-data="{ row }">
-          <span v-if="!row.user">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.user._id)">
-            {{ row.user.username }}
+          <span v-if="!row.user ">...</span>
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+            {{ row.user ? row.user.username : '...' }}
           </UBadge>
         </template>
 
-        <template #gate-data="{ row }">
-          <UBadge variant="soft" color="gray">
-            {{ row.gate ? row.gate.name : '...' }}
-          </UBadge>
+        <template #game-data="{ row }">
+          <span v-if="!row.game">...</span>
+          <NuxtLink v-else :to="`/game/china/${row.game.key}`" target="_blank" class="text-primary font-semibold">{{ row.game.name }}</NuxtLink>
         </template>
 
-        <template #money-data="{ row }">
-          <UiText weight="semibold">{{ toMoney(row.money) }}</UiText>
+        <template #coin-data="{ row }">
+          <UiText weight="semibold">{{ toMoney(row.coin) }} - {{ Math.floor(row.coin / 3500) }} Tệ</UiText>
         </template>
 
         <template #status-data="{ row }">
@@ -47,14 +46,14 @@
         </template>
 
         <template #verify_person-data="{ row }">
-          <span v-if="!row.verify_person">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.verify_person._id)">
-            {{ row.verify_person.username }}
+          <span v-if="!row.verify.person">...</span>
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+            {{ row.verify.person.username }}
           </UBadge>
         </template>
 
         <template #verify_time-data="{ row }">
-          {{ row.verify_time ? useDayJs().displayFull(row.verify_time) : '...' }}
+          {{ row.verify ? useDayJs().displayFull(row.verify.time) : '...' }}
         </template>
 
         <template #createdAt-data="{ row }">
@@ -70,20 +69,10 @@
     </UCard>
 
     <!-- Pagination -->
-    <UiFlex justify="between" class="py-4">
+    <UiFlex justify="between" class="mt-4">
       <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Chọn cột" />
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" />
     </UiFlex>
-
-    <!-- Modal User View -->
-    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
-      <ManageUser :user="stateUser" />
-    </UModal>
-
-    <!-- Modal Payment View -->
-    <UModal v-model="modal.payment">
-      <DataPaymentView :fetch-id="statePayment" />
-    </UModal>
 
     <!-- Modal Success -->
     <UModal v-model="modal.success" preventClose>
@@ -92,8 +81,8 @@
           <UInput :model-value="stateSuccess.code" readonly />
         </UFormGroup>
 
-        <UFormGroup label="Số tiền thực nhận">
-          <UInput v-model="stateSuccess.money" type="number" />
+        <UFormGroup label="Số xu">
+          <UInput :model-value="toMoney(stateSuccess.coin)" readonly />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
@@ -124,7 +113,7 @@
 </template>
 
 <script setup>
-const authStore = useAuthStore()
+const game = useAttrs().game
 const { toMoney } = useMoney()
 
 // List
@@ -136,14 +125,14 @@ const columns = [
     key: 'code',
     label: 'Mã',
   },{
+    key: 'game',
+    label: 'Trò chơi',
+  },{
     key: 'user',
     label: 'Người tạo',
   },{
-    key: 'gate',
-    label: 'Kênh',
-  },{
-    key: 'money',
-    label: 'Số tiền',
+    key: 'coin',
+    label: 'Xu nạp',
     sortable: true
   },{
     key: 'status',
@@ -191,30 +180,23 @@ watch(() => page.value.search.key, (val) => !val && getList())
 const stateSuccess = ref({
   _id: null,
   code: null,
-  money: null,
-  status: null
+  coin: null,
+  status: null,
+  game: null
 })
 const stateRefuse = ref({
   _id: null,
   code: null,
-  money: null,
+  coin: null,
   reason: null,
-  status: null
+  status: null,
+  game: null
 })
-const stateWaiting = ref({
-  _id: null,
-  redo: true
-})
-const stateUser = ref(undefined)
-const statePayment = ref(undefined)
 
 // Modal
 const modal = ref({
   success: false,
-  refuse: false,
-  waiting: false,
-  user: false,
-  payment: false
+  refuse: false
 })
 
 // Loading
@@ -222,7 +204,6 @@ const loading = ref({
   load: true,
   success: false,
   refuse: false,
-  waiting: false,
 })
 
 // Status
@@ -241,6 +222,7 @@ const actions = (row) => [
     disabled: row.status > 0,
     click: () => {
       Object.keys(stateSuccess.value).forEach(key => stateSuccess.value[key] = row[key])
+      stateSuccess.value.game = row.game._id
       stateSuccess.value.status = 1
       modal.value.success = true
     }
@@ -250,35 +232,18 @@ const actions = (row) => [
     disabled: row.status > 0,
     click: () => {
       Object.keys(stateRefuse.value).forEach(key => stateRefuse.value[key] = row[key])
+      stateRefuse.value.game = row.game._id
       stateRefuse.value.status = 2
       modal.value.refuse = true
     }
-  }],[{
-    label: 'Chưa duyệt',
-    icon: 'i-bx-redo',
-    disabled: row.status == 0 || authStore.profile.type < 2,
-    click: () => {
-      stateWaiting.value._id = row._id
-      waitingAction()
-    }
   }]
 ]
-
-const viewUser = (_id) => {
-  stateUser.value = _id
-  modal.value.user = true
-}
-
-const viewPayment = (_id) => {
-  statePayment.value = _id
-  modal.value.payment = true
-}
  
 // Fetch
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('payment/manage/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/china/manage/payment/list', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list
@@ -292,7 +257,7 @@ const getList = async () => {
 const successAction = async () => {
   try {
     loading.value.success = true
-    await useAPI('payment/manage/verify', JSON.parse(JSON.stringify(stateSuccess.value)))
+    await useAPI('game/china/manage/payment/verify', JSON.parse(JSON.stringify(stateSuccess.value)))
 
     loading.value.success = false
     modal.value.success = false
@@ -306,7 +271,7 @@ const successAction = async () => {
 const refuseAction = async () => {
   try {
     loading.value.refuse = true
-    await useAPI('payment/manage/verify', JSON.parse(JSON.stringify(stateRefuse.value)))
+    await useAPI('game/china/manage/payment/verify', JSON.parse(JSON.stringify(stateRefuse.value)))
 
     loading.value.refuse = false
     modal.value.refuse = false
@@ -317,19 +282,5 @@ const refuseAction = async () => {
   }
 }
 
-const waitingAction = async () => {
-  try {
-    loading.value.waiting = true
-    await useAPI('payment/manage/verify', JSON.parse(JSON.stringify(stateWaiting.value)))
-
-    loading.value.waiting = false
-    modal.value.waiting = false
-    getList()
-  }
-  catch (e) {
-    loading.value.waiting = false
-  }
-}
-
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>

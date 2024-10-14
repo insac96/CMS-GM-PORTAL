@@ -1,31 +1,35 @@
 <template>
-  <UCard :ui="{ background: 'bg-gray-100 dark:bg-gray-800', body: { padding: 'p-2 sm:p-2' }}">
-    <UiFlex>
-      <div 
-        v-for="item in tabs" 
-        :key="item.value"
-        class="py-2 px-4 text-sm rounded-tl-lg rounded-tr-lg cursor-pointer select-none"
-        :class="{
-          'bg-white dark:bg-gray-900': tab == item.value
-        }"
-        @click="tab = item.value"
-      >
-        <UiText size="xs" weight="semibold">{{ item.label }}</UiText>
-      </div>
-    </UiFlex>
-
-    <div class="bg-white dark:bg-gray-900 rounded-lg p-2" :class="{
-      'rounded-tl-none': tab == 1
-    }">
+  <UCard :ui="{ 
+    base: 'overflow-hidden',
+    background: 'bg-gray-100 dark:bg-gray-800',
+    body: { padding: 'p-2 sm:p-4', background: 'bg-white dark:bg-gray-900' },
+    header: { padding: 'p-2 sm:p-2', }
+  }">
+    <template #header>
+      <UiFlex>
+        <div 
+          v-for="item in tabs" 
+          :key="item.value"
+          class="py-2 px-4 text-sm rounded-lg cursor-pointer select-none"
+          :class="{
+            'bg-white dark:bg-gray-900': tab == item.value
+          }"
+          @click="tab = item.value"
+        >
+          <UiText size="xs" weight="semibold">{{ item.label }}</UiText>
+        </div>
+      </UiFlex>
+    </template>
+    
+    <template #default>
       <DataGamePrivateShopRecharge :game="game" v-if="tabs[tab-1]['key'] == 'recharge'" @done="updatePrivateShopBuy"/>
       <DataGamePrivateShopItem :game="game" v-if="tabs[tab-1]['key'] == 'item'" @done="updatePrivateShopBuy" />
       <DataGamePrivateShopPack :game="game" v-if="tabs[tab-1]['key'] == 'pack'" @done="updatePrivateShopBuy" />
-    </div>
+    </template>
   </UCard>
 </template>
 
 <script setup>
-const { updatePrivateShopBuy } = useGameStore()
 const props = defineProps(['game'])
 
 const tab = ref(1)

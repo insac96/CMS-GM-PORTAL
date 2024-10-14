@@ -1,7 +1,7 @@
 <template>
   <div>
-    <UiFlex justify="center">
-      <UTabs v-model="tab" :items="tabs" class="mt-2"></UTabs>
+    <UiFlex justify="center" class="border-b border-gray-100 dark:border-gray-800 gap-1 p-2">
+      <UTabs v-model="tab" :items="tabs" :content="false"></UTabs>
     </UiFlex>
 
     <!-- Table -->

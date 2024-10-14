@@ -56,20 +56,20 @@
 
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Tỷ lệ nạp</UiText>
-            <UiText weight="semibold" size="sm">{{ game.rate?.pay || '1.5' }}</UiText>
+            <UiText weight="semibold" size="sm">1 tệ = 3500 Xu</UiText>
           </UiFlex>
         </div>
 
         <!-- Button -->
-        <UButton icon="i-bx-play" size="lg" block :loading="loading.china" @click="checkChinaAccount()">Chơi Ngay</UButton>
+        <UButton icon="i-bx-play" size="lg" block :loading="loading.china" @click="checkChinaAccount()" class="mb-1">Chơi Ngay</UButton>
+        <UButton icon="i-bx-credit-card" size="lg" block @click="navigateTo(`/game/china/${game.key}/payment`)" color="rose">Nạp Tiền Nền Tảng</UButton>
+        
       </UiContent>
     </div>
 
     <!--Content-->
     <div class="grid grid-cols-12 gap-4">
       <div class="xl:col-span-8 md:col-span-12 col-span-12">
-        <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
-
         <NuxtPage :game="game" />
       </div>
 
@@ -104,7 +104,7 @@
       </UiContent> 
     </UModal>
 
-    <!--Play-->
+    <!--Account-->
     <UModal v-model="modal.china" prevent-close>
       <UiContent no-dot title="China Account" sub="Xác nhận tài khoản game trung" class="p-4">
         <template #more>
@@ -158,32 +158,11 @@ const modal = ref({
   china: false
 })
 
-const tabRouter = {
-  'game-china-_key': 0,
-  'game-china-_key-payment': 1
-}
-const tab = ref(tabRouter[route.name])
-const tabs = [{
-  label: 'Tin tức',
-  icon: 'i-bx-news',
-  to: ''
-},{
-  label: 'Nạp game',
-  icon: 'i-bx-shopping-bag',
-  disabled: false,
-  to: 'payment'
-}]
-
 const stateChina = ref({
   password: null
 })
 
 watch(() => authStore.isLogin, () => getGame())
-
-const onTabChange = (index) => {
-  const tabSelect = tabs[index]
-  navigateTo(`/game/china/${route.params._key}/${tabSelect.to}`)
-}
 
 const checkChinaAccount = async () => {
   try {

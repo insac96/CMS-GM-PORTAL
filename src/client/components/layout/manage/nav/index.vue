@@ -77,7 +77,8 @@ const navItems = [
     slot: 'tab-3',
     children: [
       { label: 'Kênh nạp', to: '/manage/@eni/gate' }, 
-      { label: 'Nạp tiền', to: '/manage/@eni/payment' }
+      { label: 'Nạp xu', to: '/manage/@eni/payment/coin' },
+      { label: 'Nạp tệ', to: '/manage/@eni/payment/yuan' },
     ]
   },
   {
