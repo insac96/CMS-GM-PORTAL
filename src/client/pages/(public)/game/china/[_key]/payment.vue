@@ -14,7 +14,7 @@
 					<UiFlex class="gap-1">
 						<USelectMenu v-model="state.coin" :options="moneys" value-attribute="value" size="md" class="grow" />
 
-						<UButton type="submit" size="md" :loading="loading" color="red">Xác Nhận</UButton>
+						<UButton type="submit" size="md" :loading="loading">Xác Nhận</UButton>
 					</UiFlex>
 				</UFormGroup>
 

@@ -5,7 +5,11 @@ export { IDBUser, IDBUserStore } from './user'
 export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
+export { IDBMission } from './mission'
 export { IDBNotifyUser } from './notify'
+export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
+export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
+
 export { 
   IDBGamePlatform, 
   IDBGameCategory, 
@@ -33,25 +37,35 @@ export {
   IDBGamePrivateEvent, IDBGamePrivateEventHistory,
   IDBGamePrivateComment
 } from './game'
-export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
-export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
+
+export {
+  IDBForumCategory, IDBForumCategorySub,
+  IDBForumPost, IDBForumPostComment, IDBForumPostLike
+} from './forum'
 
 export interface IGlobalDB {
+  // Main DB
   Config: Model<IDBConfig>
 
   News: Model<IDBNews>
   NewsCategory: Model<IDBNewsCategory>
 
   User: Model<IDBUser>
-
-  Gate: Model<IDBGate>
-
-  Payment: Model<IDBPayment>
-
-  Spend: Model<IDBSpend>
-
   NotifyUser: Model<IDBNotifyUser>
 
+  Gate: Model<IDBGate>
+  Payment: Model<IDBPayment>
+  Spend: Model<IDBSpend>
+
+  LogAdmin: Model<IDBLogAdmin>
+  LogUser: Model<IDBLogUser>
+  LogLogin: Model<IDBLogLogin>
+
+  AdminIP: Model<IDBAdminIP>
+  UserIP: Model<IDBUserIP>
+  BlockIP: Model<IDBBlockIP>
+
+  // Game DB
   GamePlatform: Model<IDBGamePlatform>
   GameCategory: Model<IDBGameCategory>
 
@@ -85,11 +99,10 @@ export interface IGlobalDB {
   GamePrivateEventHistory: Model<IDBGamePrivateEventHistory>
   GamePrivateComment: Model<IDBGamePrivateComment>
 
-  LogAdmin: Model<IDBLogAdmin>
-  LogUser: Model<IDBLogUser>
-  LogLogin: Model<IDBLogLogin>
-
-  AdminIP: Model<IDBAdminIP>
-  UserIP: Model<IDBUserIP>
-  BlockIP: Model<IDBBlockIP>
+  // Forum DB
+  ForumCategory: Model<IDBForumCategory>, 
+  ForumCategorySub: Model<IDBForumCategorySub>, 
+  ForumPost: Model<IDBForumPost>, 
+  ForumPostComment: Model<IDBForumPostComment>, 
+  ForumPostLike: Model<IDBForumPostLike>
 }

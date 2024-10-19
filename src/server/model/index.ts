@@ -7,6 +7,8 @@ import { DBGate } from './gate'
 import { DBPayment } from './payment'
 import { DBSpend } from './spend'
 import { DBNotifyUser } from './notify'
+import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
+import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
 import { 
   DBGamePlatform, 
   DBGameCategory, 
@@ -34,26 +36,35 @@ import {
   DBGamePrivateEvent, DBGamePrivateEventHistory,
   DBGamePrivateComment
 } from './game'
-import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
-import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
+import {
+  DBForumCategory, DBForumCategorySub,
+  DBForumPost, DBForumPostComment, DBForumPostLike
+} from './forum'
 
 export default (mongoose : Mongoose) : IGlobalDB => {
   return {
+    // Main DB
     Config: DBConfig(mongoose),
     
     NewsCategory: DBNewsCategory(mongoose),
     News: DBNews(mongoose),
 
     User: DBUser(mongoose),
-
-    Gate: DBGate(mongoose),
-
-    Payment: DBPayment(mongoose),
-
-    Spend: DBSpend(mongoose),
-
     NotifyUser: DBNotifyUser(mongoose),
 
+    Gate: DBGate(mongoose),
+    Payment: DBPayment(mongoose),
+    Spend: DBSpend(mongoose),
+
+    LogAdmin: DBLogAdmin(mongoose),
+    LogUser: DBLogUser(mongoose),
+    LogLogin: DBLogLogin(mongoose),
+
+    AdminIP: DBAdminIP(mongoose),
+    UserIP: DBUserIP(mongoose),
+    BlockIP: DBBlockIP(mongoose),
+
+    // Game DB
     GamePlatform: DBGamePlatform(mongoose),
     GameCategory: DBGameCategory(mongoose),
 
@@ -87,12 +98,12 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GamePrivateEventHistory: DBGamePrivateEventHistory(mongoose),
     GamePrivateComment: DBGamePrivateComment(mongoose),
 
-    LogAdmin: DBLogAdmin(mongoose),
-    LogUser: DBLogUser(mongoose),
-    LogLogin: DBLogLogin(mongoose),
-
-    AdminIP: DBAdminIP(mongoose),
-    UserIP: DBUserIP(mongoose),
-    BlockIP: DBBlockIP(mongoose)
+    // Forum DB
+    ForumCategory: DBForumCategory(mongoose),
+    ForumCategorySub: DBForumCategorySub(mongoose),
+    
+    ForumPost: DBForumPost(mongoose),
+    ForumPostComment: DBForumPostComment(mongoose),
+    ForumPostLike: DBForumPostLike(mongoose)
   }
 }

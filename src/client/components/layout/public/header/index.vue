@@ -11,12 +11,14 @@
   ">
     <LayoutPublicNavHeader class="lg:hidden" />
 
-    <LayoutPublicHeaderSearch />
+    <UiFlex items="center" class="gap-1">
+      <LayoutPublicHeaderSearch />
+      <Setting />
+    </UiFlex>
     
     <UiFlex justify="end" items="center" class="ml-auto gap-1">
       <AuthSign v-if="!authStore.isLogin" />
       <LazyAuthHeader v-else />
-      <Setting />
     </UiFlex>
   </header>
 </template>

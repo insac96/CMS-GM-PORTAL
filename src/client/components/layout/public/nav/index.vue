@@ -70,6 +70,7 @@ const makeMenu = async () => {
     const list =  [
       { title: 'Nạp xu', icon: 'i-bxs-credit-card', to: '/payment' },
       { title: 'Tin tức', icon: 'i-bx-news', to: '/news' },
+      { title: 'Diễn đàn', icon: 'i-bx-layer', to: '/forum' },
       { title: 'Danh mục', child: [
         { title: 'Game Tool', icon: 'i-ion-game-controller', to: '/game/tool' },
         { title: 'Game Private', icon: 'i-fluent-games-28-filled', to: '/game/private' },

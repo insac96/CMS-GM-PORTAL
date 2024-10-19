@@ -18,7 +18,7 @@ const typeCheck : any = {
 
 export default async (event: H3Event, eventData : IDBGamePrivateEvent, type : string) : Promise<any> => {
   try {
-    const auth = event.context.auth as IAuth
+    const auth = await getAuth(event, false) as IAuth
     if(!auth) return Promise.resolve(-3) // Chưa đăng nhập
 
     let check : any

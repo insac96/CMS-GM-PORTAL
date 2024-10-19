@@ -11,6 +11,8 @@ export default defineEventHandler(async (event) => {
     if(!reason) throw 'Vui lòng nhập lý do hủy'
     if(!key) throw 'Không tìm thấy mã trò chơi'
 
+    throw 'Tính năng đang bảo trì'
+
     // Check Game
     const game = await DB.GameChina.findOne({ key: key, display: true }).select('name') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'

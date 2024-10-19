@@ -1,3 +1,4 @@
+import md5 from "md5"
 import type { IAuth, IDBConfig, IDBGameChina, IDBGameChinaUser, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
@@ -8,8 +9,8 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const { game : key, coin } = body
     if(!key) throw 'Không tìm thấy mã trò chơi'
-    if(!!isNaN(parseInt(coin)) || parseInt(coin) < 1) throw 'Số tiền không hợp lệ'
-    if(parseInt(coin) < 20000) throw 'Số tiền phải lớn hơn hoặc bằng 20.000đ'
+    if(!!isNaN(parseInt(coin)) || parseInt(coin) < 1) throw 'Số xu không hợp lệ'
+    if(parseInt(coin) < 3500) throw 'Số xu phải lớn hơn hoặc bằng 3.500'
 
     // Check User
     const user = await DB.User.findOne({ _id: auth._id }).select('username currency') as IDBUser
@@ -65,7 +66,14 @@ export default defineEventHandler(async (event) => {
         » Mã giao dịch: ${code}
         » Số xu: ${coin.toLocaleString('vi-VN')}
         » Thời gian: ${timeFormat.day}/${timeFormat.month}/${timeFormat.year} - ${timeFormat.hour}:${timeFormat.minute}
-      `
+      `,
+      china: {
+        user: user.username,
+        game: game.code,
+        code: code,
+        coin: coin,
+        sign: md5(user.username+''+game.code+''+code+''+coin+''+config.manage_password)
+      }
     })
 
     return resp(event, { message: 'Tạo lệnh nạp thành công' })

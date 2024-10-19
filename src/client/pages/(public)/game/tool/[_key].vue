@@ -221,7 +221,7 @@ const playUrl = async (type) => {
     // Play In Web
     if(!!data.token){
       const path = `/game/tool/play?token=${data.token}&game=${game.value.code}`
-      const link = `http://run.${runtimeConfig.public.domain}${path}`
+      const link = `http://play.${runtimeConfig.public.domain}${path}`
       return openNewTab(!!runtimeConfig.public.dev ? path : link)
     }
 

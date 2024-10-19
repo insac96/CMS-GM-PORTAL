@@ -5,7 +5,7 @@ interface ISendData {
   url: string
   secret: string
   message: string
-  game?: string
+  china?: any
 }
 
 export default async (event: H3Event, data : ISendData) : Promise<boolean> => {

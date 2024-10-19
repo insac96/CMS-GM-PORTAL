@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
 
     await DB.GameChinaUser.deleteMany({ game: game._id })
     await DB.GameChinaPayment.deleteMany({ game: game._id })
+    await DB.GameChinaComment.deleteMany({ game: game._id })
     await DB.GameChina.deleteOne({ _id: game._id })
 
     return resp(event, { message: 'Xóa thành công' })

@@ -41,7 +41,7 @@ const navItems = [
   {
     label: 'Quản lý',
     icon: 'i-bxs-grid-alt',
-    defaultOpen: true,
+    defaultOpen: false,
     slot: 'tab-0',
     children: [
       { label: 'Tài khoản', to: '/manage/@eni/user' },
@@ -53,7 +53,7 @@ const navItems = [
   {
     label: 'Địa chỉ IP',
     icon: 'i-bxs-barcode',
-    defaultOpen: true,
+    defaultOpen: false,
     slot: 'tab-1',
     children: [
       { label: 'Quản trị', to: '/manage/@eni/ip/admin' },
@@ -63,7 +63,7 @@ const navItems = [
   {
     label: 'Tin tức',
     icon: 'i-bx-news',
-    defaultOpen: true,
+    defaultOpen: false,
     slot: 'tab-2',
     children: [
     { label: 'Danh mục', to: '/manage/@eni/news/category' }, 
@@ -73,7 +73,7 @@ const navItems = [
   {
     label: 'Thanh toán',
     icon: 'i-bx-credit-card',
-    defaultOpen: true,
+    defaultOpen: false,
     slot: 'tab-3',
     children: [
       { label: 'Kênh nạp', to: '/manage/@eni/gate' }, 
@@ -84,7 +84,7 @@ const navItems = [
   {
     label: 'Trò chơi',
     icon: 'i-bx-cube-alt',
-    defaultOpen: true,
+    defaultOpen: false,
     slot: 'tab-4',
     children: [
       { label: 'Nền tảng', to: '/manage/@eni/game/platform' },
@@ -94,9 +94,15 @@ const navItems = [
       { label: 'Game China', to: '/manage/@eni/game/china' },
     ]
   },
+  {
+    label: 'Diễn đàn',
+    icon: 'i-bx-layer',
+    defaultOpen: false,
+    slot: 'tab-5',
+    children: [
+      { label: 'Danh mục', to: '/manage/@eni/forum/category' },
+      { label: 'Bài viết', to: '/manage/@eni/forum/post' },
+    ]
+  },
 ]
-
-const openLink = (link) => {
-  window.location.href = link
-}
 </script>

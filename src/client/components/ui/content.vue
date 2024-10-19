@@ -1,18 +1,22 @@
 <template>
   <div class="UiContent">
-    <div class="UiContentHeader mb-4">
-      <UiFlex class="gap-4">
-        <UiText weight="bold" class="lg:text-lg">{{ title || '...' }}</UiText>
-        <UiFlex class="UiContentDivider bg-gray-200 dark:bg-gray-800" v-if="!noDot"></UiFlex>
-        <slot name="more"></slot>
-      </UiFlex>
-      
-      <div v-if="sub">
-        <UiText class="text-xs lg:text-sm inline" color="gray">{{ !showMore ? sub.slice(0, 100) : sub }}</UiText>
-        <UiText class="text-xs lg:text-sm inline" color="gray" v-if="!showMore">...</UiText>
-        <UiText class="text-xs lg:text-sm inline cursor-pointer" color="primary" v-if="!!sub && sub.length > 100" @click="showMore = !showMore">{{ !showMore ? 'Xem thêm' : 'Ẩn' }}</UiText>
+    <UiFlex class="UiContentHeader mb-4">
+      <slot name="right"></slot>
+
+      <div class="grow">
+        <UiFlex class="gap-4">
+          <UiText weight="bold" class="lg:text-lg">{{ title || '...' }}</UiText>
+          <UiFlex class="UiContentDivider bg-gray-200 dark:bg-gray-800" v-if="!noDot"></UiFlex>
+          <slot name="more"></slot>
+        </UiFlex>
+        
+        <div v-if="sub">
+          <UiText class="text-xs lg:text-sm inline" color="gray">{{ !showMore ? sub.slice(0, 100) : sub }}</UiText>
+          <UiText class="text-xs lg:text-sm inline" color="gray" v-if="!showMore">...</UiText>
+          <UiText class="text-xs lg:text-sm inline cursor-pointer" color="primary" v-if="!!sub && sub.length > 100" @click="showMore = !showMore">{{ !showMore ? 'Xem thêm' : 'Ẩn' }}</UiText>
+        </div>
       </div>
-    </div>
+    </UiFlex>
 
     <div>
       <slot></slot>
