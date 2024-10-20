@@ -11,7 +11,7 @@ defineProps(['content'])
 .UiEditorContent
   font-size: 15px
   line-height: 1.6rem
-  padding: 0
+  padding: 0 !important
   word-break: break-word
   h2
     font-size: 1.5rem

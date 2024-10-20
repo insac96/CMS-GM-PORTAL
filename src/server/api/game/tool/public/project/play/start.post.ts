@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import type { IAuth, IDBGameTool } from "~~/types"
+import type { IAuth, IDBGameTool, IDBGameToolUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -13,6 +13,12 @@ export default defineEventHandler(async (event) => {
     const game = await DB.GameTool.findOne({ code: code, display: true }).select('_id ip api secret play statistic') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
+
+    const userGame = await DB.GameToolUser.findOne({ user: auth._id, game: game._id }) as IDBGameToolUser
+    if(!userGame) {
+      await DB.GameToolUser.create({ user: auth._id, game: game._id })
+      await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
+    }
 
     // Get URL Play
     let result : any

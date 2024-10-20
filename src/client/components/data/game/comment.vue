@@ -18,8 +18,8 @@
         <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="2xs" />
       </UiFlex>
        
-      <UForm :state="state" @submit="submit" v-if="!!authStore.isLogin">
-        <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn..."></UInput>
+      <UForm :state="state" @submit="submit">
+        <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn..." :disabled="!authStore.isLogin"></UInput>
       </UForm>
     </UiContent>
   </UCard>
