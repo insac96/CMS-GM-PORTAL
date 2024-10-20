@@ -78,11 +78,11 @@
         </UFormGroup>
 
         <UFormGroup label="Hiển thị">
-          <SelectDisplay v-model="stateEditInfo.display" :disabled="!authStore.isAdmin()" />
+          <SelectDisplay v-model="stateEditInfo.display" :disabled="!authStore.isAdmin" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
-          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="!authStore.isAdmin()" />
+          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="!authStore.isAdmin" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>

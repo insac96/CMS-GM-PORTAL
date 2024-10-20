@@ -13,7 +13,7 @@
     </UiFlex>
 
     <div 
-      v-if="!noAuth && (!!authStore.isLogin && !!authStore.isAdmin())"
+      v-if="!noAuth && (!!authStore.isLogin && !!authStore.isAdmin)"
       :class="[
         'py-2 px-4',
         'border-t border-gray-100 dark:border-gray-800',

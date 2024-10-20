@@ -55,7 +55,7 @@
               <UiText weight="semibold" color="gray" size="sm">Doanh thu</UiText>
               <UiText weight="semibold" size="sm">{{ toMoney(game.statistic.revenue) }}</UiText>
             </UiFlex>
-            <UiFlex justify="between" class="mb-3" v-if="!authStore.isAdmin()">
+            <UiFlex justify="between" class="mb-3" v-if="!authStore.isAdmin">
               <UiText weight="semibold" color="gray" size="sm">IP Game</UiText>
               <UiText weight="semibold" size="sm">{{ game.ip || '...' }}</UiText>
             </UiFlex>
@@ -88,11 +88,11 @@
         </UFormGroup>
 
         <UFormGroup label="Hiển thị">
-          <SelectDisplay v-model="stateEditInfo.display" :disabled="!authStore.isAdmin()" />
+          <SelectDisplay v-model="stateEditInfo.display" :disabled="!authStore.isAdmin" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
-          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="!authStore.isAdmin()" />
+          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="!authStore.isAdmin" />
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
@@ -142,24 +142,24 @@
     <UModal v-model="modal.editAPI" preventClose>
       <UForm :state="stateEditAPI" @submit="editAPIAction" class="p-4">
         <UFormGroup label="Địa chỉ IP">
-          <UInput v-model="stateEditAPI.ip" :disabled="!authStore.isAdmin()" />
+          <UInput v-model="stateEditAPI.ip" :disabled="!authStore.isAdmin" />
         </UFormGroup>
 
         <UFormGroup label="Port API">
-          <UInput v-model="stateEditAPI.port" type="number" :disabled="!authStore.isAdmin()" />
+          <UInput v-model="stateEditAPI.port" type="number" :disabled="!authStore.isAdmin" />
         </UFormGroup>
 
         <UFormGroup label="Mã ủy quyền">
-          <UInput v-model="stateEditAPI.secret" :disabled="!authStore.isAdmin()"/>
+          <UInput v-model="stateEditAPI.secret" :disabled="!authStore.isAdmin"/>
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
           <UiFlex class="mr-auto">
-            <UToggle v-model="stateEditAPI.paygame" :disabled="!authStore.isAdmin()" class="mr-2" />
+            <UToggle v-model="stateEditAPI.paygame" :disabled="!authStore.isAdmin" class="mr-2" />
             <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" />
           </UiFlex>
           
-          <UButton type="submit" :loading="loading.edit" :disabled="!authStore.isAdmin()">Sửa</UButton>
+          <UButton type="submit" :loading="loading.edit" :disabled="!authStore.isAdmin">Sửa</UButton>
           <UButton color="gray" @click="modal.editAPI = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
       </UForm>

@@ -256,7 +256,7 @@ const actions = (row) => [
   }],[{
     label: 'Chưa duyệt',
     icon: 'i-bx-redo',
-    disabled: row.status == 0 || !authStore.isAdmin(),
+    disabled: row.status == 0 || !authStore.isAdmin,
     click: () => {
       stateWaiting.value._id = row._id
       waitingAction()
