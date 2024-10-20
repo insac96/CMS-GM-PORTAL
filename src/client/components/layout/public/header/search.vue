@@ -16,7 +16,7 @@
             <div v-for="(list, key) in result" :key="key" class="w-full">
               <UiText size="xs" weight="semibold" class="mb-2 capitalize">Game {{ key }}</UiText>
 
-              <DataGameListMini :list="list" :os="key" @to="modal = false" />
+              <DataGameListMini :list="list" :os="key" @to="modal = false" :show-os="true" />
             </div>
           </UiFlex>
         </div>

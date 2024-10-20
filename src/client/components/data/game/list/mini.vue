@@ -11,6 +11,10 @@
         </NuxtLink>
         
         <UiFlex class="gap-1">
+          <NuxtLink :to="`/game/${os}`" @click="emits('to')" v-if="!!showOs">
+            <UBadge color="gray" size="xs" variant="soft" class="capitalize">Game {{ os }}</UBadge>
+          </NuxtLink>
+
           <NuxtLink :to="`/game/platform/${game.platform.key}`" @click="emits('to')">
             <UBadge color="gray" size="xs" variant="soft">{{ game.platform.name }}</UBadge>
           </NuxtLink>
@@ -29,6 +33,6 @@
 </template>
 
 <script setup>
-const props = defineProps(['os', 'list', 'noIcon'])
+const props = defineProps(['os', 'list', 'noIcon', 'showOs'])
 const emits = defineEmits(['to'])
 </script>
