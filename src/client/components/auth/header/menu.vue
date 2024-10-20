@@ -67,7 +67,7 @@ const menuUser = computed(() => {
       click: () => navigateTo('/manage')
     }])
   }
-  if(!!authStore.isGMod){
+  if(!!authStore.isAdmin || !!authStore.isGMod){
     list.push([{
       label: 'Quản lý trò chơi',
       icon: 'i-bx-server',
