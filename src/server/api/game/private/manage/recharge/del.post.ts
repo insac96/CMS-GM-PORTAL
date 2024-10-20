@@ -16,10 +16,8 @@ export default defineEventHandler(async (event) => {
     const recharge = await DB.GamePrivateRecharge.findOne({ _id: _id, game: game._id }).select('_id') as IDBGamePrivateRecharge
     if(!recharge) throw 'Gói không tồn tại'
 
-    if(auth.type < 3){
-      const history = await DB.GamePrivateRechargeHistory.count({ recharge: recharge._id })
-      if(history > 0) throw 'Không thể xóa gói nạp đã có lịch sử mua'
-    }
+    const history = await DB.GamePrivateRechargeHistory.count({ recharge: recharge._id })
+    if(history > 0) throw 'Không thể xóa gói nạp đã có lịch sử mua'
 
     await DB.GamePrivateRecharge.deleteOne({ _id: recharge._id })
     await DB.GamePrivateRechargeHistory.deleteMany({ recharge: recharge._id })

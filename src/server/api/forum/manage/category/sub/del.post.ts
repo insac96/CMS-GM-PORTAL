@@ -3,7 +3,7 @@ import type { IAuth, IDBForumCategory, IDBForumCategorySub } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
+    if(auth.type != 100) throw 'Bạn không phải quản trị viên cấp cao'
 
     const { category : categoryID, _id } = await readBody(event)
     if(!categoryID) throw 'Không tìm thấy ID danh mục mẹ'

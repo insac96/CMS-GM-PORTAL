@@ -60,14 +60,14 @@ const modal = ref({
 
 const menuUser = computed(() => {
   const list = []
-  if(authStore.profile.type == 3){
+  if(authStore.isAdmin()){
     list.push([{
       label: 'Quản trị viên',
       icon: 'i-bx-shield-quarter',
       click: () => navigateTo('/manage')
     }])
   }
-  if(authStore.profile.type > 0){
+  if(authStore.isGMod()){
     list.push([{
       label: 'Quản lý trò chơi',
       icon: 'i-bx-server',

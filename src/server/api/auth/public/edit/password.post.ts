@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
 
-    if(auth.type < 3) throw 'Chức năng tạm đóng, vui lòng liên hệ quản trị viên để đổi mật khẩu'
+    if(auth.type < 1) throw 'Chức năng tạm đóng, vui lòng liên hệ quản trị viên để đổi mật khẩu'
 
     const { old, new : password } = await readBody(event)
     if(!old || !password) throw 'Vui lòng nhập đủ thông tin'

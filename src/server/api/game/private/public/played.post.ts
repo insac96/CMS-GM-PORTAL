@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     if(!size || !current || !sort) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
 
-    const userCheck = (!!user && auth.type == 3) ? user : auth._id
+    const userCheck = (!!user && auth.type == 100) ? user : auth._id
 
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1

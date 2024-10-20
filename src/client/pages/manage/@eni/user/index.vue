@@ -237,10 +237,10 @@ const loading = ref({
 // Type
 const typeFormat = {
   0: { label: 'MEMBER', color: 'gray' },
-  1: { label: 'SMOD', color: 'green' },
-  2: { label: 'DEV', color: 'cyan' },
-  3: { label: 'ADMIN', color: 'red' },
-  99: { label: 'BOT', color: 'orange' }
+  1: { label: 'S-MOD', color: 'green' },
+  2: { label: 'G-MOD', color: 'cyan' },
+  100: { label: 'ADMIN', color: 'red' },
+  99: { label: 'ROBOT', color: 'orange' }
 }
 
 const viewUser = (_id) => {

@@ -12,6 +12,7 @@ defineProps(['content'])
   font-size: 15px
   line-height: 1.6rem
   padding: 0
+  word-break: break-word
   h2
     font-size: 1.5rem
     color: rgb(var(--color-primary-DEFAULT))

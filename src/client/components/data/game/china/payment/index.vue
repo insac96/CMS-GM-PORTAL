@@ -1,33 +1,28 @@
 <template>
-	<div v-if="game">
-		<div v-if="!authStore.isLogin">
-			<DataEmpty class="h-[300px]" text="Vui lòng đăng nhập trước" />
-		</div>
+	<UiContent title="Nạp Tệ" sub="Nạp tệ vào nền tảng trò chơi" no-dot>
+		<template #more>
+			<UButton icon="i-bx-x" square color="gray" class="ml-auto" size="2xs" @click="emits('close')"></UButton>
+		</template>
 
-		<div v-else>
-			<div v-if="!game.user">
-				<DataEmpty class="h-[300px]" text="Vui lòng chơi game trước khi nạp" />
-			</div>
+		<UForm ref="form" :state="state" :validate="validate" @submit="submit">
+			<UFormGroup label="Chọn số lượng tệ nạp" name="coin" help="Sử dụng tiền nền tảng có thể mua các gói nạp trong trò chơi">
+				<UiFlex class="gap-1">
+					<USelectMenu v-model="state.coin" :options="moneys" value-attribute="value" size="md" class="grow" />
 
-			<UForm v-else ref="form" :state="state" :validate="validate" @submit="submit">
-				<UFormGroup label="Chọn số lượng tệ nạp" name="coin" help="Sử dụng tiền nền tảng có thể mua các gói nạp trong trò chơi">
-					<UiFlex class="gap-1">
-						<USelectMenu v-model="state.coin" :options="moneys" value-attribute="value" size="md" class="grow" />
+					<UButton type="submit" size="md" :loading="loading">Xác Nhận</UButton>
+				</UiFlex>
+			</UFormGroup>
 
-						<UButton type="submit" size="md" :loading="loading">Xác Nhận</UButton>
-					</UiFlex>
-				</UFormGroup>
-
-				<UFormGroup label="Lịch sử nạp">
-					<DataGameChinaPaymentHistory :game="game.key" :reload="reloadHistory" />
-				</UFormGroup>
-			</UForm>
-		</div>
-	</div>
+			<UFormGroup label="Lịch sử nạp">
+				<DataGameChinaPaymentHistory :game="game.key" :reload="reloadHistory" />
+			</UFormGroup>
+		</UForm>
+	</UiContent>
 </template>
 
 <script setup>
-const game = useAttrs().game
+const props = defineProps(['game'])
+const emits = defineEmits(['close'])
 const authStore = useAuthStore()
 const form = ref()
 const loading = ref(false)
@@ -36,7 +31,7 @@ const reloadHistory = ref(0)
 // State
 const state = ref({
   coin: 3500,
-	game: game.key
+	game: props.game.key
 })
 
 // Moneys

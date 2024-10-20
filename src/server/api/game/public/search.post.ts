@@ -1,22 +1,8 @@
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
-    const { size, current, sort, search, category, platform, os } = body
-    if(!size || !current || !category || !platform || !os) throw 'Dữ liệu phân trang sai'
-    if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
-    if(!Array.isArray(platform)) throw 'Dữ liệu nền tảng không hợp lệ'
-    if(!Array.isArray(category)) throw 'Dữ liệu thể loại không hợp lệ'
-
-    const gameDB = {
-      'tool': DB.GameTool,
-      'private': DB.GamePrivate,
-      'china': DB.GameChina
-    }
-    // @ts-expect-error
-    if(!gameDB[os]) throw 'Dữ liệu hệ điều hành sai'
-
-    const sorting : any = { pin: -1, createdAt: -1 }
-    sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
+    const { search } = body
+    if(!search) throw 'Vui lòng nhập từ khóa tìm kiếm'
 
     const match : any = { display: true }
     if(!!search){
@@ -26,26 +12,37 @@ export default defineEventHandler(async (event) => {
         { 'code': { $regex : key, $options : 'i' }},
       ]
     }
-    if(platform.length > 0){
-      match['platform'] = { $in: platform }
-    }
-    if(category.length > 0){
-      match['category'] = { $in: category }
-    }
 
-    // @ts-expect-error
-    const list = await gameDB[os]
+    const result : any = {}
+
+    const listTool = await DB.GameTool
     .find(match)
     .select('name code key pin statistic description image.icon')
     .populate({ path: 'platform', select: 'name key' })
     .populate({ path: 'category', select: 'name key' })
-    .sort(sorting)
-    .limit(size)
-    .skip((current - 1) * size)
+    .sort({ 'statistic.play' : 1 })
+    .limit(5)
+    if(listTool.length > 0) result.tool = listTool
 
-    // @ts-expect-error
-    const total = await gameDB[os].count(match)
-    return resp(event, { result: { list, total } })
+    const listChina = await DB.GameChina
+    .find(match)
+    .select('name code key pin statistic description image.icon')
+    .populate({ path: 'platform', select: 'name key' })
+    .populate({ path: 'category', select: 'name key' })
+    .sort({ 'statistic.play' : 1 })
+    .limit(5)
+    if(listChina.length > 0) result.china = listChina
+
+    const listPrivate = await DB.GamePrivate
+    .find(match)
+    .select('name code key pin statistic description image.icon')
+    .populate({ path: 'platform', select: 'name key' })
+    .populate({ path: 'category', select: 'name key' })
+    .sort({ 'statistic.play' : 1 })
+    .limit(5)
+    if(listPrivate.length > 0) result.private = listPrivate
+
+    return resp(event, { result: result })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

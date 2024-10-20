@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
         newUserGame.mail = true
       }
 
-      if(!runtimeConfig.public.dev && auth.type > 1) totalPrice = 0 // Admin, Dev Free
+      if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free
       newUserGame.coin = totalPrice
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
       if(!!recharge && !userGame.recharge) totalPrice = totalPrice + game.price.recharge
       if(!!mail && !userGame.mail) totalPrice = totalPrice + game.price.mail
 
-      if(!runtimeConfig.public.dev && auth.type > 1) totalPrice = 0 // Admin, Dev Free
+      if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin, Dev Free
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
       if(!!recharge && !userGame.recharge) userGame.recharge = true

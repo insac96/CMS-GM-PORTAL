@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
     let discount = formatRate(game.rate.shop)
     discount = discount > 100 ? 100 : discount
     let totalPrice = price - Math.floor(price * (discount / 100))
-    if(!runtimeConfig.public.dev && auth.type > 1) totalPrice = 0 // Admin, Dev Free
+    if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free
 
     // Check Currency
     if(userGame.currency.gcoin < totalPrice) throw 'Số dư GCoin không đủ'

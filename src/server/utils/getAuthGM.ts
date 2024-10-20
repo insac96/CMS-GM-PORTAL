@@ -4,7 +4,7 @@ import type { IAuth, IDBGameChina, IDBGamePrivate, IDBGameTool } from "~~/types"
 export default async (event : H3Event, auth : IAuth, game : IDBGameChina | IDBGamePrivate | IDBGameTool) : Promise<any> => {
   try {
     if(auth.type == 0) throw true
-    if(auth.type == 3) return true
+    if(auth.type == 100) return true
 
     const manager = game.manager
     if(!manager.includes(auth._id)) throw true

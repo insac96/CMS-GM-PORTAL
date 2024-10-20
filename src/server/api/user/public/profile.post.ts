@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
     let select : any
     if(!!_id) {
-      if(auth.type < 3){
+      if(auth.type != 100){
         if(auth._id == _id) select = '-password -token'
         else select = '-password -email -phone -reg -social -currency -token'
       }
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     .select(select)
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
-    if(!!user.phone && auth.type < 1){
+    if(!!user.phone && auth.type != 100){
       const fullNumber = user.phone
       const last4Digits = fullNumber.slice(-2)
       const maskedNumber = last4Digits.padStart(fullNumber.length, '*')

@@ -6,9 +6,9 @@
     placeholder="Chọn quyền"
     :options="[
       { label: 'MEMBER', value: 0 },
-      { label: 'SMOD', value: 1 },
-      { label: 'DEV', value: 2 },
-      { label: 'ADMIN', value: 3 },
+      { label: 'G-MOD', value: 1 },
+      { label: 'F-MOD', value: 2 },
+      { label: 'ADMIN', value: 100 },
     ]"
   >
     <template #label>
@@ -35,8 +35,9 @@ const type = computed({
 
 const typeFormat = {
   0: { label: 'MEMBER', color: 'gray' },
-  1: { label: 'SMOD', color: 'green' },
-  2: { label: 'DEV', color: 'cyan' },
-  3: { label: 'ADMIN', color: 'red' }
+  1: { label: 'G-MOD', color: 'green' },
+  2: { label: 'F-MOD', color: 'cyan' },
+  100: { label: 'ADMIN', color: 'red' },
+  99: { label: 'ROBOT', color: 'orange' }
 }
 </script>

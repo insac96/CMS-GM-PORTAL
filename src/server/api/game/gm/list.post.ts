@@ -22,8 +22,8 @@ export default defineEventHandler(async (event) => {
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true }
-    if(auth.type < 3) {
-      match['manager'] = { $eq: auth._id }
+    if(auth.type != 100) {
+      match['manager'] = { $eq: auth._id } // Only G-Mod
     }
     if(!!search){
       const key = formatVNString(search, '-')

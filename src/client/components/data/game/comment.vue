@@ -3,22 +3,22 @@
     <UiContent title="Bình Luận" sub="Các bình luận về trò chơi" no-dot class="GameComment">
       <DataEmpty text="Không có dữ liệu" :loading="loading.list" v-if="!!loading.list || list.length == 0" />
 
-      <UiFlex type="col" class="mt-4 gap-4" v-else>
+      <UiFlex type="col" class="my-4 mb-6 gap-4" v-else>
         <UiFlex v-for="(item, index) in list" :key="index" class="w-full gap-3 ">
-          <UAvatar :src="item.user.user.avatar"></UAvatar>
+          <DataUserAvatar :user="item.user.user" />
 
           <div>
-            <UiText size="sm" weight="semibold" class="capitalize" color="primary">{{ item.user.user.username }}</UiText>
+            <DataUserName :user="item.user.user" />
             <UiText size="sm">{{ item.content }}</UiText>
           </div>
         </UiFlex>
       </UiFlex>
 
-      <UiFlex justify="center" class="mt-4" v-if="page.total > page.size">
+      <UiFlex justify="center" class="my-4" v-if="page.total > page.size">
         <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="2xs" />
       </UiFlex>
        
-      <UForm :state="state" class="mt-4" @submit="submit" v-if="!!authStore.isLogin">
+      <UForm :state="state" @submit="submit" v-if="!!authStore.isLogin">
         <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn..."></UInput>
       </UForm>
     </UiContent>
@@ -52,8 +52,8 @@ const state = ref({
 
 const submit = async () => {
   try {
-    if(state.value.content < 5) return useNotify().error('Bình luận ít nhất 5 ký tự')
-    if(state.value.content > 50) return useNotify().error('Bình luận nhiều nhất 5 ký tự')
+    if(state.value.content.length < 5) return useNotify().error('Bình luận ít nhất 5 ký tự')
+    if(state.value.content.length > 50) return useNotify().error('Bình luận nhiều nhất 50 ký tự')
 
     loading.value.create = true
     const data = await useAPI(`game/${props.os}/public/comment/create`, JSON.parse(JSON.stringify(state.value)))

@@ -47,7 +47,7 @@
       <UiFlex class="mb-4 gap-1">
         <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
         
-        <UForm :state="page" @submit="page.current = 1, getList()">
+        <UForm :state="page" @submit="page.current = 1, getPosts()">
           <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
         </UForm>
       </UiFlex>
@@ -55,7 +55,7 @@
       <div>
         <DataEmpty class="min-h-[300px]" text="Hiện tại chưa có chủ để" :loading="loading.post" v-if="!!loading.post || posts.length == 0" />
 
-        <DataForumPostList :list="posts"></DataForumPostList>
+        <DataForumPostList :list="posts" v-else></DataForumPostList>
       </div>
 
       <UiFlex justify="end" class="mt-4">
@@ -124,6 +124,12 @@ const page = ref({
   category: null,
   sub: null
 })
+watch(() => page.value.size, () => getPosts())
+watch(() => page.value.current, () => getPosts())
+watch(() => page.value.sort.column, () => getPosts())
+watch(() => page.value.sort.direction, () => getPosts())
+watch(() => page.value.search, (val) => !val && getPosts())
+
 
 const breadcrumb = computed(() => {
   const list = [{
@@ -161,7 +167,8 @@ const getPosts = async () => {
 
     posts.value = data.list
     page.value.total = data.total
-    loading.value.post = false
+
+    setTimeout(() => loading.value.post = false, 700)
   }
   catch(e){
     loading.value.post = false

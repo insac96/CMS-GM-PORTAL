@@ -61,8 +61,8 @@
         </div>
 
         <!-- Button -->
-        <UButton icon="i-bx-play" size="lg" block :loading="loading.china" @click="checkChinaAccount()" class="mb-1">Chơi Ngay</UButton>
-        <UButton icon="i-bx-credit-card" size="lg" block @click="navigateTo(`/game/china/${game.key}/payment`)" color="rose">Nạp Tiền Nền Tảng</UButton>
+        <UButton icon="i-bx-play" size="lg" block :loading="loading.account" @click="checkChinaAccount()" class="mb-1">Chơi Ngay</UButton>
+        <UButton icon="i-bx-credit-card" size="lg" block @click="openPayment" color="rose">Nạp Tiền Nền Tảng</UButton>
         
       </UiContent>
     </div>
@@ -70,7 +70,8 @@
     <!--Content-->
     <div class="grid grid-cols-12 gap-4">
       <div class="xl:col-span-8 md:col-span-12 col-span-12">
-        <NuxtPage :game="game" />
+        <DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content" />
+        <DataEditor :content="game.content" v-else />
       </div>
 
       <div class="xl:col-span-4 md:col-span-12 col-span-12">
@@ -105,10 +106,10 @@
     </UModal>
 
     <!--Account-->
-    <UModal v-model="modal.china" prevent-close>
+    <UModal v-model="modal.account" prevent-close>
       <UiContent no-dot title="China Account" sub="Xác nhận tài khoản game trung" class="p-4">
         <template #more>
-          <UButton icon="i-bx-x" color="gray" class="ml-auto" size="2xs" square :disabled="loading.china" @click="modal.china = false"></UButton>
+          <UButton icon="i-bx-x" color="gray" class="ml-auto" size="2xs" square :disabled="loading.account" @click="modal.account = false"></UButton>
         </template>
 
         <UForm :state="stateChina" @submit="signChinaAccount">
@@ -117,10 +118,19 @@
           </UFormGroup>
 
           <UiFlex justify="end" class="mt-4">
-            <UButton type="submit" :loading="loading.china">Xác Nhận</UButton>
+            <UButton type="submit" :loading="loading.account">Xác Nhận</UButton>
           </UiFlex>
         </UForm>
       </UiContent> 
+    </UModal>
+
+    <!--Payment-->
+    <UModal v-model="modal.payment" prevent-close :ui="{width: 'sm:max-w-[800px]'}">
+      <DataGameChinaPayment
+        :game="game" 
+        @close="modal.payment = false" 
+        class="p-4"
+      /> 
     </UModal>
   </div>
 </template>
@@ -151,11 +161,12 @@ useSeoMeta({
 const loading = ref({
   page: true,
   play: false,
-  china: false
+  account: false
 })
 const modal = ref({
   play: false,
-  china: false
+  account: false,
+  payment: false
 })
 
 const stateChina = ref({
@@ -164,34 +175,40 @@ const stateChina = ref({
 
 watch(() => authStore.isLogin, () => getGame())
 
+const openPayment = async () => {
+  if(!authStore.isLogin) return authStore.setModal(true)
+  if(!game.value.user) return useNotify().error('Vui lòng chơi game trước khi nạp')
+  modal.value.payment = true
+}
+
 const checkChinaAccount = async () => {
   try {
     if(!authStore.isLogin) return authStore.setModal(true)
-    loading.value.china = true
+    loading.value.account = true
 
     const data = await useAPI('game/china/public/sign/check')
-    loading.value.china = false
+    loading.value.account = false
 
     if(!!data) return modal.value.play = true
-    else return modal.value.china = true
+    else return modal.value.account = true
   }
   catch(e){
-    loading.value.china = false
+    loading.value.account = false
   }
 }
 
 const signChinaAccount = async () => {
   try {
-    loading.value.china = true
+    loading.value.account = true
     await useAPI('game/china/public/sign/youxi', JSON.parse(JSON.stringify(stateChina.value)))
 
-    loading.value.china = false
-    modal.value.china = false
+    loading.value.account = false
+    modal.value.account = false
     modal.value.play = true
     stateChina.value.password = null
   }
   catch(e){
-    loading.value.china = false
+    loading.value.account = false
   }
 }
  

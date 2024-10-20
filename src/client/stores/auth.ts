@@ -22,5 +22,37 @@ export const useAuthStore = defineStore('auth', () => {
     profile.value = undefined
   }
 
-  return { modal, isLogin, profile, setModal, setAuth, removeAuth }
+  async function isAdmin () {
+    if(!isLogin.value) return false
+    if(!profile.value) return false
+    if(!profile.value.type) return false
+    return profile.value.type == 100
+  }
+
+  async function isGMod () {
+    if(!isLogin.value) return false
+    if(!profile.value) return false
+    if(!profile.value.type) return false
+    return profile.value.type == 1
+  }
+
+  
+  async function isFMod () {
+    if(!isLogin.value) return false
+    if(!profile.value) return false
+    if(!profile.value.type) return false
+    return profile.value.type == 2
+  }
+
+  return { 
+    modal, 
+    isLogin, 
+    profile, 
+    isAdmin, 
+    isGMod, 
+    isFMod, 
+    setModal, 
+    setAuth, 
+    removeAuth
+  }
 })

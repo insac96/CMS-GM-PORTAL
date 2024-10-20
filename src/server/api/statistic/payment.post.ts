@@ -3,7 +3,7 @@ import type { IAuth } from '~~/types'
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Bạn không phải quản trị viên cấp cao'
+    if(auth.type != 100) throw 'Bạn không phải quản trị viên cấp cao'
 
     const { size, current, sort, range } = await readBody(event)
     if(!size || !current || !sort) throw 'Dữ liệu phân trang sai'

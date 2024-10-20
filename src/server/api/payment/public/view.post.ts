@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     })
 
     if(!payment) throw 'Giao dịch không tồn tại'
-    if(auth.type < 1 && (payment.user.toString() !== (auth as IAuth)._id.toString())) throw 'Bạn không phải chủ giao dịch'
+    if(auth.type < 100 && (payment.user.toString() !== (auth as IAuth)._id.toString())) throw 'Bạn không phải chủ giao dịch'
     
     return resp(event, { result: payment })
   } 

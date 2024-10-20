@@ -3,7 +3,7 @@ import type { IAuth, IDBSpend } from "~~/types"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    if(auth.type < 3) throw 'Chỉ Admin mới có quyền sửa'
+    if(auth.type != 100) throw 'Chỉ Admin mới có quyền sửa'
 
     const body = await readBody(event)
     const { _id, title, money, reason, images, time } = body
