@@ -27,7 +27,9 @@ export default defineEventHandler(async (event) => {
           username: 1, 
           email: 1,
           phone: 1,
+          level: 1,
           coin: '$currency.coin',
+          exp: '$currency.exp',
           type: 1,
           block: 1,
           createdAt: 1

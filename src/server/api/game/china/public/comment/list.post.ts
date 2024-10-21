@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     const match : any = { game: game._id }
     const list = await DB.GameChinaComment
     .find(match)
-    .populate({ path: 'user', select: 'username avatar', populate: { path: 'user', select: 'username avatar' }})
+    .populate({ path: 'user', select: 'user', populate: { path: 'user', select: 'username avatar type level', populate: { path: 'level' } }})
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)

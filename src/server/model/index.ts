@@ -2,7 +2,7 @@ import type { IGlobalDB } from '~~/types'
 import type { Mongoose } from 'mongoose'
 import { DBConfig } from './config'
 import { DBNews, DBNewsCategory } from './news'
-import { DBUser } from './user'
+import { DBUser, DBUserLevel } from './user'
 import { DBGate } from './gate'
 import { DBPayment } from './payment'
 import { DBSpend } from './spend'
@@ -50,6 +50,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     News: DBNews(mongoose),
 
     User: DBUser(mongoose),
+    UserLevel: DBUserLevel(mongoose),
     NotifyUser: DBNotifyUser(mongoose),
 
     Gate: DBGate(mongoose),

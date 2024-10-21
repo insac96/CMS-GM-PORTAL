@@ -1,17 +1,17 @@
 <template>
   <div class="divide-y divide-gray-100 dark:divide-gray-800">
     <UiFlex v-for="(item, i) in list" :key="i" class="py-4 gap-4">
-      <DataUserAvatar :user="item.creater" v-if="!!item.creater"/>
+      <DataUserAvatar :user="item.creater" v-if="!!item.creater" />
 
       <div class="grow">
         <NuxtLink :to="`/forum/post/${item.key}`">
           <UiText weight="bold" class="md:text-base text-sm select-none">{{ item.title }}</UiText>
         </NuxtLink>
-        
-        <UiFlex class="mt-2 gap-2" wrap>
+
+        <UiFlex class="mt-2 gap-1" wrap>
           <UBadge :color="item.category.color" variant="soft">{{ item.category.name }}</UBadge>
           <UBadge color="gray" variant="soft" v-if="item.sub">{{ item.sub.name }}</UBadge>
-          <UiText color="gray" class="text-xs select-none">{{ useDayJs().fromTime(item.update.last) }}</UiText>
+          <UiText color="gray" class="text-xs select-none ml-2">{{ useDayJs().fromTime(item.update.last) }}</UiText>
         </UiFlex>
 
         <UiFlex class="mt-2 gap-1 md:hidden">

@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     const news = await DB.News
     .findOneAndUpdate({ key: key, display: true }, { $inc: { view: 1 } }, { new: true })
     .populate({ path: 'category', select: 'name color' })
-    .populate({ path: 'updater', select: 'avatar username' })
+    .populate({ path: 'updater', select: 'avatar username type level', populate: { path: 'level' } })
 
     if(!news) throw 'Tin tức không tồn tại'
     return resp(event, { result: news })

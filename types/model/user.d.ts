@@ -11,6 +11,7 @@ export interface IDBUser {
   email: string
   phone: string
   avatar: string
+  level: Types.ObjectId | IDBUserLevel
   reg: {
     platform: string
   }
@@ -22,6 +23,7 @@ export interface IDBUser {
     tiktok: string
   }
   currency: {
+    exp: number
     coin: number
   }
   china: {
@@ -37,10 +39,27 @@ export interface IDBUser {
   }
 }
 
+export interface IDBUserLevel {
+  _id: Types.ObjectId
+  number: number
+  exp: number
+  stone: number
+  bonus: {
+    payment: number
+  }
+  limit: {
+    chat: number
+  }
+  discount: {
+    shop: number
+  }
+}
+
 export interface IDBUserStore {
   _id? : Types.ObjectId
   username? : string
   type?: number
   currency?: IDBUser['currency']
+  level?: IDBUserLevel
   notify?: number
 }

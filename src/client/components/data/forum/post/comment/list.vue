@@ -1,10 +1,10 @@
 <template>
   <div class="divide-y divide-gray-100 dark:divide-gray-800">
-    <UiFlex class="gap-4 py-6" items="start" v-for="(comment, index) in list" :key="index">
+    <UiFlex class="gap-4 py-6" items="center" v-for="(comment, index) in list" :key="index">
       <DataUserAvatar :user="comment.user" v-if="!!comment.user"/>
 
       <div class="w-full">
-        <UiFlex class="gap-1 mb-1">
+        <UiFlex class="gap-1">
           <DataUserName :user="comment.user" size="sm" />
           <UiText color="gray" size="xs" class="hidden sm:inline">viết lúc</UiText>
           <UiText color="gray" size="xs" class="sm:ml-0 ml-auto">{{ useDayJs().displayTime(comment.createdAt) }}</UiText>

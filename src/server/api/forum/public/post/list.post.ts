@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     .find(match)
     .populate({ path: 'category', select: 'name key icon color' })
     .populate({ path: 'sub', select: 'name key' })
-    .populate({ path: 'creater', select: 'username avatar type' })
+    .populate({ path: 'creater', select: 'username avatar type level', populate: { path: 'level' } })
     .select('category sub creater title key statistic update.last close block pin')
     .sort(sorting)
     .limit(size)

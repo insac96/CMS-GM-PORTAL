@@ -12,17 +12,14 @@
     ></UiImg>
 
     <UiFlex class="gap-2 my-4">
-      <UAvatar size="lg" :src="news.updater.avatar" alt="Avatar" />
+      <DataUserAvatar :user="news.updater"/>
 
-      <div>
-        <UiText class="capitalize mb-1" size="sm" weight="semibold">{{ news.updater.username }}</UiText>
-        <UiFlex wrap class="gap-1">
-          <UBadge color="gray" variant="soft" size="xs">Tin tức</UBadge>
-          <UBadge color="gray" variant="soft" size="xs">{{ news.category.name }}</UBadge>
-        </UiFlex>
+      <div class="ml-2">
+        <DataUserName :user="news.updater" class="mb-1" />
+        <UiText size="xs" color="gray">{{ useDayJs().fromTime(news.createdAt) }}</UiText>
       </div>
 
-      <UiText class="ml-auto" size="xs" color="gray">{{ useDayJs().fromTime(news.createdAt) }}</UiText>
+      <UBadge :color="news.category.color" variant="soft" size="sm" class="ml-auto">{{ news.category.name }}</UBadge>
     </UiFlex>
 
     <div class="my-4">

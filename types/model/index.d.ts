@@ -1,7 +1,7 @@
 import type { Model } from 'mongoose'
 export { IDBConfig, IDBConfigStore } from './config'
 export { IDBNews, IDBNewsCategory } from './news'
-export { IDBUser, IDBUserStore } from './user'
+export { IDBUser, IDBUserLevel, IDBUserStore } from './user'
 export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
@@ -51,6 +51,7 @@ export interface IGlobalDB {
   NewsCategory: Model<IDBNewsCategory>
 
   User: Model<IDBUser>
+  UserLevel: Model<IDBUserLevel>
   NotifyUser: Model<IDBNotifyUser>
 
   Gate: Model<IDBGate>

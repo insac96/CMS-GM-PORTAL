@@ -1,4 +1,4 @@
-import type { IAuth, IDBLogLogin, IDBUser, IDBUserStore } from "~~/types"
+import type { IAuth, IDBLogLogin, IDBUser, IDBUserLevel, IDBUserStore } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -20,12 +20,18 @@ export default defineEventHandler(async (event) => {
     }
     if(!!createNewLogin) await DB.LogLogin.create({ user: user._id })
 
+    // User Level
+    const realLevel = await DB.UserLevel.findOne({ 'exp': { $lte: user.currency.exp }}).sort({ number: -1 }) as IDBUserLevel
+    user.level = realLevel._id
+    await user.save()
+
     // Result
     const userStore : IDBUserStore = {
       _id: user._id,
       username: user.username,
       type: user.type,
-      currency: user.currency
+      currency: user.currency,
+      level: realLevel
     }
 
     userStore.notify = await DB.NotifyUser.count({ user: user._id, watched: false })

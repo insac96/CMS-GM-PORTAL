@@ -10,11 +10,14 @@
           <slot name="more"></slot>
         </UiFlex>
         
-        <div v-if="sub">
-          <UiText class="text-xs lg:text-sm inline" color="gray">{{ !showMore ? sub.slice(0, 100) : sub }}</UiText>
-          <UiText class="text-xs lg:text-sm inline" color="gray" v-if="!showMore">...</UiText>
-          <UiText class="text-xs lg:text-sm inline cursor-pointer" color="primary" v-if="!!sub && sub.length > 100" @click="showMore = !showMore">{{ !showMore ? 'Xem thêm' : 'Ẩn' }}</UiText>
-        </div>
+        <UiFlex v-if="!!sub || !!slots['sub']">
+          <slot name="sub"></slot>
+          <div>
+            <UiText class="text-xs lg:text-sm inline" color="gray">{{ !showMore ? sub.slice(0, 100) : sub }}</UiText>
+            <UiText class="text-xs lg:text-sm inline" color="gray" v-if="!showMore">...</UiText>
+            <UiText class="text-xs lg:text-sm inline cursor-pointer" color="primary" v-if="!!sub && sub.length > 100" @click="showMore = !showMore">{{ !showMore ? 'Xem thêm' : 'Ẩn' }}</UiText>
+          </div>
+        </UiFlex>
       </div>
     </UiFlex>
 
@@ -30,6 +33,8 @@ const props = defineProps({
   sub: String,
   noDot: Boolean
 })
+
+const slots = useSlots()
 
 const showMore = ref(false)
 

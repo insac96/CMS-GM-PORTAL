@@ -9,12 +9,13 @@
         <DataUserAvatar :user="post.creater" v-if="!!post.creater" class="mr-4"/>
       </template>
 
+      <!--Name User-->
+      <template #sub>
+        <DataUserName :user="post.creater" v-if="!!post.creater" class="mr-2"/>
+      </template>
+
       <!--Badge Info-->
       <UiFlex class="mt-2 mb-4 gap-1" wrap>
-        <UBadge v-if="post.creater">
-          <UIcon name="i-bx-user" class="mr-1" /> {{ post.creater.username }}
-        </UBadge>
-
         <UBadge color="gray">
           <UIcon name="i-bx-show" class="mr-1" /> {{ post.statistic.view }}
         </UBadge>

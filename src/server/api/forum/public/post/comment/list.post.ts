@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
     const list = await DB.ForumPostComment
     .find(match)
-    .populate({ path: 'user', select: 'username avatar type' })
+    .populate({ path: 'user', select: 'username avatar type level', populate: { path: 'level' } })
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)
