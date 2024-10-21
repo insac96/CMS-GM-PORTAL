@@ -1,7 +1,7 @@
 <template>
   <UiFlex class="gap-1">
-    <UiText :size="size" weight="semibold" :class="`capitalize UserName--${user.level.stone}`">{{ !!user ? user.username : 'Ẩn danh'}}</UiText>
-    <img :src="`/images/user/stone/${!!user ? (user.level ? user.level.stone : 1) : 1}.webp`" width="12" height="12"/>
+    <UiText :size="size" weight="semibold" :class="`capitalize UserName--${!!user ? (!!user.level ? (user.level.stone || 1) : 1) : 1}`">{{ !!user ? user.username : 'Ẩn danh'}}</UiText>
+    <img :src="`/images/user/stone/${!!user ? (!!user.level ? (user.level.stone || 1) : 1) : 1}.webp`" width="12" height="12"/>
   </UiFlex>
 </template>
 
