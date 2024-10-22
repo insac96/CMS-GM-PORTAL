@@ -64,7 +64,9 @@ const submit = async () => {
 const getUser = async () => {
   try {
     loading.value.profile = true
-    const data = await useAPI('user/public/profile', {})
+    const data = await useAPI('user/public/profile', {
+      _id: authStore.profile._id
+    })
 
     profile.value = data
     state.value.avatar = data.avatar
