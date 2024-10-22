@@ -75,6 +75,10 @@
           </UiUploadImage>
         </UFormGroup>
 
+        <UFormGroup label="Nội dung">
+          <UiEditor v-model="stateAdd.content"></UiEditor>
+        </UFormGroup>
+
         <UFormGroup label="Hiển thị">
           <SelectDisplay v-model="stateAdd.display" />
         </UFormGroup>
@@ -197,8 +201,9 @@ const stateAdd = ref({
   title: null,
   description: null,
   og_image: null,
-  pin: 0,
-  display: 1
+  content: null,
+  pin: false,
+  display: true
 })
 const stateEdit = ref({
   _id: null,
@@ -226,8 +231,9 @@ watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
   title: null,
   description: null,
   og_image: null,
-  pin: 0,
-  display: 1
+  content: null,
+  pin: false,
+  display: true
 }))
 
 // Loading
@@ -293,7 +299,7 @@ const getList = async () => {
 const addAction = async () => {
   try {
     loading.value.add = true
-    await useAPI('news//manage/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    await useAPI('news/manage/add', JSON.parse(JSON.stringify(stateAdd.value)))
 
     loading.value.add = false
     modal.value.add = false
@@ -307,7 +313,7 @@ const addAction = async () => {
 const editAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('news//manage/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+    await useAPI('news/manage/edit', JSON.parse(JSON.stringify(stateEdit.value)))
 
     loading.value.edit = false
     modal.value.edit = false
@@ -321,7 +327,7 @@ const editAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('news//manage/del', { _id })
+    await useAPI('news/manage/del', { _id })
 
     loading.value.del = false
     getList()
@@ -334,7 +340,7 @@ const delAction = async (_id) => {
 const contentAction = async () => {
   try {
     loading.value.content = true
-    await useAPI('news//manage/content/edit', JSON.parse(JSON.stringify(stateContent.value)))
+    await useAPI('news/manage/content/edit', JSON.parse(JSON.stringify(stateContent.value)))
 
     loading.value.content = false
     modal.value.content = false

@@ -1,8 +1,14 @@
 <template>
-  <UiFlex class="gap-1">
-    <UiText :size="size" weight="semibold" :class="`capitalize UserName--${!!user ? (!!user.level ? (user.level.stone || 1) : 1) : 1}`">{{ !!user ? user.username : 'Ẩn danh'}}</UiText>
-    <img :src="`/images/user/stone/${!!user ? (!!user.level ? (user.level.stone || 1) : 1) : 1}.webp`" width="12" height="12"/>
-  </UiFlex>
+  <div>
+    <UiFlex class="gap-2 cursor-pointer" @click="view = true">
+      <img :src="`/images/user/stone/${level}.webp`" width="12" height="12"/>
+      <UiText :size="size" weight="semibold" :class="`capitalize UserName UserName--${level}`">{{ !!user ? user.username : 'Ẩn danh'}}</UiText>
+    </UiFlex>
+
+    <UModal v-model="view" :ui="{width: 'sm:max-w-[300px]'}">
+      <DataUserBox :fetch-id="user._id" />
+    </UModal>
+  </div>
 </template>
 
 <script setup>
@@ -10,35 +16,41 @@ const props = defineProps({
   user: { type: Object },
   size: { type: String, default: 'sm' }
 })
+
+const view = ref(false)
+
+const level = computed(() => {
+  if(!props.user) return 1
+  if(!props.user.level) return 1
+  if(!props.user.type) return props.user.level.number || 1
+  if(props.user.type == 100) return 11
+  return props.user.level.number || 1
+})
 </script>
 
 <style lang="sass">
-.UserName
-  &--5
-    color: #d97b22
-    text-shadow: 0 0 11px #d97b22
-  &--4
-    color: #c023bd
-    text-shadow: 0 0 11px #c023bd
-  &--3
-    color: #0499ad
-    text-shadow: 0 0 11px #0499ad
-  &--2
-    color: #0499ad
-    text-shadow: 0 0 11px #0499ad
-
 .dark
   .UserName
+    &--11
+      --user-name-color: #869791
+    &--10
+      --user-name-color: #d62d6c
+    &--9
+      --user-name-color: #d97b22
+    &--8
+      --user-name-color: #bc15ce
+    &--7
+      --user-name-color: #0c64ad
+    &--6
+      --user-name-color: #8622ef
     &--5
-      color: #fff
-      text-shadow: 0 0 2px #d97b22, 0 0 5px #d97b22, 0 0 10px #d97b22, 0 0 15px #d97b22
+      --user-name-color: #d97b22
     &--4
-      color: #fff
-      text-shadow: 0 0 2px #c023bd, 0 0 5px #c023bd, 0 0 10px #c023bd, 0 0 15px #c023bd
+      --user-name-color: #2bced6
     &--3
-      color: #fff
-      text-shadow: 0 0 2px #d92135, 0 0 5px #d92135, 0 0 10px #d92135, 0 0 15px #d92135
+      --user-name-color: #02ab96
     &--2
-      color: #fff
-      text-shadow: 0 0 2px #0499ad, 0 0 5px #0499ad, 0 0 10px #0499ad, 0 0 15px #0499ad
+      --user-name-color: #47ae07
+    color: #fff
+    text-shadow: 0 0 2px var(--user-name-color), 0 0 5px var(--user-name-color), 0 0 10px var(--user-name-color), 0 0 15px var(--user-name-color)
 </style>

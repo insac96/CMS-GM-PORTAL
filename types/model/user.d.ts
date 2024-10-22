@@ -41,6 +41,7 @@ export interface IDBUser {
 
 export interface IDBUserLevel {
   _id: Types.ObjectId
+  title: string
   number: number
   exp: number
   stone: number

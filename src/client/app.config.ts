@@ -2,7 +2,7 @@ export default defineAppConfig({
   ui: {
     primary: 'sky',
     
-    gray: 'cool',
+    gray: 'zinc',
 
     button: {
       font: 'font-semibold',

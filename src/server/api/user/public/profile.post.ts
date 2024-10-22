@@ -2,26 +2,32 @@ import type { IAuth } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
-    const auth = await getAuth(event) as IAuth
     const { _id } = await readBody(event)
+    if(!_id) throw 'Không tìm thấy ID tài khoản'
 
+    const auth = await getAuth(event, false) as IAuth | null
     let select : any
-    if(!!_id) {
-      if(auth.type != 100){
-        if(auth._id == _id) select = '-password -token'
-        else select = '-password -email -phone -reg -social -currency -token'
-      }
-      else select = '-password -token'
-    }
-    if(!_id) select = '-password -token'
 
+    if(!auth){
+      select = '-currency.coin -china -email -phone -reg -social -password -token'
+    }
+    if(!!auth){
+      if(auth.type == 100){
+        select = '-password -token'
+      }
+      else {
+        if(auth._id == _id) select = '-password -token'
+        select = '-currency.coin -china -email -phone -reg -social -password -token'
+      }
+    }
 
     const user = await DB.User
-    .findOne({ _id: _id ? _id : auth._id })
+    .findOne({ _id: _id })
+    .populate({ path: 'level', select: 'title number exp stone' })
     .select(select)
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
-    if(!!user.phone && auth.type != 100){
+    if(!!auth && auth.type != 100 && !!user.phone){
       const fullNumber = user.phone
       const last4Digits = fullNumber.slice(-2)
       const maskedNumber = last4Digits.padStart(fullNumber.length, '*')

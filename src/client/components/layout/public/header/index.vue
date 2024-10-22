@@ -13,7 +13,7 @@
 
     <UiFlex items="center" class="gap-1">
       <LayoutPublicHeaderSearch />
-      <Setting />
+      <!-- <Setting /> -->
     </UiFlex>
     
     <UiFlex justify="end" items="center" class="ml-auto gap-1">

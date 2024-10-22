@@ -2,7 +2,7 @@
   <div id="StarAnim">
     <div id='stars dark:hidden'></div>
     <div id='stars2'></div>
-    <div id='stars3'></div>
+    <div id='stars3 dark:hidden'></div>
     <div id='stars4 dark:hidden'></div>
   </div>
 </template>
