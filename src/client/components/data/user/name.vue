@@ -51,6 +51,7 @@ const level = computed(() => {
       --user-name-color: #02ab96
     &--2
       --user-name-color: #47ae07
+  .UserName
     color: #fff
     text-shadow: 0 0 2px var(--user-name-color), 0 0 5px var(--user-name-color), 0 0 10px var(--user-name-color), 0 0 15px var(--user-name-color)
 </style>
