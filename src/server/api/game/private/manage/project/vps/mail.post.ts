@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     const giftItem = gift.map((item : any) => ({ id: item.item_id, amount: item.amount }))
 
     await gameSendMail(event, {
-      url: game.api.start,
+      url: game.api.mail,
       secret: game.secret,
       account: account,
       server_id: server_id,
