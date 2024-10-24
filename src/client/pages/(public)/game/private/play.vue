@@ -2,7 +2,7 @@
   <div class="w-full h-full" v-if="!!verify && !!game">
     <iframe title="Playing Game" :src="verify.url" width="100%" height="100%" class="Iframe"></iframe>
 
-    <DataGamePrivatePlayDrag :game="game" @done-payment="donePayment" />
+    <DataGamePrivatePlayDrag :game="game" />
 
     <UModal v-model="modal.recharge">
       <DataGamePrivateShopRechargeBuy
@@ -68,11 +68,6 @@ const doneRecharge = async () => {
   await getUser()
 }
 
-const donePayment = async () => {
-  await authStore.setAuth()
-  await getUser()
-}
-
 onMounted(() => {
   window.addEventListener('message', onMessage, false)
 })
@@ -117,6 +112,7 @@ const getUser = async () => {
     })
 
     game.value.user = data
+    await authStore.setAuth()
   }
   catch(e){
     return false

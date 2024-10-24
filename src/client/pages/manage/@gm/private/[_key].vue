@@ -16,6 +16,10 @@
               <UDropdown :items="menus(game)">
                 <UButton color="gray" icon="i-bx-menu-alt-right" />
               </UDropdown>
+
+              <NuxtLink :to="`/game/private/${game.key}`">
+                <UButton  icon="i-bx-power-off" color="red" square />
+              </NuxtLink>
             </UiFlex>
           </template>
 
@@ -58,10 +62,6 @@
             <UiFlex justify="between" class="mb-3" v-if="!authStore.isAdmin">
               <UiText weight="semibold" color="gray" size="sm">IP Game</UiText>
               <UiText weight="semibold" size="sm">{{ game.ip || '...' }}</UiText>
-            </UiFlex>
-            <UiFlex justify="between" class="mb-3">
-              <UiText weight="semibold" color="gray" size="sm">Khuyến mãi nạp</UiText>
-              <UiText weight="semibold" size="sm">+{{ useRate().data(game.rate.payment).number }}%</UiText>
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Giảm giá</UiText>
@@ -194,17 +194,6 @@
     <!-- Modal Edit Rate -->
     <UModal v-model="modal.editRate" preventClose>
       <UForm :state="stateEditRate" @submit="editRateAction" class="p-4">
-        <UFormGroup label="Khuyến mãi nạp mặc định">
-          <UInput v-model="stateEditRate.payment.default" type="number" placeholder="Tỷ lệ (%)" />
-        </UFormGroup>
-
-        <UFormGroup label="Khuyến mãi nạp có thời hạn">
-          <UiFlex class="gap-1">
-            <UInput v-model="stateEditRate.payment.limit.number" type="number" class="grow" placeholder="Tỷ lệ (%)" />
-            <SelectDate v-model="stateEditRate.payment.limit.expired" time class="grow" />
-          </UiFlex>
-        </UFormGroup>
-
         <UFormGroup label="Giảm giá cửa hàng mặc định">
           <UInput v-model="stateEditRate.shop.default" type="number" placeholder="Tỷ lệ (%)" />
         </UFormGroup>
@@ -294,13 +283,6 @@ const stateEditContent = ref({
 })
 const stateEditRate = ref({
   _id: null,
-  payment: {
-    default: 0,
-    limit: {
-      number: 0,
-      expired: null
-    }
-  },
   shop: {
     default: 0,
     limit: {
@@ -365,9 +347,6 @@ const actions = (row) => [
     icon: 'i-bx-shape-circle',
     click: () => {
       stateEditRate.value._id = row._id
-      stateEditRate.value.payment.default = row.rate?.payment?.default
-      stateEditRate.value.payment.limit.number = row.rate?.payment?.limit?.number
-      stateEditRate.value.payment.limit.expired = row.rate?.payment?.limit?.expired
       stateEditRate.value.shop.default = row.rate?.shop?.default
       stateEditRate.value.shop.limit.number = row.rate?.shop?.limit?.number
       stateEditRate.value.shop.limit.expired = row.rate?.shop?.limit?.expired
@@ -396,11 +375,7 @@ const menus = (row) => [
       label: 'Người chơi',
       icon: 'i-bx-group',
       click: () => navigateTo(`/manage/@gm/private/${row.key}`)
-    },{
-      label: 'Nạp GCoin',
-      icon: 'i-bx-credit-card',
-      click: () => navigateTo(`/manage/@gm/private/${row.key}/payment`)
-    },
+    }
   ],[
     {
       label: 'Vật phẩm',

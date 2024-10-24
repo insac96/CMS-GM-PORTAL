@@ -14,16 +14,6 @@
 
     <div class="fixed bg-black/50 w-full h-full top-0 left-0" style="z-index: 99;" v-if="!!dragging"></div>
 
-    <!--Payment-->
-    <UModal v-model="modal.payment" :ui="{width: 'sm:max-w-[800px]'}">
-      <DataGamePrivatePayment 
-        :game="game" 
-        @close="modal.payment = false" 
-        @done="emits('done-payment')"
-        class="p-4"
-      /> 
-    </UModal>
-
     <!--Giftcode-->
     <UModal v-model="modal.giftcode" preventClose>
       <DataGamePrivateGiftcode
@@ -61,12 +51,10 @@
 import { useDraggable } from '@vueuse/core'
 
 const props = defineProps(['game'])
-const emits = defineEmits(['done-payment'])
 
 const el = ref(null)
 const dragging = ref(false)
 const modal = ref({
-  payment: false,
   giftcode: false,
   shop: false,
   event: false
@@ -86,15 +74,10 @@ const { style } = useDraggable(el, {
 
 const list = [
   [{
-    label: 'Nạp game',
-    icon: 'i-bx-package',
-    click: () => modal.value.payment = true
-  },{
     label: 'Giftcode',
     icon: 'i-bx-barcode',
     click: () => modal.value.giftcode = true,
-  }],
-  [{
+  },{
     label: 'Cửa Hàng',
     icon: 'i-bx-store',
     click: () => modal.value.shop = true,

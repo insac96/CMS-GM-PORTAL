@@ -54,15 +54,15 @@ const modal = ref({
 const list = ref([])
 const statistical = computed(() => props.game.user)
 
-const type = ref('spend.day.gcoin')
+const type = ref('spend.day.coin')
 watch(() => type.value, () => getList())
 
 const tab = ref(0)
 const tabs = [
-  { label: 'Ngày', key: 'spend.day.gcoin' },
-  { label: 'Tuần', key: 'spend.week.gcoin' },
-  { label: 'Tháng', key: 'spend.month.gcoin' },
-  { label: 'Tổng', key: 'spend.total.gcoin' },
+  { label: 'Ngày', key: 'spend.day.coin' },
+  { label: 'Tuần', key: 'spend.week.coin' },
+  { label: 'Tháng', key: 'spend.month.coin' },
+  { label: 'Tổng', key: 'spend.total.coin' },
 ]
 watch(() => tab.value, (val) => type.value = tabs[val]['key'])
 

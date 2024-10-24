@@ -4,16 +4,9 @@ import type { IAuth, IDBGamePrivateEvent, IDBGamePrivateEventHistory, IDBGamePri
 const typeCheck : any = {
   'login.week' : 'week',
   'login.month' : 'month',
-
-  'pay.day.coin' : 'day',
-  'pay.week.coin' : 'week',
-  'pay.month.coin' : 'month',
-
-  'spend.day.gcoin': 'day', 
-  'spend.week.gcoin': 'week', 
-  'spend.month.gcoin': 'month',
-
-  'pay.musty': 'day', 
+  'spend.day.coin': 'day', 
+  'spend.week.coin': 'week', 
+  'spend.month.coin': 'month',
 }
 
 export default async (event: H3Event, eventData : IDBGamePrivateEvent, type : string) : Promise<any> => {
@@ -25,28 +18,13 @@ export default async (event: H3Event, eventData : IDBGamePrivateEvent, type : st
     const userGame = await DB.GamePrivateUser.findOne({ user: auth._id, game: eventData.game }).select(`${type}`) as IDBGamePrivateUser
     if(!userGame) return Promise.resolve(-2) // Chưa đăng ký chơi
 
-    // Đơn Nạp
-    if(type == 'pay.musty'){
-      check = userGame.pay.musty.find((i:any) => i == eventData.need)
-      if(!check) return Promise.resolve(-1) // Chưa đạt
-    }
-    // Liên Nạp
-    else if(type == 'pay.running'){
-      const { day, receive } = userGame.pay.running
-      if(day < eventData.need) return Promise.resolve(-1) // Chưa đạt
-      if(receive >= eventData.need) return Promise.resolve(1) // Đã nhận
-      return Promise.resolve(0) // Có thể nhận
-    }
-    // Other
-    else {
-      const typeArray = type.split('.')
-      typeArray.forEach((i : string) => {
-        // @ts-expect-error
-        if(!check) check = userGame[i]
-        else check = check[i]
-      })
-      if(eventData.need > check) return Promise.resolve(-1) // Chưa đạt
-    }
+    const typeArray = type.split('.')
+    typeArray.forEach((i : string) => {
+      // @ts-expect-error
+      if(!check) check = userGame[i]
+      else check = check[i]
+    })
+    if(eventData.need > check) return Promise.resolve(-1) // Chưa đạt
 
     const history = await DB.GamePrivateEventHistory
     .findOne({ user: userGame._id, event: eventData._id })

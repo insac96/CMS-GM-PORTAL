@@ -24,7 +24,6 @@
     <template #default>
       <DataGamePrivateRankPower :game="game" v-if="tabs[tab-1]['key'] == 'power'" />
       <DataGamePrivateRankLevel :game="game" v-if="tabs[tab-1]['key'] == 'level'" />
-      <DataGamePrivateRankPay :game="game" v-if="tabs[tab-1]['key'] == 'pay'" />
       <DataGamePrivateRankSpend :game="game" v-if="tabs[tab-1]['key'] == 'spend'" />
     </template>
   </UCard>
@@ -38,8 +37,7 @@ const tabs = computed(() => {
   const list = []
     list.push({ label: 'Lực chiến', value: 1, key: 'power' })
     list.push({ label: 'Cấp độ', value: 2, key: 'level' })
-    list.push({ label: 'Nạp tiền', value: 3, key: 'pay' })
-    list.push({ label: 'Tiêu phí', value: 4, key: 'spend' })
+    list.push({ label: 'Tiêu phí', value: 3, key: 'spend' })
   return list
 })
 </script>

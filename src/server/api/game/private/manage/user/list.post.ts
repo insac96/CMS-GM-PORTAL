@@ -38,22 +38,6 @@ export default defineEventHandler(async (event) => {
         }
       },
       { $unwind: { path: '$user'} },
-      {
-        $lookup: {
-          from: "GamePrivatePayment",
-          localField: "_id",
-          foreignField: "user",
-          pipeline: [
-            { $project: { coin: 1 }}
-          ],
-          as: "payments"
-        }
-      },
-      { 
-        $addFields: { 
-          payments: { $sum: '$payments.coin' }
-        }
-      },
       { $sort: sorting },
       { $skip: (current - 1) * size },
       { $limit: size },

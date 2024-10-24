@@ -116,18 +116,10 @@ const events = [
 	{ label: 'Điểm Danh Tuần', key: 'login.week' },
 	{ label: 'Điểm Danh Tháng', key: 'login.month' },
 	{ label: 'Điểm Danh Tổng', key: 'login.total' },
-
-	{ label: 'Tích Nạp Ngày', key: 'pay.day.coin' },
-	{ label: 'Tích Nạp Tuần', key: 'pay.week.coin' },
-	{ label: 'Tích Nạp Tháng', key: 'pay.month.coin' },
-	{ label: 'Tích Nạp Tổng', key: 'pay.total.coin' },
-	{ label: 'Liên Nạp', key: 'pay.running' },
-	{ label: 'Đơn Nạp', key: 'pay.musty' },
-
-	{ label: 'Tiêu Phí Ngày', key: 'spend.day.gcoin' },
-	{ label: 'Tiêu Phí Tuần', key: 'spend.week.gcoin' },
-	{ label: 'Tiêu Phí Tháng', key: 'spend.month.gcoin' },
-	{ label: 'Tiêu Phí Tổng', key: 'spend.total.gcoin' },
+	{ label: 'Tiêu Phí Ngày', key: 'spend.day.coin' },
+	{ label: 'Tiêu Phí Tuần', key: 'spend.week.coin' },
+	{ label: 'Tiêu Phí Tháng', key: 'spend.month.coin' },
+	{ label: 'Tiêu Phí Tổng', key: 'spend.total.coin' },
 ]
 
 const columns = [

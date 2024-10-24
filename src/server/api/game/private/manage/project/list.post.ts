@@ -49,18 +49,6 @@ export default defineEventHandler(async (event) => {
       { $unwind: { path: '$category'} },
       {
         $lookup: {
-          from: "GamePrivatePayment",
-          localField: "_id",
-          foreignField: "game",
-          pipeline: [
-            { $match: { status: 1 } },
-            { $project: { coin: 1 }}
-          ],
-          as: "payments"
-        }
-      },
-      {
-        $lookup: {
           from: "User",
           localField: "manager",
           foreignField: "_id",
@@ -68,11 +56,6 @@ export default defineEventHandler(async (event) => {
             { $project: { username: 1 }}
           ],
           as: "manager"
-        }
-      },
-      {
-        $addFields: {
-          coin: { $sum: '$payments.coin' }
         }
       },
       { $sort: sorting },

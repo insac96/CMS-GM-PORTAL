@@ -31,8 +31,8 @@
           <UBadge color="gray" variant="soft">{{ row.category.name }}</UBadge>
         </template>
 
-        <template #coin-data="{ row }">
-          {{ useMoney().toMoney(row.coin) }}
+        <template #[`statistic.revenue-data`]="{ row }">
+          {{ useMoney().toMoney(row.statistic.revenue) }}
         </template>
 
         <template #ip-data="{ row }">
@@ -172,7 +172,7 @@ const columns = [
     key: 'category',
     label: 'Thể loại'
   },{
-    key: 'coin',
+    key: 'statistic.revenue',
     label: 'Doanh thu',
     sortable: true
   },{

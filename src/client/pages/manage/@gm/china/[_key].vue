@@ -8,9 +8,15 @@
       <div class="md:col-span-7 col-span-12">
         <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
           <template #more>
-            <UDropdown :items="actions(game)" class="ml-auto">
-              <UButton color="gray" icon="i-bx-cog" :disabled="loading.del"/>
-            </UDropdown>
+            <UiFlex class="gap-1 ml-auto">
+              <UDropdown :items="actions(game)">
+                <UButton color="gray" icon="i-bx-cog" :disabled="loading.del"/>
+              </UDropdown>
+
+              <NuxtLink :to="`/game/china/${game.key}`">
+                <UButton  icon="i-bx-power-off" color="red" square />
+              </NuxtLink>
+            </UiFlex>
           </template>
 
           <UiFlex wrap class="gap-1">

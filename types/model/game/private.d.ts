@@ -49,13 +49,6 @@ export interface IDBGamePrivate {
   }
 
   rate: {
-    payment: {
-      default: number
-      limit: {
-        number: number
-        expired: Date
-      }
-    }
     shop: {
       default: number
       limit: {
@@ -89,49 +82,21 @@ export interface IDBGamePrivateUser {
 
   block: boolean
 
-  currency: {
-    gcoin: number
-  }
-
-  pay: {
-    day: {
-      coin: number
-      count: number
-    }
-    week: {
-      coin: number
-      count: number
-    }
-    month: {
-      coin: number
-      count: number
-    }
-    total: {
-      coin: number
-      count: number
-    }
-    running: {
-      day: number
-      receive: number
-    }
-    musty: Array<number>
-  }
-
   spend: {
     day: {
-      gcoin: number
+      coin: number
       count: number
     }
     week: {
-      gcoin: number
+      coin: number
       count: number
     }
     month: {
-      gcoin: number
+      coin: number
       count: number
     }
     total: {
-      gcoin: number
+      coin: number
       count: number
     }
   }
@@ -156,20 +121,6 @@ export interface IDBGamePrivateUserLogin {
   
   user: Types.ObjectId | IDBGamePrivateUser
   game: Types.ObjectId | IDBGamePrivate
-}
-
-// Payment
-export interface IDBGamePrivatePayment {
-  _id: Types.ObjectId
-  createdAt: Date
-  updatedAt: Date
-
-  user: Types.ObjectId | IDBGamePrivateUser
-  game: Types.ObjectId | IDBGamePrivate
-
-  code: string
-  coin: number
-  gcoin: number
 }
 
 // Recharge

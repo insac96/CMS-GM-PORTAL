@@ -35,14 +35,14 @@ export default defineEventHandler(async (event) => {
         $group: {
           _id: {  timeformat: '$timeformat', user: '$user' },
           time: { $min: '$createdAt' },
-          gcoin: { $sum: '$price' },
+          coin: { $sum: '$price' },
         }
       },
       { $match: match },
       {
         $group: {
           _id: '$_id.user',
-          value: { $sum: '$gcoin' },
+          value: { $sum: '$coin' },
         }
       },
       {
@@ -96,14 +96,14 @@ export default defineEventHandler(async (event) => {
         $group: {
           _id: {  timeformat: '$timeformat', user: '$user' },
           time: { $min: '$createdAt' },
-          gcoin: { $sum: '$price' },
+          coin: { $sum: '$price' },
         }
       },
       { $match: match },
       {
         $group: {
           _id: '$_id.user',
-          value: { $sum: '$gcoin' },
+          value: { $sum: '$coin' },
         }
       },
       {
@@ -157,14 +157,14 @@ export default defineEventHandler(async (event) => {
         $group: {
           _id: {  timeformat: '$timeformat', user: '$user' },
           time: { $min: '$createdAt' },
-          gcoin: { $sum: '$price' },
+          coin: { $sum: '$price' },
         }
       },
       { $match: match },
       {
         $group: {
           _id: '$_id.user',
-          value: { $sum: '$gcoin' },
+          value: { $sum: '$coin' },
         }
       },
       {

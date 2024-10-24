@@ -27,7 +27,6 @@ import {
 
   DBGamePrivate,
   DBGamePrivateUser, DBGamePrivateUserLogin,
-  DBGamePrivatePayment,
   DBGamePrivateRecharge, DBGamePrivateRechargeHistory,
   DBGamePrivateItem, DBGamePrivateItemBox,
   DBGamePrivateShopItem, DBGamePrivateShopItemHistory,
@@ -84,7 +83,6 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GamePrivate: DBGamePrivate(mongoose),
     GamePrivateUser: DBGamePrivateUser(mongoose),
     GamePrivateUserLogin: DBGamePrivateUserLogin(mongoose),
-    GamePrivatePayment: DBGamePrivatePayment(mongoose),
     GamePrivateRecharge: DBGamePrivateRecharge(mongoose),
     GamePrivateRechargeHistory: DBGamePrivateRechargeHistory(mongoose),
     GamePrivateItem: DBGamePrivateItem(mongoose),

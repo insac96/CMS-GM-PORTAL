@@ -1,6 +1,6 @@
 <template>
   <div class="HomePage">
-    <UiFlex type="col" justify="center" class="py-24">
+    <UiFlex type="col" justify="center" class="py-12">
       <UiFlex class="select-none sm:text-6xl text-4xl">
         <UiText weight="bold" color="primary" class="italic">ENI</UiText>
         <UiText class="ml-1 italic" weight="semibold">Studio</UiText>
@@ -21,40 +21,17 @@
       ></UiImg>
     </UiFlex>
 
-    <UiFlex type="col" justify="center">
-      <UiText align="center" class="font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl text-2xl">
-        Tại đây <span class="text-primary">chúng tôi</span> có gì ?
-      </UiText>
+    <div class="my-12">
+      <DataGameToolLatest />
+    </div>
 
-      <div class="w-full max-w-3xl grid grid-cols-12 gap-2 md:gap-4 py-8">
-        <UCard class="md:col-span-6 col-span-6 transition-2" :ui="{ ring: 'hover:ring-primary' }">
-          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.member }}</UiText>
-          <UiText weight="bold" size="sm">Thành viên</UiText>
-          <UiText color="gray" class="text-sm md:text-base">Cộng đồng người chơi đông đảo từ tất cả các nền tảng</UiText>
-        </UCard>
+    <div class="my-12">
+      <DataGamePrivateLatest />
+    </div>
 
-        <UCard class="md:col-span-6 col-span-6 transition-2 relative cursor-pointer" :ui="{ ring: 'hover:ring-primary' }" @click="navigateTo('/game/tool')">
-          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.game.tool }}</UiText>
-          <UiText weight="semibold" size="sm">Game Tool</UiText>
-          <UiText color="gray" class="text-sm md:text-base">Cung cấp các trò chơi với bộ công cụ GM tiên tiến nhất</UiText>
-          <UiIcon color="primary" name="i-bx-link-external" class="absolute top-4 right-4" />
-        </UCard>
-
-        <UCard class="md:col-span-6 col-span-6 transition-2 relative cursor-pointer" :ui="{ ring: 'hover:ring-primary' }" @click="navigateTo('/game/private')">
-          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.game.private }}</UiText>
-          <UiText weight="semibold" size="sm">Game Private</UiText>
-          <UiText color="gray" class="text-sm md:text-base">Tổng hợp tất cả các trò chơi Private hay nhất trên thị trường</UiText>
-          <UiIcon color="primary" name="i-bx-link-external" class="absolute top-4 right-4" />
-        </UCard>
-
-        <UCard class="md:col-span-6 col-span-6 transition-2 relative cursor-pointer" :ui="{ ring: 'hover:ring-primary' }" @click="navigateTo('/game/china')">
-          <UiText class="md:text-5xl text-3xl mb-1" weight="semibold" color="primary">{{ home.game.china }}</UiText>
-          <UiText weight="semibold" size="sm">Game China</UiText>
-          <UiText color="gray" class="text-sm md:text-base">Các trò chơi hay từ cổng trò chơi lớn nhất Trung Quốc</UiText>
-          <UiIcon color="primary" name="i-bx-link-external" class="absolute top-4 right-4" />
-        </UCard>
-      </div>
-    </UiFlex>
+    <div class="my-12">
+      <DataGameChinaLatest />
+    </div>
   </div>
 </template>
 

@@ -53,31 +53,18 @@
             <UiText weight="semibold" color="gray" size="sm">Ra mắt</UiText>
             <UiText weight="semibold" size="sm">{{ useDayJs().fromTime(game.createdAt) }}</UiText>
           </UiFlex>
-
-          <UiFlex justify="between" class="mb-3">
-            <UiText weight="semibold" color="gray" size="sm">Khuyến mãi nạp</UiText>
-            <UiText weight="semibold" size="sm">+{{ useRate().data(game.rate.payment).number }}%</UiText>
-          </UiFlex>
           
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Giảm giá cửa hàng</UiText>
             <UiText weight="semibold" size="sm">-{{ useRate().data(game.rate.shop).number }}%</UiText>
-          </UiFlex>
-
-          <UiFlex justify="between" class="mb-3" v-if="!!game.user">
-            <UiText weight="semibold" color="gray" size="sm">GCoin của bạn</UiText>
-            <UiText weight="semibold" size="sm">{{ toMoney(game.user.currency.gcoin) }}</UiText>
           </UiFlex>
         </div>
 
         <!-- Button -->
         <UButton icon="i-bx-play" block size="lg" class="mb-1" @click="regGame" :loading="loading.reg" v-if="!game.user">Đăng Ký Chơi</UButton>
         <div v-else>
-          <UButton icon="i-bx-play" block size="lg" class="mb-1" @click="action('play')">Chơi Ngay</UButton>
-          <UiFlex class="gap-1">
-            <UButton icon="i-bx-credit-card" class="grow justify-center" size="lg" @click="action('payment')" color="rose">GCoin</UButton>
-            <UButton icon="i-bx-barcode" class="grow justify-center" size="lg" @click="action('giftcode')" color="black">Giftcode</UButton>
-          </UiFlex>
+          <UButton icon="i-bx-play" block size="lg" @click="action('play')" class="mb-1">Chơi Ngay</UButton>
+          <UButton icon="i-bx-barcode" block size="lg" @click="action('giftcode')" color="rose">Giftcode</UButton>
         </div>
       </UiContent>
     </div>
@@ -95,16 +82,6 @@
         <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="private"/>
       </div>
     </div>
-
-    <!--Payment-->
-    <UModal v-model="modal.payment" prevent-close :ui="{width: 'sm:max-w-[800px]'}">
-      <DataGamePrivatePayment 
-        :game="game" 
-        @close="modal.payment = false" 
-        @done="donePayment"
-        class="p-4"
-      /> 
-    </UModal>
 
     <!--Giftcode-->
     <UModal v-model="modal.giftcode" prevent-close>
@@ -172,13 +149,11 @@ const loading = ref({
   page: true,
   reg: false,
   play: false,
-  payment: false,
   giftcode: false
 })
 
 const modal = ref({
   play: false,
-  payment: false,
   giftcode: false
 })
 
@@ -215,11 +190,6 @@ const onTabChange = (index) => {
 const action = (key) => {
   if(!authStore.isLogin) return authStore.setModal(true)
   modal.value[key] = true
-}
-
-const donePayment = async () => {
-  await authStore.setAuth()
-  await getUser()
 }
 
 const playUrl = async (type) => {
@@ -274,6 +244,7 @@ const getUser = async () => {
     })
 
     game.value.user = data
+    await authStore.setAuth()
   }
   catch(e){
     return false

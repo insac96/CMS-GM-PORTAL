@@ -46,34 +46,26 @@ export default defineEventHandler(async (event) => {
       userGame.login.week = userGame.login.week + 1
       userGame.login.month = userGame.login.month + 1
       userGame.login.total = userGame.login.total + 1
-      userGame.pay.day.coin = 0
-      userGame.pay.day.count = 0
-      userGame.pay.musty = []
-      userGame.spend.day.gcoin = 0
+      userGame.spend.day.coin = 0
       userGame.spend.day.count = 0
     }
 
     // Update If Is Next Week
     if(lastDate.week != nowDate.week || lastDate.month != nowDate.month || lastDate.year != nowDate.year){
       userGame.login.week = 1
-      userGame.pay.week.coin = 0
-      userGame.pay.week.count = 0
-      userGame.spend.week.gcoin = 0
+      userGame.spend.week.coin = 0
       userGame.spend.week.count = 0
     }
 
     // Update If Is Next Month
     if(lastDate.month != nowDate.month || lastDate.year != nowDate.year){
       userGame.login.month = 1
-      userGame.pay.month.coin = 0
-      userGame.pay.month.count = 0
-      userGame.spend.month.gcoin = 0
+      userGame.spend.month.coin = 0
       userGame.spend.month.count = 0
     }
 
     // Save
     await userGame.save()
-
     return resp(event, { result: userGame })
   } 
   catch (e:any) {

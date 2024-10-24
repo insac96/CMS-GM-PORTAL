@@ -23,12 +23,8 @@
           </UBadge>
         </template>
 
-        <template #[`currency.gcoin-data`]="{ row }">
-          {{ toMoney(row.currency.gcoin || 0) }}
-        </template>
-
-        <template #payments-data="{ row }">
-          {{ toMoney(row.payments || 0) }}
+        <template #[`spend.total.coin-data`]="{ row }">
+          {{ toMoney(row.spend.total.coin || 0) }}
         </template>
 
         <template #block-data="{ row }">
@@ -67,66 +63,23 @@
       </UForm>
     </UModal>
 
-    <!-- Modal Edit Currency-->
-    <UModal v-model="modal.editCurrency" preventClose>
-      <UForm :state="stateEditCurrency" @submit="editCurrencyAction" class="p-4">
-        <UFormGroup label="GCoin">
-          <UInput v-model="stateEditCurrency.plus.gcoin" type="number" v-if="stateEditCurrency.type == 'plus'" />
-          <UInput v-model="stateEditCurrency.origin.gcoin" type="number" v-if="stateEditCurrency.type == 'origin'" />
-        </UFormGroup>
-
-        <UiFlex justify="end" class="mt-4">
-          <UButton type="submit" :loading="loading.edit">
-            {{ stateEditCurrency.type == 'plus' ? 'Thêm' : 'Sửa' }}
-          </UButton>
-          <UButton color="gray" @click="modal.editCurrency = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
-    <!-- Modal Edit Pay-->
-    <UModal v-model="modal.editPay" preventClose>
-      <UForm :state="stateEditPay" @submit="editPayAction" class="p-4" v-if="stateEditPay.pay">
-        <UFormGroup label="Ngày">
-          <UInput v-model="stateEditPay.pay.day.coin" type="number" />
-        </UFormGroup>
-
-				<UFormGroup label="Tuần">
-          <UInput v-model="stateEditPay.pay.week.coin" type="number" />
-        </UFormGroup>
-
-        <UFormGroup label="Tháng">
-          <UInput v-model="stateEditPay.pay.month.coin" type="number" />
-        </UFormGroup>
-
-        <UFormGroup label="Tổng">
-          <UInput v-model="stateEditPay.pay.total.coin" type="number" />
-        </UFormGroup>
-
-        <UiFlex justify="end" class="mt-4">
-          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
-          <UButton color="gray" @click="modal.editPay = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
-        </UiFlex>
-      </UForm>
-    </UModal>
-
     <!-- Modal Edit Spend-->
     <UModal v-model="modal.editSpend" preventClose>
       <UForm :state="stateEditSpend" @submit="editSpendAction" class="p-4" v-if="stateEditSpend.spend">
         <UFormGroup label="Ngày">
-          <UInput v-model="stateEditSpend.spend.day.gcoin" type="number" />
+          <UInput v-model="stateEditSpend.spend.day.coin" type="number" />
         </UFormGroup>
 
 				<UFormGroup label="Tuần">
-          <UInput v-model="stateEditSpend.spend.week.gcoin" type="number" />
+          <UInput v-model="stateEditSpend.spend.week.coin" type="number" />
         </UFormGroup>
 
         <UFormGroup label="Tháng">
-          <UInput v-model="stateEditSpend.spend.month.gcoin" type="number" />
+          <UInput v-model="stateEditSpend.spend.month.coin" type="number" />
         </UFormGroup>
 
         <UFormGroup label="Tổng">
-          <UInput v-model="stateEditSpend.spend.total.gcoin" type="number" />
+          <UInput v-model="stateEditSpend.spend.total.coin" type="number" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
@@ -177,12 +130,8 @@ const columns = [
     label: 'Khóa',
     sortable: true
   },{
-    key: 'currency.gcoin',
-    label: 'GCoin',
-		sortable: true
-  },{
-    key: 'payments',
-    label: 'Tổng nạp',
+    key: 'spend.total.coin',
+    label: 'Tổng tiêu',
 		sortable: true
   },{
     key: 'createdAt',
@@ -220,24 +169,6 @@ const stateEditAuth = ref({
   block: null
 })
 
-const stateEditCurrency = ref({
-	_id: null,
-	game: game._id,
-  type: null,
-  plus: {
-    gcoin: 0,
-  },
-  origin: {
-    gcoin: null,
-  },
-})
-
-const stateEditPay = ref({
-  _id: null,
-	game: game._id,
-  pay: null
-})
-
 const stateEditSpend = ref({
   _id: null,
 	game: game._id,
@@ -254,23 +185,9 @@ const stateEditLogin = ref({
 const modal = ref({
   user: false,
   editAuth: false,
-  editCurrency: false,
-  editPay: false,
   editSpend: false,
   editLogin: false
 })
-
-watch(() => modal.value.editCurrency, (val) => !val && (stateEditCurrency.value = {
-  _id: null,
-	game: game._id,
-  type: null,
-  plus: {
-    gcoin: 0,
-  },
-  origin: {
-    gcoin: null,
-  }
-}))
 
 // Loading
 const loading = ref({
@@ -288,31 +205,6 @@ const actions = (row) => [
       modal.value.editAuth = true
     }
   }],[{
-    label: 'Thêm GCoin',
-    icon: 'i-bx-coin-stack',
-    click: () => {
-      stateEditCurrency.value._id = row._id
-      stateEditCurrency.value.type = 'plus'
-      modal.value.editCurrency = true
-    }
-  },{
-    label: 'Sửa GCoin',
-    icon: 'i-bx-coin',
-    click: () => {
-      stateEditCurrency.value._id = row._id
-      stateEditCurrency.value.origin.gcoin = row.currency.gcoin
-      stateEditCurrency.value.type = 'origin'
-      modal.value.editCurrency = true
-    }
-  }],[{
-    label: 'Sửa tích nạp',
-    icon: 'i-bx-wallet',
-    click: () => {
-      stateEditPay.value.pay = JSON.parse(JSON.stringify(row.pay))
-      stateEditPay.value._id = row._id
-      modal.value.editPay = true
-    }
-  },{
     label: 'Sửa tiêu phí',
     icon: 'i-bx-wallet-alt',
     click: () => {
@@ -353,34 +245,6 @@ const editAuthAction = async () => {
 
     loading.value.edit = false
     modal.value.editAuth = false
-    getList()
-  }
-  catch (e) {
-    loading.value.edit = false
-  }
-}
-
-const editCurrencyAction = async () => {
-  try {
-    loading.value.edit = true
-    await useAPI('game/private/manage/user/edit/currency', JSON.parse(JSON.stringify(stateEditCurrency.value)))
-
-    loading.value.edit = false
-    modal.value.editCurrency = false
-    getList()
-  }
-  catch (e) {
-    loading.value.edit = false
-  }
-}
-
-const editPayAction = async () => {
-  try {
-    loading.value.editPay = true
-    await useAPI('game/private/manage/user/edit/pay', JSON.parse(JSON.stringify(stateEditPay.value)))
-
-    loading.value.edit = false
-    modal.value.editPay = false
     getList()
   }
   catch (e) {

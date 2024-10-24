@@ -17,12 +17,8 @@
         </NuxtLink>
       </template>
 
-      <template #payment-data="{ row }">
-        {{ row.payment ? useMoney().toMoney(row.payment) : '0' }}
-      </template>
-
-      <template #[`currency.gcoin-data`]="{ row }">
-        {{ row.currency.gcoin ? useMoney().toMoney(row.currency.gcoin) : '0' }}
+      <template #[`spend.total.coin-data`]="{ row }">
+        {{ row.spend ? useMoney().toMoney(row.spend.total.coin) : '0' }}
       </template>
 
       <template #createdAt-data="{ row }">
@@ -48,12 +44,8 @@ const columns = [
     key: 'game',
     label: 'Trò chơi',
   },{
-    key: 'payment',
-    label: 'Tổng nạp',
-    sortable: true
-  },{
-    key: 'currency.gcoin',
-    label: 'GCoin',
+    key: 'spend.total.coin',
+    label: 'Tổng tiêu',
     sortable: true
   },{
     key: 'createdAt',

@@ -14,9 +14,6 @@
       
       <UiFlex justify="end" items="center" class="gap-1 ml-auto">
         <AuthHeader v-if="!!authStore.isLogin" />
-        <NuxtLink to="/">
-          <UButton  icon="i-bx-power-off" color="red" square />
-        </NuxtLink>
       </UiFlex>
     </UiFlex>
   </header>

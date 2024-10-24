@@ -14,7 +14,7 @@
         </template>
 
         <template #value-data="{ row }">
-          {{ useMoney().toMoney(row.value) }} GCoin
+          {{ useMoney().toMoney(row.value) }} Xu
         </template>
       </UTable>
     </div>

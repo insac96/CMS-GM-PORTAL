@@ -12,14 +12,14 @@ export default defineEventHandler(async (event) => {
     const { day, week, month, total } = spend
     if(!day || !week || !month || !total) throw 'Dữ liệu đầu vào không hợp lệ'
     if(
-      !!isNaN(parseInt(day.gcoin))
-      || !!isNaN(parseInt(week.gcoin))
-      || !!isNaN(parseInt(month.gcoin))
-      || !!isNaN(parseInt(total.gcoin))
-      || parseInt(day.gcoin) < 0
-      || parseInt(week.gcoin) < 0
-      || parseInt(month.gcoin) < 0
-      || parseInt(total.gcoin) < 0
+      !!isNaN(parseInt(day.coin))
+      || !!isNaN(parseInt(week.coin))
+      || !!isNaN(parseInt(month.coin))
+      || !!isNaN(parseInt(total.coin))
+      || parseInt(day.coin) < 0
+      || parseInt(week.coin) < 0
+      || parseInt(month.coin) < 0
+      || parseInt(total.coin) < 0
     ) throw 'Dữ liệu đầu vào không hợp lệ'
 
     // Check Game
@@ -33,10 +33,10 @@ export default defineEventHandler(async (event) => {
 
     // Update
     await DB.GamePrivateUser.updateOne({ _id: user._id }, {
-      'spend.day.gcoin' : parseInt(day.gcoin),
-      'spend.week.gcoin' : parseInt(week.gcoin),
-      'spend.month.gcoin' : parseInt(month.gcoin),
-      'spend.total.gcoin' : parseInt(total.gcoin),
+      'spend.day.coin' : parseInt(day.coin),
+      'spend.week.coin' : parseInt(week.coin),
+      'spend.month.coin' : parseInt(month.coin),
+      'spend.total.coin' : parseInt(total.coin),
     })
 
     return resp(event, { message: 'Thao tác thành công' })

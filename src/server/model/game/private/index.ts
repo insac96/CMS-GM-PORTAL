@@ -4,7 +4,6 @@ import type {
   IDBGamePrivateEvent, IDBGamePrivateEventHistory, 
   IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory, 
   IDBGamePrivateItem, IDBGamePrivateItemBox, 
-  IDBGamePrivatePayment, 
   IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory, 
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory, 
@@ -56,13 +55,6 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
     },
 
     rate: {
-      payment: {
-        default: { type: Number, default: 0 },
-        limit: {
-          number: { type: Number, default: 0 },
-          expired: { type: Date },
-        }
-      },
       shop: {
         default: { type: Number, default: 0 },
         limit: {
@@ -101,49 +93,21 @@ export const DBGamePrivateUser = (mongoose : Mongoose) => {
 
     block: { type: Boolean, index: true, default: false },
 
-    currency: {
-      gcoin: { type: Number, index: true, default: 0 },
-    },
-
-    pay: {
-      day: {
-        coin: { type: Number, index: true, default: 0 },
-        count: { type: Number, index: true, default: 0 },
-      },
-      week: {
-        coin: { type: Number, index: true, default: 0 },
-        count: { type: Number, index: true, default: 0 },
-      },
-      month: {
-        coin: { type: Number, index: true, default: 0 },
-        count: { type: Number, index: true, default: 0 },
-      },
-      total: {
-        coin: { type: Number, index: true, default: 0 },
-        count: { type: Number, index: true, default: 0 },
-      },
-      running: {
-        day: { type: Number, index: true, default: 0 },
-        receive: { type: Number, index: true, default: 0 },
-      },
-      musty: Array<number>
-    },
-
     spend: {
       day: {
-        gcoin: { type: Number, index: true, default: 0 },
+        coin: { type: Number, index: true, default: 0 },
         count: { type: Number, index: true, default: 0 },
       },
       week: {
-        gcoin: { type: Number, index: true, default: 0 },
+        coin: { type: Number, index: true, default: 0 },
         count: { type: Number, index: true, default: 0 },
       },
       month: {
-        gcoin: { type: Number, index: true, default: 0 },
+        coin: { type: Number, index: true, default: 0 },
         count: { type: Number, index: true, default: 0 },
       },
       total: {
-        gcoin: { type: Number, index: true, default: 0 },
+        coin: { type: Number, index: true, default: 0 },
         count: { type: Number, index: true, default: 0 },
       }
     },
@@ -171,25 +135,6 @@ export const DBGamePrivateUserLogin = (mongoose : Mongoose) => {
   })
 
   const model = mongoose.model('GamePrivateUserLogin', schema, 'GamePrivateUserLogin')
-  return model 
-}
-
-// Payment
-export const DBGamePrivatePayment = (mongoose : Mongoose) => {
-  const schema = new mongoose.Schema<IDBGamePrivatePayment>({ 
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivateUser' },
-    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
-
-    code: { type: String },
-    coin: { type: Number, index: true, default: 0 },
-    gcoin: { type: Number, index: true, default: 0 },
-  }, {
-    timestamps: true
-  })
-
-  schema.index({ code: 'text' })
-
-  const model = mongoose.model('GamePrivatePayment', schema, 'GamePrivatePayment')
   return model 
 }
 

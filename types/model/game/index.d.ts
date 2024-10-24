@@ -16,7 +16,6 @@ export {
 export {
   IDBGamePrivate,
   IDBGamePrivateUser, IDBGamePrivateUserLogin,
-  IDBGamePrivatePayment,
   IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
   IDBGamePrivateItem, IDBGamePrivateItemBox,
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,

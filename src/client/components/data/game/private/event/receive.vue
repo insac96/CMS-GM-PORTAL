@@ -49,18 +49,10 @@ const typeFormat = {
   'login.week': 'Điểm Danh Tuần',
   'login.month': 'Điểm Danh Tháng',
   'login.total': 'Điểm Danh Tổng',
-
-  'pay.day.coin': 'Tích Nạp Ngày',
-  'pay.week.coin': 'Tích Nạp Tuần',
-  'pay.month.coin': 'Tích Nạp Tháng',
-  'pay.total.coin': 'Tích Nạp Tổng',
-  'pay.running': 'Liên Nạp',
-  'pay.musty': 'Đơn Nạp',
-  
-  'spend.day.gcoin': 'Tiêu Phí Ngày',
-  'spend.week.gcoin': 'Tiêu Phí Tuần',
-  'spend.month.gcoin': 'Tiêu Phí Tháng',
-  'spend.total.gcoin': 'Tiêu Phí Tổng',
+  'spend.day.coin': 'Tiêu Xu Ngày',
+  'spend.week.coin': 'Tiêu Xu Tuần',
+  'spend.month.coin': 'Tiêu Xu Tháng',
+  'spend.total.coin': 'Tiêu Xu Tổng',
 }
 
 const validate = (state) => {

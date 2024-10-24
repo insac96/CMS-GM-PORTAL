@@ -9,7 +9,7 @@
 
       <UButtonGroup v-if="game.user">
         <UButton square icon="i-bx-coin-stack" />
-        <UButton color="gray">{{ useMoney().toMoney(game.user.currency.gcoin) }}</UButton>
+        <UButton color="gray">{{ useMoney().toMoney(authStore.profile.currency.coin) }}</UButton>
       </UButtonGroup>
     </UiFlex>
 
@@ -37,7 +37,7 @@
             <UiText size="xs" weight="semibold" class="line-clamp-1" color="gray">Gói Nạp</UiText>
 
             <UButtonGroup size="2xs" class="mt-2.5">
-              <UButton square icon="i-bx-coin-stack" />
+              <UButton square icon="i-bx-coin" />
               <UButton color="gray">{{ useMoney().toMoney(item.price) }}</UButton>
             </UButtonGroup>
           </UiFlex>

@@ -1,4 +1,4 @@
-import type { IAuth, IDBGamePrivate, IDBGamePrivateItem, IDBGamePrivateShopPack, IDBGamePrivateUser } from "~~/types"
+import type { IAuth, IDBUser, IDBGamePrivate, IDBGamePrivateItem, IDBGamePrivateShopPack, IDBGamePrivateUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -12,12 +12,15 @@ export default defineEventHandler(async (event) => {
     if(!server || !role) throw 'Vui lòng chọn máy chủ và nhân vật'
     if(!!isNaN(parseInt(amount)) || parseInt(amount) < 1) throw 'Số lượng không hợp lệ'
     if(amount > 1000) throw 'Số lượng không vượt quá 1000'
+
+    const user = await DB.User.findOne({ _id: auth._id }).select('currency') as IDBUser
+    if(!user) throw 'Không tìm thấy thông tin tài khoản'
     
     const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('ip api secret rate') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 
-    const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('currency') as IDBGamePrivateUser
+    const userGame = await DB.GamePrivateUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGamePrivateUser
     if(!userGame) throw 'Vui lòng chơi trò chơi trước khi mua'
 
     const shopPack = await DB.GamePrivateShopPack
@@ -33,7 +36,7 @@ export default defineEventHandler(async (event) => {
     if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free
 
     // Check Currency
-    if(userGame.currency.gcoin < totalPrice) throw 'Số dư GCoin không đủ'
+    if(user.currency.coin < totalPrice) throw 'Số dư coin không đủ'
 
     // Check Limit Buy
     if(shopPack.limit > 0){
@@ -75,17 +78,22 @@ export default defineEventHandler(async (event) => {
     })
 
     // Update User
+    await DB.User.updateOne({ _id: auth._id }, { $inc: {
+      'currency.coin': totalPrice * -1,
+    }})
     await DB.GamePrivateUser.updateOne({ _id: userGame._id },{ $inc: {
-      'currency.gcoin': totalPrice * -1,
-      'spend.day.gcoin': totalPrice,
-      'spend.week.gcoin': totalPrice,
-      'spend.month.gcoin': totalPrice,
-      'spend.total.gcoin': totalPrice,
+      'spend.day.coin': totalPrice,
+      'spend.week.coin': totalPrice,
+      'spend.month.coin': totalPrice,
+      'spend.total.coin': totalPrice,
       'spend.day.count': 1,
       'spend.week.count': 1,
       'spend.month.count': 1,
       'spend.total.count': 1,
     }})
+
+    // Update Revenue
+    await DB.GamePrivate.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': totalPrice }})
 
     // History
     await DB.GamePrivateShopPackHistory.create({

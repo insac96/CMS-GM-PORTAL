@@ -16,6 +16,10 @@
               <UDropdown :items="menus(game)">
                 <UButton color="gray" icon="i-bx-menu-alt-right"/>
               </UDropdown>
+
+              <NuxtLink :to="`/game/tool/${game.key}`">
+                <UButton  icon="i-bx-power-off" color="red" square />
+              </NuxtLink>
             </UiFlex>
           </template>
 

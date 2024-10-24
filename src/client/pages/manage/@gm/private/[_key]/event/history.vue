@@ -119,18 +119,10 @@ const typeFormat = {
   'login.week': 'Điểm Danh Tuần',
   'login.month': 'Điểm Danh Tháng',
   'login.total': 'Điểm Danh Tổng',
-
-  'pay.day.coin': 'Tích Nạp Ngày',
-  'pay.week.coin': 'Tích Nạp Tuần',
-  'pay.month.coin': 'Tích Nạp Tháng',
-  'pay.total.coin': 'Tích Nạp Tổng',
-  'pay.running': 'Liên Nạp',
-  'pay.musty': 'Đơn Nạp',
-
-  'spend.day.gcoin': 'Tiêu Phí Ngày',
-  'spend.week.gcoin': 'Tiêu Phí Tuần',
-  'spend.month.gcoin': 'Tiêu Phí Tháng',
-  'spend.total.gcoin': 'Tiêu Phí Tổng',
+  'spend.day.coin': 'Tiêu Phí Ngày',
+  'spend.week.coin': 'Tiêu Phí Tuần',
+  'spend.month.coin': 'Tiêu Phí Tháng',
+  'spend.total.coin': 'Tiêu Phí Tổng',
 }
 
 const typeOptions = [
@@ -138,18 +130,10 @@ const typeOptions = [
 	{ label: 'Điểm Danh Tuần', key: 'login.week' },
 	{ label: 'Điểm Danh Tháng', key: 'login.month' },
 	{ label: 'Điểm Danh Tổng', key: 'login.total' },
-
-	{ label: 'Tích Nạp Ngày', key: 'pay.day.coin' },
-	{ label: 'Tích Nạp Tuần', key: 'pay.week.coin' },
-	{ label: 'Tích Nạp Tháng', key: 'pay.month.coin' },
-	{ label: 'Tích Nạp Tổng', key: 'pay.total.coin' },
-	{ label: 'Liên Nạp', key: 'pay.running' },
-	{ label: 'Đơn Nạp', key: 'pay.musty' },
-	
-	{ label: 'Tiêu Phí Ngày', key: 'spend.day.gcoin' },
-	{ label: 'Tiêu Phí Tuần', key: 'spend.week.gcoin' },
-	{ label: 'Tiêu Phí Tháng', key: 'spend.month.gcoin' },
-	{ label: 'Tiêu Phí Tổng', key: 'spend.total.gcoin' },
+	{ label: 'Tiêu Phí Ngày', key: 'spend.day.coin' },
+	{ label: 'Tiêu Phí Tuần', key: 'spend.week.coin' },
+	{ label: 'Tiêu Phí Tháng', key: 'spend.month.coin' },
+	{ label: 'Tiêu Phí Tổng', key: 'spend.total.coin' },
 ]
 
 // Fetch

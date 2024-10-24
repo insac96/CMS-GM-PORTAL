@@ -28,7 +28,6 @@ export {
 
   IDBGamePrivate,
   IDBGamePrivateUser, IDBGamePrivateUserLogin,
-  IDBGamePrivatePayment,
   IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
   IDBGamePrivateItem, IDBGamePrivateItemBox,
   IDBGamePrivateShopItem, IDBGamePrivateShopItemHistory,
@@ -85,7 +84,6 @@ export interface IGlobalDB {
   GamePrivate: Model<IDBGamePrivate>
   GamePrivateUser: Model<IDBGamePrivateUser>
   GamePrivateUserLogin: Model<IDBGamePrivateUserLogin>
-  GamePrivatePayment: Model<IDBGamePrivatePayment>
   GamePrivateRecharge: Model<IDBGamePrivateRecharge>
   GamePrivateRechargeHistory: Model<IDBGamePrivateRechargeHistory>
   GamePrivateItem: Model<IDBGamePrivateItem>
