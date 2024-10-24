@@ -4,7 +4,7 @@
       Game <span class="text-primary">China</span> Nổi Bật
     </UiText>
     
-    <DataGameList :loading="loading" :list="list" os="tool" max="4"/>
+    <DataGameList :loading="loading" :list="list" os="china" max="4"/>
 
     <UiFlex justify="center" class="mt-4">
       <UButton size="sm" color="gray" @click="navigateTo('/game/china')">Xem Thêm</UButton>
