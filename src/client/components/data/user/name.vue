@@ -1,8 +1,16 @@
 <template>
   <div class="UserName">
-    <UiFlex class="gap-2 cursor-pointer z-[2]" @click="view = true">
+    <UiFlex class="relative gap-2 cursor-pointer z-[2]" @click="view = true">
       <img :src="`/images/user/stone/${level}.webp`" :width="sizeStone[size]" :height="sizeStone[size]"/>
-      <UiText :size="size" weight="semibold" :class="`capitalize User--${level} UserName__text`">{{ !!user ? user.username : 'Ẩn danh'}}</UiText>
+
+      <UiText :size="size" weight="semibold" :class="{
+        'relative capitalize flex items-center justify-start': true,
+        [`User--${level} UserName__text`]: true,
+        [`UserName__text__anim`]: level >= 5 ? true : false
+      }">
+        <img class="UserName__lightning" src="/images/user/lightning.gif" v-if="level >= 10" />
+        {{ !!user ? user.username : 'Ẩn danh'}}
+      </UiText>
     </UiFlex>
 
     <UModal v-model="view" :ui="{width: 'sm:max-w-[400px]'}">
@@ -41,10 +49,17 @@ const level = computed(() => {
 <style lang="sass">
 .UserName
   position: relative
+  &__lightning
+    position: absolute
+    transform: rotate(90deg) scale(1.5)
+    left: 0
+    filter: brightness(2)
+    max-height: 80px
   &__text
     color: #fff
     text-shadow: 0px 0px 5px var(--user-color), 0px 0px 7px var(--user-color)
-    animation: user-name .75s ease-out infinite
+    &__anim
+      animation: user-name .75s ease-out infinite
 
 @keyframes user-name
   from

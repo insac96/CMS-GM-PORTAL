@@ -1,7 +1,7 @@
 
 <template>
   <div v-if="!!user && !loading" class="rounded-lg pt-10 pb-6 px-6">
-    <UiFlex type="col" class="gap-3 mb-6 relative z-[3]">
+    <UiFlex type="col" justify="center" class="gap-3 mb-6 relative z-[3]">
       <DataUserAvatar size="2xl" :user="user" class="mb-4" />
       <DataUserName :user="user" size="xl" />
     </UiFlex>
