@@ -24,7 +24,7 @@
 
     <div class="my-4">
       <DataEmpty class="h-[300px]" v-if="!news.content" />
-      <DataEditor :content="news.content" v-else />
+      <UiEditorContent :content="news.content" v-else />
     </div>
 
     <UiFlex justify="center">

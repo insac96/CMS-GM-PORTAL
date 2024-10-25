@@ -71,7 +71,7 @@
     <div class="grid grid-cols-12 gap-4">
       <div class="xl:col-span-8 md:col-span-12 col-span-12">
         <DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content" />
-        <DataEditor :content="game.content" v-else />
+        <UiEditorContent :content="game.content" v-else />
       </div>
 
       <div class="xl:col-span-4 md:col-span-12 col-span-12">

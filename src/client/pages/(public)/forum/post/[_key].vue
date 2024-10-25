@@ -30,7 +30,7 @@
       </UiFlex>
 
       <!--Content-->
-      <DataEditor :content="post.content" class="mb-4" />
+      <UiEditorContent :content="post.content" class="mb-4" />
     </UiContent>
 
     <!--Comment-->

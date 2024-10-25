@@ -2,7 +2,7 @@
   <UiContent title="Terms" sub="Điều khoản dịch vụ">
     <DataEmpty v-if="!!loading || !terms" :text="!!loading ? 'Đang tải...' : 'Không có dữ liệu'"></DataEmpty>
 
-    <DataEditor :content="terms" v-else />
+    <UiEditorContent :content="terms" v-else />
   </UiContent>
 </template>
 

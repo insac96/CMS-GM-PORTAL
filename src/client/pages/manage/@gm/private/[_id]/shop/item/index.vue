@@ -1,22 +1,24 @@
 <template>
-  <UiContent title="Cửa Hàng Gói" sub="Quản lý gói vật phẩm bày bán" no-dot>
+  <UiContent title="Cửa Hàng Vật Phẩm" sub="Quản lý vật phẩm bày bán" no-dot>
 		<template #more>
 			<UButton 
 				icon="i-bx-time" 
 				size="xs" 
 				class="ml-auto"
-				:to="`/manage/@gm/private/${game.key}/shop/pack/history`"
+				:to="`/manage/@gm/private/${game._id}/shop/item/history`"
 			>
 				Lịch sử
 			</UButton>
 		</template>
 
-    <UiFlex class="mb-4">
-      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-2"/>
-      <UForm :state="page" @submit="page.current = 1, getList()" class="mr-auto">
+    <UiFlex class="mb-4 gap-1">
+      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1"/>
+
+      <UForm :state="page" @submit="page.current = 1, getList()" class="mr-1">
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
-      <UButton color="gray" @click="modal.add = true" class="ml-2">Thêm mới</UButton>
+
+      <UButton color="gray" @click="modal.add = true" class="ml-auto">Thêm mới</UButton>
     </UiFlex>
     
     <!-- Table -->
@@ -25,19 +27,19 @@
 
       <UTable 
         v-model:sort="page.sort"
-        :columns="selectedColumns"
+        :columns="selectedColumns" 
         :rows="list"
       >
-        <template #name-data="{ row }">
-          <UiText weight="semibold">{{ row.name }}</UiText>
+        <template #[`item.item_image-data`]="{ row }">
+          <DataGamePrivateItemImage :src="row.item.item_image" :game="game.code" />
         </template>
 
-        <template #gift-data="{ row }">
-          <DataGamePrivateItemList :items="row.gift" class="max-w-[300px]" :size="45" :game="game.code" />
+        <template #amount-data="{ row }">
+          {{ toMoney(row.amount) }}
         </template>
 
         <template #price-data="{ row }">
-          <UiText weight="semibold">{{ useMoney().toMoney(row.price) }}</UiText>
+          <UiText weight="semibold">{{ toMoney(row.price) }}</UiText>
         </template>
 
         <template #limit-data="{ row }">
@@ -51,7 +53,7 @@
         <template #display-data="{ row }">
           <UBadge :color="!!row.display ? 'green' : 'gray'" variant="soft">{{ !!row.display ? 'Hiện' : 'Ẩn' }}</UBadge>
         </template>
-        
+
         <template #updatedAt-data="{ row }">
           {{ useDayJs().displayFull(row.updatedAt) }}
         </template>
@@ -73,20 +75,20 @@
     <!-- Modal Add -->
     <UModal v-model="modal.add" preventClose>
       <UForm :state="stateAdd" @submit="addAction" class="p-4">
-        <UFormGroup label="Tên gói">
-          <UInput v-model="stateAdd.name" />
+        <UFormGroup label="Vật phẩm">
+          <SelectGamePrivateItem v-model="stateAdd.item" :game="game.code" />
         </UFormGroup>
 
-        <UFormGroup label="Giá mua">
+        <UFormGroup label="Số lượng vật phẩm">
+          <UInput v-model="stateAdd.amount" type="number" />
+        </UFormGroup>
+
+        <UFormGroup label="Giá tiền">
           <UInput v-model="stateAdd.price" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Giới hạn">
+        <UFormGroup label="Giới hạn mua">
           <UInput v-model="stateAdd.limit" type="number" />
-        </UFormGroup>
-
-				<UFormGroup label="Vật phẩm">
-          <SelectGamePrivateItemList v-model="stateAdd.gift" :game="game.code" />
         </UFormGroup>
 
         <UFormGroup label="Hiển thị">
@@ -94,10 +96,7 @@
         </UFormGroup>
 
         <UiFlex class="mt-4">
-          <UiFlex class="mr-auto">
-            <UToggle v-model="stateAdd.pin" />
-            <UiText size="xs" weight="bold" class="ml-2">Ghim</UiText>
-          </UiFlex>
+          <SelectPin v-model="stateAdd.pin" class="mr-auto"/>
 
           <UButton type="submit" :loading="loading.add">Thêm</UButton>
           <UButton color="gray" @click="modal.add = false" :disabled="loading.add" class="ml-1">Đóng</UButton>
@@ -108,20 +107,16 @@
     <!-- Modal Edit -->
     <UModal v-model="modal.edit" preventClose>
       <UForm :state="stateEdit" @submit="editAction" class="p-4">
-        <UFormGroup label="Tên gói">
-          <UInput v-model="stateEdit.name" />
+        <UFormGroup label="Số lượng vật phẩm">
+          <UInput v-model="stateEdit.amount" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Giá mua">
+        <UFormGroup label="Giá tiền">
           <UInput v-model="stateEdit.price" type="number" />
         </UFormGroup>
-
-        <UFormGroup label="Giới hạn">
+        
+        <UFormGroup label="Giới hạn mua">
           <UInput v-model="stateEdit.limit" type="number" />
-        </UFormGroup>
-
-				<UFormGroup label="Vật phẩm">
-          <SelectGamePrivateItemList v-model="stateEdit.gift" :game="game.code" />
         </UFormGroup>
 
         <UFormGroup label="Hiển thị">
@@ -129,10 +124,7 @@
         </UFormGroup>
 
         <UiFlex class="mt-4">
-          <UiFlex class="mr-auto">
-            <UToggle v-model="stateEdit.pin" />
-            <UiText size="xs" weight="bold" class="ml-2">Ghim</UiText>
-          </UiFlex>
+          <SelectPin v-model="stateEdit.pin" class="mr-auto"/>
 
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.edit = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
@@ -144,26 +136,30 @@
 
 <script setup>
 const game = useAttrs().game
-
+const { toMoney } = useMoney()
 // List
 const list = ref([])
 
 // Columns
 const columns = [
   {
-    key: 'name',
+    key: 'item.item_image',
+    label: 'Vật phẩm',
+  },{
+    key: 'item.item_name',
     label: 'Tên',
     sortable: true
   },{
-    key: 'gift',
-    label: 'Vật phẩm',
+    key: 'amount',
+    label: 'Số lượng',
+    sortable: true
   },{
     key: 'price',
-    label: 'Giá',
+    label: 'Giá tiền',
     sortable: true
   },{
     key: 'limit',
-    label: 'Giới hạn',
+    label: 'Giới hạn mua',
     sortable: true
   },{
     key: 'pin',
@@ -204,19 +200,17 @@ watch(() => page.value.search, (val) => !val && getList())
 
 // State
 const stateAdd = ref({
-  name: null,
-	gift: [],
+  item: null,
+  amount: 1,
   price: null,
   limit: 0,
   pin: false,
   display: true,
 	game: game._id
 })
-
 const stateEdit = ref({
   _id: null,
-  name: null,
-	gift: null,
+  amount: null,
   price: null,
   limit: null,
   pin: null,
@@ -227,13 +221,12 @@ const stateEdit = ref({
 // Modal
 const modal = ref({
   add: false,
-  edit: false,
-  gift: false
+  edit: false
 })
 
 watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
-	name: null,
-	gift: null,
+  item: null,
+  amount: 1,
   price: null,
   limit: 0,
   pin: false,
@@ -252,38 +245,24 @@ const loading = ref({
 // Actions
 const actions = (row) => [
   [{
-    label: 'Sửa gói',
+    label: 'Sửa vật phẩm',
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
       modal.value.edit = true
     }
   }],[{
-    label: 'Xóa gói',
+    label: 'Xóa vật phẩm',
     icon: 'i-bx-trash',
     click: () => delAction(row._id)
   }]
 ]
  
 // Fetch
-const getList = async () => {
-  try {
-    loading.value.load = true
-    const data = await useAPI('game/private/manage/shop/pack/list', JSON.parse(JSON.stringify(page.value)))
-
-    loading.value.load = false
-    list.value = data.list
-    page.value.total = data.total
-  }
-  catch (e) {
-    loading.value.load = false
-  } 
-}
-
 const addAction = async () => {
   try {
     loading.value.add = true
-    await useAPI('game/private/manage/shop/pack/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    await useAPI('game/private/manage/shop/item/add', JSON.parse(JSON.stringify(stateAdd.value)))
 
     loading.value.add = false
     modal.value.add = false
@@ -297,7 +276,7 @@ const addAction = async () => {
 const editAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('game/private/manage/shop/pack/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+    await useAPI('game/private/manage/shop/item/edit', JSON.parse(JSON.stringify(stateEdit.value)))
 
     loading.value.edit = false
     modal.value.edit = false
@@ -311,7 +290,7 @@ const editAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('game/private/manage/shop/pack/del', { 
+    await useAPI('game/private/manage/shop/item/del', { 
 			_id: _id,
 			game: game._id
 		})
@@ -322,6 +301,20 @@ const delAction = async (_id) => {
   catch (e) {
     loading.value.del = false
   }
+}
+
+const getList = async () => {
+  try {
+    loading.value.load = true
+    const data = await useAPI('game/private/manage/shop/item/list', JSON.parse(JSON.stringify(page.value)))
+
+    loading.value.load = false
+    list.value = data.list
+    page.value.total = data.total
+  }
+  catch (e) {
+    loading.value.load = false
+  } 
 }
 
 onMounted(() => setTimeout(getList, 1))

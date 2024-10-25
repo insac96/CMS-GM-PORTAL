@@ -8,7 +8,7 @@
     <UiFlex class="h-[var(--header-size)] max-h-[var(--header-size)]">
       <LayoutManageNavSlide class="mr-2 "/>
       
-      <UiFlex>
+      <UiFlex class="hidden md:flex">
         <NuxtLink to="/manage/@eni">
           <UiLogo />
         </NuxtLink>

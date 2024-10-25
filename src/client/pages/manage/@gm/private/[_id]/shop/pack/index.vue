@@ -1,11 +1,11 @@
 <template>
-  <UiContent title="Giftcode" sub="Quản lý mã quà tặng" no-dot>
+  <UiContent title="Cửa Hàng Gói" sub="Quản lý gói vật phẩm bày bán" no-dot>
 		<template #more>
 			<UButton 
 				icon="i-bx-time" 
 				size="xs" 
 				class="ml-auto"
-				:to="`/manage/@gm/private/${game.key}/giftcode/history`"
+				:to="`/manage/@gm/private/${game._id}/shop/pack/history`"
 			>
 				Lịch sử
 			</UButton>
@@ -28,28 +28,24 @@
         :columns="selectedColumns"
         :rows="list"
       >
-        <template #code-data="{ row }">
-          <UiText weight="semibold">{{ row.code }}</UiText>
-        </template>
-
-        <template #limit-data="{ row }">
-          <UiText weight="semibold">{{ row.limit == 0  ? 'Không giới hạn' : `${row.limit} lần` }}</UiText>
+        <template #name-data="{ row }">
+          <UiText weight="semibold">{{ row.name }}</UiText>
         </template>
 
         <template #gift-data="{ row }">
           <DataGamePrivateItemList :items="row.gift" class="max-w-[300px]" :size="45" :game="game.code" />
         </template>
 
-        <template #expired-data="{ row }">
-          {{ row.expired ? useDayJs().displayFull(row.expired) : '...' }}
+        <template #price-data="{ row }">
+          <UiText weight="semibold">{{ useMoney().toMoney(row.price) }}</UiText>
         </template>
 
-        <template #public-data="{ row }">
-          <UBadge :color="!!row.public ? 'green' : 'gray'" variant="soft">{{ !!row.public ? 'Có' : 'Không' }}</UBadge>
+        <template #limit-data="{ row }">
+          {{ row.limit == 0 ? 'Không giới hạn' : `${row.limit} lần` }}
         </template>
 
-        <template #justone-data="{ row }">
-          <UBadge :color="!!row.justone ? 'green' : 'gray'" variant="soft">{{ !!row.justone ? 'Có' : 'Không' }}</UBadge>
+        <template #pin-data="{ row }">
+          <UBadge :color="!!row.pin ? 'green' : 'gray'" variant="soft">{{ !!row.pin ? 'Có' : 'Không' }}</UBadge>
         </template>
 
         <template #display-data="{ row }">
@@ -77,8 +73,12 @@
     <!-- Modal Add -->
     <UModal v-model="modal.add" preventClose>
       <UForm :state="stateAdd" @submit="addAction" class="p-4">
-        <UFormGroup label="Tên mã">
-          <UInput v-model="stateAdd.code" />
+        <UFormGroup label="Tên gói">
+          <UInput v-model="stateAdd.name" />
+        </UFormGroup>
+
+        <UFormGroup label="Giá mua">
+          <UInput v-model="stateAdd.price" type="number" />
         </UFormGroup>
 
         <UFormGroup label="Giới hạn">
@@ -89,25 +89,14 @@
           <SelectGamePrivateItemList v-model="stateAdd.gift" :game="game.code" />
         </UFormGroup>
 
-        <UFormGroup label="Hết hạn">
-          <SelectDate v-model="stateAdd.expired" time placeholder="..." />
-        </UFormGroup>
-
         <UFormGroup label="Hiển thị">
           <SelectDisplay v-model="stateAdd.display" />
         </UFormGroup>
 
         <UiFlex class="mt-4">
-          <UiFlex class="mr-auto gap-1" type="col" items="start">
-            <UiFlex>
-              <UToggle v-model="stateAdd.public" />
-              <UiText size="xs" weight="bold" class="ml-2">Công Khai</UiText>
-            </UiFlex>
-
-            <UiFlex>
-              <UToggle v-model="stateAdd.justone" />
-              <UiText size="xs" weight="bold" class="ml-2">Dùng Một Lần</UiText>
-            </UiFlex>
+          <UiFlex class="mr-auto">
+            <UToggle v-model="stateAdd.pin" />
+            <UiText size="xs" weight="bold" class="ml-2">Ghim</UiText>
           </UiFlex>
 
           <UButton type="submit" :loading="loading.add">Thêm</UButton>
@@ -119,8 +108,12 @@
     <!-- Modal Edit -->
     <UModal v-model="modal.edit" preventClose>
       <UForm :state="stateEdit" @submit="editAction" class="p-4">
-        <UFormGroup label="Tên mã">
-          <UInput v-model="stateEdit.code" />
+        <UFormGroup label="Tên gói">
+          <UInput v-model="stateEdit.name" />
+        </UFormGroup>
+
+        <UFormGroup label="Giá mua">
+          <UInput v-model="stateEdit.price" type="number" />
         </UFormGroup>
 
         <UFormGroup label="Giới hạn">
@@ -131,25 +124,14 @@
           <SelectGamePrivateItemList v-model="stateEdit.gift" :game="game.code" />
         </UFormGroup>
 
-        <UFormGroup label="Hết hạn">
-          <SelectDate v-model="stateEdit.expired" time placeholder="..." />
-        </UFormGroup>
-
         <UFormGroup label="Hiển thị">
           <SelectDisplay v-model="stateEdit.display" />
         </UFormGroup>
 
         <UiFlex class="mt-4">
-          <UiFlex class="mr-auto gap-1" type="col" items="start">
-            <UiFlex>
-              <UToggle v-model="stateEdit.public" />
-              <UiText size="xs" weight="bold" class="ml-2">Công Khai</UiText>
-            </UiFlex>
-
-            <UiFlex>
-              <UToggle v-model="stateEdit.justone" />
-              <UiText size="xs" weight="bold" class="ml-2">Dùng Một Lần</UiText>
-            </UiFlex>
+          <UiFlex class="mr-auto">
+            <UToggle v-model="stateEdit.pin" />
+            <UiText size="xs" weight="bold" class="ml-2">Ghim</UiText>
           </UiFlex>
 
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
@@ -169,31 +151,31 @@ const list = ref([])
 // Columns
 const columns = [
   {
-    key: 'code',
-    label: 'Mã',
+    key: 'name',
+    label: 'Tên',
     sortable: true
   },{
     key: 'gift',
-    label: 'Phần thưởng',
+    label: 'Vật phẩm',
+  },{
+    key: 'price',
+    label: 'Giá',
+    sortable: true
   },{
     key: 'limit',
     label: 'Giới hạn',
     sortable: true
   },{
-    key: 'expired',
-    label: 'Hết hạn',
-    sortable: true
-  },{
-    key: 'public',
-    label: 'Công khai',
-    sortable: true
-  },{
-    key: 'justone',
-    label: 'Dùng 1 lần',
+    key: 'pin',
+    label: 'Ghim',
     sortable: true
   },{
     key: 'display',
     label: 'Hiển thị',
+    sortable: true
+  },{
+    key: 'updatedAt',
+    label: 'Cập nhật',
     sortable: true
   },{
     key: 'actions',
@@ -222,23 +204,22 @@ watch(() => page.value.search, (val) => !val && getList())
 
 // State
 const stateAdd = ref({
-  code: null,
+  name: null,
 	gift: [],
+  price: null,
   limit: 0,
-  expired: null,
-  public: false,
-  justone: false,
+  pin: false,
   display: true,
 	game: game._id
 })
+
 const stateEdit = ref({
   _id: null,
-  code: null,
+  name: null,
 	gift: null,
+  price: null,
   limit: null,
-  expired: null,
-  public: false,
-  justone: false,
+  pin: null,
   display: null,
 	game: game._id
 })
@@ -247,15 +228,15 @@ const stateEdit = ref({
 const modal = ref({
   add: false,
   edit: false,
+  gift: false
 })
 
 watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
-	code: null,
-	gift: [],
+	name: null,
+	gift: null,
+  price: null,
   limit: 0,
-  expired: null,
-  public: false,
-  justone: false,
+  pin: false,
   display: true,
 	game: game._id
 }))
@@ -271,14 +252,14 @@ const loading = ref({
 // Actions
 const actions = (row) => [
   [{
-    label: 'Sửa mã',
+    label: 'Sửa gói',
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
       modal.value.edit = true
     }
   }],[{
-    label: 'Xóa mã',
+    label: 'Xóa gói',
     icon: 'i-bx-trash',
     click: () => delAction(row._id)
   }]
@@ -288,7 +269,7 @@ const actions = (row) => [
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('game/private/manage/giftcode/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('game/private/manage/shop/pack/list', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list
@@ -302,7 +283,7 @@ const getList = async () => {
 const addAction = async () => {
   try {
     loading.value.add = true
-    await useAPI('game/private/manage/giftcode/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    await useAPI('game/private/manage/shop/pack/add', JSON.parse(JSON.stringify(stateAdd.value)))
 
     loading.value.add = false
     modal.value.add = false
@@ -316,7 +297,7 @@ const addAction = async () => {
 const editAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('game/private/manage/giftcode/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+    await useAPI('game/private/manage/shop/pack/edit', JSON.parse(JSON.stringify(stateEdit.value)))
 
     loading.value.edit = false
     modal.value.edit = false
@@ -330,7 +311,7 @@ const editAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('game/private/manage/giftcode/del', {
+    await useAPI('game/private/manage/shop/pack/del', { 
 			_id: _id,
 			game: game._id
 		})

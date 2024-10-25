@@ -14,7 +14,7 @@ const level = computed(() => {
   if(!props.user) return 1
   if(!props.user.level) return 1
   if(!props.user.type) return props.user.level.number || 1
-  if(props.user.type == 100) return 15
+  // if(props.user.type == 100) return 15
   return props.user.level.number || 1
 })
 </script>

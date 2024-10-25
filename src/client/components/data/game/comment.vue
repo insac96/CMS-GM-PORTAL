@@ -5,10 +5,10 @@
 
       <UiFlex type="col" class="my-4 mb-6 gap-4" v-else>
         <UiFlex v-for="(item, index) in list" :key="index" class="w-full gap-3 ">
-          <DataUserAvatar :user="item.user.user" />
+          <DataUserAvatar :user="item.user.user" size="2xs" />
 
           <div>
-            <DataUserName :user="item.user.user" />
+            <DataUserName :user="item.user.user" size="xs" />
             <UiText size="sm">{{ item.content }}</UiText>
           </div>
         </UiFlex>

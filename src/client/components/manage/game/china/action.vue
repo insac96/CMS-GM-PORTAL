@@ -1,86 +1,30 @@
 <template>
-  <div v-if="!!game">
-    <div class="grid grid-cols-12 gap-4 mb-4">
-      <div class="md:col-span-5 col-span-12">
-        <DataGameReview :review="game.image.review" :banner="game.image.banner" />
-      </div>
-
-      <div class="md:col-span-7 col-span-12">
-        <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
-          <template #more>
-            <UiFlex class="gap-1 ml-auto">
-              <UDropdown :items="actions(game)">
-                <UButton color="gray" icon="i-bx-cog" :disabled="loading.del"/>
-              </UDropdown>
-
-              <NuxtLink :to="`/game/china/${game.key}`">
-                <UButton  icon="i-bx-power-off" color="red" square />
-              </NuxtLink>
-            </UiFlex>
-          </template>
-
-          <UiFlex wrap class="gap-1">
-            <NuxtLink to="/game/tool">
-              <UBadge color="gray" variant="soft">Game Tool</UBadge>
-            </NuxtLink>
-            
-            <NuxtLink :to="`/game/platform/${game.platform.key}`">
-              <UBadge color="gray" variant="soft">{{ game.platform.name }}</UBadge>
-            </NuxtLink>
-            
-            <NuxtLink :to="`/game/category/${game.category.key}`">
-              <UBadge color="gray" variant="soft">{{ game.category.name }}</UBadge>
-            </NuxtLink>
-          </UiFlex>
-
-          <UiFlex class="my-4" justify="center">
-            <UiFlex type="col" class="grow">
-              <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.view) }}</UiText>
-              <UiText color="gray" size="xs">Lượt xem</UiText>
-            </UiFlex>
-
-            <UiFlex type="col" class="grow border-l border-r dark:border-gray-800">
-              <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.play) }}</UiText>
-              <UiText color="gray" size="xs">Lượt chơi</UiText>
-            </UiFlex>
-
-            <UiFlex type="col" class="grow">
-              <UiText size="sm" weight="semibold">{{ miniMoney(game.statistic.user) }}</UiText>
-              <UiText color="gray" size="xs">Người chơi</UiText>
-            </UiFlex>
-          </UiFlex>
-
-          <div class="my-4">
-            <UiFlex justify="between" class="mb-3">
-              <UiText weight="semibold" color="gray" size="sm">Doanh thu</UiText>
-              <UiText weight="semibold" size="sm">{{ toMoney(game.statistic.revenue) }}</UiText>
-            </UiFlex>
-            <UiFlex justify="between" class="mb-3">
-              <UiText weight="semibold" color="gray" size="sm">Tỷ lệ nạp</UiText>
-              <UiText weight="semibold" size="sm">{{ game.rate.pay }}</UiText>
-            </UiFlex>
-            <UiFlex justify="between" class="mb-3">
-              <UiText weight="semibold" color="gray" size="sm">Cập nhật cuối</UiText>
-              <UiText weight="semibold" size="sm">{{ useDayJs().fromTime(game.updatedAt) }}</UiText>
-            </UiFlex>
-          </div>
-        </UiContent>
-      </div>
-    </div>
-
-    <div>
-      <NuxtPage :game="game" />
-    </div>
+  <div>
+    <UDropdown :items="actions(props.game)">
+      <UButton color="gray" icon="i-bx-dots-horizontal-rounded" :disabled="loading.del"/>
+    </UDropdown>
 
     <!-- Modal Edit Info -->
     <UModal v-model="modal.editInfo" preventClose>
       <UForm :state="stateEditInfo" @submit="editInfoAction" class="p-4">
-        <UFormGroup label="Mô tả ngắn">
-          <UInput v-model="stateEditInfo.description" />
+        <UFormGroup label="Nền tảng">
+          <SelectGamePlatform v-model="stateEditInfo.platform" :disabled="!authStore.isAdmin" />
         </UFormGroup>
 
-        <UFormGroup label="Tỷ lệ nạp">
-          <UInput v-model="stateEditInfo.rate.pay" />
+        <UFormGroup label="Danh mục">
+          <SelectGameCategory v-model="stateEditInfo.category" :disabled="!authStore.isAdmin" />
+        </UFormGroup>
+
+        <UFormGroup label="Tên">
+          <UInput v-model="stateEditInfo.name" :disabled="!authStore.isAdmin" />
+        </UFormGroup>
+
+        <UFormGroup label="Mã dự án">
+          <UInput v-model="stateEditInfo.code" :disabled="!authStore.isAdmin" />
+        </UFormGroup>
+
+        <UFormGroup label="Mô tả ngắn">
+          <UInput v-model="stateEditInfo.description" />
         </UFormGroup>
 
         <UFormGroup label="Hiển thị">
@@ -92,6 +36,20 @@
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
+    <!-- Modal Edit Manager -->
+    <UModal v-model="modal.editManager" preventClose>
+      <UForm :state="stateEditManager" @submit="editManagerAction" class="p-4">
+        <UFormGroup>
+          <SelectUsers v-model="stateEditManager.manager" :type="1" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton color="gray" @click="modal.editManager = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
       </UForm>
     </UModal>
@@ -170,21 +128,30 @@
         </UiFlex>
       </UForm>
     </UModal>
+
+    <!--Modal Del-->
+    <UModal v-model="modal.del" preventClose>
+      <UiContent title="Xóa trò chơi" class="p-4" no-dot>
+        <UAlert title="Chú Ý" icon="i-bxs-info-circle" color="red" variant="soft">
+          <template #description>
+            Bạn chắc chắn muốn xóa trò chơi <b>[{{ stateDel.code }}] {{ stateDel.name }}</b> khỏi hệ thống ?
+          </template>
+        </UAlert>
+
+        <UiFlex class="mt-4" justify="end">
+          <UButton @click="delAction" :loading="loading.del" color="red">Xác Nhận</UButton>
+          <UButton color="gray" @click="modal.del = false" :disabled="loading.del" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UiContent>
+    </UModal>
   </div>
 </template>
 
 <script setup>
-definePageMeta({
-  layout: 'gm-china',
-  middleware: 'gm'
-})
-
 const authStore = useAuthStore()
+const props = defineProps(['game'])
+const emits = defineEmits(['update'])
 const route = useRoute()
-const { miniMoney, toMoney } = useMoney()
-
-// Game Data
-const game = ref(undefined)
 
 // State
 const stateEditInfo = ref({
@@ -194,9 +161,6 @@ const stateEditInfo = ref({
   name: null,
   code: null,
   description: null,
-  rate: {
-    pay: null
-  },
   pin: null,
   display: null,
 })
@@ -218,25 +182,49 @@ const stateEditContent = ref({
   _id: null,
   content: null
 })
+const stateEditManager = ref({
+  _id: null,
+  manager: null
+})
+const stateDel = ref({
+  _id: null,
+  name: null,
+  code: null
+})
 
 // Modal
 const modal = ref({
   editInfo: false,
   editImage: false,
-  editAPI: false,
   editPlay: false,
-  editContent: false
+  editContent: false,
+  editManager: false,
+  del: false
 })
 
 // Loading
 const loading = ref({
-  game: true,
   edit: false,
   del: false
 })
 
-// Actions
+// Action Menu
 const actions = (row) => [
+  [{
+    label: 'Quản lý',
+    icon: 'i-bx-server',
+    disabled: !!route.params._id,
+    click: () => useTo().openNewTab(`/manage/@gm/china/${row.key}`)
+  }],
+  [{
+    label: 'Sửa người quản lý',
+    icon: 'i-bx-group',
+    disabled: !!route.params._id,
+    click: () => {
+      Object.keys(stateEditManager.value).forEach(key => stateEditManager.value[key] = row[key])
+      modal.value.editManager = true
+    }
+  }],
   [{
     label: 'Sửa thông tin',
     icon: 'i-bx-pencil',
@@ -276,9 +264,19 @@ const actions = (row) => [
       stateEditPlay.value._id = row._id
       modal.value.editPlay = true
     }
+  }],[{
+    label: 'Xóa trò chơi',
+    icon: 'i-bx-trash',
+    disabled: !!route.params._id,
+    click: () => {
+      Object.keys(stateDel.value).forEach(key => stateDel.value[key] = row[key])
+      stateDel.value._id = row._id
+      modal.value.del = true
+    }
   }]
 ]
 
+// Action
 const editInfoAction = async () => {
   try {
     loading.value.edit = true
@@ -286,7 +284,7 @@ const editInfoAction = async () => {
 
     loading.value.edit = false
     modal.value.editInfo = false
-    getGame()
+    emits('update')
   }
   catch (e) {
     loading.value.edit = false
@@ -300,7 +298,7 @@ const editImageAction = async () => {
 
     loading.value.edit = false
     modal.value.editImage = false
-    getGame()
+    emits('update')
   }
   catch (e) {
     loading.value.edit = false
@@ -314,7 +312,7 @@ const editPlayAction = async () => {
 
     loading.value.edit = false
     modal.value.editPlay = false
-    getGame()
+    emits('update')
   }
   catch (e) {
     loading.value.edit = false
@@ -328,7 +326,24 @@ const editContentAction = async () => {
 
     loading.value.edit = false
     modal.value.editContent = false
-    getGame()
+    emits('update')
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const editManagerAction = async () => {
+  try {
+    loading.value.edit = true
+
+    const clone = JSON.parse(JSON.stringify(stateEditManager.value))
+    clone.manager = clone.manager.map(i => i._id)
+    await useAPI('game/china/manage/project/edit/manager', clone)
+
+    loading.value.edit = false
+    modal.value.editManager = false
+    emits('update')
   }
   catch (e) {
     loading.value.edit = false
@@ -338,28 +353,14 @@ const editContentAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('game/china/manage/project/del', { _id })
+    await useAPI('game/china/manage/project/del', JSON.parse(JSON.stringify(stateDel.value)))
 
     loading.value.del = false
-    getGame()
+    modal.value.del = false
+    emits('update')
   }
   catch (e) {
     loading.value.del = false
   }
 }
-
-const getGame = async () => {
-  try {
-    loading.value.game = true
-    const data = await useAPI('game/china/manage/project/key', { key: route.params._key })
-
-    game.value = data
-    loading.value.game = false
-  }
-  catch(e){
-    return false
-  }
-}
-
-getGame()
 </script>

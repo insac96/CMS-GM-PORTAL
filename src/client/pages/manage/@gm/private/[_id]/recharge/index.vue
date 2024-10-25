@@ -5,7 +5,7 @@
 				icon="i-bx-time" 
 				size="xs" 
 				class="ml-auto"
-				:to="`/manage/@gm/private/${game.key}/recharge/history`"
+				:to="`/manage/@gm/private/${game._id}/recharge/history`"
 			>
 				Lịch sử
 			</UButton>

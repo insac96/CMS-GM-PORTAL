@@ -66,6 +66,6 @@ const props = defineProps(['game', 'os', 'gm'])
 
 const to = computed(() => {
   if(!props.gm) return `/game/${props.os}/${props.game?.key}`
-  if(!!props.gm) return `/manage/@gm/${props.os}/${props.game?.key}`
+  if(!!props.gm) return `/manage/@gm/${props.os}/${props.game?._id}`
 })
 </script>

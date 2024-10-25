@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content" />
-		<DataEditor :content="game.content" v-else />
+		<UiEditorContent :content="game.content" v-else />
 	</div>
 </template>
 

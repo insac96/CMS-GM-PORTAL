@@ -2,7 +2,7 @@
   <UiContent title="Privacy" sub="Chính sách quyền riêng tư">
     <DataEmpty v-if="!!loading || !privacy" :text="!!loading ? 'Đang tải...' : 'Không có dữ liệu'"></DataEmpty>
 
-    <DataEditor :content="privacy" v-else />
+    <UiEditorContent :content="privacy" v-else />
   </UiContent>
 </template>
 

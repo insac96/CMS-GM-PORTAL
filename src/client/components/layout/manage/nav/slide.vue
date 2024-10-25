@@ -1,12 +1,6 @@
 <template>
   <UiFlex class="xl:hidden">
-    <UiIcon 
-      name="i-bx-menu-alt-left"
-      size="7"
-      aria="Menu"
-      pointer
-      @click="open = true"
-    />
+    <UButton icon="i-bx-menu-alt-left" @click="open = true" square color="gray" />
 
     <USlideover v-model="open" side="left" :ui="{
       width: 'w-screen max-w-xs'

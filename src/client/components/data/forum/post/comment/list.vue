@@ -10,7 +10,7 @@
           <UiText color="gray" size="xs" class="sm:ml-0 ml-auto">{{ useDayJs().displayTime(comment.createdAt) }}</UiText>
         </UiFlex>
         
-        <DataEditor :content="comment.content"></DataEditor>
+        <UiEditorContent :content="comment.content"></UiEditorContent>
       </div>
     </UiFlex>
   </div>

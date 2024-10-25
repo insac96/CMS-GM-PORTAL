@@ -131,6 +131,7 @@ export default defineAppConfig({
     },
 
     selectMenu: {
+      base: 'overflow-x-hidden',
       rounded: 'rounded-lg',
       padding: 'p-0',
       shadow: 'shadow-xl',

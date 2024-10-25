@@ -1,25 +1,49 @@
 <template>
   <div class="HomePage">
-    <UiFlex type="col" justify="center" class="py-12">
-      <UiFlex class="select-none sm:text-6xl text-4xl">
-        <UiText weight="bold" color="primary" class="italic">ENI</UiText>
-        <UiText class="ml-1 italic" weight="semibold">Studio</UiText>
-      </UiFlex>
-      <UiText align="center" size="lg" color="gray" class="md:mt-2 mt-0 mb-4 md:mb-6 tracking-tight max-w-xl">{{ config.description }}</UiText>
+    <div class="HomeBanner relative overflow-hidden rounded-lg">
+      <!-- Image -->
+      <UiImg :src="config.og_image" class="!absolute w-full h-full top-0 left-0" w="16" h="9"/>
 
-      <UiFlex class="gap-1 mb-4 md:mb-6" wrap>
-        <UButton color="primary" size="lg" icon="i-bxs-book-open" @click="navigateTo('/about')">Giới Thiệu</UButton>
-        <UButton color="black" size="lg" icon="i-bxs-download" @click="downloadMiniClient()" v-if="!!device.isWindows">Mini Client</UButton>
-      </UiFlex>
+      <!-- Overlay -->
+      <div class="absolute w-full h-full bg-black/80"></div>
 
-      <UiImg 
-        :src="config.og_image"
-        w="16" h="9"
-        alt="Banner"
-        class="transition-all rounded-lg shadow-md hover:shadow-lg max-w-3xl"
-        preload
-      ></UiImg>
-    </UiFlex>
+      <!-- Content -->
+      <UiFlex type="col" items="start" justify="center" class="relative w-full h-full md:p-20 p-12 aspect-auto">
+        <UiFlex class="select-none sm:text-6xl text-4xl">
+          <UiText weight="bold" color="primary" class="italic">ENI</UiText>
+          <UiText class="ml-1 italic" weight="semibold">Studio</UiText>
+        </UiFlex>
+
+        <UiText align="center" size="lg" color="gray" class="md:mt-2 mt-0 tracking-tight max-w-xl">{{ config.description }}</UiText>
+
+        <UiFlex class="my-8 gap-8 text-gray-300 w-full" wrap>
+          <div class="grow">
+            <UiText size="sm">Thành viên</UiText>
+            <UiText size="xl" weight="bold">{{ home.member }}</UiText>
+          </div>
+
+          <div class="grow">
+            <UiText size="sm">Game Tool</UiText>
+            <UiText size="xl" weight="bold">{{ home.game.tool }}</UiText>
+          </div>
+
+          <div class="grow">
+            <UiText size="sm">Game Private</UiText>
+            <UiText size="xl" weight="bold">{{ home.game.private }}</UiText>
+          </div>
+
+          <div class="grow">
+            <UiText size="sm">Game China</UiText>
+            <UiText size="xl" weight="bold">{{ home.game.china }}</UiText>
+          </div>
+        </UiFlex>
+
+        <UiFlex class="gap-1 md:justify-start justify-center w-full">
+          <UButton color="primary" size="md" icon="i-bxs-book-open" @click="navigateTo('/about')">Giới Thiệu</UButton>
+          <UButton color="black" size="md" icon="i-bxs-download" @click="downloadMiniClient()" v-if="!!device.isWindows">Mini Client</UButton>
+        </UiFlex>
+      </UiFlex>
+    </div>
 
     <div class="my-12">
       <DataGameToolLatest />

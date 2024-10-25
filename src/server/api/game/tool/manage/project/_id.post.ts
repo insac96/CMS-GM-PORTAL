@@ -4,10 +4,10 @@ export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
 
-    const { key } = await readBody(event)
-    if(!key) throw 'Không tìm thấy khóa trò chơi'
+    const { _id } = await readBody(event)
+    if(!_id) throw 'Không tìm thấy khóa trò chơi'
 
-    const game = await DB.GameTool.findOne({ key: key })
+    const game = await DB.GameTool.findOne({ _id: _id })
     .populate({ path: 'platform', select: 'name key'})
     .populate({ path: 'category', select: 'name key'}) as IDBGameTool
     

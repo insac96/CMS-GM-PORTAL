@@ -1,11 +1,26 @@
 
 <template>
-  <div v-if="!!user && !loading" class="py-10">
-    <UiFlex type="col" class="gap-2">
+  <div v-if="!!user && !loading" class="rounded-lg pt-10 pb-6 px-6">
+    <UiFlex type="col" class="gap-3 mb-6 relative z-[3]">
       <DataUserAvatar size="2xl" :user="user" class="mb-4" />
-      <DataUserName :user="user" />
-      <UiText color="gray" size="sm" weight="semibold" v-if="!!user.level && user.level.title" class="mb-1">{{ user.level.title }} Cảnh</UiText>
-      <UBadge size="xs" variant="soft" class="px-3" :color="typeFormat[user.type]['color']">{{ typeFormat[user.type]['label'] }}</UBadge>
+      <DataUserName :user="user" size="xl" />
+    </UiFlex>
+
+    <UiFlex type="col" class="gap-4 relative z-[3]">
+      <UiFlex justify="between" class="w-full">
+        <UiText weight="semibold" color="gray" size="sm">Chức vụ</UiText>
+        <UBadge size="xs" variant="soft" class="px-3" :color="typeFormat[user.type]['color']">{{ typeFormat[user.type]['label'] }}</UBadge>
+      </UiFlex>
+
+      <UiFlex justify="between" class="w-full">
+        <UiText weight="semibold" color="gray" size="sm">Cảnh giới</UiText>
+        <UiText weight="semibold" size="sm">{{ user.level.title || '...' }}</UiText>
+      </UiFlex>
+
+      <UiFlex justify="between" class="w-full">
+        <UiText weight="semibold" color="gray" size="sm">Tu vi</UiText>
+        <UiText weight="semibold" size="sm">{{ toMoney(user.currency.exp) }}</UiText>
+      </UiFlex>
     </UiFlex>
   </div>
 </template>
