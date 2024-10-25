@@ -14,7 +14,7 @@
           <UiText class="ml-1 italic" weight="semibold">Studio</UiText>
         </UiFlex>
 
-        <UiText align="center" size="lg" color="gray" class="md:mt-2 mt-0 tracking-tight max-w-xl">{{ config.description }}</UiText>
+        <UiText size="lg" color="gray" class="md:mt-2 mt-0 tracking-tight max-w-xl">{{ config.description }}</UiText>
 
         <UiFlex class="my-8 gap-8 text-gray-300 w-full" wrap>
           <div class="grow">
