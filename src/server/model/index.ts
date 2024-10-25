@@ -39,6 +39,7 @@ import {
   DBForumCategory, DBForumCategorySub,
   DBForumPost, DBForumPostComment, DBForumPostLike
 } from './forum'
+import { DBSocketChatGlobal } from './socket'
 
 export default (mongoose : Mongoose) : IGlobalDB => {
   return {
@@ -103,6 +104,9 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     
     ForumPost: DBForumPost(mongoose),
     ForumPostComment: DBForumPostComment(mongoose),
-    ForumPostLike: DBForumPostLike(mongoose)
+    ForumPostLike: DBForumPostLike(mongoose),
+
+    // Socket
+    SocketChatGlobal: DBSocketChatGlobal(mongoose)
   }
 }

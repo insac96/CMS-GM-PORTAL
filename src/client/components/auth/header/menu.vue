@@ -1,6 +1,6 @@
 <template>
   <UiFlex>
-    <UDropdown :items="menuUser" :popper="{ placement: 'bottom-end' }">
+    <UDropdown :items="menuUser" :popper="{ strategy: 'absolute', placement: 'bottom-end' }">
       <UButton
         class="relative p-1.5"
         icon="i-bx-user"

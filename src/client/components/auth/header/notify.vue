@@ -1,5 +1,5 @@
 <template>
-  <UPopover class="h-[32px] w-[32px]" :popper="{ placement: 'bottom-end' }" v-model:open="open">
+  <UPopover class="h-[32px] w-[32px]" :popper="{ strategy: 'absolute', placement: 'bottom-end' }" v-model:open="open">
     <UChip size="md" :show="authStore.profile.notify > 0">
       <UButton
         class="relative p-1.5"

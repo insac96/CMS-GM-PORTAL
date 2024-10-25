@@ -42,6 +42,8 @@ export {
   IDBForumPost, IDBForumPostComment, IDBForumPostLike
 } from './forum'
 
+export { IDBSocketChatGlobal } from './socket'
+
 export interface IGlobalDB {
   // Main DB
   Config: Model<IDBConfig>
@@ -104,4 +106,7 @@ export interface IGlobalDB {
   ForumPost: Model<IDBForumPost>, 
   ForumPostComment: Model<IDBForumPostComment>, 
   ForumPostLike: Model<IDBForumPostLike>
+
+  // Socket
+  SocketChatGlobal: Model<IDBSocketChatGlobal>
 }

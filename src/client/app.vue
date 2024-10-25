@@ -5,6 +5,7 @@
     <NuxtLoadingIndicator :height="2" />
     <NuxtPage />
     <UNotifications />
+    <SocketInit />
   </NuxtLayout>
 </template>
 
