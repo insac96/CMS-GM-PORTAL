@@ -1,13 +1,18 @@
 export default defineEventHandler(async (event) => {
   try {
+    const { current } = await readBody(event)
+    if(!current) throw 'Dữ liệu phân trang sai'
+
+    const sorting : any = { 'createdAt': -1 }
     const match : any = { display: true }
     const list = await DB.GameTool
     .find(match)
     .select('name code key pin statistic description image.banner image.icon')
-    .populate({ path: 'platform', select: 'name' })
-    .populate({ path: 'category', select: 'name' })
-    .sort({ 'statistic.user': -1, 'statistic.view': -1, 'statistic.play': -1 })
-    .limit(4)
+    .populate({ path: 'platform', select: 'name key' })
+    .populate({ path: 'category', select: 'name key' })
+    .sort(sorting)
+    .limit(6)
+    .skip((current - 1) * 6)
 
     return resp(event, { result: list })
   } 

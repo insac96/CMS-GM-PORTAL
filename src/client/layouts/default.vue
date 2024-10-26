@@ -36,6 +36,9 @@ const route = useRoute()
 
 <style lang="sass">
 .LayoutPublic
+  display: grid
+  grid-template-columns: 0 1fr 0
+  grid-template-areas: "nav main nav-right"
   @media (min-width: 1024px)
     display: grid
     grid-template-columns: var(--nav-size) 1fr var(--nav-right-size)

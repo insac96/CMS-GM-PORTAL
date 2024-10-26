@@ -19,6 +19,7 @@ const props = defineProps(['loading', 'list', 'os', 'gm', 'max'])
 const grid = computed(() => {
   let item = ''
   if(props.max == '4') item = 'xl:col-span-3 col-span-6'
+  else if(props.max == '6') item = 'xl:col-span-4 col-span-6'
   else item = 'xl:col-span-3 md:col-span-4 col-span-6'
   return item
 })
