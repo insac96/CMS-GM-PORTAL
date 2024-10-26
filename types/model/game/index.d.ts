@@ -1,6 +1,7 @@
 import type { Types } from 'mongoose'
 export { 
   IDBGameTool, 
+  IDBGameToolServerOpen,
   IDBGameToolUser, 
   IDBGameToolPayment, 
   IDBGameToolRecharge, 
@@ -15,6 +16,7 @@ export {
 } from './china'
 export {
   IDBGamePrivate,
+  IDBGamePrivateServerOpen,
   IDBGamePrivateUser, IDBGamePrivateUserLogin,
   IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
   IDBGamePrivateItem, IDBGamePrivateItemBox,

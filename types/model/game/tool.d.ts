@@ -64,6 +64,16 @@ export interface IDBGameTool {
   display: boolean
 }
 
+export interface IDBGameToolServerOpen {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  game: Types.ObjectId | IDBGameTool
+  server_name: string
+  opentime: date
+}
+
 export interface IDBGameToolUser {
   _id: Types.ObjectId
   createdAt: Date

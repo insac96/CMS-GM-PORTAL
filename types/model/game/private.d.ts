@@ -71,6 +71,17 @@ export interface IDBGamePrivate {
   display: boolean
 }
 
+// Open
+export interface IDBGamePrivateServerOpen {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  game: Types.ObjectId | IDBGamePrivate
+  server_name: string
+  opentime: date
+}
+
 // User
 export interface IDBGamePrivateUser {
   _id: Types.ObjectId

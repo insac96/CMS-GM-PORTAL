@@ -45,40 +45,19 @@
       </UiFlex>
     </div>
 
+    <!--Private-->
     <div class="my-12">
-      <div class="grid grid-cols-12 gap-4">
-        <div class="2xl:col-span-8 col-span-12">
-          <DataGamePrivateListLatest />
-        </div>
-        
-        <div class="2xl:col-span-4 col-span-12">
-          <DataGamePrivateListTop />
-        </div>
-      </div>
+      <LazyDataGamePrivateHome />
     </div>
 
+    <!--Tool-->
     <div class="my-12">
-      <div class="grid grid-cols-12 gap-4">
-        <div class="2xl:col-span-8 col-span-12">
-          <DataGameToolListLatest />
-        </div>
-        
-        <div class="2xl:col-span-4 col-span-12">
-          <DataGameToolListTop />
-        </div>
-      </div>
+      <LazyDataGameToolHome />
     </div>
 
+    <!--China-->
     <div class="my-12">
-      <div class="grid grid-cols-12 gap-4">
-        <div class="2xl:col-span-8 col-span-12">
-          <DataGameChinaListLatest />
-        </div>
-        
-        <div class="2xl:col-span-4 col-span-12">
-          <DataGameChinaListTop />
-        </div>
-      </div>
+      <LazyDataGameChinaHome />
     </div>
   </div>
 </template>

@@ -54,6 +54,17 @@
       </UForm>
     </UModal>
 
+    <!-- Modal Edit Open Server -->
+    <UModal v-model="modal.editOpenServer" preventClose :ui="{width: 'sm:max-w-[800px]' }">
+      <UiContent title="Lịch mở máy chủ" sub="Chỉnh sửa lịch khai mở máy chủ" class="p-4">
+        <template #more>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.editOpenServer = false"></UButton>
+        </template>
+
+        <ManageGameToolOpenServer :game="stateEditOpenServer._id" />
+      </UiContent>
+    </UModal>
+
     <!-- Modal Edit Image -->
     <UModal v-model="modal.editImage" preventClose>
       <UForm :state="stateEditImage" @submit="editImageAction" class="p-4">
@@ -244,6 +255,9 @@ const stateEditManager = ref({
   _id: null,
   manager: null
 })
+const stateEditOpenServer = ref({
+  _id: null,
+})
 const stateDel = ref({
   _id: null,
   name: null,
@@ -259,6 +273,7 @@ const modal = ref({
   editPrice: false,
   editContent: false,
   editManager: false,
+  editOpenServer: false,
   del: false
 })
 
@@ -271,18 +286,25 @@ const loading = ref({
 // Action Menu
 const actions = (row) => [
   [{
-    label: 'Quản lý',
-    icon: 'i-bx-server',
+    label: 'Quản lý chi tiết',
+    icon: 'i-bx-windows',
     disabled: !!route.params._id,
     click: () => useTo().openNewTab(`/manage/@gm/tool/${row.key}`)
   }],
   [{
-    label: 'Sửa người quản lý',
+    label: 'Người quản lý',
     icon: 'i-bx-group',
     disabled: !!route.params._id,
     click: () => {
       Object.keys(stateEditManager.value).forEach(key => stateEditManager.value[key] = row[key])
       modal.value.editManager = true
+    }
+  },{
+    label: 'Lịch mở máy chủ',
+    icon: 'i-bx-server',
+    click: () => {
+      Object.keys(stateEditOpenServer.value).forEach(key => stateEditOpenServer.value[key] = row[key])
+      modal.value.editOpenServer = true
     }
   }],
   [{

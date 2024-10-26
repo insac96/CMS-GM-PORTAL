@@ -26,13 +26,14 @@
       </div>
 
       <NuxtLink :to="`/game/${os}/${game.key}`" @click="emits('to')" v-if="!noIcon">
-        <UiIcon name="i-bx-link-external" size="5" color="gray"></UiIcon>
+        <UiIcon name="i-bx-link-external" size="5" color="gray" v-if="!play"></UiIcon>
+        <UButton size="2xs" color="gray" icon="i-bx-play" v-else>Chơi</UButton>
       </NuxtLink>
     </UiFlex>
   </UiFlex>
 </template>
 
 <script setup>
-const props = defineProps(['os', 'list', 'noIcon', 'showOs'])
+const props = defineProps(['os', 'list', 'noIcon', 'showOs', 'play'])
 const emits = defineEmits(['to'])
 </script>

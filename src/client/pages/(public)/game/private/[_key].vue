@@ -78,14 +78,14 @@
       </div>
 
       <div class="xl:col-span-4 md:col-span-12 col-span-12">
-        <DataGameComment :game="game" os="private" class="mb-4"/>
-        <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="private"/>
+        <LazyDataGameComment :game="game" os="private" class="mb-4"/>
+        <LazyDataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="private"/>
       </div>
     </div>
 
     <!--Giftcode-->
     <UModal v-model="modal.giftcode" prevent-close>
-      <DataGamePrivateGiftcode
+      <LazyDataGamePrivateGiftcode
         :game="game" 
         @close="modal.giftcode = false" 
         class="p-4"
@@ -239,6 +239,8 @@ const regGame = async () => {
 
 const getUser = async () => {
   try {
+    if(!authStore.isLogin) return
+    
     const data = await useAPI('game/private/public/user/get', {
       game: game.value.code
     })

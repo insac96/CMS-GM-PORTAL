@@ -75,8 +75,8 @@
       </div>
 
       <div class="xl:col-span-4 md:col-span-12 col-span-12">
-        <DataGameComment :game="game" os="china" class="mb-4"/>
-        <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="china"/>
+        <LazyDataGameComment :game="game" os="china" class="mb-4"/>
+        <LazyDataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="china"/>
       </div>
     </div>
 

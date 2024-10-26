@@ -15,6 +15,7 @@ export {
   IDBGameCategory, 
 
   IDBGameTool, 
+  IDBGameToolServerOpen,
   IDBGameToolUser, 
   IDBGameToolPayment,
   IDBGameToolRecharge, 
@@ -27,6 +28,7 @@ export {
   IDBGameChinaComment,
 
   IDBGamePrivate,
+  IDBGamePrivateServerOpen,
   IDBGamePrivateUser, IDBGamePrivateUserLogin,
   IDBGamePrivateRecharge, IDBGamePrivateRechargeHistory,
   IDBGamePrivateItem, IDBGamePrivateItemBox,
@@ -72,6 +74,7 @@ export interface IGlobalDB {
   GameCategory: Model<IDBGameCategory>
 
   GameTool: Model<IDBGameTool>
+  GameToolServerOpen: Model<IDBGameToolServerOpen>
   GameToolUser: Model<IDBGameToolUser>
   GameToolPayment: Model<IDBGameToolPayment>
   GameToolRecharge: Model<IDBGameToolRecharge>
@@ -84,6 +87,7 @@ export interface IGlobalDB {
   GameChinaComment: Model<IDBGameChinaComment>
 
   GamePrivate: Model<IDBGamePrivate>
+  GamePrivateServerOpen: Model<IDBGamePrivateServerOpen>
   GamePrivateUser: Model<IDBGamePrivateUser>
   GamePrivateUserLogin: Model<IDBGamePrivateUserLogin>
   GamePrivateRecharge: Model<IDBGamePrivateRecharge>

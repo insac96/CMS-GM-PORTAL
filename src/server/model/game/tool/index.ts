@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGameTool, IDBGameToolUser, IDBGameToolPayment, IDBGameToolRecharge, IDBGameToolItem, IDBGameToolComment } from '~~/types'
+import type { IDBGameTool, IDBGameToolServerOpen, IDBGameToolUser, IDBGameToolPayment, IDBGameToolRecharge, IDBGameToolItem, IDBGameToolComment } from '~~/types'
 
 export const DBGameTool = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameTool>({ 
@@ -64,6 +64,19 @@ export const DBGameTool = (mongoose : Mongoose) => {
   schema.index({ name: 'text', key: 'text', code: 'text' })
 
   const model = mongoose.model('GameTool', schema, 'GameTool')
+  return model 
+}
+
+export const DBGameToolServerOpen = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGameToolServerOpen>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameTool' },
+    server_name: { type: String },
+    opentime: { type: Date },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GameToolServerOpen', schema, 'GameToolServerOpen')
   return model 
 }
 

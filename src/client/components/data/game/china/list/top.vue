@@ -1,39 +1,23 @@
 <template>
   <div>
-    <UTabs :items="items" @change="onTabChange" />
-    <DataGameListMini :list="list" os="china" />
+    <DataEmpty :loading="loading" class="min-h-[300px]" v-if="!!loading || list.length == 0" />
+    <DataGameListMini :list="list" os="china" :play="true" v-else />
   </div>
 </template>
 
 <script setup>
+const props = defineProps(['sort'])
 const list = ref([])
 const loading = ref(true)
-
-const items = [
-  { label: 'Người chơi'},
-  { label: 'Lượt chơi'},
-  { label: 'Lượt xem'},
-]
-const itemValue = {
-  0: 'statistic.user',
-  1: 'statistic.play',
-  2: 'statistic.view',
-}
 const page = ref({
   size: 9,
   current: 1,
   sort: {
-    column: 'createdAt',
+    column: props.sort,
     direction: 'desc'
   },
   total: 0
 })
-
-const onTabChange = async (index) => {
-  const item = itemValue[index]
-  page.value.sort.column = item
-  await getList()
-}
 
 const getList = async () => {
   try {

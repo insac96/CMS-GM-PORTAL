@@ -9,7 +9,8 @@ import type {
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory, 
   IDBGamePrivateUser, 
   IDBGamePrivateUserLogin,
-  IDBGamePrivateComment 
+  IDBGamePrivateComment, 
+  IDBGamePrivateServerOpen
 } from '~~/types'
 
 export const DBGamePrivate = (mongoose : Mongoose) => {
@@ -82,6 +83,20 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
   schema.index({ name: 'text', key: 'text', code: 'text' })
 
   const model = mongoose.model('GamePrivate', schema, 'GamePrivate')
+  return model 
+}
+
+// Server Open
+export const DBGamePrivateServerOpen = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateServerOpen>({ 
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    server_name: { type: String },
+    opentime: { type: Date },
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateServerOpen', schema, 'GamePrivateServerOpen')
   return model 
 }
 
