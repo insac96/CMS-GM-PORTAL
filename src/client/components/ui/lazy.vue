@@ -1,13 +1,19 @@
 <template>
-  <NuxtLazyHydrate when-visible @hydrated="onRender">
+  <div ref="target">
     <slot :render="render"></slot>
-  </NuxtLazyHydrate>
+  </div>
 </template>
 
 <script setup>
+import { useIntersectionObserver } from '@vueuse/core'
+const target = ref(null)
+const targetIsVisible = ref(false)
+const { stop } = useIntersectionObserver(
+  target,
+  ([{ isIntersecting }], observerElement) => {
+    targetIsVisible.value = isIntersecting
+  }
+)
 const render = ref(false)
-const onRender = () => {
-  console.log('Render')
-  render.value = true
-}
+watch(() => targetIsVisible.value, (val) => !!val && (render.value = true) && stop())
 </script>

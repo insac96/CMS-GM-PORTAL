@@ -32,6 +32,7 @@
     "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
     "@vueup/vue-quill": "^1.2.0",
+    "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^10.7.0",
     "axios": "^1.7.4",
     "chart.js": "^4.4.3",

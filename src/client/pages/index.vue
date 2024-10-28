@@ -51,18 +51,18 @@
     </div>
 
     <!--Tool-->
-    <NuxtLazyHydrate when-visible @hydrated="render.tool = true">
-      <div class="my-12"> 
-        <LazyDataGameToolHome v-if="!!render.tool" />
+    <UiLazy #default="{ render }">
+      <div class="my-12">
+        <LazyDataGameToolHome v-if="!!render" />
       </div>
-    </NuxtLazyHydrate>
+    </UiLazy>
 
     <!--China-->
-    <NuxtLazyHydrate when-visible @hydrated="render.china = true">
+    <UiLazy #default="{ render }">
       <div class="my-12">
-        <LazyDataGameChinaHome v-if="!!render.china" />
+        <LazyDataGameChinaHome v-if="!!render" />
       </div>
-    </NuxtLazyHydrate>
+    </UiLazy>
   </div>
 </template>
 
@@ -71,10 +71,6 @@ const device = useDevice()
 const { error } = useNotify()
 const { openNewTab } = useTo()
 const { config } = useConfigStore()
-const render = ref({
-  tool: false,
-  china: false
-})
 
 const home = ref({
   member: 0,

@@ -7,8 +7,8 @@
         scroll: 'true',
         offsetDistance: 14
       }">
-        <!-- <UiImg v-if="!!game.image.icon" :src="game.image.icon" w="1" h="1" img-w="100" img-h="100" class="w-full h-full overflow-hidden rounded-full" /> -->
-        <UiIcon name="i-bxs-customize" color="primary" size="8" />
+        <img v-if="!!game.image.icon" :src="game.image.icon" class="w-full h-full rounded-full" />
+        <UiIcon v-else name="i-bxs-customize" color="primary" size="8" />
       </UDropdown>
     </div>
 
@@ -61,7 +61,7 @@ const modal = ref({
 })
 
 const { style } = useDraggable(el, {
-  initialValue: { x: -8, y: -8 },
+  initialValue: { x: 0, y: 0 },
   exact: false,
   preventDefault: true,
   onStart: () => {
