@@ -56,7 +56,8 @@ export default defineNuxtConfig({
       ]
     }], 
     'nuxt-rate-limit', 
-    '@nuxtjs/device'
+    '@nuxtjs/device',
+    'nuxt-lazy-hydrate'
   ],
 
   nuxtRateLimit: {

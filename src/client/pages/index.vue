@@ -47,18 +47,22 @@
 
     <!--Private-->
     <div class="my-12">
-      <LazyDataGamePrivateHome />
+      <DataGamePrivateHome />
     </div>
 
     <!--Tool-->
-    <div class="my-12">
-      <LazyDataGameToolHome />
-    </div>
+    <NuxtLazyHydrate when-visible @hydrated="render.tool = true">
+      <div class="my-12"> 
+        <LazyDataGameToolHome v-if="!!render.tool" />
+      </div>
+    </NuxtLazyHydrate>
 
     <!--China-->
-    <div class="my-12">
-      <LazyDataGameChinaHome />
-    </div>
+    <NuxtLazyHydrate when-visible @hydrated="render.china = true">
+      <div class="my-12">
+        <LazyDataGameChinaHome v-if="!!render.china" />
+      </div>
+    </NuxtLazyHydrate>
   </div>
 </template>
 
@@ -67,6 +71,10 @@ const device = useDevice()
 const { error } = useNotify()
 const { openNewTab } = useTo()
 const { config } = useConfigStore()
+const render = ref({
+  tool: false,
+  china: false
+})
 
 const home = ref({
   member: 0,

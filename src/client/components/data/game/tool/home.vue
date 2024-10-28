@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-12 gap-4">
     <div class="2xl:col-span-8 col-span-12">
-      <LazyDataGameToolListLatest />
+      <DataGameToolListLatest class="mb-4" />
     </div>
     
     <div class="2xl:col-span-4 col-span-12">

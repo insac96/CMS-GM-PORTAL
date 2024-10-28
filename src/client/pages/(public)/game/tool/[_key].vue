@@ -94,8 +94,8 @@
       </div>
 
       <div class="xl:col-span-4 md:col-span-12 col-span-12 ">
-        <LazyDataGameComment :game="game" os="tool" class="mb-4" />
-        <LazyDataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="tool"/>
+        <DataGameComment :game="game" os="tool" class="mb-4" />
+        <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="tool"/>
       </div>
     </div>
 
@@ -126,7 +126,7 @@
 
     <!--Buy Tool-->
     <UModal v-model="modal.buy" prevent-close>
-      <LazyDataGameToolBuy :game="game" @close="modal.buy = false" @done="doneBuyTool" />
+      <DataGameToolBuy :game="game" @close="modal.buy = false" @done="doneBuyTool" />
     </UModal>
   </div>
 </template>
