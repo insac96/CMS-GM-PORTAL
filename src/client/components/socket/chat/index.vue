@@ -2,7 +2,7 @@
   <UiFlex class="w-full min-h-full max-h-full overflow-hidden" type="col">
     <UiFlex class="min-h-[var(--header-size)] max-h-[var(--header-size)] w-full border-b border-gray-100 dark:border-gray-800 px-2 gap-1">
       <USelectMenu placeholder="Kênh Thế Giới" icon="i-bxs-megaphone" class="grow" :options="[
-        'Kênh Thế Giới', 'Kênh Gia Tộc', 
+        'Kênh Thế Giới'
       ]"/>
     </UiFlex>
 

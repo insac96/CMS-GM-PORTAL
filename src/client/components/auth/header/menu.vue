@@ -1,12 +1,22 @@
 <template>
   <UiFlex>
-    <UDropdown :items="menuUser" :popper="{ strategy: 'absolute', placement: 'bottom-end' }">
+    <UPopover class="h-[32px] w-[32px]" :popper="{ strategy: 'absolute', placement: 'bottom-end' }" v-model:open="open">
       <UButton
         class="relative p-1.5"
         icon="i-bx-user"
         color="gray" square
       ></UButton>
-    </UDropdown>
+
+      <template #panel>
+        <div class="w-[300px] max-w-sreen overflow-hidden">
+          <DataUserBox :fetch-id="authStore.profile._id" />
+
+          <UDivider />
+
+          <UVerticalNavigation :links="menuUser" :ui="{ padding: 'py-2', rounded: 'rounded-none', divider: { wrapper: { base: 'p-0' }}}" />
+        </div>
+      </template>
+    </UPopover>
 
     <UModal v-model="modal.edit.info">
       <UiContent title="Chỉnh Sửa" sub="Cập nhật thông tin cá nhân" class="p-4" no-dot>
@@ -43,7 +53,7 @@
 
 <script setup>
 const authStore = useAuthStore()
-
+const open = ref(false)
 const modal = ref({
   edit: {
     info: false,

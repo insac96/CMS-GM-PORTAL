@@ -5,24 +5,29 @@
 
     <div v-else class="rounded-lg pt-10 pb-6 px-6">
       <UiFlex type="col" justify="center" class="gap-3 mb-6 relative z-[3]">
-        <DataUserAvatar size="2xl" :user="user" class="mb-4" />
+        <DataUserAvatar size="xl" :user="user" class="mb-4" />
         <DataUserName :user="user" size="xl" />
       </UiFlex>
 
       <UiFlex type="col" class="gap-4 relative z-[3]">
         <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Chức vụ</UiText>
+          <UiText weight="semibold" color="gray" size="xs">Chức vụ</UiText>
           <UBadge size="xs" variant="soft" class="px-3" :color="typeFormat[user.type]['color']">{{ typeFormat[user.type]['label'] }}</UBadge>
         </UiFlex>
 
         <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Cảnh giới</UiText>
-          <UiText weight="semibold" size="sm">{{ user.level.title || '...' }}</UiText>
+          <UiText weight="semibold" color="gray" size="xs">Cảnh giới</UiText>
+          <UiText weight="semibold" size="xs">{{ user.level.title || '...' }}</UiText>
         </UiFlex>
 
         <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Tu vi</UiText>
-          <UiText weight="semibold" size="sm">{{ toMoney(user.currency.exp) }}</UiText>
+          <UiText weight="semibold" color="gray" size="xs">Tu vi</UiText>
+          <UiText weight="semibold" size="xs">{{ toMoney(user.currency.exp) }}</UiText>
+        </UiFlex>
+
+        <UiFlex justify="between" class="w-full">
+          <UiText weight="semibold" color="gray" size="xs">Tài phú</UiText>
+          <UiText weight="semibold" size="xs">{{ toMoney(user.currency.coin) }}</UiText>
         </UiFlex>
       </UiFlex>
     </div>

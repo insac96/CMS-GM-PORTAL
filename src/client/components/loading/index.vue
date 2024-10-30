@@ -3,26 +3,15 @@
 </template>
 
 <style lang="sass">
-.Loadingloader 
-  width: 40px
-  height: 40px
-  --c: no-repeat linear-gradient(rgb(var(--color-primary-DEFAULT)) 0 0)
-  background: var(--c),var(--c),var(--c),var(--c)
-  background-size: 21px 21px
-  animation: Loadingloader 1s infinite cubic-bezier(0.3,1,0,1)
-  transform: scale(0.8)
+.Loadingloader
+  width: 35px
+  aspect-ratio: 1
+  --_g: no-repeat radial-gradient(farthest-side, #fff 94%, #fff)
+  background: var(--_g) 0 0, var(--_g) 100% 0, var(--_g) 100% 100%, var(--_g) 0 100%
+  background-size: 40% 40%
+  animation: l38 .5s infinite
 
-@keyframes Loadingloader
-  0%
-    background-position: 0    0,100% 0   ,100% 100%,0 100%
-  33%
-    background-position: 0    0,100% 0   ,100% 100%,0 100%
-    width: 60px
-    height: 60px
-  66%
-    background-position: 100% 0,100% 100%,0    100%,0 0
-    width: 60px
-    height: 60px
+@keyframes l38
   100%
-    background-position: 100% 0,100% 100%,0    100%,0 0
+    background-position: 100% 0,100% 100%,0 100%,0 0
 </style>

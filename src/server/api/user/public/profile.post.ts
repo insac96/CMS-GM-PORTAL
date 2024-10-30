@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     let select : any
 
     if(!auth){
-      select = '-currency.coin -china -email -phone -reg -social -password -token'
+      select = '-china -email -phone -reg -social -password -token'
     }
     if(!!auth){
       if(auth.type == 100){
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
       }
       else {
         if(auth._id == _id) select = '-password -token'
-        select = '-currency.coin -china -email -phone -reg -social -password -token'
+        select = '-china -email -phone -reg -social -password -token'
       }
     }
 
