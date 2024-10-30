@@ -17,8 +17,8 @@
 <script setup>
 const tab = ref(0)
 const items = [
-  { label: 'Người chơi'},
-  { label: 'Lượt chơi'},
-  { label: 'Lượt xem'},
+  { label: 'Game Hot'},
+  { label: 'Chơi Nhiều'},
+  { label: 'Xem Nhiều'},
 ]
 </script>

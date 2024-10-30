@@ -4,12 +4,12 @@
   <div v-else>
     <!-- Info -->
     <div class="grid grid-cols-12 gap-2 md:gap-4 mb-4">
-      <div class="md:col-span-8 col-span-12">
+      <div class="2xl:col-span-8 col-span-12">
         <DataGameReview :review="game.image.review" :banner="game.image.banner" />
       </div>
 
       <UiContent 
-        class="md:col-span-4 col-span-12" 
+        class="2xl:col-span-4 col-span-12" 
         :title="`[${game.code}] ${game.name}`" 
         :sub="game.description"
         no-dot
@@ -87,13 +87,13 @@
 
     <!--Content-->
     <div class="grid grid-cols-12 gap-4">
-      <div class="xl:col-span-8 md:col-span-12 col-span-12">
+      <div class="2xl:col-span-8 col-span-12">
         <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
         
         <NuxtPage :game="game" />
       </div>
 
-      <div class="xl:col-span-4 md:col-span-12 col-span-12 ">
+      <div class="2xl:col-span-4 col-span-12 ">
         <DataGameComment :game="game" os="tool" class="mb-4" />
         <DataGameRelated :platform="[game.platform._id]" :category="[game.category._id]" :skip="game._id" os="tool"/>
       </div>

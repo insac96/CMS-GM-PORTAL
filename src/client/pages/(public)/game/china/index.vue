@@ -12,7 +12,7 @@
     <DataGameList :loading="loading" :list="list" os="china" />
 
     <!-- Pagination -->
-    <UiFlex justify="center" class="mt-4">
+    <UiFlex justify="center" class="mt-4" v-if="page.total > page.size">
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs" :disabled="!!loading"/>
     </UiFlex>
   </UiContent>

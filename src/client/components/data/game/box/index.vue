@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="to">
     <UCard class="overflow-hidden transition-2 cursor-pointer " :ui="{
-      base: '',
+      base: 'hover:scale-95',
       divide: '',
       ring: 'ring-0 dark:ring-1 dark:ring-gray-800 hover:dark:ring-2 hover:dark:ring-primary-500',
       shadow: 'shadow hover:shadow-xl',
@@ -21,19 +21,28 @@
           <UiImg :src="game.image?.banner" w="16" h="9" />
 
           <UiIcon class="absolute top-2 left-2 jump-anim" v-if="!!game.pin" color="primary" name="i-bxs-star" size="5" />
+
+          <UiFlex class="absolute bottom-2 left-2 gap-0.5">
+            <NuxtLink :to="`/game/platform/${game.platform.key}`">
+              <UBadge color="gray" size="xs">{{ game.platform.name }}</UBadge>
+            </NuxtLink>
+            
+            <NuxtLink :to="`/game/category/${game.category.key}`">
+              <UBadge color="gray" size="xs">{{ game.category.name }}</UBadge>
+            </NuxtLink>
+          </UiFlex>
         </div>
       </template>
-
 
       <UiFlex class="gap-4">
         <!-- <UAvatar :src="game.image?.icon" :alt="game.code" class="hidden md:flex" v-if="!gm" /> -->
 
         <div>
-          <UiText color="gray" weight="semibold" class="line-clamp-1 text-sm sm:text-base">
+          <UiText color="gray" weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base">
             {{ game.name }}
           </UiText>
           
-          <UiText color="gray" class="line-clamp-2 text-xs sm:text-sm sm:min-h-[40px] min-h-[32px]">
+          <UiText color="gray" class="italic line-clamp-2 text-xs min-h-[32px]">
             {{ game.description }}
           </UiText>
         </div>

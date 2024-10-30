@@ -6,7 +6,7 @@
       ]"/>
     </UiFlex>
 
-    <div id="BoxChatGlobal" class="w-full grow overflow-y-auto overflow-x-hidden py-4 h-0">
+    <div ref="box" id="BoxChatGlobal" class="w-full grow overflow-y-auto overflow-x-hidden py-4 h-0">
       <UiFlex type="col" class="gap-4 px-2">
         <UiFlex v-for="chat in listFormat" :key="chat._id" class="w-full">
           <UiFlex class="w-full space-x-2" items="start" >
@@ -41,6 +41,7 @@
           class="w-full" 
           size="sm"
           id="InputChatGlobal"
+          ref="input"
         />
       </UForm>
     </div>
@@ -50,7 +51,8 @@
 <script setup>
 const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
-
+const box = ref()
+const input = ref()
 const list = ref(undefined)
 
 const loading = ref({
@@ -70,13 +72,11 @@ const state = ref({
 })
 
 const toFocus = () => {
-  const input = document.getElementById('InputChatGlobal')
-  input.focus()
+  input.value.$refs.input.focus()
 }
 
 const toBottom = () => {
-  const box = document.getElementById('BoxChatGlobal')
-  box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' })
+  box.value.scrollTo({ top: box.value.scrollHeight, behavior: 'smooth' })
 }
 
 const send = async () => {

@@ -21,7 +21,7 @@
         </div>
 
         <NuxtLink :to="`/game/tool/${item.game.key}`" @click="emits('to')" v-if="!noIcon">
-          <UiIcon name="i-bx-link-external" size="5" color="gray"></UiIcon>
+          <UButton size="2xs" color="gray" icon="i-bx-play">Chơi</UButton>
         </NuxtLink>
       </UiFlex>
     </UiFlex>

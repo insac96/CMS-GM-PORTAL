@@ -35,8 +35,8 @@ export default defineEventHandler(async (event) => {
     const list = await gameDB[os]
     .find(match)
     .select('name code key pin statistic description image.banner image.icon')
-    .populate({ path: 'platform', select: 'name' })
-    .populate({ path: 'category', select: 'name' })
+    .populate({ path: 'platform', select: 'name key' })
+    .populate({ path: 'category', select: 'name key' })
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)
