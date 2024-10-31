@@ -78,8 +78,8 @@ const list = ref([
     price: configStore.config.vip.month,
     info: [
       'Đặc quyền VIP 30 ngày',
-      'Giảm giá mua Tool tất cả các trò chơi',
-      'Giảm giá mua các tài nguyên'
+      'Giảm 50% mua Tool tất cả các trò chơi',
+      'Giảm 10% mua các tài nguyên Private'
     ],
     type: 'month',
     bg: 'bg-primary-500',
@@ -92,7 +92,7 @@ const list = ref([
     info: [
       'Đặc quyền VIP trọn đời',
       'Miễn phí mua Tool tất cả trò chơi',
-      'Miễn phí hoặc giảm giá tài nguyên'
+      'Giảm 30% mua các tài nguyên Private'
     ],
     type: 'forever',
     bg: 'bg-rose-500',

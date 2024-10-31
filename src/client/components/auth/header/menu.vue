@@ -18,7 +18,7 @@
       </template>
     </UPopover>
 
-    <UModal v-model="modal.edit.info">
+    <UModal v-model="modal.edit.info" preventClose>
       <UiContent title="Chỉnh Sửa" sub="Cập nhật thông tin cá nhân" class="p-4" no-dot>
         <template #more>
           <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.edit.info = false"></UButton>
@@ -27,7 +27,7 @@
       </UiContent>
     </UModal>
 
-    <UModal v-model="modal.edit.password">
+    <UModal v-model="modal.edit.password" preventClose>
       <UiContent title="Bảo Mật" sub="Thay đổi mật khẩu" class="p-4" no-dot>
         <template #more>
           <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.edit.password = false"></UButton>

@@ -7,6 +7,10 @@
     <UForm :state="state" :validate="validate" @submit="buy">
       <UFormGroup label="Số dư Xu" name="coin">
         <UInput :model-value="`${toMoney(game.user.currency.coin)}`" readonly/>
+
+        <template #hint>
+          <DataPaymentFast />
+        </template>
       </UFormGroup>
 
       <UFormGroup label="Máy chủ" name="server">

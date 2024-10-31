@@ -48,7 +48,7 @@ export const DBGameTool = (mongoose : Mongoose) => {
 
     discount: {
       vip: {
-        month: { type: Number, default: 20 },
+        month: { type: Number, default: 50 },
         forever: { type: Number, default: 100 },
       }
     },

@@ -7,9 +7,15 @@
       :state="state" 
       :validate="validate" 
       @submit="submit" 
-      class="grid grid-cols-8 gap-2 md:gap-4 lg:gap-6 mb-4"
+      :class="{
+        'grid grid-cols-8 gap-2 md:gap-4 lg:gap-6 mb-4': !fast,
+        'grid grid-cols-12': !!fast,
+      }"
     >
-      <div class="md:col-span-5 col-span-12">
+      <div :class="{
+        'md:col-span-7 col-span-12' : !fast,
+        'col-span-12': !!fast
+      }">
         <div>
           <UFormGroup label="Kênh nạp" name="gate">
             <SelectGate v-model="state.gate" v-model:gate="gateSelect" />
@@ -41,7 +47,10 @@
         </div>
       </div>
 
-      <div class="md:col-span-3 col-span-12">
+      <div :class="{
+        'md:col-span-5 col-span-12' : !fast,
+        'col-span-12': !!fast
+      }">
         <UiText weight="bold" class="mb-4">Thông tin thanh toán</UiText>
 
         <div class="mb-4">
@@ -98,7 +107,7 @@
       </div>
     </UForm>
 
-    <UCard :ui="{ body: { padding: 'p-2 sm:p-2' }}">
+    <UCard :ui="{ body: { padding: 'p-2 sm:p-2' }}" v-if="!fast">
       <DataPaymentHistory :reload="reloadHistory" />
     </UCard>
   </div>
@@ -107,6 +116,7 @@
 <script setup>
 import { useClipboard } from '@vueuse/core'
 const { copy, isSupported } = useClipboard()
+const props = defineProps(['fast'])
 const authStore = useAuthStore()
 const form = ref()
 const loading = ref(false)
