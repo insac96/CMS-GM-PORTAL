@@ -16,6 +16,15 @@
         </UiFlex>
 
         <UiFlex justify="between" class="w-full">
+          <UiText weight="semibold" color="gray" size="xs">VIP</UiText>
+          <UBadge 
+            size="xs" variant="soft" class="px-3 cursor-pointer" 
+            :color="!vipFormat ? 'gray' : 'primary'"
+            @click="navigateTo('/vip')"
+          >{{ !!vipFormat ? vipFormat.end : (authStore.profile._id == user._id ? 'Nâng VIP' : 'Không') }}</UBadge>
+        </UiFlex>
+
+        <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">Cảnh giới</UiText>
           <UiText weight="semibold" size="xs">{{ user.level.title || '...' }}</UiText>
         </UiFlex>
@@ -37,6 +46,7 @@
 <script setup>
 const { toMoney } = useMoney()
 const emit = defineEmits(['action', 'update:userData'])
+const authStore = useAuthStore()
 
 const props = defineProps({
   fetchId: String,
@@ -55,6 +65,21 @@ const typeFormat = {
 const loading = ref(true)
 const user = ref(undefined)
 watch(() => props.reload, (val) => !!val && init())
+
+const vipFormat = computed(() => {
+  if(!user.value) return null
+  if(!user.value.vip) return null
+  if(!user.value.vip.month || !user.value.vip.forever) return null
+  if(user.value.vip.month.enable) return {
+    type: 'month',
+    end: useDayJs().displayTime(user.value.vip.month.end),
+  }
+  if(user.value.vip.forever.enable) return {
+    type: 'forever',
+    end: 'Trọn Đời',
+  }
+  return null
+})
 
 const getProfile = async () => {
   try {

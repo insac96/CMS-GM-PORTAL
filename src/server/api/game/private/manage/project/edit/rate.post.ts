@@ -7,9 +7,11 @@ export default defineEventHandler(async (event) => {
     const { _id : gameID, shop } = await readBody(event)
     if(!gameID) throw 'Không tìm thấy ID trò chơi'
     if(!shop) throw 'Dữ liệu đầu vào không đủ'
-    if(!shop.limit) throw 'Dữ liệu đầu vào không hợp lệ'
+    if(!shop.limit || !shop.vip) throw 'Dữ liệu đầu vào không hợp lệ'
     if(!!isNaN(parseInt(shop.default)) || parseInt(shop.default) < 0) throw 'Dữ liệu đầu vào không hợp lệ'
     if(!!isNaN(parseInt(shop.limit.number)) || parseInt(shop.limit.number) < 0) throw 'Dữ liệu đầu vào không hợp lệ'
+    if(!!isNaN(parseInt(shop.vip.month)) || parseInt(shop.vip.month) < 0) throw 'Dữ liệu đầu vào không hợp lệ'
+    if(!!isNaN(parseInt(shop.vip.forever)) || parseInt(shop.vip.forever) < 0) throw 'Dữ liệu đầu vào không hợp lệ'
 
     const game = await DB.GamePrivate.findOne({ _id: gameID }).select('name manager') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'

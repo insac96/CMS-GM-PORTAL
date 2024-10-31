@@ -10,6 +10,16 @@ export const DBUser = (mongoose : Mongoose) => {
     phone: { type: String },
     avatar: { type: String, default: '/images/user/default.png' },
     level: { type: mongoose.Schema.Types.ObjectId, ref: 'UserLevel' },
+    vip: {
+      month: {
+        enable: { type: Boolean, default: false },
+        end: { type: Date }
+      },
+      forever: {
+        enable: { type: Boolean, default: false },
+        end: { type: Date }
+      }
+    },
     reg: {
       platform: { type: String, default: 'local' },
     },

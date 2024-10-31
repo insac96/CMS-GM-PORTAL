@@ -58,6 +58,10 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
     rate: {
       shop: {
         default: { type: Number, default: 0 },
+        vip: {
+          month: { type: Number, default: 5 },
+          forever: { type: Number, default: 20 },
+        },
         limit: {
           number: { type: Number, default: 0 },
           expired: { type: Date },

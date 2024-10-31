@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { IDBConfigStore } from '~~/types'
 
 export const useConfigStore = defineStore('config', () => {
+  // @ts-expect-error
   const config : IDBConfigStore = reactive({
     name: '...',
     short_name: '...',
@@ -9,6 +10,11 @@ export const useConfigStore = defineStore('config', () => {
     og_image: '',
     logo_image: '',
     makeby: '',
+    yuan: 0,
+    vip: {
+      month: 0,
+      forever: 0,
+    },
     download: {
       windows: '',
       mac: '',

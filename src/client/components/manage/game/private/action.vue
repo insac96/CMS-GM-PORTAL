@@ -170,6 +170,14 @@
           </UiFlex>
         </UFormGroup>
 
+        <UFormGroup label="Giảm giá VIP tháng">
+          <UInput v-model="stateEditRate.shop.vip.month" type="number" placeholder="Tỷ lệ (%)" />
+        </UFormGroup>
+
+        <UFormGroup label="Giảm giá VIP trọn đời">
+          <UInput v-model="stateEditRate.shop.vip.forever" type="number" placeholder="Tỷ lệ (%)" />
+        </UFormGroup>
+
         <UiFlex justify="end" class="mt-4">
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editRate = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
@@ -256,6 +264,10 @@ const stateEditRate = ref({
     limit: {
       number: 0,
       expired: null
+    },
+    vip: {
+      month: 0,
+      forever: 0
     }
   }
 })
@@ -361,6 +373,8 @@ const actions = (row) => [
       stateEditRate.value.shop.default = row.rate?.shop?.default
       stateEditRate.value.shop.limit.number = row.rate?.shop?.limit?.number
       stateEditRate.value.shop.limit.expired = row.rate?.shop?.limit?.expired
+      stateEditRate.value.shop.vip.month = row.rate?.shop?.vip?.month
+      stateEditRate.value.shop.vip.forever = row.rate?.shop?.vip?.forever
       modal.value.editRate = true
     }
   },{

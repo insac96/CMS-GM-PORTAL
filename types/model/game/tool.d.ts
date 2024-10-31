@@ -51,6 +51,13 @@ export interface IDBGameTool {
     mail: number
   }
 
+  discount: {
+    vip: {
+      month: number
+      forever: number
+    }
+  }
+
   statistic: {
     play: number
     view: number

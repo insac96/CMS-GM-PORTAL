@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     if(!!isNaN(parseInt(amount)) || parseInt(amount) < 1) throw 'Số lượng không hợp lệ'
     if(amount > 1000) throw 'Số lượng không vượt quá 1000'
 
-    const user = await DB.User.findOne({ _id: auth._id }).select('currency') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     
     const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('ip api secret rate') as IDBGamePrivate
@@ -29,9 +29,14 @@ export default defineEventHandler(async (event) => {
     const item = await DB.GamePrivateItem.findOne({ _id: shopItem.item, game: game._id }) as IDBGamePrivateItem
     if(!item) throw 'Vật phẩm trò chơi không tồn tại'
 
+    // Discount VIP
+    const vip = await getUserVip(user) as string
+    // @ts-expect-error
+    const discountVIP = !!vip ? game.rate.shop.vip[vip] : 0
+
     // Make Total Price
     const price = shopItem.price * parseInt(amount)
-    let discount = formatRate(game.rate.shop)
+    let discount = formatRate(game.rate.shop) + discountVIP
     discount = discount > 100 ? 100 : discount
     let totalPrice = price - Math.floor(price * (discount / 100))
     if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free

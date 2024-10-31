@@ -51,6 +51,10 @@ export interface IDBGamePrivate {
   rate: {
     shop: {
       default: number
+      vip: {
+        month: number
+        forever: number
+      }
       limit: {
         number: number
         expired: Date

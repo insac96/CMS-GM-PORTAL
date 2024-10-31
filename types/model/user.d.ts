@@ -12,6 +12,16 @@ export interface IDBUser {
   phone: string
   avatar: string
   level: Types.ObjectId | IDBUserLevel
+  vip: {
+    month: {
+      enable: boolean
+      end: date
+    },
+    forever: {
+      enable: boolean
+      end: date
+    }
+  }
   reg: {
     platform: string
   }
@@ -62,5 +72,6 @@ export interface IDBUserStore {
   type?: number
   currency?: IDBUser['currency']
   level?: IDBUserLevel
+  vip?: IDBUser['vip']
   notify?: number
 }

@@ -174,6 +174,24 @@
       </UForm>
     </UModal>
 
+    <!-- Modal Edit Discount VIP -->
+    <UModal v-model="modal.editDiscountVIP" preventClose>
+      <UForm :state="stateEditDiscountVIP" @submit="editDiscountVIPAction" class="p-4">
+        <UFormGroup label="VIP Tháng">
+          <UInput v-model="stateEditDiscountVIP.month" type="number" />
+        </UFormGroup>
+
+        <UFormGroup label="Giá Trọn Đời">
+          <UInput v-model="stateEditDiscountVIP.forever" type="number" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton color="gray" @click="modal.editDiscountVIP = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
     <!-- Modal Edit Content -->
     <UModal v-model="modal.editContent" preventClose :ui="{width: 'sm:max-w-[calc(90%)] md:max-w-[calc(80%)] lg:max-w-4xl'}">
       <UForm :state="stateEditContent" @submit="editContentAction" class="p-4">
@@ -251,6 +269,11 @@ const stateEditPrice = ref({
   recharge: null,
   mail: null
 })
+const stateEditDiscountVIP = ref({
+  _id: null,
+  month: null,
+  forever: null
+})
 const stateEditManager = ref({
   _id: null,
   manager: null
@@ -271,6 +294,7 @@ const modal = ref({
   editAPI: false,
   editPlay: false,
   editPrice: false,
+  editDiscountVIP: false,
   editContent: false,
   editManager: false,
   editOpenServer: false,
@@ -361,6 +385,15 @@ const actions = (row) => [
       stateEditPrice.value._id = row._id
       modal.value.editPrice = true
     }
+  },{
+    label: 'Sửa giảm giá VIP',
+    icon: 'i-bxs-discount',
+    click: () => {
+      stateEditDiscountVIP.value._id = row._id
+      stateEditDiscountVIP.value.month = row.discount.vip.month
+      stateEditDiscountVIP.value.forever = row.discount.vip.forever
+      modal.value.editDiscountVIP = true
+    }
   }],[{
     label: 'Xóa trò chơi',
     icon: 'i-bx-trash',
@@ -437,6 +470,20 @@ const editPriceAction = async () => {
 
     loading.value.edit = false
     modal.value.editPrice = false
+    emits('update')
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const editDiscountVIPAction = async () => {
+  try {
+    loading.value.edit = true
+    await useAPI('game/tool/manage/project/edit/discount/vip', JSON.parse(JSON.stringify(stateEditDiscountVIP.value)))
+
+    loading.value.edit = false
+    modal.value.editDiscountVIP = false
     emits('update')
   }
   catch (e) {

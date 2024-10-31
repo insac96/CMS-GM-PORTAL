@@ -8,17 +8,12 @@ export default defineEventHandler(async (event) => {
     const auth = await getAuth(event, false) as IAuth | null
     let select : any
 
-    if(!auth){
-      select = '-china -email -phone -reg -social -password -token'
-    }
+    if(!auth) select = '-china -email -phone -reg -social -password -token'
     if(!!auth){
-      if(auth.type == 100){
-        select = '-password -token'
-      }
-      else {
+      if(auth.type == 100) select = '-password -token'
+      else
         if(auth._id == _id) select = '-password -token'
         select = '-china -email -phone -reg -social -password -token'
-      }
     }
 
     const user = await DB.User

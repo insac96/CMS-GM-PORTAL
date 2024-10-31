@@ -46,6 +46,13 @@ export const DBGameTool = (mongoose : Mongoose) => {
       mail: { type: Number, index: true, default: 100000 },
     },
 
+    discount: {
+      vip: {
+        month: { type: Number, default: 20 },
+        forever: { type: Number, default: 100 },
+      }
+    },
+
     statistic: {
       play: { type: Number, index: true, default: 0 },
       view: { type: Number, index: true, default: 0 },

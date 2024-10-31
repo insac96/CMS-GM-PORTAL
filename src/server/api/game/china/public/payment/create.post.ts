@@ -4,13 +4,14 @@ import type { IAuth, IDBConfig, IDBGameChina, IDBGameChinaUser, IDBUser } from "
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
+    const config = await DB.Config.findOne({}).select('telebot manage_password yuan') as IDBConfig
 
     // Check Body
     const body = await readBody(event)
     const { game : key, coin } = body
     if(!key) throw 'Không tìm thấy mã trò chơi'
     if(!!isNaN(parseInt(coin)) || parseInt(coin) < 1) throw 'Số xu không hợp lệ'
-    if(parseInt(coin) < 3500) throw 'Số xu phải lớn hơn hoặc bằng 3.500'
+    if(parseInt(coin) < config.yuan) throw `Số xu phải lớn hơn hoặc bằng ${config.yuan}`
 
     // Check User
     const user = await DB.User.findOne({ _id: auth._id }).select('username currency') as IDBUser
@@ -53,7 +54,6 @@ export default defineEventHandler(async (event) => {
     logUser(event, user._id, notify)
 
     // Telebot
-    const config = await DB.Config.findOne({}).select('telebot manage_password') as IDBConfig
     const timeFormat = formatDate(event, new Date())
     await botTeleSendMessage(event, {
       url: config.telebot.game.china.payment,

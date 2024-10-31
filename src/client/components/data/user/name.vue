@@ -1,10 +1,10 @@
 <template>
   <div class="UserName">
     <UiFlex class="relative gap-2 cursor-pointer z-[2]" @click="view = true">
-      <img :src="`/images/user/stone/${level}.webp`" :width="sizeStone[size]" :height="sizeStone[size]"/>
+      <img :src="`/images/user/stone/${level}.webp`" class="select-none pointer-events-none" :width="sizeStone[size]" :height="sizeStone[size]"/>
 
       <UiText :size="size" weight="semibold" :class="{
-        'relative capitalize flex items-center justify-start': true,
+        'relative capitalize flex items-center justify-start select-none pointer-events-none': true,
         [`User--${level} UserName__text`]: true,
         [`UserName__text__anim`]: level >= 5 ? true : false
       }">
@@ -41,7 +41,6 @@ const level = computed(() => {
   if(!props.user) return 1
   if(!props.user.level) return 1
   if(!props.user.type) return props.user.level.number || 1
-  // if(props.user.type == 100) return 11
   return props.user.level.number || 1
 })
 </script>

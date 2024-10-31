@@ -31,7 +31,7 @@
         </template>
 
         <template #coin-data="{ row }">
-          <UiText weight="semibold">{{ toMoney(row.coin) }} - {{ Math.floor(row.coin / 3500) }} Tệ</UiText>
+          <UiText weight="semibold">{{ toMoney(row.coin) }} - {{ Math.floor(row.coin / configStore.config.yuan) }} Tệ</UiText>
         </template>
 
         <template #status-data="{ row }">
@@ -108,6 +108,7 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
 const game = useAttrs().game
 const { toMoney } = useMoney()
 

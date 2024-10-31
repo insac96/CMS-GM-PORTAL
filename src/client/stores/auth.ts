@@ -7,6 +7,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isAdmin = ref(false)
   const isGMod = ref(false)
   const isFMod = ref(false)
+  const vip : Ref<string | undefined>= ref(undefined)
   const profile : Ref<IDBUserStore | undefined> = ref(undefined)
 
   function setModal (data : boolean) {
@@ -19,6 +20,14 @@ export const useAuthStore = defineStore('auth', () => {
     isGMod.value = auth.type == 1
     isFMod.value = auth.type == 2
     isLogin.value = true
+    
+    if(!!auth.vip){
+      if(!!auth.vip.forever.enable) vip.value = 'forever'
+      else 
+        if(!!auth.vip.month.enable) vip.value = 'month'
+        else vip.value = undefined
+    }
+
     profile.value = auth 
   }
 
@@ -37,7 +46,8 @@ export const useAuthStore = defineStore('auth', () => {
     profile, 
     isAdmin, 
     isGMod, 
-    isFMod, 
+    isFMod,
+    vip,
     setModal, 
     setAuth, 
     removeAuth

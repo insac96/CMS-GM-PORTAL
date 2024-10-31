@@ -27,7 +27,7 @@ const emits = defineEmits(['close'])
 const loading = ref(false)
 
 const state = ref({
-  recharge: props.recharge?._id, 
+  recharge: props.recharge?._id,
   server_id: props.server,
   role_id: props.role,
   game: props.game?.code

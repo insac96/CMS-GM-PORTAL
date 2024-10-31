@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     if(!rechargeID) throw 'Không tìm thấy mã gói nạp'
     if(!server || !role) throw 'Vui lòng chọn máy chủ và nhân vật'
 
-    const user = await DB.User.findOne({ _id: auth._id }).select('currency') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     
     const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('ip api secret rate') as IDBGamePrivate
@@ -24,8 +24,13 @@ export default defineEventHandler(async (event) => {
     const recharge = await DB.GamePrivateRecharge.findOne({ _id: rechargeID, game: game._id, display: true }) as IDBGamePrivateRecharge
     if(!recharge) throw 'Gói nạp game không tồn tại'
 
+    // Discount VIP
+    const vip = await getUserVip(user) as string
+    // @ts-expect-error
+    const discountVIP = !!vip ? game.rate.shop.vip[vip] : 0
+
     // Make Total Price
-    let discount = formatRate(game.rate.shop)
+    let discount = formatRate(game.rate.shop) + discountVIP
     discount = discount > 100 ? 100 : discount
     let totalPrice = recharge.price - Math.floor(recharge.price * (discount / 100))
     if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free

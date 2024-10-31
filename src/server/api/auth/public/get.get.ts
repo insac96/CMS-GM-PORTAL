@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   try {
     // Get User
     const auth = await getAuth(event) as IAuth
-    const user = await DB.User.findOne({ _id: auth._id }) as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('username level vip currency type') as IDBUser
 
     // Get Date
     const now  = new Date()
@@ -23,15 +23,26 @@ export default defineEventHandler(async (event) => {
     // User Level
     const realLevel = await DB.UserLevel.findOne({ 'exp': { $lte: user.currency.exp }}).sort({ number: -1 }) as IDBUserLevel
     user.level = realLevel._id
-    await user.save()
+    
+    // User VIP
+    if(!!user.vip.month.enable && !user.vip.forever.enable){
+      const end = DayJS(user.vip.month.end).unix()
+      const now = DayJS(Date.now()).unix()
+      if(end < now){
+        user.vip.month.enable = false
+        user.vip.month.end = null
+      }
+    }
 
     // Result
+    await user.save()
     const userStore : IDBUserStore = {
       _id: user._id,
       username: user.username,
       type: user.type,
       currency: user.currency,
-      level: realLevel
+      level: realLevel,
+      vip: user.vip
     }
 
     userStore.notify = await DB.NotifyUser.count({ user: user._id, watched: false })

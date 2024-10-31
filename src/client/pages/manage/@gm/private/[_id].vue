@@ -1,11 +1,11 @@
 <template>
   <div v-if="!!game">
     <div class="grid grid-cols-12 gap-4 mb-4">
-      <div class="md:col-span-5 col-span-12">
+      <div class="md:col-span-6 col-span-12">
         <DataGameReview :review="game.image.review" :banner="game.image.banner" />
       </div>
 
-      <div class="md:col-span-7 col-span-12">
+      <div class="md:col-span-6 col-span-12">
         <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
           <template #more>
             <UiFlex class="gap-1 ml-auto">
@@ -63,7 +63,15 @@
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Giảm giá</UiText>
-              <UiText weight="semibold" size="sm">-{{ useRate().data(game.rate.shop).number }}%</UiText>
+              <UiText weight="semibold" size="sm" color="rose">- {{ useRate().data(game.rate.shop).number }}%</UiText>
+            </UiFlex>
+            <UiFlex justify="between" class="mb-3">
+              <UiText weight="semibold" color="gray" size="sm">VIP Tháng</UiText>
+              <UiText weight="semibold" size="sm" color="rose">- {{ game.rate.shop.vip.month }}%</UiText>
+            </UiFlex>
+            <UiFlex justify="between" class="mb-3">
+              <UiText weight="semibold" color="gray" size="sm">VIP trọn đời</UiText>
+              <UiText weight="semibold" size="sm" color="rose">- {{ game.rate.shop.vip.forever }}%</UiText>
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Cập nhật cuối</UiText>

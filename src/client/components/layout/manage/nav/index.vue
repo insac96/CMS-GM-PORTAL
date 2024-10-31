@@ -31,6 +31,7 @@
     <template #tab-3><UVerticalNavigation :links="navItems[3].children" @click="emit('to')"/></template>
     <template #tab-4><UVerticalNavigation :links="navItems[4].children" @click="emit('to')"/></template>
     <template #tab-5><UVerticalNavigation :links="navItems[5].children" @click="emit('to')"/></template>
+    <template #tab-6><UVerticalNavigation :links="navItems[6].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
@@ -46,15 +47,25 @@ const navItems = [
     children: [
       { label: 'Tài khoản', to: '/manage/@eni/user' },
       { label: 'Chi tiêu', to: '/manage/@eni/spend' },
-      { label: 'Nhật ký', to: '/manage/@eni/log' }, 
-      { label: 'Cài đặt', to: '/manage/@eni/config' },
+      { label: 'Nhật ký', to: '/manage/@eni/log' }
+    ]
+  },
+  {
+    label: 'Cài đặt',
+    icon: 'i-bxs-cog',
+    defaultOpen: false,
+    slot: 'tab-1',
+    children: [
+      { label: 'Thông tin trang', to: '/manage/@eni/config/page' },
+      { label: 'API Mạng xã hội', to: '/manage/@eni/config/apisocial' },
+      { label: 'Giá VIP và NDT', to: '/manage/@eni/config/vipyuan' },
     ]
   },
   {
     label: 'Địa chỉ IP',
     icon: 'i-bxs-barcode',
     defaultOpen: false,
-    slot: 'tab-1',
+    slot: 'tab-2',
     children: [
       { label: 'Quản trị', to: '/manage/@eni/ip/admin' },
       { label: 'Thành viên', to: '/manage/@eni/ip/user' }
@@ -64,7 +75,7 @@ const navItems = [
     label: 'Tin tức',
     icon: 'i-bx-news',
     defaultOpen: false,
-    slot: 'tab-2',
+    slot: 'tab-3',
     children: [
     { label: 'Danh mục', to: '/manage/@eni/news/category' }, 
     { label: 'Danh sách', to: '/manage/@eni/news' }, 
@@ -74,7 +85,7 @@ const navItems = [
     label: 'Thanh toán',
     icon: 'i-bx-credit-card',
     defaultOpen: false,
-    slot: 'tab-3',
+    slot: 'tab-4',
     children: [
       { label: 'Kênh nạp', to: '/manage/@eni/gate' }, 
       { label: 'Nạp xu', to: '/manage/@eni/payment/coin' },
@@ -85,7 +96,7 @@ const navItems = [
     label: 'Trò chơi',
     icon: 'i-bx-cube-alt',
     defaultOpen: false,
-    slot: 'tab-4',
+    slot: 'tab-5',
     children: [
       { label: 'Nền tảng', to: '/manage/@eni/game/platform' },
       { label: 'Thể loại', to: '/manage/@eni/game/category' },  
@@ -98,7 +109,7 @@ const navItems = [
     label: 'Diễn đàn',
     icon: 'i-bx-layer',
     defaultOpen: false,
-    slot: 'tab-5',
+    slot: 'tab-6',
     children: [
       { label: 'Danh mục', to: '/manage/@eni/forum/category' },
       { label: 'Bài viết', to: '/manage/@eni/forum/post' },

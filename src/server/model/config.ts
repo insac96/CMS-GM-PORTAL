@@ -14,6 +14,11 @@ export const DBConfig = (mongoose : Mongoose) => {
     terms: { type: String },
     manage_password: { type: String, default: 'eni@gm' },
     license: { type: Boolean, default: false },
+    yuan: { type: Number, default: 3500 },
+    vip: {
+      month: { type: Number, default: 500000 },
+      forever: { type: Number, default: 5000000 },
+    },
     download: {
       windows: { type: String, default: '' },
       mac: { type: String, default: '' },

@@ -21,28 +21,29 @@
 </template>
 
 <script setup>
+const configStore = useConfigStore()
 const props = defineProps(['game'])
 const emits = defineEmits(['close'])
 const authStore = useAuthStore()
 const form = ref()
 const loading = ref(false)
 const reloadHistory = ref(0)
-
+const yuan = configStore.config.yuan
 // State
 const state = ref({
-  coin: 3500,
+  coin: yuan,
 	game: props.game.key
 })
 
 // Moneys
 const moneys = [
-	{ label: `1 tệ - ${3500} Xu`, value: 3500 },
-	{ label: `5 tệ - ${3500 * 5} Xu`, value: 3500 * 5 },
-	{ label: `10 tệ - ${3500 * 10} Xu`, value: 3500 * 10 },
-	{ label: `20 tệ - ${3500 * 20} Xu`, value: 3500 * 20 },
-	{ label: `30 tệ - ${3500 * 30} Xu`, value: 3500 * 30 },
-	{ label: `50 tệ - ${3500 * 50} Xu`, value: 3500 * 50 },
-	{ label: `100 tệ - ${3500 * 100} Xu`, value: 3500 * 100 },
+	{ label: `1 tệ - ${yuan} Xu`, value: yuan },
+	{ label: `5 tệ - ${yuan * 5} Xu`, value: yuan * 5 },
+	{ label: `10 tệ - ${yuan * 10} Xu`, value: yuan * 10 },
+	{ label: `20 tệ - ${yuan * 20} Xu`, value: yuan * 20 },
+	{ label: `30 tệ - ${yuan * 30} Xu`, value: yuan * 30 },
+	{ label: `50 tệ - ${yuan * 50} Xu`, value: yuan * 50 },
+	{ label: `100 tệ - ${yuan * 100} Xu`, value: yuan * 100 },
 ]
 
 // Validate

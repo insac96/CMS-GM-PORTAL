@@ -17,6 +17,8 @@ export default defineEventHandler(async (event) => {
     if(change == 'google') logAdmin(event, 'Cập nhật cấu hình <b>API Google</b>')
     if(change == 'zalo') logAdmin(event, 'Cập nhật cấu hình <b>API Zalo</b>')
     if(change == 'tiktok') logAdmin(event, 'Cập nhật cấu hình <b>API Tiktok</b>')
+    if(change == 'vip') logAdmin(event, 'Cập nhật cấu hình <b>Giá VIP</b>')
+    if(change == 'yuan') logAdmin(event, 'Cập nhật cấu hình <b>Giá Tệ</b>')
 
     // Update
     delete data['_id']

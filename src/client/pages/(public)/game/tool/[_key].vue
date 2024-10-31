@@ -53,29 +53,35 @@
             <UiText weight="semibold" color="gray" size="sm">Ra mắt</UiText>
             <UiText weight="semibold" size="sm">{{ useDayJs().fromTime(game.createdAt) }}</UiText>
           </UiFlex>
+
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Tool nạp</UiText>
-            <UiText weight="semibold" size="sm" v-if="!game.tool.recharge">{{ toMoney(game.price.recharge)+'đ' }}</UiText>
+            <UiText weight="semibold" size="sm" v-if="!game.tool.recharge" color="primary">{{ toMoney(game.price.recharge)+' Xu' }}</UiText>
             <UiFlex class="gap-1" v-else>
               <UiIcon name="i-bxs-check-circle" size="4" color="green" />
               <UiText weight="semibold" size="sm" color="green">Đã mua</UiText>
             </UiFlex>
-            
           </UiFlex>
-          <UiFlex justify="between">
+
+          <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Tool thư</UiText>
-            <UiText weight="semibold" size="sm" v-if="!game.tool.mail">{{ toMoney(game.price.mail)+'đ' }}</UiText>
+            <UiText weight="semibold" size="sm" v-if="!game.tool.mail" color="primary">{{ toMoney(game.price.mail)+' Xu' }}</UiText>
             <UiFlex class="gap-1" v-else>
               <UiIcon name="i-bxs-check-circle" size="4" color="green" />
               <UiText weight="semibold" size="sm" color="green">Đã mua</UiText>
             </UiFlex>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3" v-if="!game.tool.recharge || !game.tool.mail">
+            <UiText weight="semibold" color="gray" size="sm">VIP tháng</UiText>
+            <UiText weight="semibold" size="sm" color="rose">- {{ toMoney(game.discount.vip.month) }}%</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3" v-if="!game.tool.recharge || !game.tool.mail">
+            <UiText weight="semibold" color="gray" size="sm">VIP trọn đời</UiText>
+            <UiText weight="semibold" size="sm" color="rose">- {{ toMoney(game.discount.vip.forever) }}%</UiText>
           </UiFlex>
         </div>
-
-        <!-- Alert -->
-        <!-- <UAlert class="my-4" icon="i-bx-game" title="Bạn vẫn có thể chơi trò chơi mà không cần phải mua tool" :ui="{
-          color: { white: { solid: 'bg-gray-100' }}
-        }"/> -->
 
         <!-- Button -->
         <UiFlex class="gap-1">

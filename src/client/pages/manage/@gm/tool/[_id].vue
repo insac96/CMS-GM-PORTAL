@@ -1,11 +1,11 @@
 <template>
   <div v-if="!!game">
     <div class="grid grid-cols-12 gap-4 mb-4">
-      <div class="md:col-span-5 col-span-12">
+      <div class="md:col-span-7 col-span-12">
         <DataGameReview :review="game.image.review" :banner="game.image.banner" />
       </div>
 
-      <div class="md:col-span-7 col-span-12">
+      <div class="md:col-span-5 col-span-12">
         <UiContent :title="`[${game.code}] ${game.name}`" :sub="game.description" no-dot>
           <template #more>
             <UiFlex class="gap-1 ml-auto">
@@ -68,6 +68,14 @@
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Tool thư</UiText>
               <UiText weight="semibold" size="sm">{{ toMoney(game.price.mail) }}</UiText>
+            </UiFlex>
+            <UiFlex justify="between" class="mb-3">
+              <UiText weight="semibold" color="gray" size="sm">VIP tháng</UiText>
+              <UiText weight="semibold" size="sm" color="rose">- {{ game.discount.vip.month }}%</UiText>
+            </UiFlex>
+            <UiFlex justify="between" class="mb-3">
+              <UiText weight="semibold" color="gray" size="sm">VIP trọn đời</UiText>
+              <UiText weight="semibold" size="sm" color="rose">- {{ game.discount.vip.forever }}%</UiText>
             </UiFlex>
             <UiFlex justify="between" class="mb-3">
               <UiText weight="semibold" color="gray" size="sm">Cập nhật cuối</UiText>

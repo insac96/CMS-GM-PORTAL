@@ -55,8 +55,18 @@
           </UiFlex>
           
           <UiFlex justify="between" class="mb-3">
-            <UiText weight="semibold" color="gray" size="sm">Giảm giá cửa hàng</UiText>
-            <UiText weight="semibold" size="sm">-{{ useRate().data(game.rate.shop).number }}%</UiText>
+            <UiText weight="semibold" color="gray" size="sm">Giảm giá</UiText>
+            <UiText weight="semibold" size="sm" color="rose">- {{ useRate().data(game.rate.shop).number }}%</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3">
+            <UiText weight="semibold" color="gray" size="sm">VIP Tháng</UiText>
+            <UiText weight="semibold" size="sm" color="rose">- {{ game.rate.shop.vip.month }}%</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3">
+            <UiText weight="semibold" color="gray" size="sm">VIP trọn đời</UiText>
+            <UiText weight="semibold" size="sm" color="rose">- {{ game.rate.shop.vip.forever }}%</UiText>
           </UiFlex>
         </div>
 
@@ -85,11 +95,7 @@
 
     <!--Giftcode-->
     <UModal v-model="modal.giftcode" prevent-close>
-      <DataGamePrivateGiftcode
-        :game="game" 
-        @close="modal.giftcode = false" 
-        class="p-4"
-      /> 
+      <DataGamePrivateGiftcode :game="game"  @close="modal.giftcode = false" class="p-4" /> 
     </UModal>
 
     <!--Play-->

@@ -5,19 +5,25 @@ export default defineEventHandler(async (event) => {
     const runtimeConfig = useRuntimeConfig()
     const auth = await getAuth(event) as IAuth
 
-    const user = await DB.User.findOne({ _id: auth._id }).select('currency') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
     const { game : code, recharge, mail } = await readBody(event)
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!recharge && !mail) throw 'Vui lòng lựa chọn 1 loại tool để mua'
 
-    const game = await DB.GameTool.findOne({ code: code, display: true }).select('price') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('price discount') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
     const userGame = await DB.GameToolUser.findOne({ game: game._id, user: user._id }) as IDBGameToolUser
     let totalPrice = 0
+    let discount = 0
     let result : any 
+
+    // Discount VIP
+    const vip = await getUserVip(user) as string
+    // @ts-expect-error
+    discount = !!vip ? game.discount.vip[vip] : 0
 
     // No User Game Tool
     if(!userGame){
@@ -31,11 +37,14 @@ export default defineEventHandler(async (event) => {
         newUserGame.mail = true
       }
 
+      totalPrice = totalPrice - Math.floor((totalPrice * discount) / 100)
+
       if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free
-      newUserGame.coin = totalPrice
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
+      newUserGame.coin = totalPrice
       const newUserGameData = await DB.GameToolUser.create(newUserGame)
+
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
       await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
       await DB.GameToolPayment.create({
@@ -52,7 +61,9 @@ export default defineEventHandler(async (event) => {
       if(!!recharge && !userGame.recharge) totalPrice = totalPrice + game.price.recharge
       if(!!mail && !userGame.mail) totalPrice = totalPrice + game.price.mail
 
-      if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin, Dev Free
+      totalPrice = totalPrice - Math.floor((totalPrice * discount) / 100)
+
+      if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free
       if(totalPrice > user.currency.coin) throw 'Số dư tài khoản không đủ, vui lòng nạp thêm'
 
       if(!!recharge && !userGame.recharge) userGame.recharge = true

@@ -16,6 +16,11 @@ export interface IDBConfig {
   terms: string
   manage_password: string
   license: boolean
+  yuan: number
+  vip: {
+    month: number
+    forever: number
+  }
   download: {
     windows: string
     mac: string
@@ -77,6 +82,11 @@ export interface IDBConfigStore {
   og_image: string
   logo_image: string
   makeby: string
+  yuan: number
+  vip: {
+    month: number
+    forever: number
+  }
   download: {
     windows: string
     mac: string
