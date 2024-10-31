@@ -68,18 +68,19 @@ const makeMenu = async () => {
     const categories = await useAPI('game/public/category/select')
     const platforms = await useAPI('game/public/platform/select')
     const list =  [
-      { title: 'Nạp xu', icon: 'i-bxs-credit-card', to: '/payment' },
-      { title: 'Tin tức', icon: 'i-bx-news', to: '/news' },
-      { title: 'Diễn đàn', icon: 'i-bx-layer', to: '/forum' },
-      { title: 'Danh mục', child: [
+      { title: 'Nạp Xu', icon: 'i-bxs-credit-card', to: '/payment' },
+      { title: 'Nâng VIP', icon: 'i-bxs-star', to: '/vip' },
+      { title: 'Tin Tức', icon: 'i-bx-news', to: '/news' },
+      { title: 'Diễn Đàn', icon: 'i-bx-layer', to: '/forum' },
+      { title: 'Danh Mục', child: [
         { title: 'Game Tool', icon: 'i-ion-game-controller', to: '/game/tool' },
         { title: 'Game Private', icon: 'i-fluent-games-28-filled', to: '/game/private' },
         { title: 'Game China', icon: 'i-jam-gamepad-f', to: '/game/china' },
       ]},
-      { title: 'Nền tảng', child: platforms.map(i => {
+      { title: 'Nền Tảng', child: platforms.map(i => {
         return { title: i.name, icon: i.icon, to: `/game/platform/${i.key}` }
       })},
-      { title: 'Thể loại', child: categories.map(i => {
+      { title: 'Thể Loại', child: categories.map(i => {
         return { title: i.name, icon: i.icon, to: `/game/category/${i.key}` }
       })}
     ]
