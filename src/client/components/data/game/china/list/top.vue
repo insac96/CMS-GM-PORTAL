@@ -1,7 +1,7 @@
 <template>
   <div>
     <DataEmpty :loading="loading" class="min-h-[300px]" v-if="!!loading || list.length == 0" />
-    <DataGameListMini :list="list" os="china" :play="true" v-else />
+    <DataGameListTop :list="list" os="china" :sort="sort" v-else />
   </div>
 </template>
 

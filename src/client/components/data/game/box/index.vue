@@ -23,13 +23,8 @@
           <UiIcon class="absolute top-2 left-2 jump-anim" v-if="!!game.pin" color="primary" name="i-bxs-star" size="5" />
 
           <UiFlex class="absolute bottom-2 left-2 gap-0.5">
-            <NuxtLink :to="`/game/platform/${game.platform.key}`">
-              <UBadge color="gray" size="xs">{{ game.platform.name }}</UBadge>
-            </NuxtLink>
-            
-            <NuxtLink :to="`/game/category/${game.category.key}`">
-              <UBadge color="gray" size="xs">{{ game.category.name }}</UBadge>
-            </NuxtLink>
+            <UBadge color="gray" size="xs">{{ game.platform.name }}</UBadge>
+            <UBadge color="gray" size="xs">{{ game.category.name }}</UBadge>
           </UiFlex>
         </div>
       </template>
