@@ -13,6 +13,16 @@ export default defineEventHandler(async (event) => {
     .select('username avatar type level')
     .populate({ path: 'level' }) as IDBUser
 
+    // Notify Global
+    if(text.search("@global ") == 0){
+      if(user.type != 100) throw 'Chức năng chỉ dành cho Quản Trị Viên'
+      let notifyArr = text.split("@global ")
+      if(notifyArr[1]) throw 'Vui lòng nhập nội dung thông báo'
+
+      IO.emit('notify-global-push', notifyArr[1])
+      return resp(event, { result: true })
+    }
+
     // Check Limit Chat
     const level = user.level as IDBUserLevel
     const max = level.limit.chat
