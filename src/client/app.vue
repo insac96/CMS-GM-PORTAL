@@ -1,6 +1,6 @@
 <template>
   <UiAnimStar />
-  <SocketNotifyGlobal />
+  <SocketNotifyGlobal v-if="route.meta.layout != 'play'"/>
   <NuxtLayout class="relative">
     <NuxtLoadingIndicator :height="2" />
     <NuxtPage />
@@ -14,6 +14,7 @@ import colors from '#tailwind-config/theme/colors'
 const { img } = useMakeLink()
 const appConfig = useAppConfig()
 const configStore = useConfigStore()
+const route = useRoute()
 
 // Meta Seo
 useSeoMeta({
