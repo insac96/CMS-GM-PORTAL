@@ -14,9 +14,9 @@ export default defineEventHandler(async (event) => {
     .populate({ path: 'level' }) as IDBUser
 
     // Notify Global
-    if(text.search("@global ") == 0){
+    if(text.search("@n ") == 0){
       if(user.type != 100) throw 'Chức năng chỉ dành cho Quản Trị Viên'
-      let notifyArr = text.split("@global ")
+      let notifyArr = text.split("@n ")
       if(!notifyArr[1]) throw 'Vui lòng nhập nội dung thông báo'
 
       IO.emit('notify-global-push', notifyArr[1])

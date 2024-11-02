@@ -9,7 +9,8 @@
     <div ref="box" id="BoxChatGlobal" class="w-full grow overflow-y-auto overflow-x-hidden py-4 h-0">
       <UiFlex type="col" class="gap-4 px-2">
         <UiFlex v-for="chat in listFormat" :key="chat._id" class="w-full">
-          <UiFlex class="w-full space-x-2" items="start" >
+          <!--User Chat-->
+          <UiFlex class="w-full space-x-2" items="start" v-if="chat.type == 'USER'">
             <!-- Avatar -->
             <DataUserAvatar :user="chat.user" />
             
@@ -23,6 +24,11 @@
 
               <UiText color="gray" class="leading-none mx-2 text-[0.7rem]" mini>{{ useDayJs().fromTime(chat.createdAt, null, true) }}</UiText>
             </div>
+          </UiFlex>
+
+          <!--Notify Chat-->
+          <UiFlex class="w-full px-4 text-center" justify="center" v-if="chat.type == 'NOTIFY'" >
+            <UiText color="gray" size="xs" v-html="chat.content"></UiText>
           </UiFlex>
         </UiFlex>
       </UiFlex>
@@ -117,6 +123,12 @@ onMounted(() => {
   $socket.on('chat-global-push', (data) => {
     if(!list.value) list.value = []
     list.value.push(data)
+    setTimeout(() => toBottom(), 100)
+  })
+
+  $socket.on('notify-global-push', (data) => {
+    if(!list.value) list.value = []
+    list.value.push({ type: 'NOTIFY', content: data })
     setTimeout(() => toBottom(), 100)
   })
 })
