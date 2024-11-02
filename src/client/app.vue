@@ -1,6 +1,6 @@
 <template>
   <UiAnimStar />
-  
+  <SocketNotifyGlobal />
   <NuxtLayout class="relative">
     <NuxtLoadingIndicator :height="2" />
     <NuxtPage />

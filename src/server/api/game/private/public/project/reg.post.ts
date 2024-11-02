@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
     const game = await DB.GamePrivate
     .findOne({ code: code, display: true })
-    .select('price') as IDBGamePrivate
+    .select('price name') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
     const userGame = await DB.GamePrivateUser
@@ -19,6 +19,8 @@ export default defineEventHandler(async (event) => {
 
     const newUserGame = await DB.GamePrivateUser.create({ game: game._id, user: auth._id })
     await DB.GamePrivate.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
+
+    IO.emit('notify-global-push', `<b class="text-primary-500">${auth.username}</b> đăng ký chơi trò chơi Private <b class="text-primary-500">${game.name}</b>`)
     return resp(event, { result: newUserGame })
   } 
   catch (e:any) {

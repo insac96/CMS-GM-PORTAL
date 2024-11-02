@@ -1,7 +1,6 @@
 <template>
   <div :class="{
-    'NotifyGlobalText': true,
-    'h-[30px]': !!isRunning
+    'NotifyGlobalText h-[20px]': true
   }">
     <p 
       id="NotifyGlobalText"
@@ -15,12 +14,12 @@
 </template>
 
 <script setup>
+const { $socket } = useNuxtApp()
 const isRunning = ref(false)
+const emits = defineEmits(['running'])
 const text = ref(null)
 const list = ref([
-  'Đặc quyền VIP 30 ngày',
-  'Giảm 50% mua Tool tất cả các trò chơi',
-  'Giảm 10% mua các tài nguyên Private'
+  'Chào mừng đến với cổng game <b class="text-primary-500">ENI Studio</b>, chúc bạn có những phút giây chơi game vui vẻ...'
 ])
 const length = computed(() => {
   return list.value.length
@@ -41,6 +40,7 @@ const stop = () => {
   el.style.right = '-9999px'
   text.value = null
   isRunning.value = false
+  emits('running', false)
   el.removeEventListener("animationend", stop)
   run()
 }
@@ -49,9 +49,16 @@ const run = () => {
   if(list.value.length == 0) return text.value = null, isRunning.value = false
   text.value = list.value[0]
   start()
+  emits('running', true)
 }
 
-onMounted(() => run())
+onMounted(() => {
+  run()
+  
+  $socket.on('notify-global-push', (data) => {
+    list.value.push(data)
+  })
+})
 watch(() => length.value, () => !isRunning.value && run())
 </script>
 
@@ -65,7 +72,7 @@ watch(() => length.value, () => !isRunning.value && run())
     width: max-content
     right: -9999px
   &__Anim
-    animation: marquee 15s linear
+    animation: marquee 20s linear
 
 @keyframes marquee
   to

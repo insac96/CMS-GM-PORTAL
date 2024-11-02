@@ -8,7 +8,7 @@
       :validate="validate" 
       @submit="submit" 
       :class="{
-        'grid grid-cols-8 gap-2 md:gap-4 lg:gap-6 mb-4': !fast,
+        'grid grid-cols-12 gap-2 md:gap-4 lg:gap-6 mb-4': !fast,
         'grid grid-cols-12': !!fast,
       }"
     >

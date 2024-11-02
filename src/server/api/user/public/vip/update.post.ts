@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     // @ts-expect-error
     let price = auth.type != 100 ? config.vip[type] : 0 // Admin Free
 
-    const user = await DB.User.findOne({ _id: auth._id }).select('currency.coin vip') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('username currency.coin vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     if(!!user.vip.forever.enable) throw 'Bạn đã nâng cấp lên đặc quyền VIP Trọn Đời, không thể nâng cấp thêm'
     if(user.currency.coin < price) throw 'Số dư Xu không đủ'
@@ -32,6 +32,8 @@ export default defineEventHandler(async (event) => {
     }
     await user.save()
     await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': price * -1 }})
+
+    IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa mua <b class="text-primary-500">VIP ${type == 'forever' ? 'Trọn Đời' : 'Tháng'}</b>`)
 
     return resp(event, { message: 'Nâng cấp thành công' })
   }

@@ -1,16 +1,22 @@
 <template>
-  <div class="NotifyGlobal bg-transparent backdrop-blur-xl shadow-xl rounded-lg">
-    <SocketNotifyGlobalText class="h-full" />
-  </div>
+  <Transition name="page">
+    <UiFlex class="NotifyGlobal dark:bg-black/85 shadow-xl rounded-lg gap-2 pl-2 h-[30px]" v-show="show">
+      <UiIcon name="i-bxs-megaphone" />
+      <SocketNotifyGlobalText class="grow" @running="running" />
+    </UiFlex>
+  </Transition>
 </template>
+
+<script setup>
+const show = ref(false)
+const running = (data) => show.value = data
+</script>
 
 <style lang="sass">
 .NotifyGlobal
   position: fixed
   top: calc(var(--header-size) + 14px)
   left: 50%
-  -webkit-mask: linear-gradient(0deg, transparent, #000 40%)
-  mask: linear-gradient(0deg, transparent, #000 40%)
   z-index: 5
   min-width: 300px
   max-width: 300px

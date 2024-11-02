@@ -64,12 +64,13 @@ export default async (
   let realNotify
   if(realStatus == 1){
     // Update User
-    await DB.User.updateOne({ _id: payment.user },{ $inc: { 'currency.coin': realMoney }})
+    await DB.User.updateOne({ _id: payment.user },{ $inc: { 'currency.coin': realMoney, 'currency.exp': realMoney }})
 
     // Log User
     realNotify = `Bạn được duyệt thành công giao dịch <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')} VNĐ</b>`
     if(!!verifier) logAdmin(event, `Chấp nhận giao dịch nạp tiền <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')}</b>`, verify_person)
     logUser(event, user._id, `Nhận <b>${realMoney.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`)
+    IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa tăng thêm <b class="text-primary-500">${realMoney.toLocaleString('vi-VN')}</b> Tu Vi`)
 
     // Telebot
     const config = await DB.Config.findOne({}).select('telebot manage_password') as IDBConfig

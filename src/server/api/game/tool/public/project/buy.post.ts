@@ -5,14 +5,14 @@ export default defineEventHandler(async (event) => {
     const runtimeConfig = useRuntimeConfig()
     const auth = await getAuth(event) as IAuth
 
-    const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser
+    const user = await DB.User.findOne({ _id: auth._id }).select('username currency vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
     const { game : code, recharge, mail } = await readBody(event)
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!recharge && !mail) throw 'Vui lòng lựa chọn 1 loại tool để mua'
 
-    const game = await DB.GameTool.findOne({ code: code, display: true }).select('price discount') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('name price discount') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
     const userGame = await DB.GameToolUser.findOne({ game: game._id, user: user._id }) as IDBGameToolUser
@@ -83,6 +83,9 @@ export default defineEventHandler(async (event) => {
 
     // Update revenue game
     await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': totalPrice }})
+
+    // Send Notify Global
+    IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa mua Tool trò chơi <b class="text-primary-500">${game.name}</b>`)
 
     return resp(event, { result: result })
   } 
