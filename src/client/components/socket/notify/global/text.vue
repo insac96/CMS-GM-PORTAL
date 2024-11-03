@@ -1,13 +1,16 @@
 <template>
-  <div :class="{
+  <div id="NotifyGlobalText" :class="{
     'NotifyGlobalText h-[20px]': true
   }">
     <p 
-      id="NotifyGlobalText"
+      id="NotifyGlobalTextContent"
       :class="{
         'NotifyGlobalText__Content text-sm font-semibold': true,
         'NotifyGlobalText__Anim': !!isRunning
-      }" 
+      }"
+      :style="{
+        '--end-pos': endtPos
+      }"
       v-html="text"
     ></p>
   </div>
@@ -18,6 +21,7 @@ const { $socket } = useNuxtApp()
 const isRunning = ref(false)
 const emits = defineEmits(['running'])
 const text = ref(null)
+const endtPos = ref(0)
 const list = ref([
   'Chào mừng đến với cổng game <b class="text-primary-500">ENI Studio</b>, chúc bạn có những phút giây chơi game vui vẻ...'
 ])
@@ -26,19 +30,17 @@ const length = computed(() => {
 })
 
 const start = () => {
-  const el = document.getElementById('NotifyGlobalText')
+  const el = document.getElementById('NotifyGlobalTextContent')
   setTimeout(() => {
-    el.style.right = (el.offsetWidth * -1)+'px'
+    endtPos.value = (el.offsetWidth)+'px'
     isRunning.value = true
   }, 1)
   el.addEventListener("animationend", stop)
 }
 
 const stop = () => {
+  const el = document.getElementById('NotifyGlobalTextContent')
   list.value.shift()
-  const el = document.getElementById('NotifyGlobalText')
-  el.style.right = '-9999px'
-  text.value = null
   isRunning.value = false
   emits('running', false)
   el.removeEventListener("animationend", stop)
@@ -46,7 +48,7 @@ const stop = () => {
 }
 
 const run = () => {
-  if(list.value.length == 0) return text.value = null, isRunning.value = false
+  if(list.value.length == 0) return isRunning.value = false
   text.value = list.value[0]
   start()
   emits('running', true)
@@ -54,10 +56,8 @@ const run = () => {
 
 onMounted(() => {
   run()
-  
-  $socket.on('notify-global-push', (data) => {
-    list.value.push(data)
-  })
+
+  $socket.on('notify-global-push', (data) => list.value.push(data))
 })
 watch(() => length.value, () => !isRunning.value && run())
 </script>
@@ -67,14 +67,24 @@ watch(() => length.value, () => !isRunning.value && run())
   position: relative
   overflow: hidden
   &__Content
-    position: absolute
+    position: relative
+    right: -100%
     padding: 0
     width: max-content
-    right: -9999px
   &__Anim
-    animation: marquee 20s linear
+    animation: marquee 5s linear
 
 @keyframes marquee
-  to
-    right: 100%
+  10%
+    right: 0
+  20%
+    right: 0
+  30%
+    right: 0
+  40%
+    right: 0
+  50%
+    right: 0
+  100%
+    right: var(--end-pos)
 </style>

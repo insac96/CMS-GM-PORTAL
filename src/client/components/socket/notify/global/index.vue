@@ -1,6 +1,6 @@
 <template>
   <Transition name="page">
-    <UiFlex class="NotifyGlobal dark:bg-black/85 shadow-xl rounded-lg gap-2 pl-2 h-[30px]" v-show="show">
+    <UiFlex class="NotifyGlobal dark:bg-black/85 shadow-xl rounded-lg gap-2 px-2 h-[30px]" v-show="show">
       <UiIcon name="i-bxs-megaphone" />
       <SocketNotifyGlobalText class="grow" @running="running" />
     </UiFlex>
@@ -15,14 +15,11 @@ const running = (data) => show.value = data
 <style lang="sass">
 .NotifyGlobal
   position: fixed
-  top: calc(var(--header-size) + 14px)
+  top: calc(var(--header-size) + 10px)
   left: 50%
   z-index: 5
-  min-width: 300px
   max-width: 300px
-  transform: translateX(-150px)
+  transform: translate(-50%)
   @media (min-width: 1024px)
-    min-width: 500px
     max-width: 500px
-    transform: translateX(-250px)
 </style>
