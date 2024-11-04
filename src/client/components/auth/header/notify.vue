@@ -9,7 +9,7 @@
     </UChip>
 
     <template #panel>
-      <UiContent title="Thông Báo" class="w-[300px] sm:w-[400px] max-w-sreen overflow-hidden p-4" no-dot>
+      <UiContent title="Thông Báo" class="w-[300px] sm:w-[400px] max-w-sreen overflow-hidden p-4 BoxBlock" no-dot>
         <template #more >
           <UiFlex class="gap-1 ml-auto">
             <UButton color="gray" size="2xs" :loading="loading.read" icon="i-bx-check-double" @click=read v-if="list.length > 0"></UButton>

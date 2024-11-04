@@ -1,9 +1,9 @@
 <template>
   <NuxtLink :to="to">
-    <UCard class="overflow-hidden transition-2 cursor-pointer " :ui="{
+    <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
       base: 'hover:scale-95',
       divide: '',
-      ring: 'ring-0 dark:ring-1 dark:ring-gray-800 hover:dark:ring-2 hover:dark:ring-primary-500',
+      ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
       shadow: 'shadow hover:shadow-xl',
       header: {
         padding: 'p-0 p-0 sm:p-0',
@@ -29,19 +29,15 @@
         </div>
       </template>
 
-      <UiFlex class="gap-4">
-        <!-- <UAvatar :src="game.image?.icon" :alt="game.code" class="hidden md:flex" v-if="!gm" /> -->
-
-        <div>
-          <UiText color="gray" weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base">
-            {{ game.name }}
-          </UiText>
-          
-          <UiText color="gray" class="italic line-clamp-2 text-xs min-h-[32px]">
-            {{ game.description }}
-          </UiText>
-        </div>
-      </UiFlex>
+      <template #default>
+        <UiText weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base text-gray-300 hover:text-primary">
+          {{ game.name }}
+        </UiText>
+        
+        <UiText color="gray" class="italic line-clamp-2 text-xs min-h-[32px]">
+          {{ game.description }}
+        </UiText>
+      </template>
 
       <template #footer>
         <UiFlex class="gap-1" justify="center">

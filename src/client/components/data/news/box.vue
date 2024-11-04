@@ -1,8 +1,9 @@
 <template>
   <NuxtLink :to="`/news/${news.key}`">
     <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
+      base: 'hover:scale-95',
       divide: '',
-      ring: 'ring-0 dark:ring-1 dark:ring-gray-800 hover:dark:ring-2 hover:dark:ring-primary-500',
+      ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
       shadow: 'shadow hover:shadow-xl',
       header: {
         padding: 'p-0 p-0 sm:p-0',
@@ -19,26 +20,18 @@
         <UiImg :src="news.og_image" w="16" h="9" />
       </template>
 
-      <div>
-        <UiText color="gray" weight="semibold" class="line-clamp-1 text-sm sm:text-base">
+      <template #default>
+        <UiText weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base text-gray-300 hover:text-primary">
           {{ news.title }}
         </UiText>
         
-        <UiText color="gray" class="line-clamp-2 text-xs sm:text-sm">
+        <UiText color="gray" class="italic line-clamp-2 text-xs min-h-[32px]">
           {{ news.description }}
         </UiText>
-      </div>
 
-      <template #footer>
-        <UiFlex justify="between">
-          <UiText color="gray" weight="semibold" class="text-xs mr-auto">
-            {{ useDayJs().displayTime(news.createdAt) }}
-          </UiText>
-
-          <UBadge :color="news.category?.color || 'primary'">
-            {{ news.category?.name || 'News' }}
-          </UBadge>
-        </UiFlex>
+        <UiText color="gray" weight="semibold" class="text-xs mt-2">
+          {{ news.category?.name || 'News' }} | {{ useDayJs().displayTime(news.createdAt) }}
+        </UiText>
       </template>
     </UCard>
   </NuxtLink>

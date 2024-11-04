@@ -1,11 +1,11 @@
 <template>
   <div id="NotifyGlobalText" :class="{
-    'NotifyGlobalText h-[20px]': true
+    'NotifyGlobalText h-[16px] md:h-[20px]': true
   }">
     <p 
       id="NotifyGlobalTextContent"
       :class="{
-        'NotifyGlobalText__Content text-sm font-semibold': true,
+        'NotifyGlobalText__Content text-xs md:text-sm font-semibold': true,
         'NotifyGlobalText__Anim': !!isRunning
       }"
       :style="{
@@ -72,19 +72,12 @@ watch(() => length.value, () => !isRunning.value && run())
     padding: 0
     width: max-content
   &__Anim
-    animation: marquee 5s linear
+    right: 0
+    transition: all 0.5s ease
+    animation: notify-global-text 2s linear
+    animation-delay: 2s
 
-@keyframes marquee
-  10%
-    right: 0
-  20%
-    right: 0
-  30%
-    right: 0
-  40%
-    right: 0
-  50%
-    right: 0
-  100%
+@keyframes notify-global-text
+  to
     right: var(--end-pos)
 </style>

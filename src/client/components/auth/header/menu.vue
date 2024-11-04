@@ -8,7 +8,7 @@
       ></UButton>
 
       <template #panel>
-        <div class="w-[300px] max-w-sreen overflow-hidden">
+        <div class="w-[300px] max-w-sreen overflow-hidden BoxBlock">
           <DataUserBox :fetch-id="authStore.profile._id" />
 
           <UDivider />

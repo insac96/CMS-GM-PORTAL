@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
     const game = await DB.GamePrivate.findOne({ _id: _id }).select('name') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
+    await DB.GamePrivateServerOpen.deleteMany({ game: game._id })
     await DB.GamePrivateUser.deleteMany({ game: game._id })
     await DB.GamePrivateUserLogin.deleteMany({ game: game._id })
     await DB.GamePrivateRecharge.deleteMany({ game: game._id })
