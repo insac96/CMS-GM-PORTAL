@@ -203,6 +203,22 @@
       </UForm>
     </UModal>
 
+    <!--Modal Reset-->
+    <UModal v-model="modal.reset" preventClose>
+      <UiContent title="Reset trò chơi" class="p-4" no-dot>
+        <UAlert title="Chú Ý" icon="i-bxs-info-circle" color="orange" variant="soft">
+          <template #description>
+            Bạn chắc chắn muốn reset trò chơi này ?
+          </template>
+        </UAlert>
+
+        <UiFlex class="mt-4" justify="end">
+          <UButton @click="resetAction" :loading="loading.reset" color="orange">Xác Nhận</UButton>
+          <UButton color="gray" @click="modal.reset = false" :disabled="loading.reset" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UiContent>
+    </UModal>
+
     <!--Modal Del-->
     <UModal v-model="modal.del" preventClose>
       <UiContent title="Xóa trò chơi" class="p-4" no-dot>
@@ -286,6 +302,9 @@ const stateDel = ref({
   name: null,
   code: null
 })
+const stateReset = ref({
+  _id: null
+})
 
 // Modal
 const modal = ref({
@@ -298,12 +317,14 @@ const modal = ref({
   editContent: false,
   editManager: false,
   editOpenServer: false,
+  reset: false,
   del: false
 })
 
 // Loading
 const loading = ref({
   edit: false,
+  reset: false,
   del: false
 })
 
@@ -395,6 +416,14 @@ const actions = (row) => [
       modal.value.editDiscountVIP = true
     }
   }],[{
+    label: 'Reset trò chơi',
+    icon: 'i-bx-reset',
+    click: () => {
+      Object.keys(stateDel.value).forEach(key => stateReset.value[key] = row[key])
+      stateReset.value._id = row._id
+      modal.value.reset = true
+    }
+  },{
     label: 'Xóa trò chơi',
     icon: 'i-bx-trash',
     disabled: !!route.params._id,
@@ -521,6 +550,21 @@ const editManagerAction = async () => {
     loading.value.edit = false
   }
 }
+
+const resetAction = async (_id) => {
+  try {
+    loading.value.reset = true
+    await useAPI('game/tool/manage/project/reset', JSON.parse(JSON.stringify(stateReset.value)))
+
+    loading.value.reset = false
+    modal.value.reset = false
+    emits('update')
+  }
+  catch (e) {
+    loading.value.reset = false
+  }
+}
+
 
 const delAction = async (_id) => {
   try {
