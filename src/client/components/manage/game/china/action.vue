@@ -27,6 +27,10 @@
           <UInput v-model="stateEditInfo.description" />
         </UFormGroup>
 
+        <UFormGroup label="Tỷ lệ nạp">
+          <UInput v-model="stateEditInfo.rate.pay" type="number" />
+        </UFormGroup>
+
         <UFormGroup label="Hiển thị">
           <SelectDisplay v-model="stateEditInfo.display" :disabled="!authStore.isAdmin" />
         </UFormGroup>
@@ -161,6 +165,9 @@ const stateEditInfo = ref({
   name: null,
   code: null,
   description: null,
+  rate: {
+    pay: null,
+  },
   pin: null,
   display: null,
 })
@@ -214,7 +221,7 @@ const actions = (row) => [
     label: 'Quản lý',
     icon: 'i-bx-server',
     disabled: !!route.params._id,
-    click: () => useTo().openNewTab(`/manage/@gm/china/${row.key}`)
+    click: () => useTo().openNewTab(`/manage/@gm/china/${row._id}`)
   }],
   [{
     label: 'Sửa người quản lý',

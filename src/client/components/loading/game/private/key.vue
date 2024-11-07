@@ -1,10 +1,10 @@
 <template>
   <div class="grid grid-cols-12 gap-2 md:gap-4 mb-4">
-    <div class="md:col-span-8 col-span-12">
+    <div class="2xl:col-span-8 col-span-12">
       <USkeleton class="w-full" style="aspect-ratio: 16 / 9" />
     </div>
 
-    <UiContent class="md:col-span-4 col-span-12" title="..." sub="..." no-dot>
+    <UiContent class="2xl:col-span-4 col-span-12" title="..." sub="..." no-dot>
       <!-- Tab -->
       <UiFlex wrap class="gap-1">
         <USkeleton class="h-6 w-16" />

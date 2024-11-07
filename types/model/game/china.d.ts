@@ -31,7 +31,7 @@ export interface IDBGameChina {
   }
 
   rate: {
-    pay: string
+    pay: number
   }
 
   statistic: {

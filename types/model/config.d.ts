@@ -11,9 +11,13 @@ export interface IDBConfig {
   og_image: string
   logo_image: string
   makeby: string
-  about: string
-  privacy: string
-  terms: string
+  article: {
+    about: string
+    privacy: string
+    terms: string
+    passportchina: string
+    paymentchina: string
+  }
   manage_password: string
   license: boolean
   yuan: number

@@ -14,6 +14,17 @@
 
     <div class="fixed bg-black/50 w-full h-full top-0 left-0" style="z-index: 99;" v-if="!!dragging"></div>
 
+    <!--Payment-->
+    <UModal v-model="modal.payment" preventClose>
+      <UiContent title="Nạp Xu" sub="Hệ thống nạp xu vào tài khoản" class="p-4" no-dot>
+        <template #more>
+          <UButton icon="i-bx-x" class="ml-auto" size="2xs" color="gray" square @click="modal.payment = false"></UButton>
+        </template>
+
+        <DataPaymentCreate :fast="true"/>
+      </UiContent>
+    </UModal>
+
     <!--Giftcode-->
     <UModal v-model="modal.giftcode" preventClose>
       <DataGamePrivateGiftcode
@@ -55,13 +66,14 @@ const props = defineProps(['game'])
 const el = ref(null)
 const dragging = ref(false)
 const modal = ref({
+  payment: false,
   giftcode: false,
   shop: false,
   event: false
 })
 
 const { style } = useDraggable(el, {
-  initialValue: { x: 0, y: 0 },
+  initialValue: { x: -10, y: -10 },
   exact: false,
   preventDefault: true,
   onStart: () => {
@@ -73,6 +85,11 @@ const { style } = useDraggable(el, {
 })
 
 const list = [
+  [{
+    label: 'Nạp Xu',
+    icon: 'i-bx-credit-card',
+    click: () => modal.value.payment = true,
+  }],
   [{
     label: 'Giftcode',
     icon: 'i-bx-barcode',

@@ -16,7 +16,14 @@ export default defineEventHandler(async (event) => {
     .select('-ip -port -secret -api')
     if(!game) throw 'Trò chơi không tồn tại'
 
-    return resp(event, { result: game })
+    const newserver = await DB.GamePrivateServerOpen
+    .findOne({ game: game._id })
+    .sort({ opentime: -1 })
+
+    const result = JSON.parse(JSON.stringify(game))
+    result.newserver = newserver
+
+    return resp(event, { result: result })
   } 
   catch (e:any) {
     return resp(event, { code: 500, message: e.toString() })

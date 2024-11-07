@@ -52,7 +52,7 @@ const navItems = [
   },
   {
     label: 'Cài đặt',
-    icon: 'i-bxs-cog',
+    icon: 'i-bx-cog',
     defaultOpen: false,
     slot: 'tab-1',
     children: [
@@ -62,10 +62,23 @@ const navItems = [
     ]
   },
   {
+    label: 'Bài viết',
+    icon: 'i-bxs-book',
+    defaultOpen: false,
+    slot: 'tab-2',
+    children: [
+      { label: 'Trang giới thiệu', to: '/manage/@eni/config/article/about' },
+      { label: 'Quyền riêng tư', to: '/manage/@eni/config/article/privacy' },
+      { label: 'Điều khoản dịch vụ', to: '/manage/@eni/config/article/terms' },
+      { label: 'Nạp game China', to: '/manage/@eni/config/article/china/payment' },
+      { label: 'Căn cước game China', to: '/manage/@eni/config/article/china/passport' },
+    ]
+  },
+  {
     label: 'Địa chỉ IP',
     icon: 'i-bxs-barcode',
     defaultOpen: false,
-    slot: 'tab-2',
+    slot: 'tab-3',
     children: [
       { label: 'Quản trị', to: '/manage/@eni/ip/admin' },
       { label: 'Thành viên', to: '/manage/@eni/ip/user' }
@@ -75,7 +88,7 @@ const navItems = [
     label: 'Tin tức',
     icon: 'i-bx-news',
     defaultOpen: false,
-    slot: 'tab-3',
+    slot: 'tab-4',
     children: [
     { label: 'Danh mục', to: '/manage/@eni/news/category' }, 
     { label: 'Danh sách', to: '/manage/@eni/news' }, 
@@ -85,7 +98,7 @@ const navItems = [
     label: 'Thanh toán',
     icon: 'i-bx-credit-card',
     defaultOpen: false,
-    slot: 'tab-4',
+    slot: 'tab-5',
     children: [
       { label: 'Kênh nạp', to: '/manage/@eni/gate' }, 
       { label: 'Nạp xu', to: '/manage/@eni/payment/coin' },
@@ -96,7 +109,7 @@ const navItems = [
     label: 'Trò chơi',
     icon: 'i-bx-cube-alt',
     defaultOpen: false,
-    slot: 'tab-5',
+    slot: 'tab-6',
     children: [
       { label: 'Nền tảng', to: '/manage/@eni/game/platform' },
       { label: 'Thể loại', to: '/manage/@eni/game/category' },  
@@ -109,7 +122,7 @@ const navItems = [
     label: 'Diễn đàn',
     icon: 'i-bx-layer',
     defaultOpen: false,
-    slot: 'tab-6',
+    slot: 'tab-7',
     children: [
       { label: 'Danh mục', to: '/manage/@eni/forum/category' },
       { label: 'Bài viết', to: '/manage/@eni/forum/post' },

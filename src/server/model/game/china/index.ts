@@ -27,7 +27,7 @@ export const DBGameChina = (mongoose : Mongoose) => {
     },
 
     rate: {
-      pay: { type: String, default: '1.5' },
+      pay: { type: Number, default: 1 },
     },
 
     statistic: {

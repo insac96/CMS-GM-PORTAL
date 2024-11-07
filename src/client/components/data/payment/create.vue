@@ -8,17 +8,17 @@
       :validate="validate" 
       @submit="submit" 
       :class="{
-        'grid grid-cols-12 gap-2 md:gap-4 lg:gap-6 mb-4': !fast,
+        'grid grid-cols-12 gap-2 md:gap-4 lg:gap-8 mb-4': !fast,
         'grid grid-cols-12': !!fast,
       }"
     >
       <div :class="{
-        'md:col-span-7 col-span-12' : !fast,
+        '2xl:col-span-6 col-span-12' : !fast,
         'col-span-12': !!fast
       }">
         <div>
-          <UFormGroup label="Kênh nạp" name="gate">
-            <SelectGate v-model="state.gate" v-model:gate="gateSelect" />
+          <UFormGroup label="Chọn kênh nạp" name="gate">
+            <SelectGateImg v-model="state.gate" v-model:gate="gateSelect" />
           </UFormGroup>
 
           <div v-if="gateSelect && gateSelect.type != 1">
@@ -48,7 +48,7 @@
       </div>
 
       <div :class="{
-        'md:col-span-5 col-span-12' : !fast,
+        '2xl:col-span-6 col-span-12' : !fast,
         'col-span-12': !!fast
       }">
         <UiText weight="bold" class="mb-4">Thông tin thanh toán</UiText>

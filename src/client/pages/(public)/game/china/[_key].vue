@@ -56,20 +56,34 @@
 
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Tỷ lệ nạp</UiText>
+            <UiText weight="semibold" size="sm">{{ game.rate.pay }}</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="mb-3">
+            <UiText weight="semibold" color="gray" size="sm">Quy đổi tệ</UiText>
             <UiText weight="semibold" size="sm">1 tệ = {{ configStore.config.yuan }} Xu</UiText>
           </UiFlex>
         </div>
 
         <!-- Button -->
         <UButton icon="i-bx-play" size="lg" block :loading="loading.account" @click="checkChinaAccount()" class="mb-1">Chơi Ngay</UButton>
-        <UButton icon="i-bx-credit-card" size="lg" block @click="openPayment" color="rose">Nạp Tiền Nền Tảng</UButton>
-        
+        <UButton icon="i-bx-credit-card" size="lg" block @click="openPayment" color="rose" class="mb-1">Nạp Tiền Nền Tảng</UButton>
       </UiContent>
     </div>
 
     <!--Content-->
     <div class="grid grid-cols-12 gap-4">
       <div class="2xl:col-span-8 col-span-12">
+        <UAlert title="Chú Ý" icon="i-bxs-info-circle" color="primary" variant="soft" class="mb-4">
+          <template #description>
+            Vui lòng đọc kỹ <b class="cursor-pointer" @click="modal.tutorial = true">hướng dẫn</b> trước khi chơi và nạp tiền nền tảng để đảm bảo trải nghiệm trò chơi tốt nhất.
+          </template>
+
+          <template #icon="{ icon }">
+            <UiIcon :name="icon" size="10"/>
+          </template>
+        </UAlert>
+
         <DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content" />
         <UiEditorContent :content="game.content" v-else />
       </div>
@@ -132,10 +146,16 @@
         class="p-4"
       /> 
     </UModal>
+
+    <!--Tutorial-->
+    <UModal v-model="modal.tutorial" prevent-close :ui="{width: 'sm:max-w-[900px]'}">
+      <DataGameChinaTutorial @close="modal.tutorial = false"/> 
+    </UModal>
   </div>
 </template>
 
 <script setup>
+const runtimeConfig = useRuntimeConfig()
 const configStore = useConfigStore()
 const { miniMoney } = useMoney()
 const { img } = useMakeLink()
@@ -164,6 +184,7 @@ const loading = ref({
   account: false
 })
 const modal = ref({
+  tutorial: false,
   play: false,
   account: false,
   payment: false
@@ -246,4 +267,9 @@ const getGame = async () => {
   }
 }
 getGame()
+
+onMounted(() => {
+  const disabledAutoShowTutorialChina = useCookie('disabled-auto-show-tutorial-china', runtimeConfig.public.cookieConfig)
+  if(!disabledAutoShowTutorialChina.value) modal.value.tutorial = true
+})
 </script>

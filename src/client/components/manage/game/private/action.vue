@@ -309,7 +309,7 @@ const actions = (row) => [
     label: 'Quản lý chi tiết',
     icon: 'i-bx-windows',
     disabled: !!route.params._id,
-    click: () => useTo().openNewTab(`/manage/@gm/private/${row.key}`)
+    click: () => useTo().openNewTab(`/manage/@gm/private/${row._id}`)
   }],
   [{
     label: 'Người quản lý',

@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     .findOne()
     .select(`
       -manage_password
-      -about -privacy -terms 
+      -article
       -telebot
       -facebook.client_secret 
       -zalo.client_secret 
