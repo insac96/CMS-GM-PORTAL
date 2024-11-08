@@ -1,6 +1,6 @@
 <template>
   <NuxtLink :to="to">
-    <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
+    <UCard class="transition-2 cursor-pointer" :ui="{
       base: 'hover:scale-95',
       divide: '',
       ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
@@ -17,7 +17,7 @@
       }
     }">
       <template #header>
-        <div class="relative">
+        <div class="relative overflow-hidden rounded-t-lg">
           <UiImg :src="game.image?.banner" w="16" h="9" />
 
           <UiIcon class="absolute top-2 left-2 jump-anim" v-if="!!game.pin" color="primary" name="i-bxs-star" size="5" />
@@ -30,6 +30,10 @@
       </template>
 
       <template #default>
+        <div class="GameRibbon bg-primary pr-2 pl-1" v-if="game.rate">
+          <UiText size="sm" weight="semibold">1:{{ game.rate.pay }}</UiText>
+        </div>
+
         <UiText weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base text-gray-300 hover:text-primary">
           {{ game.name }}
         </UiText>
@@ -69,3 +73,15 @@ const to = computed(() => {
   if(!!props.gm) return `/manage/@gm/${props.os}/${props.game?._id}`
 })
 </script>
+
+<style lang="sass">
+.GameRibbon
+  --f:.5em
+  --r:.8em
+  position: absolute
+  top: 10px
+  right: calc(-1*var(--f))
+  border-bottom: var(--f) solid #0005
+  border-left: var(--r) solid #0000
+  clip-path: polygon(var(--r) 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, calc(100% - var(--f)) calc(100% - var(--f)), var(--r) calc(100% - var(--f)), 0 calc(50% - var(--f)/2))
+</style>

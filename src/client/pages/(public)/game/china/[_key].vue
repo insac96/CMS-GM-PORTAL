@@ -56,7 +56,7 @@
 
           <UiFlex justify="between" class="mb-3">
             <UiText weight="semibold" color="gray" size="sm">Tỷ lệ nạp</UiText>
-            <UiText weight="semibold" size="sm">{{ game.rate.pay }}</UiText>
+            <UiText weight="semibold" size="sm">1 : {{ game.rate.pay }}</UiText>
           </UiFlex>
 
           <UiFlex justify="between" class="mb-3">

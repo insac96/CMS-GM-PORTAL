@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     const match : any = { display: true }
     const list = await DB.GameChina
     .find(match)
-    .select('name code key pin statistic description image.banner image.icon')
+    .select('name code key pin statistic description image.banner image.icon rate')
     .populate({ path: 'platform', select: 'name key' })
     .populate({ path: 'category', select: 'name key' })
     .sort(sorting)
