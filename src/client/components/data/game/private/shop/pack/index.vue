@@ -92,7 +92,6 @@ const startBuy = (shop) => {
 
 const getList = async () => {
 	try {
-    if(!!props.game?.paygame) throw true
     loading.value = true
     const data = await useAPI('game/private/public/shop/pack/list', JSON.parse(JSON.stringify(page.value)))
 
