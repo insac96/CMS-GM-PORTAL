@@ -10,6 +10,7 @@ export const DBConfig = (mongoose : Mongoose) => {
     logo_image: { type: String },
     makeby: { type: String, default: 'ENI Group' },
     article: {
+      promotion: { type: String },
       about: { type: String },
       privacy: { type: String },
       terms: { type: String },
@@ -51,6 +52,11 @@ export const DBConfig = (mongoose : Mongoose) => {
       zalo: { type: String, default: '' },
       telegram: { type: String, default: '' },
       tiktok: { type: String, default: '' },
+      game: {
+        china: { type: String, default: '' },
+        private: { type: String, default: '' },
+        tool: { type: String, default: '' },
+      }
     },
     facebook: {
       client_id: { type: String, default: '' },

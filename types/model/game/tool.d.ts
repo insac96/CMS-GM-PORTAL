@@ -67,6 +67,7 @@ export interface IDBGameTool {
 
   manager: Array<Types.ObjectId>
 
+  open: boolean
   pin: boolean
   display: boolean
 }

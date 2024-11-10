@@ -53,6 +53,11 @@ export interface IDBConfig {
     zalo: string
     telegram: string
     tiktok: string
+    game: {
+      china: string
+      private: string
+      tool: string
+    }
   }
   facebook: {
     client_id: string
@@ -108,6 +113,11 @@ export interface IDBConfigStore {
     zalo: string
     telegram: string
     tiktok: string
+    game: {
+      china: string
+      private: string
+      tool: string
+    }
   }
   facebook: {
     client_id: string

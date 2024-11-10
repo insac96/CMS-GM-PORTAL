@@ -32,6 +32,11 @@ export const useConfigStore = defineStore('config', () => {
       zalo: '',
       telegram: '',
       tiktok: '',
+      game: {
+        china: '',
+        private: '',
+        tool: '',
+      }
     },
     facebook: {
       client_id: '',

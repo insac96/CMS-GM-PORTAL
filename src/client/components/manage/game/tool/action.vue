@@ -119,9 +119,16 @@
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
-          <UiFlex class="mr-auto">
-            <UToggle v-model="stateEditAPI.paygame" :disabled="!authStore.isAdmin" class="mr-2" />
-            <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" />
+          <UiFlex class="mr-auto gap-1" type="col" items="start">
+            <UiFlex>
+              <UToggle v-model="stateEditAPI.paygame" :disabled="!authStore.isAdmin" />
+              <UiText size="sm" weight="semibold" color="gray" text="Nạp trong game" class="ml-2" />
+            </UiFlex>
+
+            <UiFlex>
+              <UToggle v-model="stateEditAPI.open" :disabled="!authStore.isAdmin" />
+              <UiText size="sm" weight="semibold" color="gray" text="Khai mở" class="ml-2" />
+            </UiFlex>
           </UiFlex>
           
           <UButton type="submit" :loading="loading.edit" :disabled="!authStore.isAdmin">Sửa</UButton>
@@ -267,7 +274,8 @@ const stateEditAPI = ref({
   port: null,
   mobile: null,
   paygame: null,
-  secret: null
+  secret: null,
+  open: null
 })
 const stateEditPlay = ref({
   _id: null,

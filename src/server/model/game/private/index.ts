@@ -78,7 +78,8 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
-    pin: { type: Boolean, default: true },
+    open: { type: Boolean, default: false },
+    pin: { type: Boolean, default: false },
     display: { type: Boolean, default: true }
   }, {
     timestamps: true

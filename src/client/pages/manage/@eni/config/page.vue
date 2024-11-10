@@ -93,7 +93,7 @@
       </template>
 
       <template #social>
-        <UCard>
+        <UCard class="mb-4">
           <UForm :state="state">
             <UFormGroup label="Facebook">
               <UInput v-model="state.social.facebook" />
@@ -113,6 +113,26 @@
 
             <UFormGroup label="Tiktok">
               <UInput v-model="state.social.tiktok" />
+            </UFormGroup>
+
+            <UiFlex justify="end" class="mt-4">
+              <UButton @click="update('social')" :loading="updating">Cập nhật</UButton>
+            </UiFlex>
+          </UForm>
+        </UCard>
+
+        <UCard>
+          <UForm :state="state">
+            <UFormGroup label="Zalo Game Private">
+              <UInput v-model="state.social.game.private" />
+            </UFormGroup>
+
+            <UFormGroup label="Zalo Game Tool">
+              <UInput v-model="state.social.game.tool" />
+            </UFormGroup>
+
+            <UFormGroup label="Zalo Game China">
+              <UInput v-model="state.social.game.china" />
             </UFormGroup>
 
             <UiFlex justify="end" class="mt-4">
@@ -169,7 +189,12 @@ const state = ref({
     messenger: '',
     zalo: '',
     telegram: '',
-    tiktok: ''
+    tiktok: '',
+    game: {
+      china: '',
+      private: '',
+      tool: '',
+    }
   }
 })
 

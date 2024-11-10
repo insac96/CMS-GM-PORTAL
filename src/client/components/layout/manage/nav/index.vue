@@ -67,6 +67,7 @@ const navItems = [
     defaultOpen: false,
     slot: 'tab-2',
     children: [
+      { label: 'Khuyến mãi', to: '/manage/@eni/config/article/promotion' },
       { label: 'Trang giới thiệu', to: '/manage/@eni/config/article/about' },
       { label: 'Quyền riêng tư', to: '/manage/@eni/config/article/privacy' },
       { label: 'Điều khoản dịch vụ', to: '/manage/@eni/config/article/terms' },

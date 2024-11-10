@@ -6,15 +6,24 @@
     <NuxtPage />
     <UNotifications />
     <SocketInit />
+
+    <!--Promotion-->
+    <UModal v-model="modal.promotion" prevent-close :ui="{width: 'sm:max-w-[500px]'}">
+      <DataPromotion @close="modal.promotion = false"/> 
+    </UModal>
   </NuxtLayout>
 </template>
 
 <script setup>
 import colors from '#tailwind-config/theme/colors'
+const runtimeConfig = useRuntimeConfig()
 const { img } = useMakeLink()
 const appConfig = useAppConfig()
 const configStore = useConfigStore()
 const route = useRoute()
+const modal = ref({
+  promotion: false
+})
 
 // Meta Seo
 useSeoMeta({
@@ -55,5 +64,10 @@ useHead({
       })(window,document,'script','dataLayer', '${configStore.config.google.client_ads}');
     `}
   ],
+})
+
+onMounted(() => {
+  const disabledAutoShowPromotion = useCookie('disabled-auto-show-promotion', runtimeConfig.public.cookieConfig)
+  if(!disabledAutoShowPromotion.value) modal.value.promotion = true
 })
 </script>

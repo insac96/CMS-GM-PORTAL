@@ -14,6 +14,17 @@
         :sub="game.description"
         no-dot
       >
+        <template #more>
+          <UButton 
+            class="ml-auto"
+            icon="i-bx-shield-quarter" 
+            square size="xs"
+            color="gray"
+            @click="navigateTo(`/manage/@gm/private/${game._id}`)"
+            v-if="!!authStore.isLogin && (!!authStore.isAdmin || (!!game.manager && !!game.manager.includes(authStore.profile._id)))"
+          ></UButton>
+        </template>
+        
         <!-- Tab -->
         <UiFlex wrap class="gap-1">
           <NuxtLink to="/game/private">
@@ -106,20 +117,31 @@
         </template>
 
         <UAlert 
-          v-if="!game.play.web && !game.play.android && !game.play.ios && !game.play.windows"
+          v-if="!game.open"
           color="green" 
           variant="soft" 
           icon="i-bx-bell" 
           title="Thông Báo"
-          description="Trò chơi đang bảo trì, vui lòng quay lại sau"
+          description="Trò chơi chưa khai mở, vui lòng quay lại sau"
         ></UAlert>
 
-        <UiFlex class="gap-1" justify="center" wrap v-else>
-          <UButton v-if="game.play.web" icon="i-bxs-window-alt" :disabled="loading.play" color="white" size="xl" @click="playUrl('web')">Web</UButton>
-          <UButton v-if="game.play.android" icon="i-bxl-android" :disabled="loading.play" color="green" size="xl" @click="playUrl('android')">Android</UButton>
-          <UButton v-if="game.play.ios" icon="i-bxl-apple" :disabled="loading.play" color="black" size="xl" @click="playUrl('ios')">Iphone</UButton>
-          <UButton v-if="game.play.windows" icon="i-bxl-windows" :disabled="loading.play" color="blue" size="xl" @click="playUrl('windows')">Windows</UButton>
-        </UiFlex>
+        <div v-else>
+          <UAlert 
+            v-if="!game.play.web && !game.play.android && !game.play.ios && !game.play.windows"
+            color="green" 
+            variant="soft" 
+            icon="i-bx-bell" 
+            title="Thông Báo"
+            description="Trò chơi đang bảo trì, vui lòng quay lại sau"
+          ></UAlert>
+
+          <UiFlex class="gap-1" justify="center" wrap v-else>
+            <UButton v-if="game.play.web" icon="i-bxs-window-alt" :disabled="loading.play" color="white" size="xl" @click="playUrl('web')">Web</UButton>
+            <UButton v-if="game.play.android" icon="i-bxl-android" :disabled="loading.play" color="green" size="xl" @click="playUrl('android')">Android</UButton>
+            <UButton v-if="game.play.ios" icon="i-bxl-apple" :disabled="loading.play" color="black" size="xl" @click="playUrl('ios')">Iphone</UButton>
+            <UButton v-if="game.play.windows" icon="i-bxl-windows" :disabled="loading.play" color="blue" size="xl" @click="playUrl('windows')">Windows</UButton>
+          </UiFlex>
+        </div>
       </UiContent> 
     </UModal>
   </div>

@@ -14,6 +14,17 @@
         :sub="game.description"
         no-dot
       >
+        <template #more>
+          <UButton 
+            class="ml-auto"
+            icon="i-bx-shield-quarter" 
+            square size="xs"
+            color="gray"
+            @click="navigateTo(`/manage/@gm/china/${game._id}`)"
+            v-if="!!authStore.isLogin && (!!authStore.isAdmin || (!!game.manager && !!game.manager.includes(authStore.profile._id)))"
+          ></UButton>
+        </template>
+
         <!-- Tab -->
         <UiFlex wrap class="gap-1">
           <NuxtLink to="/game/china">
@@ -74,15 +85,27 @@
     <!--Content-->
     <div class="grid grid-cols-12 gap-4">
       <div class="2xl:col-span-8 col-span-12">
-        <UAlert title="Chú Ý" icon="i-bxs-info-circle" color="primary" variant="soft" class="mb-4">
-          <template #description>
-            Vui lòng đọc kỹ <b class="cursor-pointer" @click="modal.tutorial = true">hướng dẫn</b> trước khi chơi và nạp tiền nền tảng để đảm bảo trải nghiệm trò chơi tốt nhất.
-          </template>
+        <UiFlex type="col" class="gap-1 mb-4">
+          <UAlert title="Hỗ trợ" icon="i-bx-support" color="green" variant="soft" v-if="configStore.config.social.game.china">
+            <template #description>
+              Tham gia <b class="cursor-pointer" @click="useTo().openNewTab(configStore.config.social.game.china)">nhóm Zalo Game China</b> để được hỗ trợ kịp thời
+            </template>
 
-          <template #icon="{ icon }">
-            <UiIcon :name="icon" size="10"/>
-          </template>
-        </UAlert>
+            <template #icon="{ icon }">
+              <UiIcon :name="icon" size="10"/>
+            </template>
+          </UAlert>
+
+          <UAlert title="Chú Ý" icon="i-bxs-info-circle" color="primary" variant="soft">
+            <template #description>
+              Vui lòng đọc kỹ <b class="cursor-pointer" @click="modal.tutorial = true">hướng dẫn</b> trước khi chơi và nạp tiền nền tảng để đảm bảo trải nghiệm trò chơi tốt nhất.
+            </template>
+
+            <template #icon="{ icon }">
+              <UiIcon :name="icon" size="10"/>
+            </template>
+          </UAlert>
+        </UiFlex>
 
         <DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content" />
         <UiEditorContent :content="game.content" v-else />
