@@ -36,10 +36,12 @@
         </UFormGroup>
       </div>
       <UiFlex justify="between">
-        <UButton icon="i-bx-time" @click="modal.history = true" color="gray">Lịch sử</UButton>
+        <UButton @click="modal.history = true" color="gray">Lịch sử</UButton>
         <UButton type="submit" :loading="loading.receive" :disabled="!!loading.check" v-if="!!giftcode">Nhận Thưởng</UButton>
       </UiFlex>
     </UForm>
+
+    <DataGamePrivateGiftcodePublic :game="game" class="mt-4" />
 
     <UModal v-model="modal.history" prevent-close :ui="{width: 'sm:max-w-[700px]'}">
       <UiContent title="Lịch Sử" sub="Các mã Giftcode đã nhập" no-dot class="p-4">

@@ -67,10 +67,10 @@ export default defineEventHandler(async (event) => {
       'currency.coin': totalPrice * -1,
     }})
     await DB.GamePrivateUser.updateOne({ _id: userGame._id },{ $inc: {
-      'spend.day.coin': totalPrice,
-      'spend.week.coin': totalPrice,
-      'spend.month.coin': totalPrice,
-      'spend.total.coin': totalPrice,
+      'spend.day.coin': price,
+      'spend.week.coin': price,
+      'spend.month.coin': price,
+      'spend.total.coin': price,
       'spend.day.count': 1,
       'spend.week.count': 1,
       'spend.month.count': 1,
