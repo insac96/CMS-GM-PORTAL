@@ -19,7 +19,7 @@ export default async (event: H3Event, card : ICardData) : Promise<void> => {
     'CardCode': pin,
     'CardSeri': seri,
     'CardValue': String(money),
-    'URLCallback': config.public.clientURL + '/api/callback/card',
+    'URLCallback': config.public.clientURL + '/api/callback/payment/card',
     'TrxID': token
   }
   const str = new URLSearchParams(params).toString()
