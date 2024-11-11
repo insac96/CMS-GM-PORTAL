@@ -30,8 +30,15 @@
       </template>
 
       <template #default>
-        <div class="GameRibbon bg-primary pr-2 pl-1" v-if="game.rate">
+        <div class="GameRibbonChina bg-primary pr-2 pl-1" v-if="os == 'china' && game.rate">
           <UiText size="sm" weight="semibold">1:{{ game.rate.pay }}</UiText>
+        </div>
+
+        <div class="GameRibbonPrivate bg-rose-500 pr-2 pl-1" v-if="os == 'private' && game.rate">
+          <UiFlex type="col">
+            <UiText size="xs" weight="semibold">-{{ useRate().data(game.rate.shop).number }}</UiText>
+            <UiText style="font-size: 10px;" weight="semibold">%</UiText>
+          </UiFlex>
         </div>
 
         <UiText weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base text-gray-300 hover:text-primary">
@@ -75,7 +82,7 @@ const to = computed(() => {
 </script>
 
 <style lang="sass">
-.GameRibbon
+.GameRibbonChina
   --f:.5em
   --r:.8em
   position: absolute
@@ -84,4 +91,16 @@ const to = computed(() => {
   border-bottom: var(--f) solid #0005
   border-left: var(--r) solid #0000
   clip-path: polygon(var(--r) 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, calc(100% - var(--f)) calc(100% - var(--f)), var(--r) calc(100% - var(--f)), 0 calc(50% - var(--f)/2))
+
+.GameRibbonPrivate
+  position: absolute
+  top: 0
+  right: 5px
+  --r:.8em
+  min-width: 50px
+  border-inline: .5em solid #0000
+  padding: 0.5em 0.2em calc(var(--r) + .2em)
+  clip-path: polygon(0 0, 100% 0, 100% 100%, calc(100% - .5em) 100%, 50% calc(100% - var(--r)), 0.5em 100%, 0 100%)
+  background: radial-gradient(50% 0.2em at top, #000a, #0000) border-box, #eb4545 padding-box
+  width: fit-content
 </style>
