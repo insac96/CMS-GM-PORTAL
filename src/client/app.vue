@@ -68,6 +68,9 @@ useHead({
 
 onMounted(() => {
   const disabledAutoShowPromotion = useCookie('disabled-auto-show-promotion', runtimeConfig.public.cookieConfig)
-  if(!disabledAutoShowPromotion.value) modal.value.promotion = true
+  if(!disabledAutoShowPromotion.value) {
+    modal.value.promotion = true
+    disabledAutoShowPromotion.value = true
+  }
 })
 </script>

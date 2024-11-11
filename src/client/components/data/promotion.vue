@@ -32,7 +32,7 @@ const get = async () => {
     const get = await useAPI('config/public/article/get', { type: 'promotion' })
 
     content.value = get
-    setTimeout(() => loading.value = false, 700)
+    loading.value = false
   }
   catch (e) {
     loading.value = false
