@@ -1,4 +1,4 @@
-import type { IAuth, IDBUser, IDBUserLevel } from "~~/types"
+import type { IAuth, IDBGamePrivate, IDBGamePrivateGiftcode, IDBUser, IDBUserLevel } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -20,6 +20,31 @@ export default defineEventHandler(async (event) => {
       if(!notifyArr[1]) throw 'Vui lòng nhập nội dung thông báo'
 
       IO.emit('notify-global-push', notifyArr[1])
+      return resp(event, { result: true })
+    }
+
+    // Code
+    if(text.search("@code ") == 0){
+      let notifyArr = text.split("@code ")
+      if(!notifyArr[1]) throw 'Vui lòng nhập tên hoặc mã trò chơi'
+
+      const key = formatVNString(notifyArr[1], '-')
+      const game = await DB.GamePrivate.findOne({ $or: [
+        { 'key': { $regex : key, $options : 'i' }},
+        { 'code': { $regex : key, $options : 'i' }},
+      ] }).select('name') as IDBGamePrivate
+      if(!game) throw 'Không tìm thấy trò chơi, vui lòng nhập đúng tên hoặc mã của trò chơi'
+
+      const codes = await DB.GamePrivateGiftcode.find({ game: game._id, public: true }).select('code')
+      if(codes.length == 0) throw 'Trò chơi chưa có mã công khai'
+
+      let content = `Giftcode công khai của game Private <b class="text-primary">${game.name}</b> gồm:<br>`
+      codes.forEach(i => { content += `- <b class="text-rose-500">${i.code}</b><br>` })
+
+      const chat = await DB.SocketChatGlobal.create({ user: user._id, content: content })
+      const result = JSON.parse(JSON.stringify(chat))
+      result.user = user
+      IO.emit('chat-global-push', result)
       return resp(event, { result: true })
     }
 

@@ -8,23 +8,13 @@
       <DataEmpty :loading="loading" class="min-h-[300px]" v-if="!!loading || !content"></DataEmpty>
       <UiEditorContent :content="content" v-else />
     </div>
-
-    <UiFlex justify="end" class="gap-2">
-      <UToggle v-model="selected" />
-      <UiText color="gray" size="sm">Không hiển thị lại</UiText>
-    </UiFlex>
   </UiContent>
 </template>
 
 <script setup>
-const runtimeConfig = useRuntimeConfig()
-const disabledAutoShowPromotion = useCookie('disabled-auto-show-promotion', runtimeConfig.public.cookieConfig)
-
 const emits = defineEmits(['close'])
 const loading = ref(true)
 const content = ref(undefined)
-const selected = ref(disabledAutoShowPromotion.value || false)
-watch(() => selected.value, (val) => disabledAutoShowPromotion.value = val)
 
 const get = async () => {
   try {

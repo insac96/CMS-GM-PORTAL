@@ -8,7 +8,7 @@
     <SocketInit />
 
     <!--Promotion-->
-    <UModal v-model="modal.promotion" prevent-close :ui="{width: 'sm:max-w-[500px]'}">
+    <UModal v-model="modal.promotion" prevent-close :ui="{width: 'sm:max-w-[800px]'}">
       <DataPromotion @close="modal.promotion = false"/> 
     </UModal>
   </NuxtLayout>
@@ -18,6 +18,7 @@
 import colors from '#tailwind-config/theme/colors'
 const runtimeConfig = useRuntimeConfig()
 const { img } = useMakeLink()
+const { dayjs } = useDayJs()
 const appConfig = useAppConfig()
 const configStore = useConfigStore()
 const route = useRoute()
@@ -67,10 +68,18 @@ useHead({
 })
 
 onMounted(() => {
-  const disabledAutoShowPromotion = useCookie('disabled-auto-show-promotion', runtimeConfig.public.cookieConfig)
-  if(!disabledAutoShowPromotion.value) {
+  const timeAutoShowPromotion = useCookie('time-auto-show-promotion', runtimeConfig.public.cookieConfig)
+  if(!timeAutoShowPromotion.value) {
     modal.value.promotion = true
-    disabledAutoShowPromotion.value = true
+    timeAutoShowPromotion.value = new Date()
+  }
+  else {
+    const now = dayjs(new Date()).get('date')
+    const time = dayjs(timeAutoShowPromotion.value).get('date')
+    if(now != time) {
+      modal.value.promotion = true
+      timeAutoShowPromotion.value = new Date()
+    }
   }
 })
 </script>

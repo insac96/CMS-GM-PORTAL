@@ -30,9 +30,12 @@ export default defineEventHandler(async (event) => {
     const discountVIP = !!vip ? game.rate.shop.vip[vip] : 0
 
     // Make Total Price
+    let rate = formatRate(game.rate.shop)
+    rate = rate > 100 ? 100 : rate
     let discount = formatRate(game.rate.shop) + discountVIP
     discount = discount > 100 ? 100 : discount
     let totalPrice = recharge.price - Math.floor(recharge.price * (discount / 100))
+    let totalSpend = recharge.price - Math.floor(recharge.price * (rate / 100))
     if(!runtimeConfig.public.dev && auth.type == 100) totalPrice = 0 // Admin Free
 
     // Check Currency
@@ -54,10 +57,10 @@ export default defineEventHandler(async (event) => {
       'currency.coin': totalPrice * -1,
     }})
     await DB.GamePrivateUser.updateOne({ _id: userGame._id },{ $inc: {
-      'spend.day.coin': recharge.price,
-      'spend.week.coin': recharge.price,
-      'spend.month.coin': recharge.price,
-      'spend.total.coin': recharge.price,
+      'spend.day.coin': totalSpend,
+      'spend.week.coin': totalSpend,
+      'spend.month.coin': totalSpend,
+      'spend.total.coin': totalSpend,
       'spend.day.count': 1,
       'spend.week.count': 1,
       'spend.month.count': 1,
