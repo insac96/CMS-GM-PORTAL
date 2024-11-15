@@ -115,7 +115,13 @@ const buy = async () => {
     await useAPI('game/private/public/shop/recharge/buy', JSON.parse(JSON.stringify(state.value)))
 
     loading.value = false
-    emits('done')
+    emits('done', {
+      type: 'recharge-done',
+      recharge: props.recharge,
+      recharge_id: props.recharge.recharge_id,
+      server: props.server,
+      role: props.role,
+    })
 	}
 	catch(e){
     loading.value = false

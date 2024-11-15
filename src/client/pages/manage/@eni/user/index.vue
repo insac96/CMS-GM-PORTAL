@@ -37,6 +37,10 @@
           {{ useMoney().toMoney(row.coin || 0) }}
         </template>
 
+        <template #exp-data="{ row }">
+          {{ useMoney().toMoney(row.exp || 0) }}
+        </template>
+
         <template #block-data="{ row }">
           <UBadge :color="row.block == 1 ? 'red' : 'gray'" variant="soft">{{ row.block == 1 ? 'Có' : 'Không' }}</UBadge>
         </template>
@@ -108,6 +112,11 @@
           <UInput v-model="stateEditCurrency.origin.coin" type="number" v-if="stateEditCurrency.type == 'origin'" />
         </UFormGroup>
 
+        <UFormGroup label="Tu Vi">
+          <UInput v-model="stateEditCurrency.plus.exp" type="number" v-if="stateEditCurrency.type == 'plus'" />
+          <UInput v-model="stateEditCurrency.origin.exp" type="number" v-if="stateEditCurrency.type == 'origin'" />
+        </UFormGroup>
+
         <UFormGroup label="Lý do">
           <UTextarea v-model="stateEditCurrency.reason" />
         </UFormGroup>
@@ -141,6 +150,10 @@ const columns = [
   },{
     key: 'coin',
     label: 'Xu',
+    sortable: true
+  },{
+    key: 'exp',
+    label: 'Tu vi',
     sortable: true
   },{
     key: 'block',
@@ -198,9 +211,11 @@ const stateEditCurrency = ref({
   type: null,
   plus: {
     coin: 0,
+    exp: 0
   },
   origin: {
     coin: null,
+    exp: null
   },
   reason: null
 })
@@ -214,12 +229,15 @@ const modal = ref({
 })
 
 watch(() => modal.value.editCurrency, (val) => !val && (stateEditCurrency.value = {
+  _id: null,
   type: null,
   plus: {
-    coin: 0
+    coin: 0,
+    exp: 0
   },
   origin: {
-    coin: null
+    coin: null,
+    exp: null
   },
   reason: null
 }))

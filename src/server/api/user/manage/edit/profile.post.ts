@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
     const { _id, email, phone, password, type, block } = await readBody(event)
     if(!_id) throw 'Dữ liệu đầu vào không hợp lệ'
-    if(type < 0 || type > 3) throw 'Dữ liệu quyền hạn không hợp lệ'
+    if(type < 0 || type > 100) throw 'Dữ liệu quyền hạn không hợp lệ'
     if(block < 0 || block > 1) throw 'Dữ liệu khóa không hợp lệ'
 
     const user = await DB.User.findOne({_id: _id})

@@ -15,18 +15,26 @@ export default defineEventHandler(async (event) => {
 
     if(type == 'plus'){
       if(!!isNaN(parseInt(plus.coin))) throw 'Dữ liệu tiền tệ không hợp lệ'
+      if(!!isNaN(parseInt(plus.exp))) throw 'Dữ liệu tiền tệ không hợp lệ'
 
       const update : any = {}
-      update['$inc'] = { 'currency.coin': parseInt(plus.coin)}
+      update['$inc'] = { 
+        'currency.coin': parseInt(plus.coin),
+        'currency.exp': parseInt(plus.exp),
+      }
 
       const change = []
       if(parseInt(plus.coin) > 0){
         change.push(`${plus.coin.toLocaleString('vi-VN')} xu`)
       }
+      if(parseInt(plus.exp) > 0){
+        change.push(`${plus.exp.toLocaleString('vi-VN')} tu vi`)
+      }
 
       if(change.length > 0){
-        const userUpdate = await DB.User.findOneAndUpdate({ _id: _id }, update, { new: true }).select('currency')
+        const userUpdate = await DB.User.findOneAndUpdate({ _id: _id }, update, { new: true }).select('currency') as IDBUser
         if(userUpdate.currency.coin < 0) userUpdate.currency.coin = 0
+        if(userUpdate.currency.exp < 0) userUpdate.currency.exp = 0
         await userUpdate.save()
 
         const notify = `Nhận <b>${change.join(', ')}</b> từ quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`
@@ -39,6 +47,7 @@ export default defineEventHandler(async (event) => {
 
     if(type == 'origin'){
       if(!!isNaN(parseInt(origin.coin)) || parseInt(origin.coin) < 0) throw 'Dữ liệu tiền tệ không hợp lệ'
+      if(!!isNaN(parseInt(origin.exp)) || parseInt(origin.exp) < 0) throw 'Dữ liệu tiền tệ không hợp lệ'
 
       const update : any = {}
       update['currency'] = origin
@@ -51,10 +60,18 @@ export default defineEventHandler(async (event) => {
         logUser(event, user._id, notify)
         await sendNotifyUser({ user: user._id, content: notify })
       }
+      if(origin.exp != user.currency.exp){
+        change.push('Tu Vi')
+
+        const notify = `Số <b>Tu Vi</b> được thay đổi từ <b>${user.currency.exp.toLocaleString('vi-VN')}</b> thành <b>${origin.exp.toLocaleString('vi-VN')}</b> bởi quản trị viên <b>${auth.username}</b> với lý do <b>${reason}</b>`
+        logUser(event, user._id, notify)
+        await sendNotifyUser({ user: user._id, content: notify })
+      }
 
       if(change.length > 0){
-        const userUpdate = await DB.User.findOneAndUpdate({ _id: _id }, update, { new: true }).select('currency')
+        const userUpdate = await DB.User.findOneAndUpdate({ _id: _id }, update, { new: true }).select('currency') as IDBUser
         if(userUpdate.currency.coin < 0) userUpdate.currency.coin = 0
+        if(userUpdate.currency.exp < 0) userUpdate.currency.exp = 0
         await userUpdate.save()
 
         logAdmin(event, `Sửa dữ liệu <b>${change.join(', ')}</b> của tài khoản <b>${user.username}</b> với lý do <b>${reason}</b>`)

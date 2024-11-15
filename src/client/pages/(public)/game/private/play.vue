@@ -63,9 +63,12 @@ const onMessage = (e) => {
   onRecharge(detail)
 }
 
-const doneRecharge = async () => {
+const doneRecharge = async (data) => {
   modal.value.recharge = false
   await getUser()
+
+  const iframe = document.querySelector("iframe")
+  iframe.contentWindow.postMessage(JSON.stringify(data), "*")
 }
 
 onMounted(() => {
