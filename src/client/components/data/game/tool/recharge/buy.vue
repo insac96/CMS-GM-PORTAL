@@ -23,7 +23,7 @@
 
 <script setup>
 const props = defineProps(['game', 'recharge', 'server', 'role'])
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close', 'done'])
 const loading = ref(false)
 
 const state = ref({
@@ -46,7 +46,13 @@ const send = async () => {
     await useAPI('game/tool/public/recharge/send', JSON.parse(JSON.stringify(state.value)))
 
     loading.value = false
-    emits('close')
+    emits('done', {
+      type: 'recharge-done',
+      source: props.recharge,
+      recharge_id: props.recharge.recharge_id,
+      server: props.server,
+      role: props.role,
+    })
 	}
 	catch(e){
     loading.value = false

@@ -10,6 +10,7 @@
         :recharge="selectRecharge.recharge"
         :server="selectRecharge.server"
         @close="modal.recharge = false"
+        @done="doneRecharge"
       />
     </UModal>
   </div>
@@ -53,6 +54,13 @@ const onRecharge = async (detail) => {
   catch (e) {
     return
   }
+}
+
+const doneRecharge = (data) => {
+  modal.value.recharge = false
+
+  const iframe = document.querySelector("iframe")
+  iframe.contentWindow.postMessage(JSON.stringify(data), "*")
 }
 
 const onMessage = (e) => {
