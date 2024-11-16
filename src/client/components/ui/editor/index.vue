@@ -1,79 +1,185 @@
 <template>
-  <div :class="{
-    'UiEditor ring-1 ring-gray-200 dark:ring-gray-800 rounded-lg' : !loading
+  <UCard :ui="{ 
+    header: { padding: 'py-2 sm:py-2 px-4 sm:px-4'},
+    body: { padding: 'p-4 sm:p-4'}
   }">
-    <USkeleton class="w-full h-[250px] rounded-lg shadow-md" v-if="loading" />
+    <template #header>
+      <UiFlex v-if="editor" justify="center" class="gap-1" wrap>
+        <UButtonGroup>
+          <UButton
+            @click="editor.chain().focus().undo().run()"
+            :disabled="!editor.can().chain().focus().undo().run()"
+            color="gray"
+            icon="i-bx-undo" square
+          />
+          <UButton
+            @click="editor.chain().focus().redo().run()"
+            :disabled="!editor.can().chain().focus().redo().run()"
+            color="gray"
+            icon="i-bx-redo" square
+          />
+        </UButtonGroup>
 
-    <ClientOnly>
-      <QuillEditor 
-        :content="content" 
-        contentType="html" 
-        :toolbar="toolbar" 
-        theme="snow" fbwefbiwue
-        @update:content="change"
-        @ready="loading = false"
-      />
-    </ClientOnly>
-  </div>
+        <UButtonGroup>
+          <UButton
+            @click="editor.chain().focus().toggleBold().run()"
+            :disabled="!editor.can().chain().focus().toggleBold().run()"
+            :color="editor.isActive('bold') ? 'primary' : 'gray'"
+            icon="i-bx-bold" square
+          />
+
+          <UButton
+            @click="editor.chain().focus().toggleItalic().run()"
+            :disabled="!editor.can().chain().focus().toggleItalic().run()"
+            :color="editor.isActive('italic') ? 'primary' : 'gray'"
+            icon="i-bx-italic" square
+          />
+
+          <UButton
+            @click="editor.chain().focus().toggleStrike().run()"
+            :disabled="!editor.can().chain().focus().toggleStrike().run()"
+            :color="editor.isActive('strike') ? 'primary' : 'gray'"
+            icon="i-bx-strikethrough" square
+          />
+        </UButtonGroup>
+
+        <UButtonGroup>
+          <UButton
+            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+            :color="editor.isActive('heading', { level: 1 }) ? 'primary' : 'gray'"
+            square
+          >H1</UButton>
+
+          <UButton
+            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+            :color="editor.isActive('heading', { level: 2 }) ? 'primary' : 'gray'"
+            square
+          >H2</UButton>
+
+          <UButton
+            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+            :color="editor.isActive('heading', { level: 3 }) ? 'primary' : 'gray'"
+            square
+          >H3</UButton>
+        </UButtonGroup>
+
+        <UButtonGroup>
+          <UButton
+            @click="editor.chain().focus().toggleBulletList().run()"
+            :color="editor.isActive('bulletList') ? 'primary' : 'gray'"
+            icon="i-bx-list-ul" square
+          />
+
+          <UButton
+            @click="editor.chain().focus().toggleOrderedList().run()"
+            :color="editor.isActive('orderedList') ? 'primary' : 'gray'"
+            icon="i-bx-list-ol" square
+          />
+        </UButtonGroup>
+
+        <UButtonGroup>
+          <UButton
+            @click="editor.chain().focus().setTextAlign('left').run()"
+            :color="editor.isActive({ textAlign: 'left' }) ? 'primary' : 'gray'"
+            icon="i-bx-align-left" square
+          />
+          <UButton
+            @click="editor.chain().focus().setTextAlign('center').run()"
+            :color="editor.isActive({ textAlign: 'center' }) ? 'primary' : 'gray'"
+            icon="i-bx-align-middle" square
+          />
+          <UButton
+            @click="editor.chain().focus().setTextAlign('right').run()"
+            :color="editor.isActive({ textAlign: 'right' }) ? 'primary' : 'gray'"
+            icon="i-bx-align-right" square
+          />
+          <UButton
+            @click="editor.chain().focus().setTextAlign('justify').run()"
+            :color="editor.isActive({ textAlign: 'justify' }) ? 'primary' : 'gray'"
+            icon="i-bx-align-left" square
+          />
+        </UButtonGroup>
+
+        <UButtonGroup>
+          <UiUploadImage v-model="image" class="h-[32px]">
+            <template #default="{ select }">
+              <UButton @click="select" color="gray" icon="i-bx-image" square />
+            </template>
+          </UiUploadImage>
+          
+          <UButton @click="addYoutube" color="gray" icon="i-bx-video" square/>
+        </UButtonGroup>
+
+        <UButton
+          @click="editor.chain().focus().toggleBlockquote().run()"
+          icon="i-bx-square-rounded" square
+          :color="editor.isActive('blockquote') ? 'primary' : 'gray'"
+        />
+
+        <UButton
+          @click="editor.chain().focus().setHorizontalRule().run()"
+          icon="i-bx-minus" square
+          color="gray"
+        />
+      </UiFlex>
+    </template>
+
+    <template #default>
+      <TiptapEditorContent :editor="editor" />
+    </template>
+  </UCard>
+
 </template>
 
 <script setup>
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
-
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
 
-const loading = ref(true)
-const content = ref(props.modelValue)
-const toolbar = [
-  ['bold', 'italic', 'underline', 'strike'],
-  [{ 'header': 2 }, { 'list': 'bullet' }],
-  [{ 'align': [] }, { 'color': [] }, 'link', 'image', 'video'],
-]
+const editor = useEditor({
+  content: props.modelValue,
+  extensions: [
+    TiptapStarterKit, 
+    TiptapImage, 
+    TiptapYoutube, 
+    TiptapTextAlign.configure({
+      types: ['heading', 'paragraph']
+    }),
+    TiptapLink.configure({
+      HTMLAttributes: {
+        rel: 'noopener noreferrer',
+        target: '_blank'
+      }, 
+      openOnClick: false,
+    }),
+  ],
+  onUpdate: ({ editor }) => {
+    emit('update:modelValue', editor.getHTML())
+  }
+})
 
-const change = (value) => emit('update:modelValue', value)
+const image = ref(null)
+watch(() => image.value, (val) => {
+  if(!val) return
+  editor.value.chain().focus().setImage({ src: val }).run()
+  image.value = null
+})
+
+const addYoutube = () => {
+  const url = window.prompt('Nhập Link Video Youtube')
+  if (url) {
+    editor.value.commands.setYoutubeVideo({
+      src: url,
+      width: 640,
+      height: 480,
+    })
+  }
+}
+
+onBeforeUnmount(() => {
+  unref(editor).destroy()
+})
 </script>
 
 <style lang="sass">
-.UiEditor
-  display: flex
-  flex-direction: column
-  overflow: hidden
-  min-height: 250px
-  max-height: 70vh
-  .ql-container
-    display: flex
-    flex-direction: column
-    flex-grow: 1
-    width: 100%
-    overflow-y: auto
-    background: none
-    border: none 
-    font-family: inherit
-    font-size: inherit
-    .ql-editor
-      flex-grow: 1
-      line-height: 1.6rem
-      img
-        max-width: 100%
-        margin: 0 auto
-      h2
-        font-size: 1.5rem
-        color: rgb(var(--color-primary-DEFAULT))
-        margin-bottom: 10px
-      a
-        color: rgb(var(--color-primary-DEFAULT))
-  .ql-toolbar
-    width: 100%
-    border-top: none
-    border-right: none
-    border-left: none
-    border-bottom: 1px solid rgb(var(--color-gray-200))
-    font-family: inherit
 
-.dark
-  .UiEditor
-    .ql-toolbar
-      border-color: rgb(var(--color-gray-800))
 </style>

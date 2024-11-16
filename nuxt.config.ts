@@ -34,31 +34,21 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: [
-    '@pinia/nuxt', 
-    '@nuxt/image', 
-    '@nuxt/ui', 
-    '@nuxt/icon', 
-    ['@nuxtjs/google-fonts', {
-      display: 'swap',
-      download: true,
-      families: {
-        Montserrat: [400,500,600,700]
-      }
-    }],
-    ['@nuxtjs/robots', {
-      rules: [
-        { UserAgent: '*' },
-        { Disallow: '/manage/*' },
-        { Disallow: '/.nuxt/*' },
-        { BlankLine: true },
-        { Sitemap: `${process.env.CLIENT_URL}/sitemap.xml` }
-      ]
-    }], 
-    'nuxt-rate-limit', 
-    '@nuxtjs/device',
-    'nuxt-lazy-hydrate'
-  ],
+  modules: ['@pinia/nuxt', '@nuxt/image', '@nuxt/ui', '@nuxt/icon', ['@nuxtjs/google-fonts', {
+    display: 'swap',
+    download: true,
+    families: {
+      Montserrat: [400,500,600,700]
+    }
+  }], ['@nuxtjs/robots', {
+    rules: [
+      { UserAgent: '*' },
+      { Disallow: '/manage/*' },
+      { Disallow: '/.nuxt/*' },
+      { BlankLine: true },
+      { Sitemap: `${process.env.CLIENT_URL}/sitemap.xml` }
+    ]
+  }], 'nuxt-rate-limit', '@nuxtjs/device', 'nuxt-lazy-hydrate', 'nuxt-tiptap-editor'],
 
   nuxtRateLimit: {
     routes: {
@@ -94,6 +84,10 @@ export default defineNuxtConfig({
     domains: [
       process.env.DOMAIN as string
     ]
+  },
+
+  tiptap: {
+    prefix: 'Tiptap'
   },
 
   compatibilityDate: '2024-08-19'
