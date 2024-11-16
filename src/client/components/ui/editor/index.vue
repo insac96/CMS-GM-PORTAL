@@ -139,12 +139,12 @@ const editor = useEditor({
   content: props.modelValue,
   extensions: [
     TiptapStarterKit, 
-    TiptapImage, 
+    TiptapImage2, 
     TiptapYoutube, 
     TiptapTextAlign.configure({
       types: ['heading', 'paragraph']
     }),
-    TiptapLink.configure({
+    TiptapLink2.configure({
       HTMLAttributes: {
         rel: 'noopener noreferrer',
         target: '_blank'
