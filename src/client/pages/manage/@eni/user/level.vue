@@ -1,8 +1,8 @@
 <template>
   <UiContent title="User Level" sub="Quản lý cấp độ tài khoản">
-    <UiFlex justify="end" class="mb-4">
+    <!-- <UiFlex justify="end" class="mb-4">
       <UButton color="gray" @click="modal.add = true">Thêm mới</UButton>
-    </UiFlex>
+    </UiFlex> -->
     
     <!-- Table -->
     <UCard :ui="{ body: { padding: 'p-0 sm:p-0' } }">
