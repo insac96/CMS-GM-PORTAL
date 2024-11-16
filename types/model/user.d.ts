@@ -54,7 +54,6 @@ export interface IDBUserLevel {
   title: string
   number: number
   exp: number
-  stone: number
   bonus: {
     payment: number
   }

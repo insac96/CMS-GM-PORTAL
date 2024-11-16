@@ -3,7 +3,7 @@
 		<UiFlex type="col" class="gap-1 mb-4" v-if="!!configStore.config.social.game.tool || !!game.newserver">
 			<UAlert title="Hỗ trợ" icon="i-bx-support" color="green" variant="soft" v-if="!!configStore.config.social.game.tool">
 				<template #description>
-					Tham gia <b class="cursor-pointer" @click="useTo().openNewTab(configStore.config.social.game.tool)">nhóm Zalo Game Tool </b> để được hỗ trợ kịp thời
+					Tham gia <b class="cursor-pointer text-primary underline decoration-1" @click="useTo().openNewTab(configStore.config.social.game.tool)">nhóm Zalo Game Tool</b> để được hỗ trợ kịp thời
 				</template>
 
 				<template #icon="{ icon }">

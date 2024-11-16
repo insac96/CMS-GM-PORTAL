@@ -45,14 +45,21 @@
       </UiFlex>
     </div>
 
-    <!--Private-->
-    <div class="my-12">
-      <DataGamePrivateHome />
+    <!--News-->
+    <div class="my-12 mb-16">
+      <DataNewsHome />
     </div>
+
+    <!--Private-->
+    <UiLazy #default="{ render }">
+      <div class="my-12 mb-16">
+        <DataGamePrivateHome />
+      </div>
+    </UiLazy>
 
     <!--Tool-->
     <UiLazy #default="{ render }">
-      <div class="my-12">
+      <div class="my-12 mb-16">
         <LazyDataGameToolHome v-if="!!render" />
       </div>
     </UiLazy>

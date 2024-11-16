@@ -36,19 +36,23 @@
 
     <div class="w-full border-t border-gray-100 dark:border-gray-800 p-2">
       <UForm :state="state" @submit="send">
-        <UInput 
-          v-model="state.text" 
-          :disabled="!!loading.send"
-          :loading="!!loading.send" 
-          :ui="{ color: { gray: { outline: 'ring-0 focus:ring-0' }} }"
-          color="gray"
-          variant="outline"
-          :placeholder="!!authStore.isLogin ? 'Nhập nội dung...' : 'Vui lòng đăng nhập trước'" 
-          class="w-full" 
-          size="sm"
-          id="InputChatGlobal"
-          ref="input"
-        />
+        <UiFlex class="gap-1">
+          <UInput 
+            v-model="state.text" 
+            :disabled="!!loading.send"
+            :loading="!!loading.send" 
+            :ui="{ color: { gray: { outline: 'ring-0 focus:ring-0' }} }"
+            color="gray"
+            variant="outline"
+            :placeholder="!!authStore.isLogin ? 'Nhập nội dung...' : 'Vui lòng đăng nhập trước'" 
+            class="w-full" 
+            size="sm"
+            id="InputChatGlobal"
+            ref="input"
+          />
+
+          <UButton type="submit" color="gray" icon="i-bxs-send" square />
+        </UiFlex>
       </UForm>
     </div>
   </UiFlex>

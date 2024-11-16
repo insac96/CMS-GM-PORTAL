@@ -8,7 +8,12 @@
       <UButton size="xs" color="gray" @click="navigateTo('/game/china')">Xem Thêm</UButton>
     </UiFlex>
 
-    <DataGameList :loading="loading" :list="list" os="china" :max="6"/>
+    <DataGameList :loading="loading" :list="list" os="china" :max="page.size"/>
+
+    <!-- Pagination -->
+    <UiFlex justify="center" class="mt-3">
+      <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs" :disabled="!!loading"/>
+    </UiFlex>
   </div>
 </template>
 
@@ -16,16 +21,20 @@
 const list = ref([])
 const loading = ref(true)
 const page = ref({
+  size: 6,
   current: 1,
   total: 0
 })
+watch(() => page.value.size, () => getList())
+watch(() => page.value.current, () => getList())
 
 const getList = async () => {
   try {
     loading.value = true
     const data = await useAPI('game/china/public/list/latest', JSON.parse(JSON.stringify(page.value)))
 
-    list.value = data
+    list.value = data.list
+    page.value.total = data.total
     loading.value = false
   }
   catch (e) {

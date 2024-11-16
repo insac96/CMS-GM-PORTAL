@@ -1,7 +1,7 @@
 export default defineEventHandler(async (event) => {
   try {
-    const { current } = await readBody(event)
-    if(!current) throw 'Dữ liệu phân trang sai'
+    const { size, current } = await readBody(event)
+    if(!size || !current) throw 'Dữ liệu phân trang sai'
 
     const sorting : any = { 'createdAt': -1 }
     const match : any = { display: true }
@@ -11,10 +11,12 @@ export default defineEventHandler(async (event) => {
     .populate({ path: 'platform', select: 'name key' })
     .populate({ path: 'category', select: 'name key' })
     .sort(sorting)
-    .limit(6)
+    .limit(size)
     .skip((current - 1) * 6)
 
-    return resp(event, { result: list })
+    const total = await DB.GameTool.count(match)
+
+    return resp(event, { result: { list, total } })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

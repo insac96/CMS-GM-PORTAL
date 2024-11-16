@@ -1,7 +1,7 @@
 <template>
   <div>
     <UiFlex class="relative m-3 cursor-pointer" @click="view = true">
-      <UAvatar :src="user.avatar" :alt="user.username" class="rounded-full" :size="size || 'xs'"></UAvatar>
+      <UAvatar :src="user.avatar" :alt="user.username" class="AvatarImg" :size="size || 'xs'"></UAvatar>
       <img :src="`/images/user/level/${level}.webp`" class="absolute select-none pointer-events-none" style="transform: scale(2.7) translateY(1.1px) translateX(0.1px)"/>
     </UiFlex>
 
@@ -23,3 +23,10 @@ const level = computed(() => {
   return props.user.level.number || 1
 })
 </script>
+
+<style lang="sass">
+.AvatarImg
+  border-radius: 50%
+  img
+    border-radius: 50%
+</style>

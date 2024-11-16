@@ -6,7 +6,7 @@
 
     <UForm :state="state" :validate="validate" @submit="buy">
       <UFormGroup label="Số dư Xu" name="coin">
-        <UInput :model-value="`${toMoney(game.user.currency.coin)}`" readonly/>
+        <UInput :model-value="`${toMoney(authStore.profile.currency.coin)}`" readonly/>
 
         <template #hint>
           <DataPaymentFast />
@@ -56,7 +56,7 @@
             <UiText align="right" color="rose">- {{ discountVip }}%</UiText>
           </UiFlex>
 
-          <UiFlex justify="between" class="text-sm font-semibold p-2" v-if="!!totalPrice">
+          <UiFlex justify="between" class="text-sm font-semibold p-2" v-if="totalPrice != null">
             <UiText color="gray" class="mr-6">Thành tiền</UiText>
             <UiText color="primary" weight="bold" align="right">{{ toMoney(totalPrice) }} Xu</UiText>
           </UiFlex>
@@ -89,7 +89,7 @@ const state = ref({
 const validate = (state) => {
   const errors = []
   if (totalPrice.value == null) errors.push({ path: 'info', message: 'Không thể lấy thông tin giá tiền' })
-  else if (totalPrice.value != null && authStore.profile.currency.coin < totalPrice.value) errors.push({ path: 'coin', message: 'Số dư Xu không đủ' })
+  else if (totalPrice.value != null && authStore.profile.currency.coin < totalPrice.value && !authStore.isAdmin) errors.push({ path: 'coin', message: 'Số dư Xu không đủ' })
   if (!state.server) errors.push({ path: 'server', message: 'Vui lòng chọn máy chủ' })
   if (!state.role) errors.push({ path: 'role', message: 'Vui lòng chọn nhân vật' })
   if (!state.amount) errors.push({ path: 'amount', message: 'Vui lòng nhập số lượng' })

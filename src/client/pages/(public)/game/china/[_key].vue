@@ -88,7 +88,7 @@
         <UiFlex type="col" class="gap-1 mb-4">
           <UAlert title="Hỗ trợ" icon="i-bx-support" color="green" variant="soft" v-if="configStore.config.social.game.china">
             <template #description>
-              Tham gia <b class="cursor-pointer" @click="useTo().openNewTab(configStore.config.social.game.china)">nhóm Zalo Game China</b> để được hỗ trợ kịp thời
+              Tham gia <b class="cursor-pointer text-primary underline decoration-1" @click="useTo().openNewTab(configStore.config.social.game.china)">nhóm Zalo Game China</b> để được hỗ trợ kịp thời
             </template>
 
             <template #icon="{ icon }">
@@ -96,9 +96,9 @@
             </template>
           </UAlert>
 
-          <UAlert title="Chú Ý" icon="i-bxs-info-circle" color="primary" variant="soft">
+          <UAlert title="Chú ý" icon="i-bxs-info-circle" color="primary" variant="soft">
             <template #description>
-              Vui lòng đọc kỹ <b class="cursor-pointer" @click="modal.tutorial = true">hướng dẫn</b> trước khi chơi và nạp tiền nền tảng để đảm bảo trải nghiệm trò chơi tốt nhất.
+              Vui lòng đọc kỹ <b class="cursor-pointer underline decoration-1" @click="modal.tutorial = true">hướng dẫn</b> trước khi chơi và nạp tiền nền tảng để đảm bảo trải nghiệm trò chơi tốt nhất.
             </template>
 
             <template #icon="{ icon }">
@@ -171,7 +171,7 @@
     </UModal>
 
     <!--Tutorial-->
-    <UModal v-model="modal.tutorial" prevent-close :ui="{width: 'sm:max-w-[900px]'}">
+    <UModal v-model="modal.tutorial" :ui="{width: 'sm:max-w-[900px]'}">
       <DataGameChinaTutorial @close="modal.tutorial = false"/> 
     </UModal>
   </div>

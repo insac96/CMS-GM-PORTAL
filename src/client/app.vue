@@ -8,23 +8,16 @@
     <SocketInit />
 
     <!--Promotion-->
-    <UModal v-model="modal.promotion" prevent-close :ui="{width: 'sm:max-w-[800px]'}">
-      <DataPromotion @close="modal.promotion = false"/> 
-    </UModal>
+    <DataPromotion /> 
   </NuxtLayout>
 </template>
 
 <script setup>
 import colors from '#tailwind-config/theme/colors'
-const runtimeConfig = useRuntimeConfig()
 const { img } = useMakeLink()
-const { dayjs } = useDayJs()
 const appConfig = useAppConfig()
 const configStore = useConfigStore()
 const route = useRoute()
-const modal = ref({
-  promotion: false
-})
 
 // Meta Seo
 useSeoMeta({
@@ -65,21 +58,5 @@ useHead({
       })(window,document,'script','dataLayer', '${configStore.config.google.client_ads}');
     `}
   ],
-})
-
-onMounted(() => {
-  const timeAutoShowPromotion = useCookie('time-auto-show-promotion', runtimeConfig.public.cookieConfig)
-  if(!timeAutoShowPromotion.value) {
-    modal.value.promotion = true
-    timeAutoShowPromotion.value = new Date()
-  }
-  else {
-    const now = dayjs(new Date()).get('date')
-    const time = dayjs(timeAutoShowPromotion.value).get('date')
-    if(now != time) {
-      modal.value.promotion = true
-      timeAutoShowPromotion.value = new Date()
-    }
-  }
 })
 </script>

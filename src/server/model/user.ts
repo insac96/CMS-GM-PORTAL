@@ -1,6 +1,5 @@
 import type { Mongoose } from 'mongoose'
 import type { IDBUser, IDBUserLevel } from '~~/types'
-import md5 from 'md5'
 
 export const DBUser = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBUser>({ 
@@ -67,7 +66,6 @@ export const DBUserLevel = (mongoose : Mongoose) => {
     title: { type: String, default: '' },
     number: { type: Number, default: 1, index: true },
     exp: { type: Number, default: 0, index: true },
-    stone: { type: Number, default: 1, index: true },
     bonus: {
       payment: { type: Number, default: 0, index: true }
     },
@@ -94,16 +92,16 @@ export const DBUserLevel = (mongoose : Mongoose) => {
     const lv10 = await model.count({ number: 10 })
 
     // Default
-    if(lv1 == 0) await model.create({ title: 'Luyện Khí', number: 1, exp: 0, stone: 1, bonus: { payment: 0 }, limit: { chat: 5 }, discount: { shop: 0 } })
-    if(lv2 == 0) await model.create({ title: 'Trúc Cơ', number: 2, exp: 50000, stone: 2, bonus: { payment: 1 }, limit: { chat: 10 }, discount: { shop: 1 } })
-    if(lv3 == 0) await model.create({ title: 'Kim Đan', number: 3, exp: 500000, stone: 2, bonus: { payment: 1 }, limit: { chat: 15 }, discount: { shop: 1 } })
-    if(lv4 == 0) await model.create({ title: 'Nguyên Anh', number: 4, exp: 1000000, stone: 2, bonus: { payment: 2 }, limit: { chat: 20 }, discount: { shop: 2 } })
-    if(lv5 == 0) await model.create({ title: 'Hóa Thần', number: 5, exp: 3000000, stone: 3, bonus: { payment: 3 }, limit: { chat: 25 }, discount: { shop: 3 } })
-    if(lv6 == 0) await model.create({ title: 'Luyện Hư', number: 6, exp: 5000000, stone: 3, bonus: { payment: 4 }, limit: { chat: 30 }, discount: { shop: 4 } })
-    if(lv7 == 0) await model.create({ title: 'Hợp Thể', number: 7, exp: 10000000, stone: 3, bonus: { payment: 5 }, limit: { chat: 35 }, discount: { shop: 5 } })
-    if(lv8 == 0) await model.create({ title: 'Đại Thừa', number: 8, exp: 20000000, stone: 4, bonus: { payment: 10 }, limit: { chat: 40 }, discount: { shop: 10 } })
-    if(lv9 == 0) await model.create({ title: 'Độ Kiếp', number: 9, exp: 50000000, stone: 4, bonus: { payment: 12 }, limit: { chat: 50 }, discount: { shop: 12 } })
-    if(lv10 == 0) await model.create({ title: 'Huyễn Tiên', number: 10, exp: 100000000, stone: 5, bonus: { payment: 20 }, limit: { chat: 1000 }, discount: { shop: 20 } })
+    if(lv1 == 0) await model.create({ title: 'Luyện Khí', number: 1, exp: 0, bonus: { payment: 0 }, limit: { chat: 5 }, discount: { shop: 0 } })
+    if(lv2 == 0) await model.create({ title: 'Trúc Cơ', number: 2, exp: 50000, bonus: { payment: 1 }, limit: { chat: 10 }, discount: { shop: 1 } })
+    if(lv3 == 0) await model.create({ title: 'Kim Đan', number: 3, exp: 500000, bonus: { payment: 1 }, limit: { chat: 15 }, discount: { shop: 1 } })
+    if(lv4 == 0) await model.create({ title: 'Nguyên Anh', number: 4, exp: 1000000, bonus: { payment: 2 }, limit: { chat: 20 }, discount: { shop: 2 } })
+    if(lv5 == 0) await model.create({ title: 'Hóa Thần', number: 5, exp: 3000000, bonus: { payment: 3 }, limit: { chat: 25 }, discount: { shop: 3 } })
+    if(lv6 == 0) await model.create({ title: 'Luyện Hư', number: 6, exp: 5000000, bonus: { payment: 4 }, limit: { chat: 30 }, discount: { shop: 4 } })
+    if(lv7 == 0) await model.create({ title: 'Hợp Thể', number: 7, exp: 10000000, bonus: { payment: 5 }, limit: { chat: 35 }, discount: { shop: 5 } })
+    if(lv8 == 0) await model.create({ title: 'Đại Thừa', number: 8, exp: 20000000, bonus: { payment: 10 }, limit: { chat: 40 }, discount: { shop: 10 } })
+    if(lv9 == 0) await model.create({ title: 'Độ Kiếp', number: 9, exp: 50000000, bonus: { payment: 12 }, limit: { chat: 50 }, discount: { shop: 12 } })
+    if(lv10 == 0) await model.create({ title: 'Huyễn Tiên', number: 10, exp: 100000000, bonus: { payment: 20 }, limit: { chat: 1000 }, discount: { shop: 20 } })
   }
 
   autoCreate()

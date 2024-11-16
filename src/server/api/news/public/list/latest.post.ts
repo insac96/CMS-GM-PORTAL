@@ -5,16 +5,15 @@ export default defineEventHandler(async (event) => {
 
     const sorting : any = { 'createdAt': -1 }
     const match : any = { display: true }
-    const list = await DB.GameChina
+    const list = await DB.News
     .find(match)
-    .select('name code key pin statistic description image.banner image.icon rate')
-    .populate({ path: 'platform', select: 'name key' })
+    .select('title key view category createdAt')
     .populate({ path: 'category', select: 'name key' })
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * 6)
 
-    const total = await DB.GameTool.count(match)
+    const total = await DB.News.count(match)
 
     return resp(event, { result: { list, total } })
   } 

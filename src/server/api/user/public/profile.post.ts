@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
 
     const user = await DB.User
     .findOne({ _id: _id })
-    .populate({ path: 'level', select: 'title number exp stone' })
+    .populate({ path: 'level', select: 'title number exp' })
     .select(select)
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
 
