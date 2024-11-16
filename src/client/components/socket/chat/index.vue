@@ -22,7 +22,10 @@
                 <UiText size="sm" v-html="chat.content || 'Không có nội dung'"></UiText>
               </div>
 
-              <UiText color="gray" class="leading-none mx-2 text-[0.7rem]" mini>{{ useDayJs().fromTime(chat.createdAt, null, true) }}</UiText>
+              <UiFlex>
+                <UiText color="gray"  class="leading-none mx-2 text-[0.7rem]" mini>{{ useDayJs().fromTime(chat.createdAt, null, true) }}</UiText>
+                <UiText color="primary" class="leading-none mx-2 text-[0.7rem] cursor-pointer" mini @click="reply(chat.user)">Trả lời</UiText>
+              </UiFlex>
             </div>
           </UiFlex>
 
@@ -89,6 +92,11 @@ const toBottom = () => {
   box.value.scrollTo({ top: box.value.scrollHeight, behavior: 'smooth' })
 }
 
+const reply = (user) => {
+  state.value.text = `@${user.username} `
+  toFocus()
+}
+
 const send = async () => {
   try {
     if(!authStore.isLogin) return useNotify().error('Vui lòng đăng nhập trước')
@@ -104,6 +112,7 @@ const send = async () => {
   }
   catch (e){
     loading.value.send = false
+    setTimeout(() => toFocus(), 100)
   }
 }
 
