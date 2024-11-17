@@ -1,8 +1,8 @@
 <template>
   <div>
     <UiFlex class="relative m-3 cursor-pointer" @click="viewAction">
-      <UAvatar :src="user.avatar" :alt="user.username" class="AvatarImg" :size="size || 'xs'"></UAvatar>
-      <img :src="`/images/user/frame/${level}.png`" class="absolute select-none pointer-events-none" style="transform: scale(2) translateY(-1px)" />
+      <UAvatar :src="user.avatar" :alt="user.username" class="AvatarImg" :size="size || 'xs'" style="transform: scale(1.2)"></UAvatar>
+      <img :src="`/images/user/frame/${level}.png`" class="absolute select-none pointer-events-none" style="transform: scale(1.9) translateY(1px)" />
     </UiFlex>
 
     <UModal v-model="view" :ui="{width: 'sm:max-w-[400px]'}">

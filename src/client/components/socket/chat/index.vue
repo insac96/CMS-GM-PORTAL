@@ -25,6 +25,7 @@
               <UiFlex>
                 <UiText color="gray"  class="leading-none mx-2 text-[0.7rem]" mini>{{ useDayJs().fromTime(chat.createdAt, null, true) }}</UiText>
                 <UiText color="primary" class="leading-none mx-2 text-[0.7rem] cursor-pointer" mini @click="reply(chat.user)">Trả lời</UiText>
+                <UiText color="rose" class="leading-none mx-2 text-[0.7rem] cursor-pointer" mini @click="del(chat._id)" v-if="!!authStore.isAdmin">Xóa</UiText>
               </UiFlex>
             </div>
           </UiFlex>
@@ -97,6 +98,17 @@ const reply = (user) => {
   toFocus()
 }
 
+const del = async (_id) => {
+  try {
+    if(!authStore.isLogin) return
+    if(!authStore.isAdmin) return
+    await useAPI('socket/public/chat/del', { _id: _id })
+    setTimeout(() => toFocus(), 100)
+  }
+  catch (e){
+  }
+}
+
 const send = async () => {
   try {
     if(!authStore.isLogin) return useNotify().error('Vui lòng đăng nhập trước')
@@ -143,6 +155,16 @@ onMounted(() => {
     if(!list.value) list.value = []
     list.value.push({ type: 'NOTIFY', content: data })
     setTimeout(() => toBottom(), 100)
+  })
+
+  $socket.on('chat-global-del', (data) => {
+    if(!list.value) return
+    if(list.value.length == 0) return
+
+    const index = list.value.findLastIndex(i => i._id == data)
+    if(index < 0) return
+
+    list.value.splice(index, 1)
   })
 })
 </script>
