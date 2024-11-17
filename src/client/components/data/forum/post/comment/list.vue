@@ -1,7 +1,7 @@
 <template>
   <div class="divide-y divide-gray-100 dark:divide-gray-800">
-    <UiFlex class="gap-4 py-6" items="center" v-for="(comment, index) in list" :key="index">
-      <DataUserAvatar :user="comment.user" v-if="!!comment.user"/>
+    <UiFlex class="gap-4 py-6" items="start" v-for="(comment, index) in list" :key="index">
+      <DataUserAvatar size="md" :user="comment.user" v-if="!!comment.user"/>
 
       <div class="w-full">
         <UiFlex class="gap-1">

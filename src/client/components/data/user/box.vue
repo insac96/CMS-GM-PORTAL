@@ -5,8 +5,8 @@
 
     <div v-else class="rounded-lg pt-10 pb-6 px-6">
       <UiFlex type="col" justify="center" class="gap-3 mb-6 relative z-[3]">
-        <DataUserAvatar size="xl" :user="user" class="mb-4" />
-        <DataUserName :user="user" size="xl" />
+        <DataUserAvatar size="2xl" :user="user" class="mb-4" no-action />
+        <DataUserName :user="user" size="xl" no-action />
       </UiFlex>
 
       <UiFlex type="col" class="gap-4 relative z-[3]">
@@ -15,14 +15,10 @@
           <UBadge size="xs" variant="soft" class="px-3" :color="typeFormat[user.type]['color']">{{ typeFormat[user.type]['label'] }}</UBadge>
         </UiFlex>
 
-        <UiFlex justify="between" class="w-full">
+        <!-- <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">VIP</UiText>
-          <UBadge 
-            size="xs" variant="soft" class="px-3 cursor-pointer" 
-            :color="!vipFormat ? 'gray' : 'primary'"
-            @click="navigateTo('/vip')"
-          >{{ !!vipFormat ? vipFormat.end : (authStore.profile._id == user._id ? 'Nâng VIP' : 'Không') }}</UBadge>
-        </UiFlex>
+          <UiText weight="semibold" size="xs">{{ !!vipFormat ? vipFormat.end : (authStore.profile._id == user._id ? 'Nâng VIP' : 'Không') }}</UiText>
+        </UiFlex> -->
 
         <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">Cảnh giới</UiText>

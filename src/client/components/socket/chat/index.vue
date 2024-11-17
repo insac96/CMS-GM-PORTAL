@@ -12,7 +12,7 @@
           <!--User Chat-->
           <UiFlex class="w-full space-x-2" items="start" v-if="chat.type == 'USER'">
             <!-- Avatar -->
-            <DataUserAvatar :user="chat.user" />
+            <DataUserAvatar :user="chat.user" size="xs"/>
             
             <!-- Info -->
             <div class="text-left">

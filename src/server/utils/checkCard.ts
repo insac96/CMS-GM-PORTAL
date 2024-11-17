@@ -1,4 +1,6 @@
 import type { H3Event } from 'h3'
+import axios from 'axios'
+import md5 from 'md5'
 
 interface ICardData {
   net: string
@@ -6,25 +8,34 @@ interface ICardData {
   pin: string
   money: number
   token: string
+  code: string
   key: string
 }
 
 export default async (event: H3Event, card : ICardData) : Promise<void> => {
-  const config = useRuntimeConfig(event)
-  const { net, seri, pin, money, token, key } = card
-  const url = 'http://muabanthe.vn/API/NapThe'
+  const { net, seri, pin, money, key, token, code } = card
+  const url = 'https://thesieure.com/chargingws/v2'
+
+  const partner = key.split('-')
+  const partner_id = partner[0]
+  const partner_key = partner[1]
+  if(!partner_id || !partner_key) throw 'Khóa bí mật không chính xác, vui lòng liện hệ CSKH để được hỗ trợ'
+
   const params = {
-    'APIKey': key,
-    'Network': net,
-    'CardCode': pin,
-    'CardSeri': seri,
-    'CardValue': String(money),
-    'URLCallback': config.public.clientURL + '/api/callback/payment/card',
-    'TrxID': token
+    'telco': net,
+    'code': pin,
+    'serial': seri,
+    'amount': String(money),
+    'request_id': code+'-'+token,
+    'partner_id': partner_id,
+    'sign':  md5(partner_key + '' + pin + '' + seri),
+    'command': 'charging',
   }
-  const str = new URLSearchParams(params).toString()
-  const send = await fetch(`${url}?${str}`)
-  const res = await send.json()
+
+  const send = await axios({ url: url, data: params })
+  const res = send.data
   
-  if(!res['Code'] || res['Code'] != 1) throw res['Message'] || 'Thẻ không hợp lệ'
+  const status = res['status']
+  if(!status) throw 'Lỗi hệ thống API'
+  if(status != 1 && status != 2 && status != 99) throw 'Lỗi thẻ hoặc hệ thống bảo trì'
 }

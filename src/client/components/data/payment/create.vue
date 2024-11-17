@@ -92,7 +92,7 @@
               </UiFlex>
             </UiFlex>
             
-            <UiFlex justify="center" class="w-full" v-if="payment">
+            <UiFlex justify="center" class="w-full" v-if="!!payment && payment.qrcode">
               <UiImg :src="payment.qrcode" class="w-[200px] md:max-w-[80%]"/>
             </UiFlex>
           </UiFlex>
@@ -151,9 +151,9 @@ watch(() => state.value.gate, () => reset())
 // Card
 const card = {
   net:  [
-    { label: 'Viettel', value: 'VTT' },
-    { label: 'Mobifone', value: 'VMS' },
-    { label: 'Vinaphone', value: 'VNP' },
+    { label: 'Viettel', value: 'VIETTEL' },
+    { label: 'Mobifone', value: 'MOBIFONE' },
+    { label: 'Vinaphone', value: 'VINAPHONE' },
   ],
   money: [
     // { label: '10.000', value: 10000 },

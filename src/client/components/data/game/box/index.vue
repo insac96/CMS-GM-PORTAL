@@ -30,14 +30,17 @@
       </template>
 
       <template #default>
-        <div class="GameRibbonChina bg-primary pr-2 pl-1" v-if="os == 'china' && game.rate">
-          <UiText size="sm" weight="semibold">1:{{ game.rate.pay }}</UiText>
+        <div class="GameRibbon bg-rose-500 pr-2 pl-1" v-if="os == 'china' && game.rate">
+          <UiFlex type="col">
+            <UiText style="font-size: 10px;" weight="semibold">Rate</UiText>
+            <UiText size="xs" weight="semibold">{{ game.rate.pay }}</UiText>
+          </UiFlex>
         </div>
 
-        <div class="GameRibbonPrivate bg-rose-500 pr-2 pl-1" v-if="os == 'private' && game.rate">
+        <div class="GameRibbon bg-rose-500 pr-2 pl-1" v-if="os == 'private' && game.rate">
           <UiFlex type="col">
-            <UiText size="xs" weight="semibold">-{{ useRate().data(game.rate.shop).number }}</UiText>
-            <UiText style="font-size: 10px;" weight="semibold">%</UiText>
+            <UiText style="font-size: 9px;" weight="semibold">Giảm</UiText>
+            <UiText style="font-size: 10px;" weight="semibold">{{ useRate().data(game.rate.shop).number }}%</UiText>
           </UiFlex>
         </div>
 
@@ -82,17 +85,7 @@ const to = computed(() => {
 </script>
 
 <style lang="sass">
-.GameRibbonChina
-  --f:.5em
-  --r:.8em
-  position: absolute
-  top: 10px
-  right: calc(-1*var(--f))
-  border-bottom: var(--f) solid #0005
-  border-left: var(--r) solid #0000
-  clip-path: polygon(var(--r) 0, 100% 0, 100% calc(100% - var(--f)), calc(100% - var(--f)) 100%, calc(100% - var(--f)) calc(100% - var(--f)), var(--r) calc(100% - var(--f)), 0 calc(50% - var(--f)/2))
-
-.GameRibbonPrivate
+.GameRibbon
   position: absolute
   top: 0
   right: 5px

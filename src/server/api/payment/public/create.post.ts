@@ -58,6 +58,7 @@ export default defineEventHandler(async (event) => {
         pin: card.pin,
         money: parseInt(money),
         token: token,
+        code: code,
         key: gateSelect.key
       })
     }

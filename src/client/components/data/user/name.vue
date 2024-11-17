@@ -1,6 +1,10 @@
 <template>
   <div class="UserName">
-    <UiFlex class="relative gap-2 cursor-pointer z-[2]" @click="view = true">
+    <UiFlex class="relative gap-2 cursor-pointer z-[2]" @click="viewAction">
+      <img src="/images/user/vip.png" :style="{
+        height: sizeVip[size]+'px'
+      }" v-if="!!vip" />
+      
       <img :src="`/images/user/stone/${level}.webp`" class="select-none pointer-events-none" :width="sizeStone[size]" :height="sizeStone[size]"/>
 
       <UiText :size="size" weight="semibold" :class="{
@@ -8,7 +12,7 @@
         [`User--${level} UserName__text`]: true,
         [`UserName__text__anim`]: level >= 5 ? true : false
       }">
-        <img class="UserName__lightning" src="/images/user/lightning.gif" v-if="level >= 10" />
+        <img class="UserName__lightning" src="/images/user/effect/lightning.gif" v-if="level >= 10" />
         {{ !!user ? user.username : 'Ẩn danh'}}
       </UiText>
     </UiFlex>
@@ -22,7 +26,8 @@
 <script setup>
 const props = defineProps({
   user: { type: Object },
-  size: { type: String, default: 'sm' }
+  size: { type: String, default: 'sm' },
+  noAction: { type: Boolean, default: false },
 })
 
 const view = ref(false)
@@ -37,15 +42,61 @@ const sizeStone = {
   '3xl': 22,
 }
 
+const sizeVip = {
+  'xs': 10,
+  'sm': 11,
+  'md': 13,
+  'lg': 14,
+  'xl': 15,
+  '2xl': 16,
+  '3xl': 17,
+}
+
+const vip = computed(() => {
+  if(!props.user) return false
+  if(!props.user.vip) return false
+  if(!props.user.vip.month || !props.user.vip.forever) return false
+
+  if(props.user.vip.month.enable) return true
+  if(props.user.vip.forever.enable) return true
+  return false
+})
+
 const level = computed(() => {
   if(!props.user) return 1
   if(!props.user.level) return 1
-  if(!props.user.type) return props.user.level.number || 1
-  return props.user.level.number || 1
+  
+  const level = props.user.level?.number || 1
+  return level > 10 ? 10 : level
 })
+
+const viewAction = () => {
+  if(!!props.noAction) return
+  view.value = true
+}
 </script>
 
 <style lang="sass">
+.User
+  &--10
+    --user-color: #d62d6c
+  &--9
+    --user-color: #d97b22
+  &--8
+    --user-color: #bc15ce
+  &--7
+    --user-color: #0c64ad
+  &--6
+    --user-color: #8622ef
+  &--5
+    --user-color: #d97b22
+  &--4
+    --user-color: #2bced6
+  &--3
+    --user-color: #02ab96
+  &--2
+    --user-color: #47ae07
+    
 .UserName
   position: relative
   &__lightning

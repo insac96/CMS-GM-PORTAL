@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     const match : any = { game: game._id }
     const list = await DB.GamePrivateComment
     .find(match)
-    .populate({ path: 'user', select: 'user', populate: { path: 'user', select: 'username avatar type level', populate: { path: 'level' } }})
+    .populate({ path: 'user', select: 'user', populate: { path: 'user', select: 'username avatar type level vip', populate: { path: 'level' } }})
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)

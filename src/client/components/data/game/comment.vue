@@ -4,7 +4,7 @@
       <DataEmpty text="Không có dữ liệu" :loading="loading.list" v-if="!!loading.list || list.length == 0" />
 
       <UiFlex type="col" class="my-4 mb-6 gap-4" v-else>
-        <UiFlex v-for="(item, index) in list" :key="index" class="w-full gap-3 ">
+        <UiFlex v-for="(item, index) in list" :key="index" class="w-full gap-1.5">
           <DataUserAvatar :user="item.user.user" size="2xs" />
 
           <div>

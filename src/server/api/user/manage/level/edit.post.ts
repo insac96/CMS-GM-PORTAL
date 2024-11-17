@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const { _id, title, exp, limit } = body
     if(!_id || !title || !exp || !limit) throw 'Dữ liệu đầu vào không hợp lệ'
-    if(exp < 0) throw 'Cấp độ không hợp lệ'
+    if(exp < 1) throw 'Cấp độ không hợp lệ'
 
     const level = await DB.UserLevel.findOne({ _id: _id }).select('number') as IDBUserLevel
     if(!level) throw 'Cấp độ không tồn tại'

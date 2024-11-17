@@ -1,8 +1,8 @@
 <template>
   <div>
-    <UiFlex class="relative m-3 cursor-pointer" @click="view = true">
+    <UiFlex class="relative m-3 cursor-pointer" @click="viewAction">
       <UAvatar :src="user.avatar" :alt="user.username" class="AvatarImg" :size="size || 'xs'"></UAvatar>
-      <img :src="`/images/user/level/${level}.webp`" class="absolute select-none pointer-events-none" style="transform: scale(2.7) translateY(1.1px) translateX(0.1px)"/>
+      <img :src="`/images/user/frame/${level}.png`" class="absolute select-none pointer-events-none" style="transform: scale(2) translateY(-1px)" />
     </UiFlex>
 
     <UModal v-model="view" :ui="{width: 'sm:max-w-[400px]'}">
@@ -12,21 +12,24 @@
 </template>
 
 <script setup>
-const props = defineProps(['user', 'size'])
+const props = defineProps({
+  user: { type: Object },
+  size: { type: String, default: 'xs' },
+  noAction: { type: Boolean, default: false },
+})
 
 const view = ref(false)
 
 const level = computed(() => {
   if(!props.user) return 1
   if(!props.user.level) return 1
-  if(!props.user.type) return props.user.level.number || 1
-  return props.user.level.number || 1
-})
-</script>
 
-<style lang="sass">
-.AvatarImg
-  border-radius: 50%
-  img
-    border-radius: 50%
-</style>
+  const level = props.user.level?.number || 1
+  return level
+})
+
+const viewAction = () => {
+  if(!!props.noAction) return
+  view.value = true
+}
+</script>

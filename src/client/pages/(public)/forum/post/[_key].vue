@@ -6,7 +6,7 @@
     <UiContent :title="post.title" :sub="useDayJs().displayFull(post.update.last)" no-dot>
       <!--Avatar User-->
       <template #right>
-        <DataUserAvatar :user="post.creater" v-if="!!post.creater" class="mr-4"/>
+        <DataUserAvatar size="md" :user="post.creater" v-if="!!post.creater" class="mr-4"/>
       </template>
 
       <!--Name User-->

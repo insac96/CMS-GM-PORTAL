@@ -1,7 +1,7 @@
 <template>
   <div class="divide-y divide-gray-100 dark:divide-gray-800">
     <UiFlex v-for="(item, i) in list" :key="i" class="py-4 gap-4">
-      <DataUserAvatar :user="item.creater" v-if="!!item.creater" />
+      <DataUserAvatar :user="item.creater" size="md" v-if="!!item.creater" />
 
       <div class="grow">
         <NuxtLink :to="`/forum/post/${item.key}`">
