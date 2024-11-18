@@ -124,7 +124,7 @@
         </template>
 
         <UAlert 
-          v-if="!game.open"
+          v-if="!game.open && (!authStore.isAdmin && !authStore.isGMod)"
           color="green" 
           variant="soft" 
           icon="i-bx-bell" 

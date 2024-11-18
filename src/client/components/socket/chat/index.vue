@@ -4,6 +4,8 @@
       <USelectMenu placeholder="Kênh Thế Giới" icon="i-bxs-megaphone" class="grow" :options="[
         'Kênh Thế Giới'
       ]"/>
+
+      <SocketOnline />
     </UiFlex>
 
     <div ref="box" id="BoxChatGlobal" class="w-full grow overflow-y-auto overflow-x-hidden py-4 h-0">

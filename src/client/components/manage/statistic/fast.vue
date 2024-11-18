@@ -72,7 +72,7 @@
           <UiFlex type="col" items="end">
             <UiText color="gray" align="right">Trực tuyến</UiText>
             <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
-            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(onlineTotal) }}</UiText>
+            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(socketStore.online) }}</UiText>
           </UiFlex>
         </UiFlex>
       </UCard>
@@ -82,6 +82,7 @@
 
 <script setup>
 const route = useRoute()
+const socketStore = useSocketStore()
 const { toMoney } = useMoney()
 
 const loading = ref(false)
