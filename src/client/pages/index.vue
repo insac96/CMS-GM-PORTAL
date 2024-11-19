@@ -9,7 +9,8 @@
 
       <!-- Content -->
       <UiFlex type="col" items="start" justify="center" class="relative w-full h-full md:p-20 p-12 aspect-auto">
-        <UiFlex class="select-none sm:text-6xl text-4xl">
+        <UiLogo v-if="config.logo_image" img-size="45"></UiLogo>
+        <UiFlex v-else class="select-none sm:text-6xl text-4xl">
           <UiText weight="bold" color="primary" class="italic">ENI</UiText>
           <UiText class="ml-1 italic" weight="semibold">Studio</UiText>
         </UiFlex>
