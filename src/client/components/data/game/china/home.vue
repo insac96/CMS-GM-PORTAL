@@ -7,11 +7,11 @@
     <div class="2xl:col-span-4 col-span-12">
       <UTabs v-model="tab" :items="items" />
 
-      <div class="BoxBlock px-4 rounded-lg">
+      <UCard :ui="{ body: { padding: 'py-2 sm:py-2' }}">
         <LazyDataGameChinaListTop sort="statistic.user" v-if="tab == 0" />
         <LazyDataGameChinaListTop sort="statistic.play" v-if="tab == 1" />
         <LazyDataGameChinaListTop sort="statistic.view" v-if="tab == 2" />
-      </div>
+      </UCard>
     </div>
   </div>
 </template>

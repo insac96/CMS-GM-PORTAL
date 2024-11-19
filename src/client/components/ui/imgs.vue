@@ -6,7 +6,7 @@
       class="
         h-16 w-16 min-w-16 min-h-16 max-h-16 max-w-16
         bg-gray-200 dark:bg-gray-800
-        rounded-lg cursor-pointer overflow-hidden
+        rounded-2xl cursor-pointer overflow-hidden
       "
       @click="onViewFile(item, index)"
     >
@@ -18,7 +18,7 @@
     fullscreen: 'w-auto h-auto max-w-full max-h-[100vh]'
   }">
     <UiFlex justify="center" class="w-full h-full">
-      <img :src="imgSelect.src" class="max-h-[90vh] w-auto object-contain rounded-lg"/>
+      <img :src="imgSelect.src" class="max-h-[90vh] w-auto object-contain rounded-2xl"/>
     </UiFlex>
 
     <UiFlex class="absolute -top-4 -right-4">

@@ -2,7 +2,7 @@
   <div class="grid grid-cols-12 gap-2">
     <UCard 
       @click="select(item._id)" 
-      class="col-span-4 transition-2 cursor-pointer BoxBlock"
+      class="col-span-4 transition-2 cursor-pointer"
       :class="{
         'scale-95': !!gate && item._id == gate
       }"

@@ -1,7 +1,6 @@
 <template>
   <NuxtLink :to="to">
-    <UCard class="transition-2 cursor-pointer" :ui="{
-      base: 'hover:scale-95',
+    <UCard class="BoxCard transition-2 cursor-pointer" :ui="{
       divide: '',
       ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
       shadow: 'shadow hover:shadow-xl',
@@ -17,7 +16,7 @@
       }
     }">
       <template #header>
-        <div class="relative overflow-hidden rounded-t-lg">
+        <div class="relative overflow-hidden rounded-t-2xl">
           <UiImg :src="game.image?.banner" w="16" h="9" />
 
           <UiIcon class="absolute top-2 left-2 jump-anim" v-if="!!game.pin" color="primary" name="i-bxs-star" size="5" />
@@ -88,7 +87,7 @@ const to = computed(() => {
 .GameRibbon
   position: absolute
   top: 0
-  right: 5px
+  right: 10px
   --r:.8em
   min-width: 50px
   border-inline: .5em solid #0000

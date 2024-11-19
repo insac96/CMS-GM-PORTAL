@@ -4,13 +4,12 @@
       <UCard 
         class="
           xl:col-span-6 col-span-12 
-          transition-2 hover:scale-95 
+          transition-2
           cursor-pointer select-none 
           overflow-hidden
         "
         :ui="{
-          header: { background: item.bg },
-          background: 'dark:bg-gray-800'
+          header: { background: item.bg }
         }" 
         v-for="(item, index) in list" :key="index"
         @click="select(item)"

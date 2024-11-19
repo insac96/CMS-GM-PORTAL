@@ -7,7 +7,7 @@
       w="16" h="9"
       img-size="xs:300px sm:600 md:800px 1000px"
       alt="News Banner"
-      class="rounded-lg"
+      class="rounded-2xl"
       preload
     ></UiImg>
 

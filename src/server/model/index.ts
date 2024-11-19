@@ -37,11 +37,13 @@ import {
   DBGamePrivateEvent, DBGamePrivateEventHistory,
   DBGamePrivateComment,
 } from './game'
+
 import {
   DBForumCategory, DBForumCategorySub,
   DBForumPost, DBForumPostComment, DBForumPostLike
 } from './forum'
-import { DBSocketChatGlobal } from './socket'
+
+import { DBSocketChatGlobal, DBSocketOnline } from './socket'
 
 export default (mongoose : Mongoose) : IGlobalDB => {
   return {
@@ -111,6 +113,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     ForumPostLike: DBForumPostLike(mongoose),
 
     // Socket
-    SocketChatGlobal: DBSocketChatGlobal(mongoose)
+    SocketChatGlobal: DBSocketChatGlobal(mongoose),
+    SocketOnline: DBSocketOnline(mongoose)
   }
 }

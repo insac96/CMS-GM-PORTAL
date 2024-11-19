@@ -1,7 +1,6 @@
 <template>
   <NuxtLink :to="`/news/${news.key}`">
-    <UCard class="overflow-hidden transition-2 cursor-pointer" :ui="{
-      base: 'hover:scale-95',
+    <UCard class="BoxCard overflow-hidden transition-2 cursor-pointer" :ui="{
       divide: '',
       ring: 'ring-0 dark:ring-1 dark:ring-gray-800',
       shadow: 'shadow hover:shadow-xl',

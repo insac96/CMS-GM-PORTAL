@@ -8,7 +8,7 @@
       :validate="validate" 
       @submit="submit" 
       :class="{
-        'grid grid-cols-12 gap-2 md:gap-4 lg:gap-8 mb-4': !fast,
+        'grid grid-cols-12 gap-2 gap-4 mb-4': !fast,
         'grid grid-cols-12': !!fast,
       }"
     >
@@ -16,7 +16,7 @@
         '2xl:col-span-6 col-span-12' : !fast,
         'col-span-12': !!fast
       }">
-        <div>
+        <UCard :ui="{ body: { padding: 'pb-2 sm:pb-2'} }">
           <UFormGroup label="Chọn kênh nạp" name="gate">
             <SelectGateImg v-model="state.gate" v-model:gate="gateSelect" />
           </UFormGroup>
@@ -44,66 +44,68 @@
               <UInput v-model="state.card.pin" />
             </UFormGroup>
           </div>
-        </div>
+        </UCard>
       </div>
 
       <div :class="{
         '2xl:col-span-6 col-span-12' : !fast,
         'col-span-12': !!fast
       }">
-        <UiText weight="bold" class="mb-4">Thông tin thanh toán</UiText>
+        <UCard>
+          <UiText weight="bold" class="mb-4">Thông tin thanh toán</UiText>
 
-        <div class="mb-4">
-          <UiFlex type="col" class="gap-4" v-if="gateSelect">
-            <UiFlex justify="between" class="w-full">
-              <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Nhà mạng' : 'Kênh' }}</UiText>
-              <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.net || '...' : gateSelect.name }}</UiText>
-            </UiFlex>
+          <div class="mb-4">
+            <UiFlex type="col" class="gap-4" v-if="gateSelect">
+              <UiFlex justify="between" class="w-full">
+                <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Nhà mạng' : 'Kênh' }}</UiText>
+                <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.net || '...' : gateSelect.name }}</UiText>
+              </UiFlex>
 
-            <UiFlex justify="between" class="w-full">
-              <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Số Serial' : 'Tài khoản' }}</UiText>
-              <UiFlex @click="startCopy(gateSelect.type == 1 ? state.card.seri || '...' : gateSelect.number)" class="cursor-pointer">
-                <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.seri || '...' : gateSelect.number }}</UiText>
-                <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
+              <UiFlex justify="between" class="w-full">
+                <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Số Serial' : 'Tài khoản' }}</UiText>
+                <UiFlex @click="startCopy(gateSelect.type == 1 ? state.card.seri || '...' : gateSelect.number)" class="cursor-pointer">
+                  <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.seri || '...' : gateSelect.number }}</UiText>
+                  <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
+                </UiFlex>
+              </UiFlex>
+
+              <UiFlex justify="between" class="w-full">
+                <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Mã Pin' : 'Người nhận' }}</UiText>
+                <UiFlex @click="startCopy(gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person)" class="cursor-pointer">
+                  <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person }}</UiText>
+                  <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
+                </UiFlex>
+              </UiFlex>
+
+              <UiFlex justify="between" class="w-full">
+                <UiText weight="semibold" color="gray" size="xs">Số tiền</UiText>
+                <UiFlex @click="startCopy(state.money)" class="cursor-pointer">
+                  <UiText weight="semibold" size="sm">{{ useMoney().toMoney(state.money) }}đ</UiText>
+                  <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
+                </UiFlex>
+              </UiFlex>
+
+              <UiFlex justify="between" class="w-full" v-if="payment">
+                <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Mã giao dịch' : 'Nội dung' }}</UiText>
+                <UiFlex @click="startCopy(payment.code)" class="cursor-pointer">
+                  <UiText weight="semibold" size="sm">{{ payment.code }}</UiText>
+                  <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
+                </UiFlex>
+              </UiFlex>
+              
+              <UiFlex justify="center" class="w-full" v-if="!!payment && payment.qrcode">
+                <UiImg :src="payment.qrcode" class="w-[200px] md:max-w-[80%]"/>
               </UiFlex>
             </UiFlex>
 
-            <UiFlex justify="between" class="w-full">
-              <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Mã Pin' : 'Người nhận' }}</UiText>
-              <UiFlex @click="startCopy(gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person)" class="cursor-pointer">
-                <UiText weight="semibold" size="sm">{{ gateSelect.type == 1 ? state.card.pin || '...' : gateSelect.person }}</UiText>
-                <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
-              </UiFlex>
-            </UiFlex>
+            <DataEmpty v-else />
+          </div>
 
-            <UiFlex justify="between" class="w-full">
-              <UiText weight="semibold" color="gray" size="xs">Số tiền</UiText>
-              <UiFlex @click="startCopy(state.money)" class="cursor-pointer">
-                <UiText weight="semibold" size="sm">{{ useMoney().toMoney(state.money) }}đ</UiText>
-                <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
-              </UiFlex>
-            </UiFlex>
-
-            <UiFlex justify="between" class="w-full" v-if="payment">
-              <UiText weight="semibold" color="gray" size="xs">{{ gateSelect.type == 1 ? 'Mã giao dịch' : 'Nội dung' }}</UiText>
-              <UiFlex @click="startCopy(payment.code)" class="cursor-pointer">
-                <UiText weight="semibold" size="sm">{{ payment.code }}</UiText>
-                <UiIcon name="i-bx-copy-alt" color="primary" class="ml-2" pointer />
-              </UiFlex>
-            </UiFlex>
-            
-            <UiFlex justify="center" class="w-full" v-if="!!payment && payment.qrcode">
-              <UiImg :src="payment.qrcode" class="w-[200px] md:max-w-[80%]"/>
-            </UiFlex>
-          </UiFlex>
-
-          <DataEmpty v-else />
-        </div>
-
-        <div>
-          <UButton block type="submit" :loading="loading" v-if="!payment && !!gateSelect">Tạo Giao Dịch</UButton>
-          <UButton block v-if="!!payment" color="blue" @click="reset">Tạo Mới</UButton>
-        </div>
+          <div>
+            <UButton block type="submit" :loading="loading" v-if="!payment && !!gateSelect">Tạo Giao Dịch</UButton>
+            <UButton block v-if="!!payment" color="blue" @click="reset">Tạo Mới</UButton>
+          </div>
+        </UCard>
       </div>
     </UForm>
 

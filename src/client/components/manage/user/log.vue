@@ -1,14 +1,8 @@
 <template>
-  <UCard :ui="{ 
-    body: { padding: 'p-0 sm:p-0' },
-    header: { padding: 'p-2 sm:p-2' },
-    footer: { padding: 'p-2 sm:p-2' },
-  }">
-    <template #header>
-      <UiFlex justify="between">
-        <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
-      </UiFlex>
-    </template>
+  <UiContent title="Nhật Ký" sub="Nhật ký hoạt động của tài khoản" no-dot>
+    <UiFlex justify="between">
+      <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
+    </UiFlex>
 
     <LoadingTable v-if="loading.load" />
 
@@ -22,12 +16,10 @@
       </template>
     </UTable>
 
-    <template #footer>
-      <UiFlex justify="end">
-        <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
-      </UiFlex>
-    </template>
-  </UCard>
+    <UiFlex justify="end">
+      <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
+    </UiFlex>
+  </UiContent>
 </template>
 
 <script setup>

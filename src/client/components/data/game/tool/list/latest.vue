@@ -1,7 +1,7 @@
 <template>
   <div>
-    <UiFlex justify="between" class="mb-6">
-      <UiText class="font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl text-lg">
+    <UiFlex justify="between" class="mb-4">
+      <UiText class="UT font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl text-xl">
         Game <span class="text-primary">Tool</span> Mới Nhất
       </UiText>
 

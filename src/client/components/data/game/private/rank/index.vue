@@ -1,6 +1,5 @@
 <template>
   <UCard :ui="{ 
-    base: 'overflow-hidden',
     background: 'bg-gray-100 dark:bg-gray-800',
     body: { padding: 'p-0 sm:p-0', background: 'bg-white dark:bg-gray-900' },
     header: { padding: 'p-2 sm:p-2', }
@@ -10,7 +9,7 @@
         <div 
           v-for="item in tabs" 
           :key="item.value"
-          class="py-2 px-4 text-sm rounded-lg cursor-pointer select-none"
+          class="py-2 px-4 text-sm rounded-2xl cursor-pointer select-none"
           :class="{
             'bg-white dark:bg-gray-900': tab == item.value
           }"

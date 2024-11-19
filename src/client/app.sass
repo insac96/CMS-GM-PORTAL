@@ -1,3 +1,7 @@
+@font-face
+  font-family: UT
+  src: url(/fonts/UT.woff2)
+  
 :root
   --header-size: 3.5rem
   --nav-size: 250px
@@ -17,13 +21,9 @@ html, body
   min-height: 100%
   height: 100%
   
-body
-  background: #fff
 .dark
   --scroll-color: var(--color-gray-800)
   --scroll-color-hover: var(--color-gray-700)
-  body
-    background: rgb(var(--color-gray-900))
 
 #__nuxt
   min-height: 100%
@@ -52,8 +52,11 @@ body
   border: none
   user-select: none
 
-.BoxBlock
-  background-image: linear-gradient(to bottom, rgb(99 99 99 / 5%), rgb(18 18 18))
+.BoxCard
+  background: radial-gradient(59.17% 61.7% at 50% 54.5%, rgba(255, 255, 255, 0.15) 0%, rgba(13, 3, 3, 0) 100%), #1B1C1E
+
+.UT
+  font-family: "UT", sans-serif
 
 .page-enter-active, .page-leave-active
   transition: all 0.4s

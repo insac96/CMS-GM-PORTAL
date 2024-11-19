@@ -1,17 +1,17 @@
 <template>
   <div>
     <UiFlex justify="between" class="mb-4">
-      <UiText class="font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-2xl text-lg">
+      <UiText class="UT font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl text-xl">
         <span class="text-primary">Tin Tức</span> Mới Nhất
       </UiText>
 
       <UButton size="xs" color="gray" @click="navigateTo('/news')">Xem Thêm</UButton>
     </UiFlex>
 
-    <div class="BoxBlock md:px-6 px-4 rounded-lg">
-    <DataEmpty class="min-h-[300px]" :loading="loading" v-if="!!loading || list.length == 0"></DataEmpty>
-    <DataNewsListMini v-else :list="list" />
-    </div>
+    <UCard :ui="{ body: { padding: 'py-0 sm:py-0'}}">
+      <DataEmpty class="min-h-[300px]" :loading="loading" v-if="!!loading || list.length == 0"></DataEmpty>
+      <DataNewsListMini v-else :list="list" />
+    </UCard>
   </div>
 </template>
 

@@ -16,19 +16,27 @@
         </template>
 
         <template #log>
-          <ManageUserLog :user="user" />
+          <UCard :ui="{ body: { padding: 'p-4 sm:py-4' }}">
+            <ManageUserLog :user="user" />
+          </UCard>
         </template>
 
         <template #ip>
-          <ManageUserIp :user="user" />
+          <UCard :ui="{ body: { padding: 'p-4 sm:py-4' }}">
+            <ManageUserIp :user="user" />
+          </UCard>
         </template>
 
         <template #payment>
-          <DataPaymentHistory :user="user" />
+          <UCard :ui="{ body: { padding: 'py-0 sm:py-0 px-2 sm:px-2'}}">
+            <DataPaymentHistory :user="user" />
+          </UCard>
         </template>
 
         <template #played>
-          <DataGamePlayed :user="user" />
+          <UCard :ui="{ body: { padding: 'py-0 sm:py-0 px-2 sm:px-2'}}">
+            <DataGamePlayed :user="user" />
+          </UCard>
         </template>
       </UAccordion>
     </div>

@@ -10,7 +10,7 @@
         <div 
           v-for="item in tabs" 
           :key="item.value"
-          class="py-1.5 px-4 text-sm rounded-lg cursor-pointer select-none"
+          class="py-1.5 px-4 text-sm rounded-3xl cursor-pointer select-none"
           :class="{
             'bg-white dark:bg-gray-900': tab == item.value
           }"

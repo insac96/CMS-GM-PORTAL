@@ -1,6 +1,6 @@
 <template>
   <div class="HomePage">
-    <div class="HomeBanner relative overflow-hidden rounded-lg">
+    <div class="HomeBanner relative overflow-hidden rounded-3xl">
       <!-- Image -->
       <UiImg :src="config.og_image" class="!absolute w-full h-full top-0 left-0" w="16" h="9"/>
 

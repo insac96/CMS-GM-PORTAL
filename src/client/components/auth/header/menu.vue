@@ -8,13 +8,13 @@
       ></UButton>
 
       <template #panel>
-        <div class="w-[300px] max-w-sreen overflow-hidden BoxBlock">
+        <UCard class="w-[300px] max-w-sreen overflow-hidden" :ui="{ body: { padding: 'p-0 sm:p-0'}, rounded: 'rounded-none'}">
           <DataUserBox :fetch-id="authStore.profile._id" />
 
           <UDivider />
 
-          <UVerticalNavigation :links="menuUser" :ui="{ padding: 'py-2', rounded: 'rounded-none', divider: { wrapper: { base: 'p-0' }}}" />
-        </div>
+          <UVerticalNavigation :links="menuUser" :ui="{ padding: 'py-2', divider: { wrapper: { base: 'p-0' }}}" />
+        </UCard>
       </template>
     </UPopover>
 

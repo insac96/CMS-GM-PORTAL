@@ -4,14 +4,14 @@
       v-if="images"
       v-slot="{ item }" 
       :items="images" 
-      :ui="{ item: 'basis-full', container: 'rounded-lg' }"
+      :ui="{ item: 'basis-full', container: 'rounded-2xl' }"
       :prev-button="{
         icon: 'i-bx-chevrons-left',
       }"
       :next-button="{
         icon: 'i-bx-chevrons-right',
       }"
-      class="rounded-lg overflow-hidden"
+      class="rounded-2xl overflow-hidden"
       :arrows="(!!arrow && images.length > 1) ? true : false"
       ref="carouselRef"
     >

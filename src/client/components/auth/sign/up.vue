@@ -28,6 +28,7 @@
 </template>
 
 <script setup>
+const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
 const emit = defineEmits(['done', 'in'])
 
@@ -70,6 +71,7 @@ const submit = async () => {
 
     await useAPI('auth/public/sign/up', JSON.parse(JSON.stringify(state.value)))
     await authStore.setAuth()
+    $socket.emit('online-login', authStore.profile._id)
 
     loading.value = false
     emit('done')
