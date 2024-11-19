@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     .limit(size)
     .skip((current - 1) * 6)
 
-    const total = await DB.GameTool.count(match)
+    const total = await DB.GameChina.count(match)
 
     return resp(event, { result: { list, total } })
   } 
