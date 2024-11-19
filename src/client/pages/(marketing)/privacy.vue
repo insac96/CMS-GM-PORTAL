@@ -6,7 +6,7 @@
       <UButton color="gray" @click="navigateTo('/terms')" class="grow">Điều khoản dịch vụ</UButton>
     </UiFlex>
 
-    <DataEmpty v-if="!!loading || !privacy" :text="!!loading ? 'Đang tải...' : 'Không có dữ liệu'"></DataEmpty>
+    <DataEmpty v-if="!!loading || !privacy || privacy == '<p></p>'" :text="!!loading ? 'Đang tải...' : 'Không có dữ liệu'"></DataEmpty>
     <UiEditorContent :content="privacy" v-else />
   </UiContent>
 </template>

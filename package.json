@@ -12,7 +12,6 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/device": "^3.2.3",
-    "@tiptap/extension-image": "^2.9.1",
     "@tiptap/extension-text-align": "^2.9.1",
     "@tiptap/extension-youtube": "^2.9.1",
     "@types/jsonwebtoken": "^9.0.4",
@@ -35,7 +34,6 @@
     "@nuxtjs/robots": "^3.0.0",
     "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
-    "@tiptap/extension-link": "^2.9.1",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^10.7.0",
     "axios": "^1.7.4",

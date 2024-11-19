@@ -121,6 +121,12 @@
           icon="i-bx-minus" square
           color="gray"
         />
+
+        <UButton
+          @click="editor.commands.clearContent(true)"
+          icon="i-bx-trash" square
+          color="gray"
+        />
       </UiFlex>
     </template>
 
@@ -139,12 +145,19 @@ const editor = useEditor({
   content: props.modelValue,
   extensions: [
     TiptapStarterKit, 
-    TiptapImage2, 
-    TiptapYoutube, 
+    TiptapImage, 
+    TiptapYoutube,
+    TiptapHardBreak.extend({
+      addKeyboardShortcuts () {
+        return {
+          Enter: () => editor.value.commands.setHardBreak()
+        }
+      }
+    }),
     TiptapTextAlign.configure({
       types: ['heading', 'paragraph']
     }),
-    TiptapLink2.configure({
+    TiptapLink.configure({
       HTMLAttributes: {
         rel: 'noopener noreferrer',
         target: '_blank'

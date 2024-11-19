@@ -30,6 +30,8 @@
           </div>
 
           <div v-if="gateSelect && gateSelect.type == 1">
+            <UiText align="center" class="mb-2" size="sm" weight="semibold" color="rose">Chú ý: Thẻ cào chỉ nhận được 80% số tiền nạp</UiText>
+
             <UFormGroup label="Chọn nhà mạng" name="card_net">
               <USelectMenu v-model="state.card.net" :options="card.net" value-attribute="value" size="lg" />
             </UFormGroup>

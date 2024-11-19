@@ -24,7 +24,7 @@
     </UiFlex>
 
     <div class="my-4">
-      <DataEmpty class="h-[300px]" v-if="!news.content" />
+      <DataEmpty class="h-[300px]" v-if="!news.content || news.content == '<p></p>'" />
       <UiEditorContent :content="news.content" v-else />
     </div>
 

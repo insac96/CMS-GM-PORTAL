@@ -6,7 +6,7 @@
       </template>
 
       <div class="max-h-[70vh] overflow-y-auto mb-4">
-        <DataEmpty :loading="loading" class="min-h-[300px]" v-if="!!loading || !content"></DataEmpty>
+        <DataEmpty :loading="loading" class="min-h-[300px]" v-if="!!loading || !content || content == '<p></p>'"></DataEmpty>
         <UiEditorContent :content="content" v-else />
       </div>
     </UiContent>

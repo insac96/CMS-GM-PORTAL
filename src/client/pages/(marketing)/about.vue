@@ -6,7 +6,7 @@
       <UButton color="gray" @click="navigateTo('/terms')" class="grow">Điều khoản dịch vụ</UButton>
     </UiFlex>
 
-    <DataEmpty v-if="!!loading || !about" :loading="loading"></DataEmpty>
+    <DataEmpty v-if="!!loading || !about || about == '<p></p>'" :loading="loading"></DataEmpty>
     <UiEditorContent :content="about" v-else />
   </UiContent>
 </template>

@@ -22,7 +22,7 @@
 			</UAlert>
 		</UiFlex>
 
-		<DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content" />
+		<DataEmpty class="h-[300px]" text="Chưa có tin tức mới" v-if="!game.content || game.content == '<p></p>'" />
 		<UiEditorContent :content="game.content" v-else />
 	</div>
 </template>

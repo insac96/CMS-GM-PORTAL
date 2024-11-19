@@ -31,7 +31,7 @@ export default async (
   const realMoney = parseInt(String(money))
   const realStatus = realMoney == 0 ? 2 : status
   const realReason = reason || 'Giao dịch không hợp lệ'
-
+  
   // Get Payment
   const payment = await DB.Payment
   .findOne({ _id: _id })
@@ -46,6 +46,12 @@ export default async (
   if(!user) throw 'Không tìm thấy thông tin tài khoản'
   const gate = await DB.Gate.findOne({ _id: payment.gate }).select('name person number type') as IDBGate
   if(!gate) throw 'Không tìm thấy thông tin kênh nạp'
+
+  // Get Coin
+  let realCoin = realMoney
+  if(gate.type == 1){
+    realCoin = Math.floor((realMoney * 80) / 100)
+  }
 
   // Update Payment
   const time = new Date()
@@ -64,13 +70,13 @@ export default async (
   let realNotify
   if(realStatus == 1){
     // Update User
-    await DB.User.updateOne({ _id: payment.user },{ $inc: { 'currency.coin': realMoney, 'currency.exp': realMoney }})
+    await DB.User.updateOne({ _id: payment.user },{ $inc: { 'currency.coin': realCoin, 'currency.exp': realCoin }})
 
     // Log User
-    realNotify = `Bạn được duyệt thành công giao dịch <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')} VNĐ</b>`
+    realNotify = `Bạn được duyệt thành công giao dịch <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')} VNĐ</b> và nhận về <b>${realCoin.toLocaleString('vi-VN')} Xu</b>`
     if(!!verifier) logAdmin(event, `Chấp nhận giao dịch nạp tiền <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')}</b>`, verify_person)
-    logUser(event, user._id, `Nhận <b>${realMoney.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`)
-    IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa tăng thêm <b class="text-primary-500">${realMoney.toLocaleString('vi-VN')}</b> Tu Vi`)
+    logUser(event, user._id, `Nhận <b>${realCoin.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`)
+    IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa tăng thêm <b class="text-primary-500">${realCoin.toLocaleString('vi-VN')}</b> Tu Vi`)
 
     // Telebot
     const config = await DB.Config.findOne({}).select('telebot manage_password') as IDBConfig
