@@ -47,11 +47,6 @@ export default async (
   const gate = await DB.Gate.findOne({ _id: payment.gate }).select('name person number type') as IDBGate
   if(!gate) throw 'Không tìm thấy thông tin kênh nạp'
 
-  // Get Coin
-  let realCoin = realMoney
-  if(gate.type == 1){
-    realCoin = Math.floor((realMoney * 80) / 100)
-  }
 
   // Update Payment
   const time = new Date()
@@ -69,6 +64,12 @@ export default async (
   // Check Status
   let realNotify
   if(realStatus == 1){
+    // Get Coin
+    let realCoin = realMoney
+    if(gate.type == 1){
+      realCoin = Math.floor((realMoney * 80) / 100) // Thẻ cào chiết khấu 80%
+    }
+
     // Update User
     await DB.User.updateOne({ _id: payment.user },{ $inc: { 'currency.coin': realCoin, 'currency.exp': realCoin }})
 
