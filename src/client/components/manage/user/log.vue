@@ -1,25 +1,27 @@
 <template>
-  <UiContent title="Nhật Ký" sub="Nhật ký hoạt động của tài khoản" no-dot>
-    <UiFlex justify="between">
+  <div>
+    <UiFlex justify="between" class="mb-2">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
     </UiFlex>
 
-    <LoadingTable v-if="loading.load" />
+    <UCard :ui="{ body: { padding: 'p-0 sm:p-0'}}" class="mb-2">
+      <LoadingTable v-if="loading.load" />
 
-    <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
-      <template #action-data="{ row }">
-        <div class="whitespace-normal" v-html="row.action" />
-      </template>
+      <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
+        <template #action-data="{ row }">
+          <div class="whitespace-normal" v-html="row.action" />
+        </template>
 
-      <template #createdAt-data="{ row }">
-        {{ useDayJs().displayFull(row.createdAt) }}
-      </template>
-    </UTable>
+        <template #createdAt-data="{ row }">
+          {{ useDayJs().displayFull(row.createdAt) }}
+        </template>
+      </UTable>
+    </UCard>
 
     <UiFlex justify="end">
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
     </UiFlex>
-  </UiContent>
+  </div>
 </template>
 
 <script setup>

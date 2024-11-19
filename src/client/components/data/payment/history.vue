@@ -1,7 +1,7 @@
 <template>
   <UiContent title="Lịch Sử Nạp" sub="Danh sách các giao dịch nạp Xu" class="p-4" no-dot>
     <div>
-      <UiFlex>
+      <UiFlex class="mb-2">
         <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
 
         <UForm @submit="getList" class="max-w-[9rem] mr-auto">
@@ -12,35 +12,37 @@
         <SelectDate time v-model="page.range.end" placeholder="Kết thúc" size="sm" class="ml-1 max-w-[140px]"/>
       </UiFlex>
 
-      <LoadingTable v-if="loading.load" />
+      <UCard :ui="{ body: { padding: 'p-0 sm:p-0'}}" class="mb-2">
+        <LoadingTable v-if="loading.load" />
 
-      <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
-        <template #code-data="{ row }">
-          <UiText color="primary" weight="semibold" pointer @click="viewPayment(row._id)">{{ row.code }}</UiText>
-        </template>
+        <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
+          <template #code-data="{ row }">
+            <UiText color="primary" weight="semibold" pointer @click="viewPayment(row._id)">{{ row.code }}</UiText>
+          </template>
 
-        <template #gate-data="{ row }">
-          <UBadge variant="soft" color="gray">{{ row.gate.name }}</UBadge>
-        </template>
+          <template #gate-data="{ row }">
+            <UBadge variant="soft" color="gray">{{ row.gate.name }}</UBadge>
+          </template>
 
-        <template #money-data="{ row }">
-          <UiText weight="semibold">{{ toMoney(row.money) }}</UiText>
-        </template>
+          <template #money-data="{ row }">
+            <UiText weight="semibold">{{ toMoney(row.money) }}</UiText>
+          </template>
 
-        <template #status-data="{ row }">
-          <UBadge :color="statusFormat[row.status].color" variant="soft">
-            {{ statusFormat[row.status].label }}
-          </UBadge>
-        </template>
+          <template #status-data="{ row }">
+            <UBadge :color="statusFormat[row.status].color" variant="soft">
+              {{ statusFormat[row.status].label }}
+            </UBadge>
+          </template>
 
-        <template #createdAt-data="{ row }">
-          {{ useDayJs().displayFull(row.createdAt) }}
-        </template>
+          <template #createdAt-data="{ row }">
+            {{ useDayJs().displayFull(row.createdAt) }}
+          </template>
 
-        <template #undo-data="{ row }">
-          <UButton color="gray" size="xs" :disabled="row.status > 0" @click="openUndo(row)">{{ row.status > 0 ? '...' : 'Hủy' }}</UButton>
-        </template>
-      </UTable>
+          <template #undo-data="{ row }">
+            <UButton color="gray" size="xs" :disabled="row.status > 0" @click="openUndo(row)">{{ row.status > 0 ? '...' : 'Hủy' }}</UButton>
+          </template>
+        </UTable>
+      </UCard>
 
       <UiFlex justify="between">
         <UButton color="gray" icon="i-bx-check" v-if="totalSuccess != 0">{{ toMoney(totalSuccess) }}</UButton>

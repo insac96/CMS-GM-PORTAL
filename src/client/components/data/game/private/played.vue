@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiFlex>
+    <UiFlex class="mb-2">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
 
       <UForm @submit="getList" class="max-w-[9rem] mr-auto">
@@ -8,23 +8,25 @@
       </UForm>
     </UiFlex>
 
-    <LoadingTable v-if="loading" />
+    <UCard :ui="{ body: { padding: 'p-0 sm:p-0'}}" class="mb-2">
+      <LoadingTable v-if="loading" />
 
-    <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
-      <template #game-data="{ row }">
-        <NuxtLink :to="`/game/private/${row.game.key}`" target="_blank">
-          <UiText color="primary" weight="semibold">{{ row.game.name }}</UiText>
-        </NuxtLink>
-      </template>
+      <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
+        <template #game-data="{ row }">
+          <NuxtLink :to="`/game/private/${row.game.key}`" target="_blank">
+            <UiText color="primary" weight="semibold">{{ row.game.name }}</UiText>
+          </NuxtLink>
+        </template>
 
-      <template #[`spend.total.coin-data`]="{ row }">
-        {{ row.spend ? useMoney().toMoney(row.spend.total.coin) : '0' }}
-      </template>
+        <template #[`spend.total.coin-data`]="{ row }">
+          {{ row.spend ? useMoney().toMoney(row.spend.total.coin) : '0' }}
+        </template>
 
-      <template #createdAt-data="{ row }">
-        {{ useDayJs().displayFull(row.createdAt) }}
-      </template>
-    </UTable>
+        <template #createdAt-data="{ row }">
+          {{ useDayJs().displayFull(row.createdAt) }}
+        </template>
+      </UTable>
+    </UCard>
 
     <UiFlex justify="end">
       <UPagination class="ml-auto" v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />

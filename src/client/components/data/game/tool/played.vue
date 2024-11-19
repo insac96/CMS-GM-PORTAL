@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UiFlex>
+    <UiFlex class="mb-2">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1" />
 
       <UForm @submit="getList" class="max-w-[9rem] mr-auto">
@@ -8,29 +8,31 @@
       </UForm>
     </UiFlex>
 
-    <LoadingTable v-if="loading" />
+    <UCard :ui="{ body: { padding: 'p-0 sm:p-0'}}" class="mb-2">
+      <LoadingTable v-if="loading" />
 
-    <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
-      <template #game-data="{ row }">
-        <NuxtLink :to="`/game/tool/${row.game.key}`" target="_blank">
-          <UiText color="primary" weight="semibold">{{ row.game.name }}</UiText>
-        </NuxtLink>
-      </template>
+      <UTable v-model:sort="page.sort" :columns="columns" :rows="list">
+        <template #game-data="{ row }">
+          <NuxtLink :to="`/game/tool/${row.game.key}`" target="_blank">
+            <UiText color="primary" weight="semibold">{{ row.game.name }}</UiText>
+          </NuxtLink>
+        </template>
 
-      <template #recharge-data="{ row }">
-        <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.recharge"></UiIcon>
-        <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
-      </template>
+        <template #recharge-data="{ row }">
+          <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.recharge"></UiIcon>
+          <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
+        </template>
 
-      <template #mail-data="{ row }">
-        <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.mail"></UiIcon>
-        <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
-      </template>
+        <template #mail-data="{ row }">
+          <UiIcon name="i-bxs-check-circle" color="green" size="5" v-if="!!row.mail"></UiIcon>
+          <UiIcon name="i-bxs-x-circle" color="gray" size="5" v-else></UiIcon>
+        </template>
 
-      <template #createdAt-data="{ row }">
-        {{ useDayJs().displayFull(row.createdAt) }}
-      </template>
-    </UTable>
+        <template #createdAt-data="{ row }">
+          {{ useDayJs().displayFull(row.createdAt) }}
+        </template>
+      </UTable>
+    </UCard>
 
     <UiFlex justify="end">
       <UPagination class="ml-auto" v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />

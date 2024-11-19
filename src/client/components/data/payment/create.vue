@@ -17,7 +17,9 @@
         'col-span-12': !!fast
       }">
         <UCard :ui="{ body: { padding: 'pb-2 sm:pb-2'} }">
-          <UFormGroup label="Chọn kênh nạp" name="gate">
+          <UiText weight="bold" class="mb-4">Chọn kênh nạp</UiText>
+
+          <UFormGroup name="gate">
             <SelectGateImg v-model="state.gate" v-model:gate="gateSelect" />
           </UFormGroup>
 
@@ -109,9 +111,7 @@
       </div>
     </UForm>
 
-    <UCard :ui="{ body: { padding: 'p-2 sm:p-2' }}" v-if="!fast">
-      <DataPaymentHistory :reload="reloadHistory" />
-    </UCard>
+    <DataPaymentHistory :reload="reloadHistory" class="!p-0" />
   </div>
 </template>
 
