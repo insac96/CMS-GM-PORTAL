@@ -6,13 +6,15 @@ export {
   IDBGameToolPayment, 
   IDBGameToolRecharge, 
   IDBGameToolItem ,
-  IDBGameToolComment
+  IDBGameToolComment,
+  IDBGameToolLogAdmin
 } from './tool'
 export { 
   IDBGameChina, 
   IDBGameChinaUser, 
   IDBGameChinaPayment, 
-  IDBGameChinaComment 
+  IDBGameChinaComment,
+  IDBGameChinaLogAdmin
 } from './china'
 export {
   IDBGamePrivate,
@@ -24,7 +26,8 @@ export {
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
   IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory,
   IDBGamePrivateEvent, IDBGamePrivateEventHistory,
-  IDBGamePrivateComment
+  IDBGamePrivateComment,
+  IDBGamePrivateLogAdmin
 } from './private'
 
 export interface IDBGamePlatform {

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const recharge = await DB.GamePrivateRecharge.findOne({ _id: rechargeID, game: game._id }).select('recharge_id') as IDBGamePrivateRecharge
+    const recharge = await DB.GamePrivateRecharge.findOne({ _id: rechargeID, game: game._id }).select('recharge_id recharge_name') as IDBGamePrivateRecharge
     if(!recharge) throw 'Gói không tồn tại'
 
     if(recharge.recharge_id != recharge_id){
@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
     delete body['game']
     await DB.GamePrivateRecharge.updateOne({ _id: recharge._id }, body)
     
+    logGameAdmin(event, 'private', game._id, `Sửa gói nạp <b>${recharge.recharge_name}</b>`)
     return resp(event, { message: 'Sửa thành công' })
   } 
   catch (e:any) {

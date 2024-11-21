@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
     }))
     await DB.GameToolItem.insertMany(list)
 
+    logGameAdmin(event, 'tool', game._id, `Thêm danh sách vật phẩm`)
     return resp(event, { message: 'Tạo mới thành công' })
   } 
   catch (e:any) {

@@ -132,3 +132,14 @@ export interface IDBGameToolComment {
   game: Types.ObjectId | IDBGameTool
   content: string
 }
+
+// Log Admin
+export interface IDBGameToolLogAdmin {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  game: Types.ObjectId | IDBGameTool
+  user: Types.ObjectId | IDBGameToolUser
+  content: string
+}

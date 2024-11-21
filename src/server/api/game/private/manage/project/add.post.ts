@@ -25,7 +25,8 @@ export default defineEventHandler(async (event) => {
     body.key = key
     await DB.GamePrivate.create(body)
 
-    return resp(event, { message: 'Thêm trò chơi thành công' })
+    logAdmin(event, `Thêm trò chơi Private <b>${name}</b>`)
+    return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

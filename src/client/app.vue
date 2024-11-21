@@ -1,5 +1,5 @@
 <template>
-  <!-- <UiAnimStar /> -->
+  <UiAnimBox />
   <SocketNotifyGlobal v-if="route.meta.layout != 'play'"/>
   <NuxtLayout class="relative">
     <NuxtLoadingIndicator :height="2" />

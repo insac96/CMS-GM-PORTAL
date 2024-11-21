@@ -12,13 +12,19 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const shopItem = await DB.GamePrivateShopItem.findOne({ _id: _id, game: game._id }).select('item') as IDBGamePrivateShopItem
+    const shopItem = await DB.GamePrivateShopItem
+    .findOne({ _id: _id, game: game._id })
+    .select('item') 
+    .populate({ path: 'item', select: 'item_name'}) as IDBGamePrivateShopItem
     if(!shopItem) throw 'Vật phẩm cửa hàng không tồn tại'
 
     const historyCount = await DB.GamePrivateShopItemHistory.count({ item: shopItem.item, game: game._id })
     if(historyCount > 0) throw 'Không thể xóa vật phẩm đã có lịch sử mua hàng'
 
     await DB.GamePrivateShopItem.deleteOne({ _id: shopItem._id })
+
+    // @ts-expect-error
+    logGameAdmin(event, 'private', game._id, `Xóa vật phẩm <b>${shopItem.item.item_name}</b> khỏi cửa hàng`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

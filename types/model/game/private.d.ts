@@ -336,3 +336,14 @@ export interface IDBGamePrivateComment {
   game: Types.ObjectId | IDBGamePrivate
   content: string
 }
+
+// Log Admin
+export interface IDBGamePrivateLogAdmin {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  game: Types.ObjectId | IDBGamePrivate
+  user: Types.ObjectId | IDBGamePrivateUser
+  content: string
+}

@@ -27,8 +27,11 @@ export default defineEventHandler(async (event) => {
     await DB.GamePrivateEvent.deleteMany({ game: game._id })
     await DB.GamePrivateEventHistory.deleteMany({ game: game._id })
     await DB.GamePrivateComment.deleteMany({ game: game._id })
+    await DB.GamePrivateLogAdmin.deleteMany({ game: game._id })
+    
     await DB.GamePrivate.deleteOne({ _id: game._id })
 
+    logAdmin(event, `Xóa trò chơi Private <b>${game.name}</b>`)
     return resp(event, { message: 'Xóa trò chơi thành công' })
   } 
   catch (e:any) {

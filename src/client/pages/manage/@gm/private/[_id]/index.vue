@@ -18,7 +18,7 @@
       >
         <template #user-data="{ row }">
           <span v-if="!row.user">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.user._id)">
             {{ row.user.username }}
           </UBadge>
         </template>
@@ -48,6 +48,11 @@
       <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Chọn cột" />
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" />
     </UiFlex>
+
+    <!-- Modal User View -->
+    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
+      <ManageUser :user="stateUser" />
+    </UModal>
 
 		<!-- Modal Edit Auth-->
     <UModal v-model="modal.editAuth" preventClose>
@@ -114,6 +119,7 @@
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const game = useAttrs().game
 const { toMoney } = useMoney()
 
@@ -181,6 +187,8 @@ const stateEditLogin = ref({
   login: null
 })
 
+const stateUser = ref(undefined)
+
 // Modal
 const modal = ref({
   user: false,
@@ -194,6 +202,12 @@ const loading = ref({
   load: true,
 	edit: false
 })
+
+const viewUser = (_id) => {
+  if(!authStore.isAdmin) return
+  stateUser.value = _id
+  modal.value.user = true
+}
 
 const actions = (row) => [
   [{

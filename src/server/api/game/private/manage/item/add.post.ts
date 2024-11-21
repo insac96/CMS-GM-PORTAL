@@ -33,6 +33,7 @@ export default defineEventHandler(async (event) => {
       else await DB.GamePrivateItem.create(i)
     })
 
+    logGameAdmin(event, 'private', game._id, `Thêm danh sách vật phẩm`)
     return resp(event, { message: 'Tạo mới thành công' })
   } 
   catch (e:any) {

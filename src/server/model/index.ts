@@ -19,12 +19,14 @@ import {
   DBGameToolRecharge, 
   DBGameToolItem,
   DBGameToolComment,
+  DBGameToolLogAdmin,
 
   DBGameChina, 
   DBGameChinaUser,
   DBGameToolPayment,
   DBGameChinaPayment,
   DBGameChinaComment,
+  DBGameChinaLogAdmin,
 
   DBGamePrivate,
   DBGamePrivateServerOpen,
@@ -36,6 +38,7 @@ import {
   DBGamePrivateGiftcode, DBGamePrivateGiftcodeHistory,
   DBGamePrivateEvent, DBGamePrivateEventHistory,
   DBGamePrivateComment,
+  DBGamePrivateLogAdmin
 } from './game'
 
 import {
@@ -80,11 +83,13 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GameToolRecharge: DBGameToolRecharge(mongoose),
     GameToolItem: DBGameToolItem(mongoose),
     GameToolComment: DBGameToolComment(mongoose),
+    GameToolLogAdmin: DBGameToolLogAdmin(mongoose),
 
     GameChina: DBGameChina(mongoose),
     GameChinaUser: DBGameChinaUser(mongoose),
     GameChinaPayment: DBGameChinaPayment(mongoose),
     GameChinaComment: DBGameChinaComment(mongoose),
+    GameChinaLogAdmin: DBGameChinaLogAdmin(mongoose),
 
     GamePrivate: DBGamePrivate(mongoose),
     GamePrivateServerOpen: DBGamePrivateServerOpen(mongoose),
@@ -103,6 +108,7 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     GamePrivateEvent: DBGamePrivateEvent(mongoose),
     GamePrivateEventHistory: DBGamePrivateEventHistory(mongoose),
     GamePrivateComment: DBGamePrivateComment(mongoose),
+    GamePrivateLogAdmin: DBGamePrivateLogAdmin(mongoose),
 
     // Forum DB
     ForumCategory: DBForumCategory(mongoose),

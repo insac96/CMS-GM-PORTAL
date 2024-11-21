@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
     delete body['_id']
     await DB.GamePrivate.updateOne({ _id: game._id }, { play: body })
 
+    logGameAdmin(event, 'private', game._id, `Sửa link chơi trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

@@ -117,7 +117,13 @@ const menus = (row) => [
       label: 'Người chơi',
       icon: 'i-bx-group',
       click: () => navigateTo(`/manage/@gm/tool/${row._id}`)
-    },{
+    },
+    {
+      label: 'Nhân vật',
+      icon: 'i-bxs-user-account',
+      click: () => navigateTo(`/manage/@gm/tool/${row._id}/game/roles`)
+    }
+  ],[{
       label: 'Gói nạp',
       icon: 'i-bx-cylinder',
       click: () => navigateTo(`/manage/@gm/tool/${row._id}/recharge`)
@@ -128,9 +134,9 @@ const menus = (row) => [
     },
   ],[
     {
-      label: 'Nhân vật',
-      icon: 'i-bxs-user-account',
-      click: () => navigateTo(`/manage/@gm/tool/${row._id}/game/roles`)
+      label: 'Nhật ký',
+      icon: 'i-bxs-book-open',
+      click: () => navigateTo(`/manage/@gm/tool/${row._id}/log`)
     }
   ]
 ]

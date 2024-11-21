@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const eventData = await DB.GamePrivateEvent.findOne({ _id: _id, type: type, game: game._id }).select('need') as IDBGamePrivateEvent
+    const eventData = await DB.GamePrivateEvent.findOne({ _id: _id, type: type, game: game._id }).select('need type') as IDBGamePrivateEvent
     if(!eventData) throw 'Mốc sự kiện không tồn tại'
 
     if(eventData.need != need){
@@ -33,6 +33,8 @@ export default defineEventHandler(async (event) => {
     body.gift = giftFormat
 
     await DB.GamePrivateEvent.updateOne({ _id: eventData._id }, body)
+
+    logGameAdmin(event, 'private', game._id, `Sửa mốc <b>${eventData.need}</b> của sự kiện <b>${eventData.type}</b>`)
     return resp(event, { message: 'Sửa thành công' })
   } 
   catch (e:any) {

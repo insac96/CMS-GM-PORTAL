@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
     if(!gameID) throw 'Không tìm thấy mã trò chơi'
     if(!login) throw 'Dữ liệu đầu vào không hợp lệ'
     const { week, month, total } = login
-    if(!week || !month || !total) throw 'Dữ liệu đầu vào không hợp lệ'
     if(
       !!isNaN(parseInt(week))
       || !!isNaN(parseInt(month))
@@ -26,7 +25,10 @@ export default defineEventHandler(async (event) => {
     await getAuthGM(event, auth, game)
 
     // Check User
-    const user = await DB.GamePrivateUser.findOne({ _id: userID, game: game._id }).select('_id') as IDBGamePrivateUser
+    const user = await DB.GamePrivateUser
+    .findOne({ _id: userID, game: game._id })
+    .select('user block') 
+    .populate({ path: 'user', select: 'username' }) as IDBGamePrivateUser
     if(!user) throw 'Người chơi không tồn tại'
 
     // Update
@@ -36,6 +38,7 @@ export default defineEventHandler(async (event) => {
       'login.total' : parseInt(total),
     })
 
+    logGameAdmin(event, 'private', game._id, `Sửa chỉ số đăng nhập người chơi <b>${user.user.username}</b>`)
     return resp(event, { message: 'Thao tác thành công' })
   } 
   catch (e:any) {

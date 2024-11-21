@@ -23,6 +23,8 @@ export default defineEventHandler(async (event) => {
     if(!!checkDup) throw 'Mã vật phẩm đã tồn tại'
 
     await DB.GamePrivateRecharge.create(body)
+
+    logGameAdmin(event, 'private', game._id, `Thêm gói nạp <b>${recharge_name}</b>`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

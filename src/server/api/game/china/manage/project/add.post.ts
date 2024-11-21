@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
     body.key = key
     await DB.GameChina.create(body)
 
+    logAdmin(event, `Thêm trò chơi China <b>${name}</b>`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

@@ -24,6 +24,8 @@ export default defineEventHandler(async (event) => {
     body.gift = giftFormat
 
     await DB.GamePrivateItemBox.create(body)
+
+    logGameAdmin(event, 'private', game._id, `Thêm gói vật phẩm <b>${name}</b>`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

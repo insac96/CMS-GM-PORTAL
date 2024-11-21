@@ -15,13 +15,16 @@ export default defineEventHandler(async (event) => {
     await getAuthGM(event, auth, game)
 
     // Check User
-    const user = await DB.GamePrivateUser.findOne({ _id: userID, game: game._id }).select('block') as IDBGamePrivateUser
+    const user = await DB.GamePrivateUser
+    .findOne({ _id: userID, game: game._id })
+    .select('user block') 
+    .populate({ path: 'user', select: 'username' }) as IDBGamePrivateUser
     if(!user) throw 'Người chơi không tồn tại'
 
     user.block = block
-    // @ts-expect-error
     await user.save()
 
+    logGameAdmin(event, 'private', game._id, `Sửa thông tin người chơi <b>${user.user.username}</b>`)
     return resp(event, { message: 'Thao tác thành công' })
   } 
   catch (e:any) {

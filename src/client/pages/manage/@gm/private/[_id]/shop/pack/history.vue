@@ -5,7 +5,7 @@
 				icon="i-bx-list-ul" 
 				size="xs" 
 				class="ml-auto"
-				:to="`/manage/@gm/private/${game.key}/shop/pack`"
+				:to="`/manage/@gm/private/${game._id}/shop/pack`"
 			>
 				Danh sách
 			</UButton>
@@ -29,7 +29,7 @@
       >
 				<template #user-data="{ row }">
           <span v-if="!row.user">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.user.user._id)">
             {{ row.user.user.username }}
           </UBadge>
         </template>
@@ -57,10 +57,16 @@
       <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Chọn cột" />
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" />
     </UiFlex>
+
+    <!-- Modal User View -->
+    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
+      <ManageUser :user="stateUser" />
+    </UModal>
   </UiContent>
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const game = useAttrs().game
 const { toMoney } = useMoney()
 
@@ -124,6 +130,14 @@ const modal = ref({
 const loading = ref({
   load: true
 })
+
+// View User
+const stateUser = ref(undefined)
+const viewUser = (_id) => {
+  if(!authStore.isAdmin) return
+  stateUser.value = _id
+  modal.value.user = true
+}
 
 // Fetch
 const getList = async () => {

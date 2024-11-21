@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const shopPack = await DB.GamePrivateShopPack.findOne({ _id: _id, game: game._id }).select('_id') as IDBGamePrivateShopPack
+    const shopPack = await DB.GamePrivateShopPack.findOne({ _id: _id, game: game._id }).select('name') as IDBGamePrivateShopPack
     if(!shopPack) throw 'Vật phẩm cửa hàng không tồn tại'
 
     delete body['_id']
@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
     body.gift = giftFormat
     await DB.GamePrivateShopPack.updateOne({ _id: shopPack._id }, body)
 
+    logGameAdmin(event, 'private', game._id, `Sửa gói vật phẩm <b>${shopPack.name}</b> ở cửa hàng`)
     return resp(event, { message: 'Sửa thành công' })
   } 
   catch (e:any) {

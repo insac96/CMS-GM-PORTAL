@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 
       if(search.by == 'USER'){
         const users = await DB.User.find({
-          username : { $regex : search.toLowerCase(), $options : 'i' }
+          username : { $regex : search.key.toLowerCase(), $options : 'i' }
         }).select('_id')
   
         const usersGame = await DB.GamePrivateUser.find({

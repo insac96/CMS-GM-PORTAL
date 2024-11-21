@@ -17,13 +17,19 @@ export default (io : SocketServer, socket : Socket) => {
       const user = await DB.User.findOne({ _id: id }).select('_id')
       if(!!user) await DB.SocketOnline.create({ socket: socket.id, user: user._id })
     }
-
+  
     sendOnline(io)
   })
 
   socket.on('online-login', async (id : Types.ObjectId) => {
     const user = await DB.User.findOne({ _id: id }).select('_id')
     if(!!user) await DB.SocketOnline.updateOne({ socket: socket.id }, { user: user.id })
+    sendOnline(io)
+  })
+
+  socket.on('online-logout', async (id : Types.ObjectId) => {
+    const user = await DB.User.findOne({ _id: id }).select('_id')
+    if(!!user) return await DB.SocketOnline.updateOne({ socket: socket.id }, { user: null })
     sendOnline(io)
   })
 

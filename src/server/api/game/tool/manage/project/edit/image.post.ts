@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
     delete body['_id']
     await DB.GameTool.updateOne({ _id: game._id }, { image: body })
 
+    logGameAdmin(event, 'tool', game._id, `Sửa hình ảnh trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

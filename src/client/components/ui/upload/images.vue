@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input @change="onFileChange" type="file" accept=".jpg,.jpeg,.png,.webp,.gif" ref="input" hidden class="none">
+    <input @change="onFileChange" type="file" accept=".jpg,.jpeg,.png,.webp,.gif" ref="input" hidden class="none" multiple>
 
     <UiFlex class="gap-1 flex-wrap">
       <UiFlex 
@@ -68,24 +68,27 @@ const onFileChange = async (e) => {
     const files =  e.target.files
     if(files.length == 0) throw 'Vui lòng chọn hình ảnh trước'
 
-    const file = files[0]
-    const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/webp' || file.type === 'image/gif'
-    if(!isImage) throw 'Chỉ hỗ trợ định dạng ảnh (jpg|jpeg|png|webp|gif|svg)'
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      const isImage = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/webp' || file.type === 'image/gif'
+      if(!isImage) throw 'Chỉ hỗ trợ định dạng ảnh (jpg|jpeg|png|webp|gif|svg)'
 
-    const is5M = file.size / 1024 / 1024 < 10
-    if (!is5M) throw 'Chỉ hỗ trợ ảnh dung lượng nhỏ hơn 10MB'
+      const is5M = file.size / 1024 / 1024 < 10
+      if (!is5M) throw 'Chỉ hỗ trợ ảnh dung lượng nhỏ hơn 10MB'
 
-    const formData = new FormData()
-    formData.append('image', file)
+      const formData = new FormData()
+      formData.append('image', file)
 
-    const url = await useAPI('upload/image', formData)
+      const url = await useAPI('upload/image', formData)
+      if(!!url) list.value.push(url)
+    }
+
     loading.value = false
-
-    list.value.push(url)
     emit('update:modelValue', list)
     e.target.value = ""
   }
   catch(e) {
+    e.target.value = ""
     loading.value = false
     useNotify().error(e.toString())
   }

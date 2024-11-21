@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
     await DB.GameToolUser.deleteMany({ game: game._id })
     await DB.GameToolPayment.deleteMany({ game: game._id })
     await DB.GameToolComment.deleteMany({ game: game._id })
+    await DB.GameToolLogAdmin.deleteMany({ game: game._id })
     await DB.GameTool.updateOne({ _id: game._id },{
       statistic: {
         play: 0,
@@ -24,6 +25,7 @@ export default defineEventHandler(async (event) => {
       },
     })
 
+    logGameAdmin(event, 'tool', game._id, `Reset trò chơi`)
     return resp(event, { message: 'Reset thành công' })
   } 
   catch (e:any) {

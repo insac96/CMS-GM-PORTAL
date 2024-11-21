@@ -1,5 +1,16 @@
 <template>
   <UiContent title="History Event" sub="Lịch sử nhận toàn hệ thống">
+    <template #more>
+			<UButton 
+				icon="i-bx-list-ul" 
+				size="xs" 
+				class="ml-auto"
+				:to="`/manage/@gm/private/${game._id}/event`"
+			>
+				Danh sách
+			</UButton>
+		</template>
+
     <UiFlex class="mb-4">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-1"/>
 
@@ -28,7 +39,7 @@
       >
 				<template #user-data="{ row }">
           <span v-if="!row.user">...</span>
-          <UBadge v-else variant="soft" color="gray" class="cursor-pointer">
+          <UBadge v-else variant="soft" color="gray" class="cursor-pointer" @click="viewUser(row.user.user._id)">
             {{ row.user.user.username }}
           </UBadge>
         </template>
@@ -54,10 +65,16 @@
       <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Chọn cột" />
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" />
     </UiFlex>
+
+    <!-- Modal User View -->
+    <UModal v-model="modal.user" :ui="{width: 'sm:max-w-[900px]'}">
+      <ManageUser :user="stateUser" />
+    </UModal>
   </UiContent>
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const game = useAttrs().game
 const list = ref([])
 
@@ -109,10 +126,23 @@ watch(() => page.value.sort.direction, () => getList())
 watch(() => page.value.type, (val) => getList())
 watch(() => page.value.search, (val) => !val && getList())
 
+// Modal
+const modal = ref({
+  user: false,
+})
+
 // Loading
 const loading = ref({
   load: true
 })
+
+// View User
+const stateUser = ref(undefined)
+const viewUser = (_id) => {
+  if(!authStore.isAdmin) return
+  stateUser.value = _id
+  modal.value.user = true
+}
 
 // Type
 const typeFormat = {

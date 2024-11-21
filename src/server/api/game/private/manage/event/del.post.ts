@@ -12,13 +12,15 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const eventData = await DB.GamePrivateEvent.findOne({ _id: _id, game: game._id }).select('_id') as IDBGamePrivateEvent
+    const eventData = await DB.GamePrivateEvent.findOne({ _id: _id, game: game._id }).select('type need') as IDBGamePrivateEvent
     if(!eventData) throw 'Mốc sự kiện không tồn tại'
     
     const histories = await DB.GamePrivateEventHistory.count({ event: eventData._id })
     if(histories > 0) throw 'Không thể mốc đã có lịch sử nhập'
 
     await DB.GamePrivateEvent.deleteOne({ _id: eventData._id })
+
+    logGameAdmin(event, 'private', game._id, `Xóa mốc <b>${eventData.need}</b> của sự kiện <b>${eventData.type}</b>`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

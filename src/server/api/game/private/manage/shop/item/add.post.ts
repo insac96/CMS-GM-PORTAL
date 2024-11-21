@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const itemData = await DB.GamePrivateItem.findOne({ _id: item, game: game._id }).select('_id') as IDBGamePrivateItem
+    const itemData = await DB.GamePrivateItem.findOne({ _id: item, game: game._id }).select('item_name') as IDBGamePrivateItem
     if(!itemData) throw 'Vật phẩm không tồn tại'
 
     const checkDup = await DB.GamePrivateShopItem.findOne({ item: itemData._id, game: game._id }).select('_id') as IDBGamePrivateShopItem
@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
 
     await DB.GamePrivateShopItem.create(body)
 
+    logGameAdmin(event, 'private', game._id, `Thêm vật phẩm <b>${itemData.item_name}</b> vào cửa hàng`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

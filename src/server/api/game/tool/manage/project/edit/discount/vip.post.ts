@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
     delete body['_id']
     await DB.GameTool.updateOne({ _id: game._id }, { 'discount.vip': body })
 
+    logGameAdmin(event, 'tool', game._id, `Sửa giảm giá VIP trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

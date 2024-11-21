@@ -113,6 +113,11 @@ const menus = (row) => [
       label: 'Người chơi',
       icon: 'i-bx-group',
       click: () => navigateTo(`/manage/@gm/private/${row._id}`)
+    },
+    {
+      label: 'Nhân vật',
+      icon: 'i-bxs-user-account',
+      click: () => navigateTo(`/manage/@gm/private/${row._id}/game/roles`)
     }
   ],[
     {
@@ -154,9 +159,9 @@ const menus = (row) => [
     }
   ],[
     {
-      label: 'Nhân vật',
-      icon: 'i-bxs-user-account',
-      click: () => navigateTo(`/manage/@gm/private/${row._id}/game/roles`)
+      label: 'Nhật ký',
+      icon: 'i-bxs-book-open',
+      click: () => navigateTo(`/manage/@gm/private/${row._id}/log`)
     }
   ]
 ]

@@ -13,12 +13,14 @@ export default defineEventHandler(async (event) => {
     const game = await DB.GamePrivate.findOne({ _id: gameID }).select('_id') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
-    const openserver = await DB.GamePrivateServerOpen.findOne({ game: game._id, _id: _id }).select('_id') as IDBGamePrivateServerOpen
+    const openserver = await DB.GamePrivateServerOpen.findOne({ game: game._id, _id: _id }).select('server_name') as IDBGamePrivateServerOpen
     if(!openserver) throw 'Lịch mở không tồn tại'
 
     delete body['_id']
     delete body['game']
     await DB.GamePrivateServerOpen.updateOne({ _id: openserver._id }, body)
+
+    logGameAdmin(event, 'private', game._id, `Sửa lịch mở máy chủ <b>${openserver.server_name}</b>`)
     return resp(event, { message: 'Sửa thành công' })
   } 
   catch (e:any) {

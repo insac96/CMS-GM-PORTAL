@@ -50,7 +50,7 @@ export default async (
 
   // Update Payment
   const time = new Date()
-  const verify_person = realStatus == 3 ? user._id : !!verifier ? verifier : bot._id
+  const verify_person = realStatus == 3 ? user._id : (!!verifier ? verifier : bot._id)
   await DB.Payment.updateOne({ _id: _id }, {
     money: realMoney,
     status: realStatus,
@@ -75,7 +75,7 @@ export default async (
 
     // Log User
     realNotify = `Bạn được duyệt thành công giao dịch <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')} VNĐ</b> và nhận về <b>${realCoin.toLocaleString('vi-VN')} Xu</b>`
-    if(!!verifier) logAdmin(event, `Chấp nhận giao dịch nạp tiền <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')}</b>`, verify_person)
+    logAdmin(event, `Chấp nhận giao dịch nạp tiền <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')}</b>`, verify_person)
     logUser(event, user._id, `Nhận <b>${realCoin.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`)
     IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa tăng thêm <b class="text-primary-500">${realCoin.toLocaleString('vi-VN')}</b> Tu Vi`)
 

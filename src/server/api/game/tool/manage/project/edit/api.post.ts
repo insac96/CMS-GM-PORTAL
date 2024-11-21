@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
       os: `http://${ip}:${port}/api/action/os.php?type=tool`
     }
 
+    logGameAdmin(event, 'tool', game._id, `Sửa API trò chơi`)
     await DB.GameTool.updateOne({ _id: game._id }, body)
     return resp(event, { message: 'Cập nhật thành công' })
   } 

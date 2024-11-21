@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
     body.gift = giftFormat
     await DB.GamePrivateItemBox.updateOne({ _id: itembox._id }, body)
 
+    logGameAdmin(event, 'private', game._id, `Sửa gói vật phẩm <b>${itembox.name}</b>`)
     return resp(event, { message: 'Sửa thành công' })
   } 
   catch (e:any) {

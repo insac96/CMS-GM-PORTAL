@@ -82,3 +82,13 @@ export interface IDBGameChinaComment {
   game: Types.ObjectId | IDBGameChina
   content: string
 }
+
+export interface IDBGameChinaLogAdmin {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  game: Types.ObjectId | IDBGameChina
+  user: Types.ObjectId | IDBGameChinaUser
+  content: string
+}

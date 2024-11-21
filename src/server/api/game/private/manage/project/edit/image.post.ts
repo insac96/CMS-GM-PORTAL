@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
     delete body['_id']
     await DB.GamePrivate.updateOne({ _id: game._id }, { image: body })
 
+    logGameAdmin(event, 'private', game._id, `Sửa hình ảnh trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

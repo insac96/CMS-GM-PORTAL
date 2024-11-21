@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment, IDBGameChinaComment } from '~~/types'
+import type { IDBGameChina, IDBGameChinaUser, IDBGameChinaPayment, IDBGameChinaComment, IDBGameChinaLogAdmin } from '~~/types'
 
 export const DBGameChina = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBGameChina>({ 
@@ -95,5 +95,18 @@ export const DBGameChinaComment = (mongoose : Mongoose) => {
   })
 
   const model = mongoose.model('GameChinaComment', schema, 'GameChinaComment')
+  return model 
+}
+
+export const DBGameChinaLogAdmin = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGameChinaLogAdmin>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GameChina' },
+    content: { type: String }
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GameChinaLogAdmin', schema, 'GameChinaLogAdmin')
   return model 
 }

@@ -17,6 +17,8 @@ export default defineEventHandler(async (event) => {
     if(!!checkDup) throw 'Mã vật phẩm đã tồn tại'
 
     await DB.GameToolRecharge.create(body)
+
+    logGameAdmin(event, 'tool', game._id, `Thêm gói nạp <b>${recharge_name}</b>`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
 
     await DB.GameTool.updateOne({ _id: game._id },{ content: content })
 
+    logGameAdmin(event, 'tool', game._id, `Sửa tin tức trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

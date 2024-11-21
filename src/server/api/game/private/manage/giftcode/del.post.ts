@@ -12,13 +12,15 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const giftcode = await DB.GamePrivateGiftcode.findOne({ _id: _id, game: game._id }).select('_id') as IDBGamePrivateGiftcode
+    const giftcode = await DB.GamePrivateGiftcode.findOne({ _id: _id, game: game._id }).select('code') as IDBGamePrivateGiftcode
     if(!giftcode) throw 'Mã không tồn tại'
     
     const histories = await DB.GamePrivateGiftcodeHistory.count({ giftcode: giftcode._id })
     if(histories > 0) throw 'Không thể xóa mã đã có lịch sử nhập'
 
     await DB.GamePrivateGiftcode.deleteOne({ _id: giftcode._id })
+
+    logGameAdmin(event, 'private', game._id, `Xóa mã Giftcode <b>${giftcode.code}</b>`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

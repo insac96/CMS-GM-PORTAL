@@ -21,11 +21,13 @@ export {
   IDBGameToolRecharge, 
   IDBGameToolItem,
   IDBGameToolComment,
+  IDBGameToolLogAdmin,
 
   IDBGameChina, 
   IDBGameChinaUser, 
   IDBGameChinaPayment,
   IDBGameChinaComment,
+  IDBGameChinaLogAdmin,
 
   IDBGamePrivate,
   IDBGamePrivateServerOpen,
@@ -36,7 +38,8 @@ export {
   IDBGamePrivateShopPack, IDBGamePrivateShopPackHistory,
   IDBGamePrivateGiftcode, IDBGamePrivateGiftcodeHistory,
   IDBGamePrivateEvent, IDBGamePrivateEventHistory,
-  IDBGamePrivateComment
+  IDBGamePrivateComment,
+  IDBGamePrivateLogAdmin
 } from './game'
 
 export {
@@ -80,11 +83,13 @@ export interface IGlobalDB {
   GameToolRecharge: Model<IDBGameToolRecharge>
   GameToolItem: Model<IDBGameToolItem>
   GameToolComment: Model<IDBGameToolComment>
+  GameToolLogAdmin: Model<IDBGameToolLogAdmin>
 
   GameChina: Model<IDBGameChina>
   GameChinaUser: Model<IDBGameChinaUser>
   GameChinaPayment: Model<IDBGameChinaPayment>
   GameChinaComment: Model<IDBGameChinaComment>
+  GameChinaLogAdmin: Model<IDBGameChinaLogAdmin>
 
   GamePrivate: Model<IDBGamePrivate>
   GamePrivateServerOpen: Model<IDBGamePrivateServerOpen>
@@ -103,6 +108,7 @@ export interface IGlobalDB {
   GamePrivateEvent: Model<IDBGamePrivateEvent>
   GamePrivateEventHistory: Model<IDBGamePrivateEventHistory>
   GamePrivateComment: Model<IDBGamePrivateComment>
+  GamePrivateLogAdmin: Model<IDBGamePrivateLogAdmin>
 
   // Forum DB
   ForumCategory: Model<IDBForumCategory>, 

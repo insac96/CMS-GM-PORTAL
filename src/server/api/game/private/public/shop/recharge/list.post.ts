@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     .limit(size)
     .skip((current - 1) * size)
 
-    const total = await DB.GamePrivateRecharge.count()
+    const total = await DB.GamePrivateRecharge.count(match)
     return resp(event, { result: { list, total } })
   } 
   catch (e:any) {

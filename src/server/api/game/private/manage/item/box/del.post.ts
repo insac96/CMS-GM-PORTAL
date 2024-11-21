@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
 
     await DB.GamePrivateItemBox.deleteOne({ _id: itembox._id })
     
+    logGameAdmin(event, 'private', game._id, `Xóa gói vật phẩm <b>${itembox.name}</b>`)
     return resp(event, { message: 'Xóa thành công' })
   }
   catch (e:any) {

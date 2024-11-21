@@ -17,8 +17,10 @@ export default defineEventHandler(async (event) => {
     await DB.GameToolRecharge.deleteMany({ game: game._id })
     await DB.GameToolItem.deleteMany({ game: game._id })
     await DB.GameToolComment.deleteMany({ game: game._id })
+    await DB.GameToolLogAdmin.deleteMany({ game: game._id })
     await DB.GameTool.deleteOne({ _id: game._id })
 
+    logAdmin(event, `Xóa trò chơi Tool <b>${game.name}</b>`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

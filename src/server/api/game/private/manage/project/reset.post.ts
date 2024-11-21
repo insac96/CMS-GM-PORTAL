@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
     await DB.GamePrivateGiftcodeHistory.deleteMany({ game: game._id })
     await DB.GamePrivateEventHistory.deleteMany({ game: game._id })
     await DB.GamePrivateComment.deleteMany({ game: game._id })
+    await DB.GamePrivateLogAdmin.deleteMany({ game: game._id })
     await DB.GamePrivate.updateOne({ _id: game._id },{
       statistic: {
         play: 0,
@@ -29,6 +30,7 @@ export default defineEventHandler(async (event) => {
       },
     })
 
+    logGameAdmin(event, 'private', game._id, `Reset trò chơi`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

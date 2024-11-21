@@ -26,6 +26,8 @@ export default defineEventHandler(async (event) => {
     body.code = upCode
 
     await DB.GamePrivateGiftcode.create(body)
+
+    logGameAdmin(event, 'private', game._id, `Thêm mã Giftcode <b>${code}</b>`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

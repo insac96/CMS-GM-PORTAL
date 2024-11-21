@@ -13,10 +13,12 @@ export default defineEventHandler(async (event) => {
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
 
-    const recharge = await DB.GameToolRecharge.findOne({ _id: _id, game: game._id }).select('_id') as IDBGameToolRecharge
+    const recharge = await DB.GameToolRecharge.findOne({ _id: _id, game: game._id }).select('recharge_name') as IDBGameToolRecharge
     if(!recharge) throw 'Gói không tồn tại'
 
     await DB.GameToolRecharge.deleteOne({ _id: recharge._id })
+
+    logGameAdmin(event, 'tool', game._id, `Xóa gói nạp <b>${recharge.recharge_name}</b>`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

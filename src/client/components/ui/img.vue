@@ -44,8 +44,8 @@ const props = defineProps({
 })
 
 const loading = ref(true)
-const onLoad = () => {
-  loading.value = false
+const onLoad = (event) => {
+  if(event) loading.value = false
 }
 </script>
 

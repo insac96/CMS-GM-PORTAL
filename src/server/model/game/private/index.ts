@@ -10,7 +10,8 @@ import type {
   IDBGamePrivateUser, 
   IDBGamePrivateUserLogin,
   IDBGamePrivateComment, 
-  IDBGamePrivateServerOpen
+  IDBGamePrivateServerOpen,
+  IDBGamePrivateLogAdmin
 } from '~~/types'
 
 export const DBGamePrivate = (mongoose : Mongoose) => {
@@ -399,5 +400,19 @@ export const DBGamePrivateComment = (mongoose : Mongoose) => {
   })
 
   const model = mongoose.model('GamePrivateComment', schema, 'GamePrivateComment')
+  return model 
+}
+
+// Log Admin
+export const DBGamePrivateLogAdmin = (mongoose : Mongoose) => {
+  const schema = new mongoose.Schema<IDBGamePrivateLogAdmin>({ 
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    game: { type: mongoose.Schema.Types.ObjectId, ref: 'GamePrivate' },
+    content: { type: String }
+  }, {
+    timestamps: true
+  })
+
+  const model = mongoose.model('GamePrivateLogAdmin', schema, 'GamePrivateLogAdmin')
   return model 
 }

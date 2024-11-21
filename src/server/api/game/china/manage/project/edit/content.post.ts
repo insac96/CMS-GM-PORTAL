@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
 
     await DB.GameChina.updateOne({ _id: game._id },{ content: content })
 
+    logGameAdmin(event, 'china', game._id, `Sửa tin tức trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

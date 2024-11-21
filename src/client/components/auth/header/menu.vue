@@ -52,6 +52,7 @@
 </template>
 
 <script setup>
+const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
 const open = ref(false)
 const modal = ref({
@@ -67,6 +68,11 @@ const modal = ref({
     manager: false
   }
 })
+
+const logout = () => {
+  $socket.emit('online-logout', authStore.profile._id)
+  authStore.removeAuth()
+}
 
 const menuUser = computed(() => {
   const list = []
@@ -108,7 +114,7 @@ const menuUser = computed(() => {
     [{
       label: 'Đăng xuất',
       icon: 'i-bx-log-out',
-      click: () => authStore.removeAuth()
+      click: () => logout()
     }]
   ]
 })

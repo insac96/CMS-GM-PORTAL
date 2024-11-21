@@ -12,10 +12,12 @@ export default defineEventHandler(async (event) => {
     const game = await DB.GameTool.findOne({ _id: gameID }).select('_id') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
-    const openserver = await DB.GameToolServerOpen.findOne({ game: game._id, _id: _id }).select('_id') as IDBGameToolServerOpen
+    const openserver = await DB.GameToolServerOpen.findOne({ game: game._id, _id: _id }).select('server_name') as IDBGameToolServerOpen
     if(!openserver) throw 'Lịch mở không tồn tại'
     
     await DB.GameToolServerOpen.deleteOne({ _id: openserver._id })
+
+    logGameAdmin(event, 'tool', game._id, `Xóa lịch mở máy chủ <b>${openserver.server_name}</b>`)
     return resp(event, { message: 'Xóa thành công' })
   } 
   catch (e:any) {

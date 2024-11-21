@@ -33,8 +33,9 @@ const onFileChange = async (e) => {
     formData.append('image', file)
 
     const url = await useAPI('upload/image', formData)
+    if(!url) throw 'Tải ảnh không thành công'
+    
     loading.value = false
-
     emit('update:modelValue', url)
     e.target.value = ""
   }

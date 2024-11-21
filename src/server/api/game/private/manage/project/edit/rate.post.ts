@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
       rate: { shop: shop }
     })
 
+    logGameAdmin(event, 'private', game._id, `Sửa tỷ lệ giảm giá trò chơi`)
     return resp(event, { message: 'Cập nhật thành công' })
   } 
   catch (e:any) {

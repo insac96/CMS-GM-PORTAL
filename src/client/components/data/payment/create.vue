@@ -7,10 +7,7 @@
       :state="state" 
       :validate="validate" 
       @submit="submit" 
-      :class="{
-        'grid grid-cols-12 gap-2 gap-4 mb-4': !fast,
-        'grid grid-cols-12': !!fast,
-      }"
+      class="grid grid-cols-12 gap-4 mb-4"
     >
       <div :class="{
         '2xl:col-span-6 col-span-12' : !fast,

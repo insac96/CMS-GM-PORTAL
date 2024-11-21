@@ -15,6 +15,8 @@ export default defineEventHandler(async (event) => {
 
     body.game = game._id
     await DB.GamePrivateServerOpen.create(body)
+
+    logGameAdmin(event, 'private', game._id, `Thêm lịch mở máy chủ <b>${server_name}</b>`)
     return resp(event, { message: 'Thêm thành công' })
   } 
   catch (e:any) {

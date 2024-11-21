@@ -35,6 +35,6 @@ export default defineEventHandler(async (event) => {
     return resp(event, { message: 'Tải hình ảnh thành công', result: url })
   } 
   catch (e:any) {
-    return resp(event, { code: 400, message: e.toString() })
+    return resp(event, { result: false })
   }
 })

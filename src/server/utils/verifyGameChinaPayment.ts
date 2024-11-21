@@ -61,6 +61,8 @@ export default async (
     
     // Update revenue game
     await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': payment.coin }})
+    logAdmin(event, `Chấp nhận giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
+    logGameAdmin(event, 'china', game._id, `Chấp nhận giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
   }
   if(status == 2){
     await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': payment.coin }})
@@ -77,6 +79,9 @@ export default async (
       từ lệnh từ chối giao dịch nạp 
       <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
     `)
+
+    logAdmin(event, `Từ chối giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
+    logGameAdmin(event, 'china', game._id, `Từ chối giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
   }
   if(status == 3){
     await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': payment.coin }})

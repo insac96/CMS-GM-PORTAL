@@ -28,7 +28,10 @@ export default defineEventHandler(async (event) => {
     await getAuthGM(event, auth, game)
 
     // Check User
-    const user = await DB.GamePrivateUser.findOne({ _id: userID, game: game._id }).select('_id') as IDBGamePrivateUser
+    const user = await DB.GamePrivateUser
+    .findOne({ _id: userID, game: game._id })
+    .select('user block') 
+    .populate({ path: 'user', select: 'username' }) as IDBGamePrivateUser
     if(!user) throw 'Người chơi không tồn tại'
 
     // Update
@@ -39,6 +42,7 @@ export default defineEventHandler(async (event) => {
       'spend.total.coin' : parseInt(total.coin),
     })
 
+    logGameAdmin(event, 'private', game._id, `Sửa chỉ số tiêu phí người chơi <b>${user.user.username}</b>`)
     return resp(event, { message: 'Thao tác thành công' })
   } 
   catch (e:any) {
