@@ -47,7 +47,11 @@ export {
   IDBForumPost, IDBForumPostComment, IDBForumPostLike
 } from './forum'
 
-export { IDBSocketChatGlobal, IDBSocketOnline } from './socket'
+export { 
+  IDBSocketChatGlobal, 
+  IDBSocketOnline,
+  IDBSocketChatSingle, IDBSocketChatSingleMessage
+} from './socket'
 
 export interface IGlobalDB {
   // Main DB
@@ -120,4 +124,6 @@ export interface IGlobalDB {
   // Socket
   SocketChatGlobal: Model<IDBSocketChatGlobal>
   SocketOnline: Model<IDBSocketOnline>
+  SocketChatSingle: Model<IDBSocketChatSingle>
+  SocketChatSingleMessage: Model<IDBSocketChatSingleMessage>
 }

@@ -46,7 +46,11 @@ import {
   DBForumPost, DBForumPostComment, DBForumPostLike
 } from './forum'
 
-import { DBSocketChatGlobal, DBSocketOnline } from './socket'
+import { 
+  DBSocketChatGlobal, 
+  DBSocketOnline,
+  DBSocketChatSingle, DBSocketChatSingleMessage
+} from './socket'
 
 export default (mongoose : Mongoose) : IGlobalDB => {
   return {
@@ -120,6 +124,8 @@ export default (mongoose : Mongoose) : IGlobalDB => {
 
     // Socket
     SocketChatGlobal: DBSocketChatGlobal(mongoose),
-    SocketOnline: DBSocketOnline(mongoose)
+    SocketOnline: DBSocketOnline(mongoose),
+    SocketChatSingle: DBSocketChatSingle(mongoose),
+    SocketChatSingleMessage: DBSocketChatSingleMessage(mongoose)
   }
 }

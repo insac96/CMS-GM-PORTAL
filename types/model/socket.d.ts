@@ -16,3 +16,22 @@ export interface IDBSocketOnline {
   user: Types.ObjectId
   socket: string
 }
+
+export interface IDBSocketChatSingle {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  from: Types.ObjectId
+  to: Types.ObjectId
+}
+
+export interface IDBSocketChatSingleMessage {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+
+  conversation: Types.ObjectId
+  user: Types.ObjectId
+  content: string
+}

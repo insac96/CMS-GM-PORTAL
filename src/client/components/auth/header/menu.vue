@@ -9,7 +9,7 @@
 
       <template #panel>
         <UCard class="w-[300px] max-w-sreen overflow-hidden" :ui="{ body: { padding: 'p-0 sm:p-0'}, rounded: 'rounded-none'}">
-          <DataUserBox :fetch-id="authStore.profile._id" />
+          <DataUserBox :fetch-id="authStore.profile._id" :no-chat="true" />
 
           <UDivider />
 

@@ -6,7 +6,7 @@
     </UiFlex>
 
     <UModal v-model="view" :ui="{width: 'sm:max-w-[400px]'}">
-      <DataUserBox :fetch-id="user._id" />
+      <DataUserBox :fetch-id="user._id" @close="view = false" />
     </UModal>
   </div>
 </template>

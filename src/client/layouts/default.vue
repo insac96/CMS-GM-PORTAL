@@ -12,7 +12,7 @@
     <div class="LayoutPublicMain relative">
       <LayoutPublicHeader />
 
-      <UContainer class="py-4 sm:py-6 lg:py-8" :ui="{ constrained: 'max-w-[1200px] w-full' }">
+      <UContainer class="relative py-4 sm:py-6 lg:py-8" :ui="{ constrained: 'max-w-[1200px] w-full' }" style="min-height: calc(100% - var(--header-size));">
         <slot></slot>
       </UContainer>
     </div>
@@ -33,6 +33,8 @@
 
 <style lang="sass">
 .LayoutPublic
+  display: grid
+  grid-template-areas: "main"
   @media (min-width: 1024px)
     display: grid
     grid-template-columns: var(--nav-size) 1fr var(--nav-right-size)

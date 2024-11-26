@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DataUserBox :fetch-id="user" v-model:user-data="userData"></DataUserBox>
+    <DataUserBox :fetch-id="user" v-model:user-data="userData" />
 
     <div class="px-4 pb-2">
       <UAccordion

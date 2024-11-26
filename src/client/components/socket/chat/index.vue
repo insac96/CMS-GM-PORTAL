@@ -104,7 +104,7 @@ const del = async (_id) => {
   try {
     if(!authStore.isLogin) return
     if(!authStore.isAdmin) return
-    await useAPI('socket/public/chat/del', { _id: _id })
+    await useAPI('socket/public/chat-global/del', { _id: _id })
     setTimeout(() => toFocus(), 100)
   }
   catch (e){
@@ -118,7 +118,7 @@ const send = async () => {
     if(state.value.text.length > 100) return useNotify().error('Nội dung không vượt quá 100 ký tự')
 
     loading.value.send = true
-    await useAPI('socket/public/chat/send', JSON.parse(JSON.stringify(state.value)))
+    await useAPI('socket/public/chat-global/send', JSON.parse(JSON.stringify(state.value)))
 
     state.value.text = null
     loading.value.send = false
@@ -133,7 +133,7 @@ const send = async () => {
 const getList = async () => {
   try {
     loading.value.list = true
-    const data = await useAPI('socket/public/chat/list')
+    const data = await useAPI('socket/public/chat-global/list')
 
     list.value = data
     loading.value.list = false

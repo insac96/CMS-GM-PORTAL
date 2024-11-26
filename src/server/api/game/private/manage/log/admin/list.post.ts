@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
     const total = await DB.GamePrivateLogAdmin.count(match)
 
     return resp(event, { result: { list, total }})
-  } 
+  }
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })
   }

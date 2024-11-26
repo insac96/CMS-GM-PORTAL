@@ -12,7 +12,7 @@
         <template #code-data="{ row }">
           <UiFlex class="cursor-pointer gap-2 select-none" @click="startCopy(row.code)">
             <UiText weight="semibold">{{ row.code }}</UiText>
-            <UiIcon name="i-bx-copy" color="primary"></UiIcon>
+            <!-- <UiIcon name="i-bx-copy" color="primary"></UiIcon> -->
           </UiFlex>
         </template>
 
@@ -38,7 +38,7 @@ const list = ref([])
 const columns = [
   {
     key: 'code',
-    label: 'Mã',
+    label: 'Giftcode',
   },{
     key: 'gift',
     label: 'Phần quà',

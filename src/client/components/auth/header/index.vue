@@ -6,6 +6,8 @@
     </UButtonGroup>
 
     <AuthHeaderNotify />
+
+    <AuthHeaderMessage />
     
     <AuthHeaderMenu />
   </UiFlex>

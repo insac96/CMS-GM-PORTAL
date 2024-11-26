@@ -15,7 +15,10 @@ export default (io : SocketServer, socket : Socket) => {
     if(!id)  await DB.SocketOnline.create({ socket: socket.id })
     else {
       const user = await DB.User.findOne({ _id: id }).select('_id')
-      if(!!user) await DB.SocketOnline.create({ socket: socket.id, user: user._id })
+      if(!!user) {
+        await DB.SocketOnline.create({ socket: socket.id, user: user._id })
+        socket.join(user._id.toString())
+      }
     }
   
     sendOnline(io)
@@ -23,13 +26,19 @@ export default (io : SocketServer, socket : Socket) => {
 
   socket.on('online-login', async (id : Types.ObjectId) => {
     const user = await DB.User.findOne({ _id: id }).select('_id')
-    if(!!user) await DB.SocketOnline.updateOne({ socket: socket.id }, { user: user.id })
+    if(!!user){
+      await DB.SocketOnline.updateOne({ socket: socket.id }, { user: user.id })
+      socket.join(user._id.toString())
+    }
     sendOnline(io)
   })
 
   socket.on('online-logout', async (id : Types.ObjectId) => {
     const user = await DB.User.findOne({ _id: id }).select('_id')
-    if(!!user) return await DB.SocketOnline.updateOne({ socket: socket.id }, { user: null })
+    if(!!user) {
+      await DB.SocketOnline.updateOne({ socket: socket.id }, { user: null })
+      socket.leave(user._id.toString())
+    }
     sendOnline(io)
   })
 

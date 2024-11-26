@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <DataEmpty v-if="!user || !!loading" :loading="loading" text="Không có thông tin" class="min-h-[300px]" />
+    <DataEmpty v-if="!user || !!loading.load" :loading="loading.load" text="Không có thông tin" class="min-h-[300px]" />
 
     <div v-else class="rounded-2xl pt-10 pb-6 px-6">
       <UiFlex type="col" justify="center" class="gap-3 mb-6 relative z-[3]">
@@ -35,19 +35,24 @@
           <UiText weight="semibold" size="xs">{{ toMoney(user.currency.coin) }}</UiText>
         </UiFlex>
       </UiFlex>
+
+      <UiFlex justify="center" class="mt-6 gap-1" v-if="!noChat">
+        <UButton icon="i-bx-chat" block color="black" @click="goChatSingle" :loading="loading.chat" :disabled="!!loading.chat">Nhắn Tin</UButton>
+      </UiFlex>
     </div>
   </div>
 </template>
 
 <script setup>
 const { toMoney } = useMoney()
-const emit = defineEmits(['action', 'update:userData'])
+const emit = defineEmits(['close', 'update:userData'])
 const authStore = useAuthStore()
 
 const props = defineProps({
   fetchId: String,
   reload: Number,
-  userData: Object
+  userData: Object,
+  noChat: Boolean
 })
 
 const typeFormat = {
@@ -58,7 +63,10 @@ const typeFormat = {
   99: { label: 'ROBOT', color: 'orange' }
 }
 
-const loading = ref(true)
+const loading = ref({
+  load: true,
+  chat: false
+})
 const user = ref(undefined)
 watch(() => props.reload, (val) => !!val && init())
 
@@ -77,21 +85,37 @@ const vipFormat = computed(() => {
   return null
 })
 
+const goChatSingle = async () => {
+  try {
+    loading.value.chat = true
+    const conversation = await useAPI('socket/public/chat-single/start', {
+      to: user.value._id
+    })
+
+    navigateTo(`/chat/${conversation}`)
+    emit('close')
+    loading.value.chat = false
+  }
+  catch(e){
+    loading.value.chat = false
+  }
+}
+
 const getProfile = async () => {
   try {
     if(!props.fetchId) return false
 
-    loading.value = true
+    loading.value.load = true
     const get = await useAPI('user/public/profile', {
       _id: props.fetchId
     })
 
     user.value = get
     emit('update:userData', get)
-    setTimeout(() => loading.value = false, 700)
+    setTimeout(() => loading.value.load = false, 700)
   }
   catch(e) {
-    loading.value = true
+    loading.value.load = true
   }
 }
 
