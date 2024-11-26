@@ -33,6 +33,7 @@
     <template #tab-5><UVerticalNavigation :links="navItems[5].children" @click="emit('to')"/></template>
     <template #tab-6><UVerticalNavigation :links="navItems[6].children" @click="emit('to')"/></template>
     <template #tab-7><UVerticalNavigation :links="navItems[7].children" @click="emit('to')"/></template>
+    <template #tab-8><UVerticalNavigation :links="navItems[8].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
