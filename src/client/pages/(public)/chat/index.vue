@@ -1,6 +1,8 @@
 <template>
   <UiContent title="Cuộc Hội Thoại" sub="Danh sách các tin nhắn cá nhân" class="max-w-[700px] mx-auto">
-    <UiFlex v-for="(item, i) in list" :key="i" class="py-2 md:gap-4 gap-2 cursor-pointer" @click="goToChat(item._id)">
+    <DataEmpty text="Không có cuộc hội thoại nào" :loading="loading.list" class="min-h-[300px]" v-if="!!loading.list || list.length == 0"/>
+
+    <UiFlex v-else v-for="(item, i) in list" :key="i" class="py-2 md:gap-4 gap-2 cursor-pointer" @click="goToChat(item._id)">
       <DataUserAvatar :user="item.to" size="xs" v-if="item.from._id == authStore.profile._id" />
       <DataUserAvatar :user="item.from" size="xs" v-else no-action />
 
@@ -38,12 +40,12 @@ const getList = async () => {
     const data = await useAPI('socket/public/chat-single/list')
 
     list.value = data
-    loading.value.list = false
+    setTimeout(() => loading.value.list = false, 500)
   }
   catch(e){
     loading.value.list = false
   }
 }
 
-getList()
+onMounted(() => setTimeout(getList, 1))
 </script>
