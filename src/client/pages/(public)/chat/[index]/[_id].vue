@@ -182,6 +182,7 @@ onMounted(() => {
   setTimeout(getStart, 1)
 
   $socket.on('chat-single-push', (data) => {
+    if(data.conversation.toString() != route.params._id.toString()) return
     list.value.push(data)
     page.value.skip = list.value.length
     setTimeout(() => toBottom(), 100)
