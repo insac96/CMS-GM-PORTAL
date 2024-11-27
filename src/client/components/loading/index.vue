@@ -1,6 +1,14 @@
 <template>
-  <div class="Loadingloader"></div>
+  <div class="Loadingloader" :style="{
+    width: (size || 35)+'px'
+  }"></div>
 </template>
+
+<script setup>
+const props = defineProps({
+  size: Number | String
+})
+</script>
 
 <style lang="sass">
 .Loadingloader

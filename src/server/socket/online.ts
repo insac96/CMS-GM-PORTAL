@@ -1,5 +1,6 @@
 import type { Server as SocketServer, Socket } from 'socket.io'
 import type { Types } from 'mongoose'
+import { IDBSocketOnline, IDBUser } from '~~/types'
 
 const sendOnline = async (io : SocketServer) => {
   const online = await DB.SocketOnline.aggregate([
@@ -14,8 +15,10 @@ export default (io : SocketServer, socket : Socket) => {
   socket.on('online-join', async (id : Types.ObjectId | null) => {
     if(!id)  await DB.SocketOnline.create({ socket: socket.id })
     else {
-      const user = await DB.User.findOne({ _id: id }).select('_id')
+      const user = await DB.User.findOne({ _id: id }).select('online') as IDBUser
       if(!!user) {
+        user.online = true
+        await user.save()
         await DB.SocketOnline.create({ socket: socket.id, user: user._id })
         socket.join(user._id.toString())
       }
@@ -25,25 +28,38 @@ export default (io : SocketServer, socket : Socket) => {
   })
 
   socket.on('online-login', async (id : Types.ObjectId) => {
-    const user = await DB.User.findOne({ _id: id }).select('_id')
+    const user = await DB.User.findOne({ _id: id }).select('online') as IDBUser
     if(!!user){
-      await DB.SocketOnline.updateOne({ socket: socket.id }, { user: user.id })
+      user.online = true
+      await user.save()
+      await DB.SocketOnline.updateOne({ socket: socket.id }, { user: user._id })
       socket.join(user._id.toString())
     }
+
     sendOnline(io)
   })
 
   socket.on('online-logout', async (id : Types.ObjectId) => {
-    const user = await DB.User.findOne({ _id: id }).select('_id')
+    const user = await DB.User.findOne({ _id: id }).select('online') as IDBUser
     if(!!user) {
+      user.online = true
+      await user.save()
       await DB.SocketOnline.updateOne({ socket: socket.id }, { user: null })
       socket.leave(user._id.toString())
     }
+    
     sendOnline(io)
   })
 
   socket.on('disconnect', async () => {
+    const socketOnline = await DB.SocketOnline.findOne({ socket: socket.id }).select('user') as IDBSocketOnline
+    if(!!socketOnline.user){
+      const count = await DB.SocketOnline.count({ user: socketOnline.user })
+      if(count == 1) await DB.User.updateOne({ _id: socketOnline.user }, { online: false })
+    }
+
     await DB.SocketOnline.deleteOne({ socket: socket.id })
+    
     sendOnline(io)
   })
 }

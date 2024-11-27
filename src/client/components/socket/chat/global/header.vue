@@ -1,12 +1,12 @@
 <template>
   <UiFlex>
-    <UButton color="gray" icon="i-bx-chat" square class="lg:hidden" @click="open = true" />
+    <UButton color="gray" icon="i-bx-world" square class="lg:hidden" @click="open = true" />
 
     <USlideover v-model="open" side="right" :ui="{
       width: 'w-screen max-w-[var(--nav-right-size)]'
     }">
       <div class="h-full overflow-hidden">
-        <SocketChat /> 
+        <SocketChatGlobal /> 
       </div>
     </USlideover>
   </UiFlex>

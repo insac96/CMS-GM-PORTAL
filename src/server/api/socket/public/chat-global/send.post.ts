@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     // Get User
     const user = await DB.User
     .findOne({ _id: auth._id })
-    .select('username avatar type level vip')
+    .select('username avatar type level vip online')
     .populate({ path: 'level' }) as IDBUser
 
     // Check Limit Chat

@@ -1,5 +1,5 @@
 <template>
-  <UiContent title="Cuộc Hội Thoại" sub="Danh sách các tin nhắn cá nhân" class="max-w-[700px] mx-auto">
+  <UiContent title="Cuộc Hội Thoại" sub="Danh sách các tin nhắn cá nhân" class="lg:max-w-[700px] mx-auto">
     <DataEmpty text="Không có cuộc hội thoại nào" :loading="loading.list" class="min-h-[300px]" v-if="!!loading.list || list.length == 0"/>
 
     <UiFlex v-else v-for="(item, i) in list" :key="i" class="py-2 md:gap-4 gap-2 cursor-pointer" @click="goToChat(item._id)">
@@ -23,6 +23,11 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
+const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
 const loading = ref({
   list: true
@@ -47,5 +52,18 @@ const getList = async () => {
   }
 }
 
-onMounted(() => setTimeout(getList, 1))
+const update = async () => {
+  try {
+    const data = await useAPI('socket/public/chat-single/list')
+    list.value = data
+  }
+  catch(e){
+    
+  }
+}
+
+onMounted(() => {
+  setTimeout(getList, 1)
+  $socket.on('chat-single-push', update)
+})
 </script>

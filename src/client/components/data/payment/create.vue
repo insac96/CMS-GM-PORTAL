@@ -110,7 +110,9 @@
       </div>
     </UForm>
 
-    <DataPaymentHistory :reload="reloadHistory" class="!p-0" />
+    <div class="grid grid-cols-12">
+      <DataPaymentHistory :reload="reloadHistory" class="col-span-12 !p-0" />
+    </div>
   </div>
 </template>
 

@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
     .find({ block: false, close: false })
     .populate({ path: 'category', select: 'name key icon color' })
     .populate({ path: 'sub', select: 'name key' })
-    .populate({ path: 'creater', select: 'username avatar type level vip', populate: { path: 'level' } })
+    .populate({ path: 'creater', select: 'username avatar type level vip online', populate: { path: 'level' } })
     .select('category sub creater title key statistic update.last close block pin')
     .sort({ pin: -1, 'update.last': -1 })
     .limit(5)

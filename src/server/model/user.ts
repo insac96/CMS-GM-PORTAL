@@ -37,7 +37,8 @@ export const DBUser = (mongoose : Mongoose) => {
       youxi: { type: Boolean, default: false },
     },
     type: { type: Number, default: 0, index: true }, // 0 - Member, 1 - GMod, 2 - FMod, 100 - Admin, 99 - Robot
-    block: { type: Boolean, default: false }, // 0 - False, 1 - True
+    online: { type: Boolean, default: false },
+    block: { type: Boolean, default: false },
     token: { type: String },
   }, {
     timestamps: true

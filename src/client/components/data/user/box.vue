@@ -34,6 +34,11 @@
           <UiText weight="semibold" color="gray" size="xs">Tài phú</UiText>
           <UiText weight="semibold" size="xs">{{ toMoney(user.currency.coin) }}</UiText>
         </UiFlex>
+
+        <UiFlex justify="between" class="w-full">
+          <UiText weight="semibold" color="gray" size="xs">Trạng thái</UiText>
+          <UiText weight="semibold" size="xs" :color="user.online ? 'green' : 'rose'">{{ user.online ? 'Online' : 'Offline' }}</UiText>
+        </UiFlex>
       </UiFlex>
 
       <UiFlex justify="center" class="mt-6 gap-1" v-if="!noChat">

@@ -1,37 +1,40 @@
 <template>
-  <UiFlex type="col" class="absolute top-0 left-0 w-full h-full overflow-hidden" v-if="!loading.list && !!conversation">
-    <UiFlex class="w-full max-w-[700px] mx-auto p-4 pb-0" justify="between">
+  <UiFlex type="col" class="absolute top-0 left-0 w-full h-full overflow-hidden" v-if="!loading.start && !!conversation">
+    <UiFlex class="w-full lg:max-w-[700px] mx-auto p-4 pb-0" justify="between">
       <UButton icon="i-bx-left-arrow-alt" @click="navigateTo('/chat')" color="gray" size="xs">Quay lại</UButton>
       <!-- <UButton icon="i-bx-block" @click="useNotify().error('Tính năng sắp ra mắt')" color="rose" size="xs">Chặn</UButton> -->
     </UiFlex>
 
-    <UiFlex class="w-full max-w-[700px] mx-auto p-4 md:gap-4 gap-2">
+    <UiFlex class="w-full lg:max-w-[700px] mx-auto p-4 gap-4">
       <DataUserAvatar :user="conversation.to" size="md" v-if="conversation.from._id == authStore.profile._id" />
       <DataUserAvatar :user="conversation.from" size="md" v-else no-action />
 
-      <div class="grow">
+      <UiFlex class="grow" justify="between">
         <div>
           <DataUserName :user="conversation.to" size="md" v-if="conversation.from._id == authStore.profile._id" no-action />
           <DataUserName :user="conversation.from" size="md" v-else no-action />
 
-          <UiText class="text-sm select-none mt-1" color="gray">Sẵn sàng</UiText>
+          <UiText class="text-sm select-none mt-1" weight="semibold" :color="conversation.to.online ? 'green' : 'rose'" v-if="conversation.from._id == authStore.profile._id">{{ conversation.to.online ? 'Online' : 'Offline' }}</UiText>
+          <UiText class="text-sm select-none mt-1" weight="semibold" :color="conversation.from.online ? 'green' : 'rose'" v-else>{{ conversation.from.online ? 'Online' : 'Offline' }}</UiText>
         </div>
-      </div>
+
+        <Loading size="20" v-if="loading.list"></Loading>
+      </UiFlex>
     </UiFlex>
 
-    <div class="grow w-full max-w-[700px] mx-auto p-4 overflow-y-auto" ref="box">
+    <div class="grow w-full lg:max-w-[700px] mx-auto p-4 overflow-y-auto" ref="box">
       <UiFlex v-for="chat in listFormat" :key="chat._id" class="w-full py-0.5" :justify="authStore.profile._id == chat.user ? 'end' : 'start'">
-        <div class="bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded-r-lg rounded-bl-lg text-left" v-if="authStore.profile._id != chat.user">
+        <div class="bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded-r-2xl rounded-bl-2xl text-left max-w-[80%]" v-if="authStore.profile._id != chat.user">
           <UiText size="sm" v-html="chat.content || 'Không có nội dung'"></UiText>
         </div>
 
-        <div class="bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded-l-lg rounded-br-lg text-right" v-if="authStore.profile._id == chat.user">
+        <div class="bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded-l-2xl rounded-br-2xl text-right max-w-[80%]" v-if="authStore.profile._id == chat.user">
           <UiText size="sm" v-html="chat.content || 'Không có nội dung'"></UiText>
         </div>
       </UiFlex>
     </div>
 
-    <div class="w-full max-w-[700px] mx-auto p-4">
+    <div class="w-full lg:max-w-[700px] mx-auto p-4">
       <UForm :state="state" @submit="send">
         <UiFlex class="gap-1">
           <UInput 
@@ -56,11 +59,24 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
 const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
 const route = useRoute()
+
+const page = ref({
+  size: 20,
+  skip: 0,
+  current: 1,
+  _id: route.params._id
+})
+
 const loading = ref({
-  list: true,
+  start: true,
+  list: false,
   send: false,
 })
 
@@ -89,6 +105,20 @@ const toBottom = () => {
   box.value.scrollTo({ top: box.value.scrollHeight, behavior: 'smooth' })
 }
 
+const toScroll = async (event) => {
+  if (event.target.scrollTop === 0) {
+    if(!!loading.value.list) return
+
+    const scrollHeightBefore = box.value.scrollHeight
+    await getLazy(true)
+
+    const scrollHeightAfter = box.value.scrollHeight
+    box.value.scrollTop = scrollHeightAfter - scrollHeightBefore
+    box.value.removeEventListener('scroll', toScroll)
+    box.value.addEventListener('scroll', toScroll)
+  }
+}
+
 const send = async () => {
   try {
     if(!state.value.text) return useNotify().error('Vui lòng nhập nội dung')
@@ -98,8 +128,10 @@ const send = async () => {
     const data = await useAPI('socket/public/chat-single/send', JSON.parse(JSON.stringify(state.value)))
 
     state.value.text = null
-    loading.value.send = false
     list.value.push(data)
+    page.value.skip = list.value.length
+    loading.value.send = false
+    
     setTimeout(() => toFocus(), 100)
     setTimeout(() => toBottom(), 100)
   }
@@ -109,30 +141,49 @@ const send = async () => {
   }
 }
 
-const getList = async () => {
+const getLazy = async () => {
   try {
     loading.value.list = true
-    const data = await useAPI('socket/public/chat-single/id', {
-      _id: route.params._id
-    })
+    const data = await useAPI('socket/public/chat-single/id', JSON.parse(JSON.stringify(page.value)))
 
-    list.value = data.messages
+    list.value = list.value.concat(data.messages)
     conversation.value = data.conversation
-    state.value.conversation = data.conversation._id
+    page.value.skip = list.value.length
 
-    loading.value.list = false
-    setTimeout(() => toBottom(), 200)
+    setTimeout(() => loading.value.list = false, 500)
   }
   catch(e){
     loading.value.list = false
   }
 }
 
+const getStart = async (type) => {
+  try {
+    loading.value.start = true
+    const data = await useAPI('socket/public/chat-single/id', JSON.parse(JSON.stringify(page.value)))
+
+    list.value = data.messages
+    conversation.value = data.conversation
+    page.value.skip = list.value.length
+
+    loading.value.start = false
+
+    setTimeout(() => {
+      toBottom()
+      box.value.addEventListener('scroll', toScroll)
+    }, 200)
+  }
+  catch(e){
+    loading.value.start = false
+  }
+}
+
 onMounted(() => {
-  setTimeout(getList, 1)
+  setTimeout(getStart, 1)
 
   $socket.on('chat-single-push', (data) => {
     list.value.push(data)
+    page.value.skip = list.value.length
     setTimeout(() => toBottom(), 100)
   })
 })

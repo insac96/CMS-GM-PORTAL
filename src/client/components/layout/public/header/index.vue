@@ -19,7 +19,7 @@
     <UiFlex justify="end" items="center" class="ml-auto gap-1">
       <LazyAuthSign v-if="!authStore.isLogin" />
       <LazyAuthHeader v-else />
-      <SocketChatHeader />
+      <SocketChatGlobalHeader />
     </UiFlex>
   </header>
 </template>

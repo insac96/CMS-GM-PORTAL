@@ -20,7 +20,7 @@
             <div class="text-left">
               <DataUserName :user="chat.user" class="mb-1.5" size="xs"/>
 
-              <div class="bg-gray-100 dark:bg-gray-800 p-2 rounded-r-lg rounded-bl-lg text-left mb-2">
+              <div class="bg-gray-100 dark:bg-gray-800 p-2 px-3 rounded-r-2xl rounded-bl-2xl text-left mb-2">
                 <UiText size="sm" v-html="chat.content || 'Không có nội dung'"></UiText>
               </div>
 

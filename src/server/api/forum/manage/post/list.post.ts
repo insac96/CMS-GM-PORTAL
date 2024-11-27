@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     .find({})
     .populate({ path: 'category', select: 'name key' })
     .populate({ path: 'sub', select: 'name key' })
-    .populate({ path: 'creater', select: 'username avatar type' })
+    .populate({ path: 'creater', select: 'username avatar type level vip online', populate: { path: 'level' } })
     .select('-content')
     .sort(sorting)
     .limit(size)

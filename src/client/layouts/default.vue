@@ -23,7 +23,7 @@
       min-h-full h-full
       dark:bg-gray-900 backdrop-blur-xl
     ">
-      <SocketChat />
+      <SocketChatGlobal />
     </div>
   </div>
 </template>

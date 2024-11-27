@@ -49,6 +49,7 @@ export const DBSocketChatSingleMessage = (mongoose : Mongoose) => {
     timestamps: true
   })
 
+  schema.index({ content: 'text' })
   const model = mongoose.model('SocketChatSingleMessage', schema, 'SocketChatSingleMessage')
   return model 
 }

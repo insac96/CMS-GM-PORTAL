@@ -40,6 +40,7 @@ export interface IDBUser {
     youxi: boolean
   }
   type: number
+  online: boolean
   block: boolean
   token: string
   
