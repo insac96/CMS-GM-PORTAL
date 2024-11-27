@@ -66,4 +66,6 @@ onMounted(() => {
   setTimeout(getList, 1)
   $socket.on('chat-single-push', update)
 })
+
+watch(() => authStore.isLogin, (val) => !val && navigateTo('/'))
 </script>

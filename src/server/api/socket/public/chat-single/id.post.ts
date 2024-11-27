@@ -12,7 +12,8 @@ export default defineEventHandler(async (event) => {
 
     if(!conversation) throw 'Cuộc trò chuyện không tồn tại' 
     if(
-      conversation.from._id.toString() != auth._id.toString()
+      auth.type < 100
+      && conversation.from._id.toString() != auth._id.toString()
       && conversation.to._id.toString() != auth._id.toString()
     ) throw 'Bạn không có quyền truy cập cuộc trò chuyện'
 

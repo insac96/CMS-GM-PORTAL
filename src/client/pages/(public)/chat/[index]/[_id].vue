@@ -188,4 +188,6 @@ onMounted(() => {
     setTimeout(() => toBottom(), 100)
   })
 })
+
+watch(() => authStore.isLogin, (val) => !val && navigateTo('/'))
 </script>
