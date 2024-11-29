@@ -12,6 +12,18 @@ export interface IDBUser {
   phone: string
   avatar: string
   level: Types.ObjectId | IDBUserLevel
+  role: {
+    use: {
+      body: Types.ObjectId
+      wing: Types.ObjectId
+      pet: Types.ObjectId
+    }
+    bag: {
+      body: Array<Types.ObjectId>
+      wing: Array<Types.ObjectId>
+      pet: Array<Types.ObjectId>
+    }
+  }
   vip: {
     month: {
       enable: boolean
@@ -55,6 +67,11 @@ export interface IDBUserLevel {
   title: string
   number: number
   exp: number
+  role: {
+    body: Types.ObjectId,
+    wing: Types.ObjectId,
+    pet: Types.ObjectId,
+  }
   bonus: {
     payment: number
   }

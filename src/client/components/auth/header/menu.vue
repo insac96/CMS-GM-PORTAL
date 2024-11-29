@@ -8,15 +8,15 @@
       ></UButton>
 
       <template #panel>
-        <UCard class="w-[300px] max-w-sreen overflow-hidden" :ui="{ body: { padding: 'p-0 sm:p-0'}, rounded: 'rounded-none'}">
-          <DataUserBox :fetch-id="authStore.profile._id" :no-chat="true" />
-
-          <UDivider />
-
+        <UCard class="w-[180px] max-w-sreen overflow-hidden" :ui="{ body: { padding: 'p-0 sm:p-0'}, rounded: 'rounded-none'}">
           <UVerticalNavigation :links="menuUser" :ui="{ padding: 'py-2', divider: { wrapper: { base: 'p-0' }}}" />
         </UCard>
       </template>
     </UPopover>
+
+    <UModal v-model="modal.view" :ui="{width: 'sm:max-w-[400px]'}">
+      <DataUserBox :fetch-id="authStore.profile._id" :no-chat="true" />
+    </UModal>
 
     <UModal v-model="modal.edit.info" preventClose>
       <UiContent title="Chỉnh Sửa" sub="Cập nhật thông tin cá nhân" class="p-4" no-dot>
@@ -56,6 +56,7 @@ const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
 const open = ref(false)
 const modal = ref({
+  view: false,
   edit: {
     info: false,
     password: false
@@ -94,6 +95,13 @@ const menuUser = computed(() => {
   return [
     ...list,
     [{
+      label: 'Tài khoản',
+      icon: 'i-bx-user',
+      click: () => {
+        open.value = false
+        modal.value.view = true
+      }
+    },{
       label: 'Chỉnh sửa',
       icon: 'i-bx-edit',
       click: () => modal.value.edit.info = true

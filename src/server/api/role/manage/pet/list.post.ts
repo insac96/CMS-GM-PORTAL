@@ -12,17 +12,13 @@ export default defineEventHandler(async (event) => {
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const list = await DB.ForumPost
+    const list = await DB.RolePet
     .find({})
-    .populate({ path: 'category', select: 'name key' })
-    .populate({ path: 'sub', select: 'name key' })
-    .populate({ path: 'creater', select: 'username avatar type level role.use vip online', populate: { path: 'level' } })
-    .select('-content')
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)
 
-    const total = await DB.ForumPost.count()
+    const total = await DB.RolePet.count()
     return resp(event, { result: { list, total } })
   } 
   catch (e:any) {

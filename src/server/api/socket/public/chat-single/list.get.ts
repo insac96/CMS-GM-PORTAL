@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
           localField: "to",
           foreignField: "_id",
           as: "to",
-          pipeline: [{ $project: { username: 1, avatar: 1, type: 1, level: 1, vip: 1, online: 1 }}]
+          pipeline: [{ $project: { username: 1, avatar: 1, type: 1, level: 1, 'role.use': 1, vip: 1, online: 1 }}]
         }
       },
       { $unwind: { path: "$to", preserveNullAndEmptyArrays: true }},
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
           localField: "from",
           foreignField: "_id",
           as: "from",
-          pipeline: [{ $project: { username: 1, avatar: 1, type: 1, level: 1, vip: 1, online: 1 }}]
+          pipeline: [{ $project: { username: 1, avatar: 1, type: 1, level: 1, 'role.use': 1, vip: 1, online: 1 }}]
         }
       },
       { $unwind: { path: "$from", preserveNullAndEmptyArrays: true }},

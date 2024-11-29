@@ -9,6 +9,18 @@ export const DBUser = (mongoose : Mongoose) => {
     phone: { type: String },
     avatar: { type: String, default: '/images/user/default.png' },
     level: { type: mongoose.Schema.Types.ObjectId, ref: 'UserLevel' },
+    role: {
+      use: {
+        body: { type: mongoose.Schema.Types.ObjectId, ref: 'RoleBody' },
+        wing: { type: mongoose.Schema.Types.ObjectId, ref: 'RoleWing' },
+        pet: { type: mongoose.Schema.Types.ObjectId, ref: 'RolePet' },
+      },
+      bag: {
+        body: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RoleBody' }],
+        wing: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RoleWing' }],
+        pet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RolePet' }]
+      }
+    },
     vip: {
       month: {
         enable: { type: Boolean, default: false },
@@ -67,6 +79,11 @@ export const DBUserLevel = (mongoose : Mongoose) => {
     title: { type: String, default: '' },
     number: { type: Number, default: 1, index: true },
     exp: { type: Number, default: 0, index: true },
+    role: {
+      body: { type: mongoose.Schema.Types.ObjectId, ref: 'RoleBody' },
+      wing: { type: mongoose.Schema.Types.ObjectId, ref: 'RoleWing' },
+      pet: { type: mongoose.Schema.Types.ObjectId, ref: 'RolePet' },
+    },
     bonus: {
       payment: { type: Number, default: 0, index: true }
     },

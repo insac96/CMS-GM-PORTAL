@@ -2,7 +2,11 @@ import type { IGlobalDB } from '~~/types'
 import type { Mongoose } from 'mongoose'
 import { DBConfig } from './config'
 import { DBNews, DBNewsCategory } from './news'
+
 import { DBUser, DBUserLevel } from './user'
+import { DBRoleBody, DBRolePet, DBRoleWing } from './role'
+
+
 import { DBGate } from './gate'
 import { DBPayment } from './payment'
 import { DBSpend } from './spend'
@@ -62,6 +66,11 @@ export default (mongoose : Mongoose) : IGlobalDB => {
 
     User: DBUser(mongoose),
     UserLevel: DBUserLevel(mongoose),
+
+    RoleBody: DBRoleBody(mongoose),
+    RoleWing: DBRoleWing(mongoose),
+    RolePet: DBRolePet(mongoose),
+
     NotifyUser: DBNotifyUser(mongoose),
 
     Gate: DBGate(mongoose),

@@ -1,7 +1,11 @@
 import type { Model } from 'mongoose'
+import type { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
 export { IDBConfig, IDBConfigStore } from './config'
 export { IDBNews, IDBNewsCategory } from './news'
+
 export { IDBUser, IDBUserLevel, IDBUserStore } from './user'
+export { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
+
 export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
@@ -62,6 +66,11 @@ export interface IGlobalDB {
 
   User: Model<IDBUser>
   UserLevel: Model<IDBUserLevel>
+
+  RoleBody: Model<IDBRoleBody>
+  RoleWing: Model<IDBRoleWing>
+  RolePet: Model<IDBRolePet>
+
   NotifyUser: Model<IDBNotifyUser>
 
   Gate: Model<IDBGate>

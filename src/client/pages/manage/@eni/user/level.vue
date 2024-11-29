@@ -68,6 +68,28 @@
         </UiFlex>
       </UForm>
     </UModal>
+
+    <!-- Modal Role -->
+    <UModal v-model="modal.role" preventClose>
+      <UForm :state="stateRole" @submit="roleAction" class="p-4">
+        <UFormGroup label="Trang phục">
+          <SelectRoleBody v-model="stateRole.role.body" />
+        </UFormGroup>
+
+        <UFormGroup label="Cánh">
+          <SelectRoleWing v-model="stateRole.role.wing" />
+        </UFormGroup>
+
+        <UFormGroup label="Thú cưng">
+          <SelectRolePet v-model="stateRole.role.pet" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.role">Sửa</UButton>
+          <UButton color="gray" @click="modal.role = false" :disabled="loading.role" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
   </UiContent>
 </template>
 
@@ -117,11 +139,20 @@ const stateEdit = ref({
     chat: null
   }
 })
+const stateRole = ref({
+  _id: null,
+  role: {
+    body: null,
+    wing: null,
+    pet: null,
+  }
+})
 
 // Modal
 const modal = ref({
   add: false,
-  edit: false
+  edit: false,
+  role: false
 })
 
 watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
@@ -137,17 +168,28 @@ watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
 const loading = ref({
   load: true,
   add: false,
-  edit: false
+  edit: false,
+  role: false
 })
 
 // Actions
 const actions = (row) => [
   [{
     label: 'Sửa thông tin',
-    icon: 'i-bx-pencil',
+    icon: 'i-bxs-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
       modal.value.edit = true
+    }
+  },{
+    label: 'Thêm ngoại hình',
+    icon: 'i-bxs-universal-access',
+    click: () => {
+      stateRole.value._id = row._id
+      stateRole.value.role.body = row.role ? row.role.body : null
+      stateRole.value.role.wing = row.role ? row.role.wing : null
+      stateRole.value.role.pet = row.role ? row.role.pet : null
+      modal.value.role = true
     }
   }]
 ]
@@ -192,6 +234,20 @@ const editAction = async () => {
   }
   catch (e) {
     loading.value.edit = false
+  }
+}
+
+const roleAction = async () => {
+  try {
+    loading.value.role = true
+    await useAPI('user/manage/level/role', JSON.parse(JSON.stringify(stateRole.value)))
+
+    loading.value.role = false
+    modal.value.role = false
+    getList()
+  }
+  catch (e) {
+    loading.value.role = false
   }
 }
 

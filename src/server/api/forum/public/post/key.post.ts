@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     )
     .populate({ path: 'category', select: 'name key icon color' })
     .populate({ path: 'sub', select: 'name key' })
-    .populate({ path: 'creater', select: 'username avatar type level vip online', populate: { path: 'level' } }) as IDBForumPost
+    .populate({ path: 'creater', select: 'username avatar type level role.use vip online', populate: { path: 'level' } }) as IDBForumPost
     if(!post) throw 'Bài viết không tồn tại'
 
     const result = JSON.parse(JSON.stringify(post))

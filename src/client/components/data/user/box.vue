@@ -3,22 +3,22 @@
   <div>
     <DataEmpty v-if="!user || !!loading.load" :loading="loading.load" text="Không có thông tin" class="min-h-[300px]" />
 
-    <div v-else class="rounded-2xl pt-10 pb-6 px-6">
-      <UiFlex type="col" justify="center" class="gap-3 mb-6 relative z-[3]">
-        <DataUserAvatar size="2xl" :user="user" class="mb-4" no-action />
-        <DataUserName :user="user" size="xl" no-action />
+    <div v-else class="rounded-2xl p-6">
+      <UiFlex class="gap-4 mb-6 relative z-[3]">
+        <DataUserAvatar size="sm" :user="user" no-action />
+        <div>
+          <DataUserName :user="user" size="lg" no-action />
+          <UiText weight="semibold" size="xs" :color="user.online ? 'green' : 'rose'">{{ user.online ? 'Online' : 'Offline' }}</UiText>
+        </div>
       </UiFlex>
+
+      <DataUserRole :role="user.role" class="mb-8 mt-10" />
 
       <UiFlex type="col" class="gap-4 relative z-[3]">
         <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">Chức vụ</UiText>
           <UBadge size="xs" variant="soft" class="px-3" :color="typeFormat[user.type]['color']">{{ typeFormat[user.type]['label'] }}</UBadge>
         </UiFlex>
-
-        <!-- <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="xs">VIP</UiText>
-          <UiText weight="semibold" size="xs">{{ !!vipFormat ? vipFormat.end : (authStore.profile._id == user._id ? 'Nâng VIP' : 'Không') }}</UiText>
-        </UiFlex> -->
 
         <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">Cảnh giới</UiText>
@@ -33,11 +33,6 @@
         <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">Tài phú</UiText>
           <UiText weight="semibold" size="xs">{{ toMoney(user.currency.coin) }}</UiText>
-        </UiFlex>
-
-        <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="xs">Trạng thái</UiText>
-          <UiText weight="semibold" size="xs" :color="user.online ? 'green' : 'rose'">{{ user.online ? 'Online' : 'Offline' }}</UiText>
         </UiFlex>
       </UiFlex>
 

@@ -59,6 +59,7 @@ const navItems = [
     children: [
       { label: 'Danh sách', to: '/manage/@eni/user' },
       { label: 'Cấp độ', to: '/manage/@eni/user/level' },
+      { label: 'Nhân vật', to: '/manage/@eni/user/role' },
     ]
   },
   {

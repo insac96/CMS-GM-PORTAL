@@ -7,8 +7,8 @@ export default defineEventHandler(async (event) => {
     if(!_id) throw 'Không tìm thấy ID cuộc trò chuyện'
 
     const conversation = await DB.SocketChatSingle.findOne({ _id: _id })
-    .populate({ path: 'from', select: 'username avatar type level vip online', populate: { path: 'level' } })
-    .populate({ path: 'to', select: 'username avatar type level vip online', populate: { path: 'level' } }) as IDBSocketChatSingle
+    .populate({ path: 'from', select: 'username avatar type level role.use vip online', populate: { path: 'level' } })
+    .populate({ path: 'to', select: 'username avatar type level role.use vip online', populate: { path: 'level' } }) as IDBSocketChatSingle
 
     if(!conversation) throw 'Cuộc trò chuyện không tồn tại' 
     if(
