@@ -1,8 +1,8 @@
 <template>
   <canvas ref="cs" width="700" height="700" style="
     background: transparent; 
-    transform: scale(0.4) translateY(-15%);
-    transform-origin: center;
+    transform: scale(0.4);
+    transform-origin: center top;
   "></canvas>
 </template>
 
