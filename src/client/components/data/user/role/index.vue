@@ -1,8 +1,8 @@
 <template>
   <UiFlex justify="center" class="relative w-full h-[200px]" v-if="!!props.role && !!use && !!role">
-    <DataUserRoleWing class="absolute bottom-[15%]" :source="role.wing" v-if="role.wing"></DataUserRoleWing>
+    <DataUserRoleWing class="absolute" :source="role.wing" v-if="role.wing"></DataUserRoleWing>
     <DataUserRoleBody class="absolute" :source="role.body"></DataUserRoleBody>
-    <DataUserRolePet class="absolute right-[7%] bottom-[0%]" :source="role.pet" v-if="role.pet"></DataUserRolePet>
+    <DataUserRolePet class="absolute right-0 bottom-[-15%]" :source="role.pet" v-if="role.pet"></DataUserRolePet>
   </UiFlex>
 </template>
 

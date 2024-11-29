@@ -1,5 +1,9 @@
 <template>
-  <canvas ref="cs" width="250" height="250" style="background: transparent;"></canvas>
+  <canvas ref="cs" width="700" height="700" style="
+    background: transparent; 
+    transform: scale(0.4) translateY(-15%);
+    transform-origin: center;
+  "></canvas>
 </template>
 
 <script setup>
@@ -28,27 +32,16 @@ onMounted(async () => {
       const frame = frames[currentFrame]
       const frameRes = res[frame.res]
 
-      // Tính tỷ lệ và căn giữa frame
-      const scaleX = canvas.width / frameRes.w
-      const scaleY = canvas.height / frameRes.h
-      const scale = Math.min(scaleX, scaleY)
-
-      const offsetX = Math.floor((canvas.width - frameRes.w * scale) / 2)
-      const offsetY = Math.floor((canvas.height - frameRes.h * scale) / 2)
-
-      ctx.save()
-      ctx.translate(offsetX, offsetY)
-      ctx.scale(scale, scale)
+      const offsetX = frame.x + (canvas.width / 2);
+      const offsetY = frame.y + (canvas.height * 0.85); 
 
       // Vẽ hình
       ctx.drawImage(
         img,
         frameRes.x, frameRes.y, frameRes.w, frameRes.h,
-        0, 0,
+        offsetX, offsetY,
         frameRes.w, frameRes.h
       )
-
-      ctx.restore()
 
       currentFrame = (currentFrame + 1) % frames.length
       anim.value = setTimeout(animate, frameRate)
