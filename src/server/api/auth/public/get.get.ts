@@ -34,40 +34,14 @@ export default defineEventHandler(async (event) => {
     if(!!createNewLogin) await DB.LogLogin.create({ user: user._id })
 
     // User Level
-    const nowLevel = await DB.UserLevel.findOne({ _id: user.level }).select('number') as IDBUserLevel
+    // const nowLevel = await DB.UserLevel.findOne({ _id: user.level }).select('number') as IDBUserLevel
     const realLevel = await DB.UserLevel.findOne({ 'exp': { $lte: user.currency.exp }}).sort({ number: -1 }) as IDBUserLevel
     user.level = realLevel._id
 
     // User Role
-    const listLevel = await DB.UserLevel.find({ 
-      number: { $lte: realLevel.number },
-      role: { $exists: true } 
-    })
-    .select('role')
-    .sort({ number: 1 })
-
-    const bodys : any = []
-    const wings : any = []
-    const pets : any = []
-    listLevel.forEach(i => {
-      !!i.role.body && bodys.push(i.role.body)
-      !!i.role.wing && wings.push(i.role.wing)
-      !!i.role.pet && pets.push(i.role.pet)
-    })
-    
-    user.role.bag.body = mergeArray(user.role.bag.body, bodys)
-    user.role.bag.wing = mergeArray(user.role.bag.wing, wings)
-    user.role.bag.pet = mergeArray(user.role.bag.pet, pets)
-
-    if(!user.role.use.body && bodys.length > 0) user.role.use.body = bodys[bodys.length - 1]
-    if(!user.role.use.wing && wings.length > 0) user.role.use.wing = wings[wings.length - 1]
-    if(!user.role.use.pet && pets.length > 0) user.role.use.pet = pets[pets.length - 1]
-
-    if(!!nowLevel && nowLevel.number < realLevel.number){
-      if(bodys.length > 0) user.role.use.body = bodys[bodys.length - 1]
-      if(wings.length > 0) user.role.use.wing = wings[wings.length - 1]
-      if(pets.length > 0) user.role.use.pet = pets[pets.length - 1]
-    }
+    if(!!realLevel.role.body) user.role.use.body = realLevel.role.body
+    if(!!realLevel.role.wing) user.role.use.wing = realLevel.role.wing
+    if(!!realLevel.role.pet) user.role.use.pet = realLevel.role.pet
 
     // User VIP
     if(!!user.vip.month.enable && !user.vip.forever.enable){
