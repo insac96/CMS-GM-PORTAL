@@ -1,7 +1,7 @@
 <template>
-  <canvas ref="cs" width="500" height="500" style="
+  <canvas ref="cs" width="700" height="700" style="
     background: transparent; 
-    transform: scale(0.28);
+    transform: scale(0.3);
     transform-origin: bottom right;
   "></canvas>
 </template>

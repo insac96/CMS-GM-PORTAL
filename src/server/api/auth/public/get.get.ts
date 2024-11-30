@@ -39,9 +39,9 @@ export default defineEventHandler(async (event) => {
     user.level = realLevel._id
 
     // User Role
-    if(!!realLevel.role.body) user.role.use.body = realLevel.role.body
-    if(!!realLevel.role.wing) user.role.use.wing = realLevel.role.wing
-    if(!!realLevel.role.pet) user.role.use.pet = realLevel.role.pet
+    user.role.use.body = realLevel.role.body
+    user.role.use.wing = realLevel.role.wing
+    user.role.use.pet = realLevel.role.pet
 
     // User VIP
     if(!!user.vip.month.enable && !user.vip.forever.enable){

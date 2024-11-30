@@ -1,8 +1,8 @@
 <template>
-  <canvas ref="cs" width="700" height="700" style="
+  <canvas ref="cs" width="1000" height="700" style="
     background: transparent; 
-    transform: scale(0.4);
-    transform-origin: center top;
+    transform: scale(0.45);
+    transform-origin: top;
   "></canvas>
 </template>
 
@@ -25,15 +25,16 @@ onMounted(async () => {
     const res = data.res;
     let currentFrame = 0;
     const frameRate = 1000 / data.frameRate; // Tính thời gian mỗi khung hình (ms)
-
+    
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const frame = frames[currentFrame]
       const frameRes = res[frame.res]
 
-      const offsetX = frame.x + (canvas.width / 2);
-      const offsetY = frame.y + (canvas.height * 0.85); 
+      const offsetX = (frame.x) + (canvas.width * 0.5);      // Vị trí theo chiều ngang, căn giữa nếu cần
+      const offsetY = (frame.y) + (canvas.height * 1);
+      
 
       // Vẽ hình
       ctx.drawImage(

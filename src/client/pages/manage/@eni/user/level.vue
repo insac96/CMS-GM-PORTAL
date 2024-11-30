@@ -73,15 +73,24 @@
     <UModal v-model="modal.role" preventClose>
       <UForm :state="stateRole" @submit="roleAction" class="p-4">
         <UFormGroup label="Trang phục">
-          <SelectRoleBody v-model="stateRole.role.body" />
+          <UiFlex class="gap-1">
+            <SelectRoleBody v-model="stateRole.role.body" class="grow" />
+            <UButton icon="i-bx-x" size="lg" @click="stateRole.role.body = null" color="gray" />
+          </UiFlex>
         </UFormGroup>
 
         <UFormGroup label="Cánh">
-          <SelectRoleWing v-model="stateRole.role.wing" />
+          <UiFlex class="gap-1">
+            <SelectRoleWing v-model="stateRole.role.wing" class="grow" />
+            <UButton icon="i-bx-x" size="lg" @click="stateRole.role.wing = null" color="gray" />
+          </UiFlex>
         </UFormGroup>
 
         <UFormGroup label="Thú cưng">
-          <SelectRolePet v-model="stateRole.role.pet" />
+          <UiFlex class="gap-1">
+            <SelectRolePet v-model="stateRole.role.pet" class="grow" />
+            <UButton icon="i-bx-x" size="lg" @click="stateRole.role.pet = null" color="gray" />
+          </UiFlex>
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
@@ -182,7 +191,7 @@ const actions = (row) => [
       modal.value.edit = true
     }
   },{
-    label: 'Thêm ngoại hình',
+    label: 'Ngoại hình',
     icon: 'i-bxs-universal-access',
     click: () => {
       stateRole.value._id = row._id

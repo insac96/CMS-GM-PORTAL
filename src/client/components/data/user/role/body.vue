@@ -1,5 +1,5 @@
 <template>
-  <canvas ref="cs" width="500" height="500" style="
+  <canvas ref="cs" width="700" height="700" style="
     background: transparent; 
     transform: scale(0.5);
     transform-origin: center center;
@@ -33,7 +33,7 @@ onMounted(async () => {
       const frameRes = res[frame.res]
 
       const offsetX = frame.x + (canvas.width / 2);
-      const offsetY = frame.y + (canvas.height * 0.85); 
+      const offsetY = frame.y + (canvas.height * (3/4)); 
 
       // Vẽ hình
       ctx.drawImage(
