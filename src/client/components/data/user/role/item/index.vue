@@ -1,10 +1,9 @@
 <template>
-  <div class="
-    relative inline-block
-    hover:ring-primary-500
-    cursor-pointer
-    rounded-2xl 
-  ">
+  <UCard class="cursor-pointer dark:bg-gray-800" :ui="{
+    body: { 
+      padding: 'p-0 sm:p-0',
+    }
+  }">
     <UiImg 
       :src="item.icon"
       :img-w="Number(size) * 2"
@@ -40,7 +39,7 @@
         </UiFlex>
       </div>
     </UModal>
-  </div>
+  </UCard>
 </template>
 
 <script setup>
