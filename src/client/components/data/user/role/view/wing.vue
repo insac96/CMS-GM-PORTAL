@@ -1,9 +1,5 @@
 <template>
-  <canvas ref="cs" width="1000" height="700" style="
-    background: transparent; 
-    transform: scale(0.45);
-    transform-origin: top;
-  "></canvas>
+  <canvas ref="cs" width="1000" height="700"></canvas>
 </template>
 
 <script setup>

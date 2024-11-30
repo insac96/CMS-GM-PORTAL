@@ -1,17 +1,4 @@
-import { Types } from "mongoose"
 import type { IAuth, IDBLogLogin, IDBUser, IDBUserLevel, IDBUserStore } from "~~/types"
-
-const mergeArray = (input : Array<Types.ObjectId>, list : Array<Types.ObjectId>) => {
-  const arr = input.concat(list)
-
-  const merge = arr.reduce((a : Array<Types.ObjectId>, c : Types.ObjectId) => {
-    const obj = a.find((obj : Types.ObjectId) => obj.toString() === c.toString())
-    if(!obj) a.push(c)
-    return a
-  }, [])
-
-  return merge
-}
 
 export default defineEventHandler(async (event) => {
   try {
@@ -39,9 +26,9 @@ export default defineEventHandler(async (event) => {
     user.level = realLevel._id
 
     // User Role
-    user.role.use.body = realLevel.role.body
-    user.role.use.wing = realLevel.role.wing
-    user.role.use.pet = realLevel.role.pet
+    if(!user.role.custom.body) user.role.use.body = realLevel.role.body
+    if(!user.role.custom.wing) user.role.use.wing = realLevel.role.wing
+    if(!user.role.custom.pet) user.role.use.pet = realLevel.role.pet
 
     // User VIP
     if(!!user.vip.month.enable && !user.vip.forever.enable){

@@ -12,8 +12,12 @@
         </div>
       </UiFlex>
 
-      <DataUserRole :role="user.role" class="mb-8 mt-10" />
+      <DataUserRoleView :role="user.role" class="mb-8 mt-10" />
 
+      <UiFlex justify="center" class="my-4" v-if="authStore.profile._id == user._id">
+        <DataUserRoleBag :user="user._id" @on-use="getProfile" />
+      </UiFlex>
+      
       <UiFlex type="col" class="gap-4 relative z-[3]">
         <UiFlex justify="between" class="w-full">
           <UiText weight="semibold" color="gray" size="xs">Chức vụ</UiText>

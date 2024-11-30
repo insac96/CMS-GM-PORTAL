@@ -15,6 +15,11 @@ export const DBUser = (mongoose : Mongoose) => {
         wing: { type: mongoose.Schema.Types.ObjectId, ref: 'RoleWing' },
         pet: { type: mongoose.Schema.Types.ObjectId, ref: 'RolePet' },
       },
+      custom: {
+        body: { type: Boolean, default: false },
+        wing: { type: Boolean, default: false },
+        pet: { type: Boolean, default: false },
+      },
       bag: {
         body: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RoleBody' }],
         wing: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RoleWing' }],

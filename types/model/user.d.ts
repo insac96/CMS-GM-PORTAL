@@ -18,6 +18,11 @@ export interface IDBUser {
       wing: Types.ObjectId
       pet: Types.ObjectId
     }
+    custom: {
+      body: boolean
+      wing: boolean
+      pet: boolean
+    }
     bag: {
       body: Array<Types.ObjectId>
       wing: Array<Types.ObjectId>
@@ -70,7 +75,7 @@ export interface IDBUserLevel {
   role: {
     body: Types.ObjectId,
     wing: Types.ObjectId,
-    pet: Types.ObjectId,
+    pet: Types.ObjectId
   }
   bonus: {
     payment: number
