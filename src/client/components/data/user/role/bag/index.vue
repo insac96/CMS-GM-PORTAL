@@ -9,7 +9,7 @@
         <DataEmpty :loading="loading" text="Kho đồ trống" class="min-h-[300px]" v-if="!!loading || list.length == 0"></DataEmpty>
 
         <UiFlex wrap class="gap-1.5 py-4" justify="center" v-else>
-          <DataUserRoleItem v-for="(item, index) in list" :key="index" :item="item" :type="tabs[tab]['type']" @on-use="open = false; emits('onUse')"></DataUserRoleItem>
+          <DataUserRoleItem v-for="(item, index) in list" :key="index" :item="item" :type="tabs[tab]['type']" @on-use="onUse"></DataUserRoleItem>
         </UiFlex>
       </div>
     </UModal>
@@ -34,6 +34,10 @@ const tabs = [
 
 watch(() => tab.value, () => getList())
 watch(() => open.value, (val) => !!val && getList())
+
+const onUse = (data) => {
+  emits('onUse', JSON.parse(JSON.stringify(data)))
+}
 
 const getList = async () => {
   try {

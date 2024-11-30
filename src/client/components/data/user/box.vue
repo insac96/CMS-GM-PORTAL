@@ -12,10 +12,10 @@
         </div>
       </UiFlex>
 
-      <DataUserRoleView :role="user.role" class="mb-8 mt-10" />
+      <DataUserRoleView :role="user.role" class="mb-8 mt-10" :key="updateRole" />
 
-      <UiFlex justify="center" class="my-4" v-if="authStore.profile._id == user._id">
-        <DataUserRoleBag :user="user._id" @on-use="getProfile" />
+      <UiFlex justify="center" class="my-4" v-if="!!authStore.isLogin && authStore.profile._id == user._id">
+        <DataUserRoleBag :user="user._id" @on-use="onUseFashion" />
       </UiFlex>
       
       <UiFlex type="col" class="gap-4 relative z-[3]">
@@ -88,6 +88,19 @@ const vipFormat = computed(() => {
   }
   return null
 })
+
+const updateRole = ref(0)
+const onUseFashion = (data) => {
+  if(!data) return
+  if(!data.type) return
+  if(!data.item) return
+  if(!data.item._id) return
+  if(!user.value) return
+  if(!user.value.role) return
+  if(!user.value.role.use) return
+  user.value.role.use[data.type] = data.item._id
+  updateRole.value = updateRole.value + 1
+}
 
 const goChatSingle = async () => {
   try {

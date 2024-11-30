@@ -62,8 +62,8 @@ const useFashion = async () => {
     })))
 
     loading.value = false
+    emits('onUse', { item: props.item, type: props.type })
     modal.value = false
-    emits('onUse')
   }
   catch(e){
     loading.value = false
