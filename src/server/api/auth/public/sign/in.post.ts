@@ -1,6 +1,6 @@
 import md5 from 'md5'
 import jwt from 'jsonwebtoken'
-import { IDBConfig, IDBUser } from '~~/types'
+import type { IDBUser } from '~~/types'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -17,6 +17,14 @@ export default defineEventHandler(async (event) => {
     if(!user) throw 'Tài khoản không tồn tại'
     if(md5(password) != user.password) throw 'Mật khẩu không chính xác'
     if(!!user.block) throw 'Tài khoản của bạn đang bị khóa'
+
+    // Update Ads From
+    const adsFromCode = getCookie(event, 'ads-from')
+    if(!!adsFromCode){
+      const adsFromData = await DB.AdsFrom.findOne({ code: adsFromCode }).select('_id')
+      if(!!adsFromData) await DB.AdsFrom.updateOne({ _id: adsFromData._id }, { $inc: { 'sign.in': 1 }})
+      else deleteCookie(event, 'ads-from', runtimeConfig.public.cookieConfig)
+    }
 
     // Create Token and Cookie
     const token = jwt.sign({

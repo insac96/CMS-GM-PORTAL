@@ -3,9 +3,10 @@ import type { Mongoose } from 'mongoose'
 import { DBConfig } from './config'
 import { DBNews, DBNewsCategory } from './news'
 
+import { DBAdsFrom } from './ads'
+
 import { DBUser, DBUserLevel } from './user'
 import { DBRoleBody, DBRolePet, DBRoleWing } from './role'
-
 
 import { DBGate } from './gate'
 import { DBPayment } from './payment'
@@ -63,6 +64,8 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     
     NewsCategory: DBNewsCategory(mongoose),
     News: DBNews(mongoose),
+
+    AdsFrom: DBAdsFrom(mongoose),
 
     User: DBUser(mongoose),
     UserLevel: DBUserLevel(mongoose),

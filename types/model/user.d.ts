@@ -40,6 +40,7 @@ export interface IDBUser {
     }
   }
   reg: {
+    from: Types.ObjectId
     platform: string
   }
   social: {

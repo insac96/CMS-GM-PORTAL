@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import md5 from 'md5'
-import type { IDBUser } from "~~/types"
+import type { IDBAdsFrom, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -51,7 +51,18 @@ export default defineEventHandler(async (event) => {
       password: md5(password),
       phone: phone,
       email: email
-    })
+    }) as IDBUser
+
+    // Update Ads From
+    const adsFromCode = getCookie(event, 'ads-from')
+    if(!!adsFromCode){
+      const adsFromData = await DB.AdsFrom.findOne({ code: adsFromCode }).select('_id') as IDBAdsFrom
+      if(!!adsFromData){
+        await DB.AdsFrom.updateOne({ _id: adsFromData._id }, { $inc: { 'sign.up': 1 }})
+        user.reg.from = adsFromData._id
+      }
+      else deleteCookie(event, 'ads-from', runtimeConfig.public.cookieConfig)
+    }
 
     // Make Token And Cookie
     const token = jwt.sign({

@@ -37,6 +37,7 @@ export const DBUser = (mongoose : Mongoose) => {
       }
     },
     reg: {
+      from: { type: mongoose.Schema.Types.ObjectId, ref: 'AdsFrom' },
       platform: { type: String, default: 'local' },
     },
     social: {

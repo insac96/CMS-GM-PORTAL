@@ -90,5 +90,15 @@ export default defineNuxtConfig({
     prefix: 'Tiptap'
   },
 
+  vite: {
+    css: {
+      preprocessorOptions: {
+        sass: {
+          api: 'modern',
+        },
+      },
+    },
+  },
+
   compatibilityDate: '2024-08-19'
 })
