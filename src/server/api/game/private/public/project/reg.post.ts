@@ -21,6 +21,14 @@ export default defineEventHandler(async (event) => {
     await DB.GamePrivate.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
 
     IO.emit('notify-global-push', `<b class="text-primary-500">${auth.username}</b> đăng ký chơi trò chơi Private <b class="text-primary-500">${game.name}</b>`)
+
+    logUser({
+      user: auth._id,
+      action: `Đăng ký chơi <b>[Game Private] ${game.name}</b>`,
+      type: 'game.private.play',
+      target: game._id.toString()
+    })
+
     return resp(event, { result: newUserGame })
   } 
   catch (e:any) {

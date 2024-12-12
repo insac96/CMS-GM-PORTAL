@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     if(!content) throw 'Vui lòng nhập đầy đủ thông tin'
     if(content.length < 30) throw 'Nội dung ít nhất 30 ký tự'
 
-    const post = await DB.ForumPost.findOne({ _id: postID }).select('_id enable') as IDBForumPost
+    const post = await DB.ForumPost.findOne({ _id: postID }).select('title enable') as IDBForumPost
     if(!post) throw 'Bài viết không tồn tại'
     if(!post.enable.comment) throw 'Bài viết đã tắt tính năng bình luận'
 
@@ -21,6 +21,13 @@ export default defineEventHandler(async (event) => {
       $inc: { 'statistic.comment': 1 },
       'update.comment' : Date.now(),
       'update.last' : Date.now(),
+    })
+
+    logUser({
+      user: auth._id,
+      action: `Trà lời bài viết <b>${post.title}</b> trong diễn đàn`,
+      type: 'forum.comment',
+      target: post._id.toString()
     })
     
     return resp(event, { message: 'Phản hồi thành công' })

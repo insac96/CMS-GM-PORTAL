@@ -31,7 +31,11 @@ export default defineEventHandler(async (event) => {
     })
 
     const IP = getRequestIP(event, { xForwardedFor: true })
-    logUser(event, user._id, `Thao tác đổi <b>mật khẩu</b> tài khoản bằng IP <b>${IP}</b>`)
+    logUser({
+      user: user._id,
+      action: `Thao tác đổi <b>mật khẩu</b> tài khoản bằng IP <b>${IP}</b>`,
+      type: 'change.password'
+    })
 
     return resp(event, { message: 'Đặt lại mật khẩu thành công' })
   } 

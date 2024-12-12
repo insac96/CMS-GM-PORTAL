@@ -31,6 +31,12 @@ export default defineEventHandler(async (event) => {
 
       user.china.youxi = true
       await user.save()
+
+      logUser({
+        user: user._id,
+        action: 'Đăng ký tài khoản chơi Game China',
+        type: 'game.china.sign'
+      })
       
       return resp(event, { code: 200, result: true })
   }

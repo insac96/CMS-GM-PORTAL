@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!type) throw 'Không tìm thấy hệ điều hành chơi'
 
-    const game = await DB.GameChina.findOne({ code: code, display: true }).select('play statistic') as IDBGameChina
+    const game = await DB.GameChina.findOne({ code: code, display: true }).select('name play statistic') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'
 
     // @ts-expect-error
@@ -25,6 +25,13 @@ export default defineEventHandler(async (event) => {
     if(!userGameChina) {
       await DB.GameChinaUser.create({ user: auth._id, game: game._id })
       await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
+
+      logUser({
+        user: auth._id,
+        action: `Đăng ký chơi <b>[Game China] ${game.name}</b>`,
+        type: 'game.china.play',
+        target: game._id.toString()
+      })
     }
 
     return resp(event, { result: { url } })

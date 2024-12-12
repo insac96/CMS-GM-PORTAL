@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     const { post: postID } = body
     if(!postID) throw 'Không tìm thấy ID bài viết'
 
-    const post = await DB.ForumPost.findOne({ _id: postID }).select('_id') as IDBForumPost
+    const post = await DB.ForumPost.findOne({ _id: postID }).select('title') as IDBForumPost
     if(!post) throw 'Bài viết không tồn tại'
 
     const liked = await DB.ForumPostLike.findOne({ user: auth._id, post: post._id }).select('_id') as IDBForumPostLike
@@ -18,6 +18,13 @@ export default defineEventHandler(async (event) => {
     await DB.ForumPost.updateOne({ _id: post._id }, {
       $inc: { 'statistic.like': 1 },
       'update.like' : Date.now()
+    })
+
+    logUser({
+      user: auth._id,
+      action: `Thích bài viết <b>${post.title}</b> trong diễn đàn`,
+      type: 'forum.like',
+      target: post._id.toString()
     })
     
     return resp(event, { result: true })

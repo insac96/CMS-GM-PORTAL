@@ -16,7 +16,6 @@ export default defineEventHandler(async (event) => {
 
     const list = await DB.LogUser
     .find(match)
-    .select('action createdAt')
     .sort(sorting)
     .limit(size)
     .skip((current - 1) * size)

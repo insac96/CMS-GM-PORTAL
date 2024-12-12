@@ -76,8 +76,17 @@ export default async (
     // Log User
     realNotify = `Bạn được duyệt thành công giao dịch <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')} VNĐ</b> và nhận về <b>${realCoin.toLocaleString('vi-VN')} Xu</b>`
     logAdmin(event, `Chấp nhận giao dịch nạp tiền <b>${payment.code}</b> với số tiền <b>${realMoney.toLocaleString('vi-VN')}</b>`, verify_person)
-    logUser(event, user._id, `Nhận <b>${realCoin.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`)
+    logUser({
+      user: user._id, 
+      action: `Nhận <b>${realCoin.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`,
+      type: 'pay.first',
+      target: realMoney.toString()
+    })
     IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa tăng thêm <b class="text-primary-500">${realCoin.toLocaleString('vi-VN')}</b> Tu Vi`)
+
+    // Check Frist Pay
+    const count = await DB.LogUser.count({ user: user._id, type: 'pay.first' })
+    if(count == 0) logUser({ user: user._id, action: `Nạp lần đầu`, type: 'pay.first' })
 
     // Telebot
     const config = await DB.Config.findOne({}).select('telebot manage_password') as IDBConfig
@@ -100,11 +109,20 @@ export default async (
   }
   else if(realStatus == 2){
     realNotify = `Bạn bị từ chối giao dịch <b>${payment.code}</b> với lý do <b>${realReason}</b>`
+    logUser({
+      user: user._id, 
+      action: `Bạn bị từ chối giao dịch <b>${payment.code}</b>`,
+      type: 'pay.refuse'
+    })
     logAdmin(event, `Từ chối giao dịch nạp tiền <b>${payment.code}</b> với lý do <b>${realReason}</b>`, verify_person)
   }
   else {
     realNotify = `Bạn đã hoàn tác giao dịch nạp tiền <b>${payment.code}</b> với lý do <b>${realReason}</b>`
-    logUser(event, user._id, `Hoàn tác giao dịch nạp tiền <b>${payment.code}</b>`)
+    logUser({
+      user: user._id, 
+      action: `Hoàn tác giao dịch nạp tiền <b>${payment.code}</b>`,
+      type: 'pay.undo'
+    })
   }
 
   // Send Notify

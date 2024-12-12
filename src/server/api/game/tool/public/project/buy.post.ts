@@ -87,6 +87,14 @@ export default defineEventHandler(async (event) => {
     // Send Notify Global
     IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa mua Tool trò chơi <b class="text-primary-500">${game.name}</b>`)
 
+    // Log User
+    logUser({
+      user: auth._id,
+      action: `Mua <b>Tool</b> trò chơi <b>${game.name}</b>`,
+      type: 'game.tool.buy',
+      target: game._id.toString()
+    })
+
     return resp(event, { result: result })
   } 
   catch (e:any) {

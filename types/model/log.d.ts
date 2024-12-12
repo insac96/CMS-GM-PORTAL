@@ -14,8 +14,10 @@ export interface IDBLogUser {
   createdAt: Date
   updatedAt: Date
   
+  type: string
   user: Types.ObjectId
   action: string
+  target: string
 }
 
 export interface IDBLogLogin {

@@ -5,16 +5,25 @@ export interface IDBMission {
   createdAt: Date
   updatedAt: Date
   
+  title: string
+  description: string 
   type: string
-  coin: number
-  limit: number
   expired: Date
   daily: boolean
-  action: {
-    game: {
-      os: string
-      _id: string
-    }
-    link: string
+  need: string,
+  gift: {
+    exp: number
+    coin: number
+    ecoin: number
   }
+  display: boolean
+}
+
+export interface IDBMissionHistory {
+  _id: Types.ObjectId
+  createdAt: Date
+  updatedAt: Date
+  
+  user: Types.ObjectId
+  mission: Types.ObjectId
 }

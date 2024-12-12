@@ -35,6 +35,7 @@
     <template #tab-7><UVerticalNavigation :links="navItems[7].children" @click="emit('to')"/></template>
     <template #tab-8><UVerticalNavigation :links="navItems[8].children" @click="emit('to')"/></template>
     <template #tab-9><UVerticalNavigation :links="navItems[9].children" @click="emit('to')"/></template>
+    <template #tab-10><UVerticalNavigation :links="navItems[10].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
@@ -149,6 +150,16 @@ const navItems = [
     children: [
       { label: 'Danh mục', to: '/manage/@eni/forum/category' },
       { label: 'Bài viết', to: '/manage/@eni/forum/post' },
+    ]
+  },
+  {
+    label: 'Nhiệm vụ',
+    icon: 'i-bxs-book-open',
+    defaultOpen: false,
+    slot: 'tab-10',
+    children: [
+      { label: 'Danh sách', to: '/manage/@eni/mission' },
+      { label: 'Lịch sử', to: '/manage/@eni/mission/history' },
     ]
   },
 ]

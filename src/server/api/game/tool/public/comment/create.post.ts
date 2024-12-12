@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     if(content.length < 5) throw 'Bình luận ít nhất 5 ký tự'
     if(content.length > 50) throw 'Bình luận nhiều nhất 50 ký tự'
 
-    const game = await DB.GameTool.findOne({ code: code, display: true }).select('_id') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('name') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
     const userGame = await DB.GameToolUser.findOne({ game: game._id, user: auth._id }).select('_id') as IDBGameToolUser
@@ -21,6 +21,13 @@ export default defineEventHandler(async (event) => {
       user: userGame._id,
       game: game._id,
       content: content
+    })
+
+    logUser({
+      user: auth._id,
+      action: `Bình luận <b>[Game Tool] ${game.name}</b>`,
+      type: 'game.tool.comment',
+      target: game._id.toString()
     })
 
     return resp(event, { result: true })

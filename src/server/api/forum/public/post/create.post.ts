@@ -1,4 +1,4 @@
-import type { IAuth, IDBForumCategory, IDBForumCategorySub } from "~~/types"
+import type { IAuth, IDBForumCategory, IDBForumCategorySub, IDBForumPost } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -27,9 +27,16 @@ export default defineEventHandler(async (event) => {
     body.category = category._id
     body.key = formatVNString(title, '-')+"-"+now
     body.creater = auth._id
-    await DB.ForumPost.create(body)
+    const post = await DB.ForumPost.create(body) as IDBForumPost
+
+    logUser({
+      user: auth._id,
+      action: `Tạo chủ đề <b>${title}</b> trong diễn đàn`,
+      type: 'forum.post',
+      target: post._id.toString()
+    })
     
-    return resp(event, { message: 'Thêm bài viết thành công' })
+    return resp(event, { message: 'Tạo thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

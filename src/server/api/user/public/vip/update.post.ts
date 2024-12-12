@@ -33,6 +33,13 @@ export default defineEventHandler(async (event) => {
     await user.save()
     await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': price * -1 }})
 
+    // Log User
+    logUser({
+      user: user._id,
+      action: `Dùng <b>${price.toLocaleString('vi-VN')} Xu</b> mua <b class="text-primary-500">VIP ${type == 'forever' ? 'Trọn Đời' : 'Tháng'}</b>`,
+      type: 'vip.upgrade',
+    })
+
     IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa mua <b class="text-primary-500">VIP ${type == 'forever' ? 'Trọn Đời' : 'Tháng'}</b>`)
 
     return resp(event, { message: 'Nâng cấp thành công' })

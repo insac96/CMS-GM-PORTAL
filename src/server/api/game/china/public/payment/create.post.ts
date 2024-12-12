@@ -51,7 +51,13 @@ export default defineEventHandler(async (event) => {
       với mã giao dịch <b>${code}</b>
     `
     await sendNotifyUser({ user: user._id, color: 'red', content: notify })
-    logUser(event, user._id, notify)
+    
+    logUser({ 
+      user: user._id, 
+      action: notify, 
+      type: 'game.china.create.pay',
+      target: game._id.toString()
+    })
 
     // Telebot
     const timeFormat = formatDate(event, new Date())

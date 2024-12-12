@@ -8,10 +8,14 @@ import { DBAdsFrom } from './ads'
 import { DBUser, DBUserLevel } from './user'
 import { DBRoleBody, DBRolePet, DBRoleWing } from './role'
 
+import { DBNotifyUser } from './notify'
+
 import { DBGate } from './gate'
 import { DBPayment } from './payment'
 import { DBSpend } from './spend'
-import { DBNotifyUser } from './notify'
+
+import { DBMission, DBMissionHistory } from './mission'
+
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
 import { 
@@ -79,6 +83,9 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     Gate: DBGate(mongoose),
     Payment: DBPayment(mongoose),
     Spend: DBSpend(mongoose),
+
+    Mission: DBMission(mongoose),
+    MissionHistory: DBMissionHistory(mongoose),
 
     LogAdmin: DBLogAdmin(mongoose),
     LogUser: DBLogUser(mongoose),

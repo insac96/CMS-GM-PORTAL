@@ -10,7 +10,7 @@
 
 <script setup>
 const props = defineProps({
-  imgSize: { type: Number || String, default: 23 }
+  imgSize: { type: [ Number, String ], default: 23 }
 })
 const configStore = useConfigStore()
 </script>

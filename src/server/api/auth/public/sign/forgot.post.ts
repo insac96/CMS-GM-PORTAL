@@ -31,16 +31,14 @@ export default defineEventHandler(async (event) => {
     user.token = token
     await user.save()
 
-    await sendNotifyUser({
+    const IP = getRequestIP(event, { xForwardedFor: true })
+    logUser({
       user: user._id,
-      color: 'blue',
-      content: `Bạn đã thao tác lấy lại <b>mật khẩu</b> tài khoản`
+      action: `Thao tác lấy lại <b>mật khẩu</b> tài khoản bằng IP <b>${IP}</b>`,
+      type: 'regain.password'
     })
 
-    const IP = getRequestIP(event, { xForwardedFor: true })
-    logUser(event, user._id, `Thao tác lấy lại <b>mật khẩu</b> tài khoản bằng IP <b>${IP}</b>`)
-
-    return resp(event, { message: 'Lấy lại mật khẩu thành công' })
+    return resp(event, { message: 'Thao tác thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

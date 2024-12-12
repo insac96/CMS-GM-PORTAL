@@ -1,5 +1,6 @@
 import type { Model } from 'mongoose'
 import type { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
+
 export { IDBConfig, IDBConfigStore } from './config'
 export { IDBNews, IDBNewsCategory } from './news'
 
@@ -7,12 +8,14 @@ export { IDBAdsFrom } from './ads'
 
 export { IDBUser, IDBUserLevel, IDBUserStore } from './user'
 export { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
+export { IDBNotifyUser } from './notify'
 
 export { IDBGate } from './gate'
 export { IDBPayment } from './payment'
 export { IDBSpend } from './spend'
-export { IDBMission } from './mission'
-export { IDBNotifyUser } from './notify'
+
+export { IDBMission, IDBMissionHistory } from './mission'
+
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
 
@@ -80,6 +83,9 @@ export interface IGlobalDB {
   Gate: Model<IDBGate>
   Payment: Model<IDBPayment>
   Spend: Model<IDBSpend>
+
+  Mission: Model<IDBMission>
+  MissionHistory: Model<IDBMissionHistory>
 
   LogAdmin: Model<IDBLogAdmin>
   LogUser: Model<IDBLogUser>

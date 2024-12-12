@@ -54,13 +54,24 @@ export default async (
   // Check Status
   let realNotify : any
   if(status == 1){
+    // Update revenue game
+    await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': payment.coin }})
+
     realNotify = `
       Bạn được duyệt thành công giao dịch nạp
       <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
     `
-    
-    // Update revenue game
-    await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': payment.coin }})
+
+    logUser({ 
+      user: user._id, 
+      action: `
+        Nạp thành công <b>${payment.coin.toLocaleString('vi-VN')}</b> 
+        vào <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
+      `, 
+      type: 'game.china.pay.success',
+      target: game._id.toString()
+    })
+
     logAdmin(event, `Chấp nhận giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
     logGameAdmin(event, 'china', game._id, `Chấp nhận giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
   }
@@ -74,11 +85,16 @@ export default async (
       và được hoàn lại <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
     `
 
-    logUser(event, user._id, `
-      Nhận <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
-      từ lệnh từ chối giao dịch nạp 
-      <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
-    `)
+    logUser({ 
+      user: user._id, 
+      action: `
+        Hoàn lại <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
+        từ lệnh từ chối giao dịch nạp 
+        <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
+      `, 
+      type: 'game.china.pay.refuse',
+      target: game._id.toString()
+    })
 
     logAdmin(event, `Từ chối giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
     logGameAdmin(event, 'china', game._id, `Từ chối giao dịch nạp tiền nền tảng <b>${payment.code}</b>`, verify_person)
@@ -87,11 +103,17 @@ export default async (
     await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': payment.coin }})
 
     realNotify = `
-      Nhận <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
+      Hoàn lại <b>${payment.coin.toLocaleString('vi-VN')}</b> Xu 
       từ lệnh hoàn tác giao dịch nạp 
       <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>
     `
-    logUser(event, user._id, realNotify)
+
+    logUser({ 
+      user: user._id, 
+      action: realNotify, 
+      type: 'game.china.pay.undo',
+      target: game._id.toString()
+    })
   }
 
   // Send Notify

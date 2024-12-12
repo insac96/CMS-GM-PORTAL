@@ -5,7 +5,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   // Ads From Cookie
   const adsFromCookie = useCookie('ads-from', runtimeConfig.public.cookieConfig)
-  if(from.query.f) adsFromCookie.value = from.query.f as string
+  if(from.query.f){
+    adsFromCookie.value = from.query.f as string
+    await useAPI('ads/public/from/view', { code: adsFromCookie.value })
+  }
 
   // Theme Cookie
   // const primaryCookie = useCookie('theme-primary', runtimeConfig.public.cookieConfig)

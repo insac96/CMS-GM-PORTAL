@@ -33,7 +33,7 @@
 const { img } = useMakeLink()
 const props = defineProps({
   src: String,
-  imgSize: String,
+  imgSize: [ String, Number ],
   fit: { type: String, default: 'cover' },
   imgW: [ String, Number ],
   imgH: [ String, Number ],

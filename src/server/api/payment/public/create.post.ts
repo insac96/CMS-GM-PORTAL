@@ -1,5 +1,5 @@
 import md5 from "md5"
-import type { IAuth, IDBConfig, IDBGate, IDBUser } from "~~/types"
+import type { IAuth, IDBConfig, IDBGate, IDBPayment, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -72,6 +72,14 @@ export default defineEventHandler(async (event) => {
       code: code,
       token: token,
       qrcode: qrcode
+    }) as IDBPayment
+
+    // Log User
+    logUser({
+      user: user._id,
+      action: `Tạo giao dịch nạp tiền <b>${code}</b>`,
+      type: 'pay.create',
+      target: payment._id.toString()
     })
 
     // Telebot

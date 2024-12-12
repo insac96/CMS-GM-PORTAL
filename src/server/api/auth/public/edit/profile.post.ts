@@ -20,8 +20,15 @@ export default defineEventHandler(async (event) => {
       zalo: social.zalo || null,
       telegram: social.telegram || null,
       tiktok: social.tiktok || null,
+      messenger: social.messenger || null,
     }
     await user.save()
+
+    logUser({
+      user: user._id,
+      action: `Cập nhật <b>thông tin</b> tài khoản`,
+      type: 'edit.profile'
+    })
 
     return resp(event, { message: 'Cập nhật thành công' })
   } 

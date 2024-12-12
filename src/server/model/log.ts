@@ -15,8 +15,10 @@ export const DBLogAdmin = (mongoose : Mongoose) => {
 
 export const DBLogUser = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBLogUser>({ 
+    type: { type: String },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     action: { type: String },
+    target: { type: String }
   }, {
     timestamps: true
   })

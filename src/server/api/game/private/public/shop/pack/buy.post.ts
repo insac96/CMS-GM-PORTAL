@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     
-    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('ip api secret rate') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('name ip api secret rate') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 
@@ -112,6 +112,14 @@ export default defineEventHandler(async (event) => {
       amount: amount,
       server: server,
       role: role,
+    })
+
+    // Log User
+    logUser({
+      user: auth._id,
+      action: `Dùng <b>${totalPrice.toLocaleString("vi-VN")} Xu</b> mua hàng trong <b>[Game Private] ${game.name}</b>`,
+      type: 'game.private.shopping',
+      target: game._id.toString()
     })
 
     return resp(event, { message: 'Mua thành công' })

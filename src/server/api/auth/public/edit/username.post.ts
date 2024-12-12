@@ -25,13 +25,13 @@ export default defineEventHandler(async (event) => {
     user.username = username
     await user.save()
 
-    await sendNotifyUser({
+    logUser({
       user: user._id,
-      color: 'blue',
-      content: `Bạn đã thao tác đặt <b>tên định danh</b> tài khoản`
+      action: `Đặt <b>tên định danh</b> tài khoản`,
+      type: 'set.username'
     })
 
-    return resp(event, { message: 'Đặt tên định danh thành công' })
+    return resp(event, { message: 'Thao tác thành công' })
   } 
   catch (e:any) {
     return resp(event, { code: 400, message: e.toString() })

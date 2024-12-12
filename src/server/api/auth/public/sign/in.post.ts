@@ -41,11 +41,16 @@ export default defineEventHandler(async (event) => {
     if(!UserIP) await DB.UserIP.create({ user: user._id, ip: IP })
 
     // Send Notify and Save Log
-    logUser(event, user._id, `Đăng nhập với IP <b>${IP}</b>`)
     await sendNotifyUser({
       user: user._id,
       color: 'blue',
       content: `Bạn đã đăng nhập với IP <b>${IP}</b>`
+    })
+
+    logUser({
+      user: user._id,
+      action: `Đăng nhập với IP <b>${IP}</b>`,
+      type: 'signin'
     })
 
     return resp(event, { result: true })
