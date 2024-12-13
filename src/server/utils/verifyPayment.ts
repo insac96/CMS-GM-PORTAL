@@ -79,7 +79,7 @@ export default async (
     logUser({
       user: user._id, 
       action: `Nhận <b>${realCoin.toLocaleString('vi-VN')} Xu</b> từ giao dịch nạp tiền thành công <b>${payment.code}</b>`,
-      type: 'pay.first',
+      type: 'pay.success',
       target: realMoney.toString()
     })
     IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa tăng thêm <b class="text-primary-500">${realCoin.toLocaleString('vi-VN')}</b> Tu Vi`)

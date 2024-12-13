@@ -39,11 +39,11 @@
 
         <UForm ref="form">
           <UFormGroup label="Gói nâng cấp">
-            <UInput :value="selectVip.title" readonly />
+            <UInput :model-value="selectVip.title" readonly />
           </UFormGroup>
 
           <UFormGroup label="Giá Xu">
-            <UInput :value="useMoney().toMoney(selectVip.price)" readonly />
+            <UInput :model-value="useMoney().toMoney(selectVip.price)" readonly />
           </UFormGroup>
 
           <UiFlex justify="end" class="mt-4">
@@ -66,7 +66,7 @@ useSeoMeta({
 
 const authStore = useAuthStore()
 const modal = ref(false)
-const selectVip = ref(false)
+const selectVip = ref(undefined)
 const form = ref()
 const loading = ref(false)
 
