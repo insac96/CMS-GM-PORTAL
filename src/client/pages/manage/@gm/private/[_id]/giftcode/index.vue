@@ -275,6 +275,7 @@ const actions = (row) => [
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
+      stateEdit.value.game = game._id
       modal.value.edit = true
     }
   }],[{

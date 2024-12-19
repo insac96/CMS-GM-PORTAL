@@ -6,7 +6,8 @@
         <UInput v-model="page.search" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
 
-      <UButton color="gray" @click="modal.add = true" class="ml-1">Tạo mới</UButton>
+      <UButton color="gray" @click="modal.single = true">Thêm mới</UButton>
+      <UButton color="primary" @click="modal.multiple = true">Thêm hàng loạt</UButton>
     </UiFlex>
     
     <!-- Table -->
@@ -18,6 +19,11 @@
         :columns="selectedColumns" 
         :rows="list"
       >
+        <template #actions-data="{ row }">
+          <UDropdown :items="actions(row)">
+            <UButton color="gray" icon="i-bx-dots-horizontal-rounded" :disabled="loading.del"/>
+          </UDropdown>
+        </template>
       </UTable>
     </UCard>
 
@@ -27,20 +33,56 @@
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="5" />
     </UiFlex>
 
-    <!-- Modal Add -->
-    <UModal v-model="modal.add" preventClose>
-      <UForm :state="stateAdd" @submit="addAction" class="p-4">
+    <!-- Modal Multiple -->
+    <UModal v-model="modal.multiple" preventClose>
+      <UForm :state="stateMultiple" @submit="multipleAction" class="p-4">
         <UFormGroup label="File Vật Phẩm">
-          <UiUploadJson v-model="stateAdd.items">
+          <UiUploadJson v-model="stateMultiple.items">
             <template #default="{ select, loading : loadingFile }">
-              <UInput icon="i-bx-box" placeholder="Bấm vào đây để tải file JSON" :model-value="stateAdd.items" :loading="loadingFile" :disabled="loading.add" readonly @click="select"/>
+              <UInput icon="i-bx-box" placeholder="Bấm vào đây để tải file JSON" :model-value="stateMultiple.items" :loading="loadingFile" :disabled="loading.multiple" readonly @click="select"/>
             </template>
           </UiUploadJson>
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
-          <UButton type="submit" :loading="loading.add">Thêm</UButton>
-          <UButton color="gray" @click="modal.add = false" :disabled="loading.add" class="ml-1">Đóng</UButton>
+          <UButton type="submit" :loading="loading.multiple">Thêm</UButton>
+          <UButton color="gray" @click="modal.multiple = false" :disabled="loading.multiple" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
+    <!-- Modal Single -->
+    <UModal v-model="modal.single" preventClose>
+      <UForm :state="stateSingle" @submit="singleAction" class="p-4">
+        <UFormGroup label="ID">
+          <UInput v-model="stateSingle.item_id" />
+        </UFormGroup>
+
+        <UFormGroup label="Tên">
+          <UInput v-model="stateSingle.item_name" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.single">Thêm</UButton>
+          <UButton color="gray" @click="modal.single = false" :disabled="loading.single" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
+    <!-- Modal Edit -->
+    <UModal v-model="modal.edit" preventClose>
+      <UForm :state="stateEdit" @submit="editAction" class="p-4">
+        <UFormGroup label="ID">
+          <UInput v-model="stateEdit.item_id" />
+        </UFormGroup>
+
+        <UFormGroup label="Tên">
+          <UInput v-model="stateEdit.item_name" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.edit">Thêm</UButton>
+          <UButton color="gray" @click="modal.edit = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
         </UiFlex>
       </UForm>
     </UModal>
@@ -55,7 +97,7 @@ const list = ref([])
 
 // Columns
 const columns = [
-  {
+	{
     key: 'item_id',
     label: 'Mã vật phẩm',
     sortable: true
@@ -63,6 +105,9 @@ const columns = [
     key: 'item_name',
     label: 'Tên vật phẩm',
     sortable: true
+  },{
+    key: 'actions',
+    label: 'Chức năng',
   }
 ]
 const selectedColumns = ref([...columns])
@@ -86,21 +131,65 @@ watch(() => page.value.sort.direction, () => getList())
 watch(() => page.value.search, (val) => !val && getList())
 
 // State
-const stateAdd = ref({
+const stateMultiple = ref({
   items: null,
+  game: game._id
+})
+
+const stateSingle = ref({
+  item_id: null, 
+  item_name: null,
+  game: game._id
+})
+
+const stateEdit = ref({
+  _id: null,
+  item_id: null, 
+  item_name: null,
   game: game._id
 })
 
 // Modal
 const modal = ref({
-  add: false
+  single: false,
+  multiple: false,
+  edit: false
 })
+watch(() => modal.value.multiple, (val) => !val && (stateMultiple.value = {
+  items: null,
+  game: game._id
+}))
+watch(() => modal.value.single, (val) => !val && (stateSingle.value = {
+  item_id: null, 
+  item_name: null,
+  game: game._id
+}))
 
 // Loading
 const loading = ref({
   load: true,
-  add: false
+  single: false,
+  multiple: false,
+  edit: false,
+  del: false
 })
+
+// Actions
+const actions = (row) => [
+  [{
+    label: 'Sửa vật phẩm',
+    icon: 'i-bx-pencil',
+    click: () => {
+      Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
+      stateEdit.value.game = game._id
+      modal.value.edit = true
+    }
+  }],[{
+    label: 'Xóa vật phẩm',
+    icon: 'i-bx-trash',
+    click: () => delAction(row._id)
+  }]
+]
  
 // Fetch
 const getList = async () => {
@@ -117,17 +206,61 @@ const getList = async () => {
   } 
 }
 
-const addAction = async () => {
+const multipleAction = async () => {
   try {
-    loading.value.add = true
-    await useAPI('game/tool/manage/item/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    loading.value.multiple = true
+    await useAPI('game/tool/manage/item/add/multiple', JSON.parse(JSON.stringify(stateMultiple.value)))
 
-    loading.value.add = false
-    modal.value.add = false
+    loading.value.multiple = false
+    modal.value.multiple = false
     getList()
   }
   catch (e) {
-    loading.value.add = false
+    loading.value.multiple = false
+  }
+}
+
+const singleAction = async () => {
+  try {
+    loading.value.single = true
+    await useAPI('game/tool/manage/item/add/single', JSON.parse(JSON.stringify(stateSingle.value)))
+
+    loading.value.single = false
+    modal.value.single = false
+    getList()
+  }
+  catch (e) {
+    loading.value.single = false
+  }
+}
+
+const editAction = async () => {
+  try {
+    loading.value.edit = true
+    await useAPI('game/tool/manage/item/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+
+    loading.value.edit = false
+    modal.value.edit = false
+    getList()
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const delAction = async (_id) => {
+  try {
+    loading.value.del = true
+    await useAPI('game/tool/manage/item/del', {
+			_id: _id,
+			game: game._id
+		})
+
+    loading.value.del = false
+    getList()
+  }
+  catch (e) {
+    loading.value.del = false
   }
 }
 
