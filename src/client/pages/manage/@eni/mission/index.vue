@@ -70,6 +70,17 @@
           <UInput v-model="stateAdd.need" v-else />
         </UFormGroup>
 
+        <UFormGroup label="Điều kiện thêm" v-if="stateAdd.type == 'game.private.play'">
+          <UiFlex class="gap-1">
+            <UInput v-model="stateAdd.more.game.private.level" type="number" class="grow">
+              <template #trailing>Level</template>
+            </UInput>
+            <UInput v-model="stateAdd.more.game.private.power" type="number" class="grow">
+              <template #trailing>Power</template>
+            </UInput>
+          </UiFlex>
+        </UFormGroup>
+
         <UFormGroup label="Phần thưởng">
           <UiFlex class="gap-1">
             <UInput v-model="stateAdd.gift.coin" type="number" >
@@ -116,6 +127,17 @@
           <UInput v-model="stateEdit.need" v-else />
         </UFormGroup>
 
+        <UFormGroup label="Điều kiện thêm" v-if="stateEdit.type == 'game.private.play'">
+          <UiFlex class="gap-1">
+            <UInput v-model="stateEdit.more.game.private.level" type="number" class="grow">
+              <template #trailing>Level</template>
+            </UInput>
+            <UInput v-model="stateEdit.more.game.private.power" type="number" class="grow">
+              <template #trailing>Power</template>
+            </UInput>
+          </UiFlex>
+        </UFormGroup>
+
         <UFormGroup label="Phần thưởng">
           <UiFlex class="gap-1">
             <UInput v-model="stateEdit.gift.coin" type="number" >
@@ -125,7 +147,7 @@
               <template #trailing>Tu vi</template>
             </UInput>
             <UInput v-model="stateEdit.gift.ecoin" type="number" >
-              <template #trailing>EC</template>
+              <template #trailing>ECoin</template>
             </UInput>
           </UiFlex>
         </UFormGroup>
@@ -203,6 +225,14 @@ const stateAdd = ref({
   expired: null,
   daily: false,
   need: null,
+  more: {
+    game: {
+      private: {
+        level: 0,
+        power: 0
+      }
+    }
+  },
   gift: {
     exp: 0,
     coin: 0,
@@ -220,6 +250,14 @@ const stateEdit = ref({
   expired: null,
   daily: false,
   need: null,
+  more: {
+    game: {
+      private: {
+        level: 0,
+        power: 0
+      }
+    }
+  },
   gift: {
     exp: 0,
     coin: 0,

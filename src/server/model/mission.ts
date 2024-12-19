@@ -9,6 +9,14 @@ export const DBMission = (mongoose : Mongoose) => {
     expired: { type: Date },
     daily: { type: Boolean, default: false },
     need: { type: String },
+    more: {
+      game: {
+        private: {
+          level: { type: Number, default: 0 },
+          power: { type: Number, default: 0 },
+        }
+      }
+    },
     gift: {
       exp: { type: Number, default: 0 },
       coin: { type: Number, default: 0 },

@@ -1,10 +1,10 @@
 <template>
   <UiFlex class="gap-1">
-    <UButtonGroup>
+    <!-- <UButtonGroup>
       <UButton square icon="i-bx-coin" @click="navigateTo('/payment')" />
       <UButton color="gray" @click="navigateTo('/payment')">{{ authStore.profile.currency.coin > 0 ? useMoney().miniMoney(authStore.profile.currency.coin) : 'Nạp' }}</UButton>
-    </UButtonGroup>
-
+    </UButtonGroup> -->
+    
     <AuthHeaderNotify />
 
     <AuthHeaderMessage />

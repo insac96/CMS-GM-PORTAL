@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!recharge_id) throw 'Không tìm thấy mã gói nạp'
     
-    const game = await DB.GameTool.findOne({ code: code, display: true }).select('_id ip api secret') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('ip api secret') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 

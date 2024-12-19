@@ -1,7 +1,5 @@
 <template>
-  <UiContent title="Nhiệm Vụ" sub="Hệ thống nhiệm vụ kiếm ECoin" class="w-full max-w-[700px] mx-auto">
-    <DataMission />
-  </UiContent>
+  <DataMission />
 </template>
 
 <script setup>

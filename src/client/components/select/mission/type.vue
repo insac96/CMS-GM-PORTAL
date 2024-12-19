@@ -41,8 +41,8 @@ const typeFormat = {
   // 'forum.comment': 'Bình Luận Bài Viết Diễn Đàn',
   // 'forum.like': 'Thích Bài Viết Diễn Đàn',
 
-  'share.link': 'Chia Sẻ Link',
-  'click.link': 'Bấm Link',
+  // 'share.link': 'Chia Sẻ Link',
+  // 'click.link': 'Bấm Link',
 }
 
 const options = computed(() => {

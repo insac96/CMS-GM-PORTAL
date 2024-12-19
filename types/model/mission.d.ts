@@ -11,6 +11,14 @@ export interface IDBMission {
   expired: Date
   daily: boolean
   need: string,
+  more: {
+    game: {
+      private: {
+        level: number,
+        power: number,
+      }
+    }
+  },
   gift: {
     exp: number
     coin: number
