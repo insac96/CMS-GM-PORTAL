@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     if(!account) throw 'Không tìm thấy tài khoản'
     if(!sign) throw 'Không tìm thấy mã ủy quyền'
     if(!!isNaN(parseInt(ecoin))) throw 'ECoin không hợp lệ'
-    if(parseInt(ecoin) < 1000) throw 'Số ECoin rút tối thiểu là 1000'
+    if(parseInt(ecoin) < 1) throw 'Số ECoin rút tối thiểu là 1'
     if(!server || !role) throw 'Không tìm thấy máy chủ và nhân vật'
 
     // Check Sign
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     
     // Get Game
-    const game = await DB.GamePrivate.findOne({ code: gameCode }).select('_id') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: gameCode }).select('name') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
 
     // Update
