@@ -3,13 +3,13 @@
 </template>
 
 <script setup>
-const props = defineProps(['source'])
+const props = defineProps(['role'])
 const cs = ref()
 const size = ref(500)
 const anim = ref(null)
 const roleData = ref({})
 
-const loadRes = async (source, canvas, scale = 1, x = 0, y = 0) => {
+const loadRes = async (type, source, canvas, scale = 1, x = 0, y = 0) => {
   return new Promise(async (res) => {
     const resData = await $fetch(source.path.json)
     
@@ -28,7 +28,7 @@ const loadRes = async (source, canvas, scale = 1, x = 0, y = 0) => {
 
     const sprite = new Image()
     sprite.onload = () => {
-      roleData.value = {
+      roleData.value[type] = {
         sprite, resData, currentFrame, offsetX, offsetY, minX, minY, maxX, maxY, scale, x, y
       }
       res(true)
@@ -39,30 +39,34 @@ const loadRes = async (source, canvas, scale = 1, x = 0, y = 0) => {
 
 onMounted(async () => {
   try {
-    if(!props.source) throw true
+    if(!props.role) throw true
 
     const canvas = cs.value
     const ctx = canvas.getContext('2d')
     canvas.width = size.value
     canvas.height = size.value
 
-    await loadRes(props.source, canvas, 1)
+    if(!!props.role.wing) await loadRes('wing', props.role.wing, canvas, 0.6, 0, -80)
+    if(!!props.role.body) await loadRes('body', props.role.body, canvas, 0.8)
+    if(!!props.role.pet) await loadRes('pet', props.role.pet, canvas, 0.4, 150, 100)
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const frame = roleData.value.resData.frames[roleData.value.currentFrame];
-	      const res = roleData.value.resData.res[frame.res];
+      for (const [key, value] of Object.entries(roleData.value)) {
+        const frame = value.resData.frames[value.currentFrame];
+	      const res = value.resData.res[frame.res];
 
         ctx.drawImage(
-          roleData.value.sprite,
+          value.sprite,
           res.x, res.y, res.w, res.h,
-          (frame.x - roleData.value.minX) * roleData.value.scale + roleData.value.offsetX + roleData.value.x,
-          (frame.y - roleData.value.minY) * roleData.value.scale + roleData.value.offsetY + roleData.value.y,
-          res.w * roleData.value.scale, res.h * roleData.value.scale
+          (frame.x - value.minX) * value.scale + value.offsetX + value.x,
+          (frame.y - value.minY) * value.scale + value.offsetY + value.y,
+          res.w * value.scale, res.h * value.scale
         );
 
-        roleData.value['currentFrame'] = (roleData.value['currentFrame'] + 1) % roleData.value.resData.frames.length;
+        roleData.value[key]['currentFrame'] = (roleData.value[key]['currentFrame'] + 1) % value.resData.frames.length;
+      }
 
       anim.value = setTimeout(animate, 1000 / 24)
     }

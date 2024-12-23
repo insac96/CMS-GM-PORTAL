@@ -1,55 +1,73 @@
 <template>
-  <canvas ref="cs" width="1000" height="700"></canvas>
+  <canvas ref="cs"></canvas>
 </template>
 
 <script setup>
 const props = defineProps(['source'])
 const cs = ref()
+const size = ref(500)
 const anim = ref(null)
+const roleData = ref({})
+
+const loadRes = async (source, canvas, scale = 1, x = 0, y = 0) => {
+  return new Promise(async (res) => {
+    const resData = await $fetch(source.path.json)
+    
+    const minX = Math.min(...resData.frames.map(frame => frame.x));
+    const minY = Math.min(...resData.frames.map(frame => frame.y));
+    const maxX = Math.max(...resData.frames.map(frame => frame.x + resData.res[frame.res].w));
+    const maxY = Math.max(...resData.frames.map(frame => frame.y + resData.res[frame.res].h));
+
+    const frameWidth = maxX - minX;
+    const frameHeight = maxY - minY;
+
+    const offsetX = (canvas.width - frameWidth * scale) / 2;
+    const offsetY = (canvas.height - frameHeight * scale) / 2;
+
+    const currentFrame = 0
+
+    const sprite = new Image()
+    sprite.onload = () => {
+      roleData.value = {
+        sprite, resData, currentFrame, offsetX, offsetY, minX, minY, maxX, maxY, scale, x, y
+      }
+      res(true)
+    }
+    sprite.src = source.path.frame
+  })
+}
 
 onMounted(async () => {
   try {
     if(!props.source) throw true
 
-    // Load Json
-    const data = await $fetch(props.source.path.json)
-
-    // Init Canvas
     const canvas = cs.value
     const ctx = canvas.getContext('2d')
-    const frames = data.frames;
-    const res = data.res;
-    let currentFrame = 0;
-    const frameRate = 1000 / data.frameRate; // Tính thời gian mỗi khung hình (ms)
-    
+    canvas.width = size.value
+    canvas.height = size.value
+
+    await loadRes(props.source, canvas, 0.8)
+
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const frame = frames[currentFrame]
-      const frameRes = res[frame.res]
+        const frame = roleData.value.resData.frames[roleData.value.currentFrame];
+	      const res = roleData.value.resData.res[frame.res];
 
-      const offsetX = (frame.x) + (canvas.width * 0.5);      // Vị trí theo chiều ngang, căn giữa nếu cần
-      const offsetY = (frame.y) + (canvas.height * 1);
-      
+        ctx.drawImage(
+          roleData.value.sprite,
+          res.x, res.y, res.w, res.h,
+          (frame.x - roleData.value.minX) * roleData.value.scale + roleData.value.offsetX + roleData.value.x,
+          (frame.y - roleData.value.minY) * roleData.value.scale + roleData.value.offsetY + roleData.value.y,
+          res.w * roleData.value.scale, res.h * roleData.value.scale
+        );
 
-      // Vẽ hình
-      ctx.drawImage(
-        img,
-        frameRes.x, frameRes.y, frameRes.w, frameRes.h,
-        offsetX, offsetY,
-        frameRes.w, frameRes.h
-      )
+        roleData.value['currentFrame'] = (roleData.value['currentFrame'] + 1) % roleData.value.resData.frames.length;
 
-      currentFrame = (currentFrame + 1) % frames.length
-      anim.value = setTimeout(animate, frameRate)
+      anim.value = setTimeout(animate, 1000 / 24)
     }
 
-    // Load Image
-    const img = new Image()
-    img.onload = () => {
-      animate()
-    }
-    img.src = props.source.path.frame
+    animate()
   }
   catch(e){
 

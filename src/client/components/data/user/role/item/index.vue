@@ -26,10 +26,10 @@
 
     <UModal v-model="modal" :ui="{ width: 'max-w-[300px] sm:max-w-[300px]' }">
       <div class="pb-5">
-        <UiFlex justify="center" class="relative w-full h-[200px] select-none pointer-events-none mb-4">
+        <UiFlex justify="center" class="relative w-[250px] h-[250px] mx-auto select-none pointer-events-none mb-4">
           <DataUserRoleViewWing class="w-full" :source="item" v-if="type == 'wing'"></DataUserRoleViewWing>
           <DataUserRoleViewBody class="w-full" :source="item" v-if="type == 'body'" ></DataUserRoleViewBody>
-          <DataUserRoleViewPet class="w-full scale-[0.8]" :source="item" v-if="type == 'pet'"></DataUserRoleViewPet>
+          <DataUserRoleViewPet class="w-full" :source="item" v-if="type == 'pet'"></DataUserRoleViewPet>
         </UiFlex>
         
         <UiFlex type="col" justify="center">

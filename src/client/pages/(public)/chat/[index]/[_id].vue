@@ -28,7 +28,7 @@
           <UiText size="sm" v-html="chat.content || 'Không có nội dung'"></UiText>
         </div>
 
-        <div class="bg-gray-100 dark:bg-gray-800 py-2 px-3 rounded-l-2xl rounded-br-2xl text-right max-w-[80%]" v-if="authStore.profile._id == chat.user">
+        <div class="bg-primary-500 dark:bg-primary-600 py-2 px-3 rounded-l-2xl rounded-br-2xl text-right max-w-[80%]" v-if="authStore.profile._id == chat.user">
           <UiText size="sm" v-html="chat.content || 'Không có nội dung'"></UiText>
         </div>
       </UiFlex>

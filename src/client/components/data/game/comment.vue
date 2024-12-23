@@ -19,7 +19,11 @@
       </UiFlex>
        
       <UForm :state="state" @submit="submit">
-        <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn..." :disabled="!authStore.isLogin"></UInput>
+        <UiFlex class="gap-1">
+          <UInput v-model="state.content" size="sm" class="grow" placeholder="Để lại bình luận của bạn..." :disabled="!authStore.isLogin"></UInput>
+
+          <UButton type="submit" color="gray" icon="i-bxs-send" square />
+        </UiFlex>
       </UForm>
     </UiContent>
   </UCard>
