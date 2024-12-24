@@ -1,11 +1,10 @@
 import jwt from 'jsonwebtoken'
 import md5 from 'md5'
-import type { IDBAdsFrom, IDBUser } from "~~/types"
+import type { IDBAdsCollab, IDBAdsFrom, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
     const runtimeConfig = useRuntimeConfig()
-
     const { username, password, email, phone } = await readBody(event)
 
     if (!username) throw 'Vui lòng nhập tài khoản'
@@ -62,6 +61,16 @@ export default defineEventHandler(async (event) => {
         user.reg.from = adsFromData._id
       }
       else deleteCookie(event, 'ads-from', runtimeConfig.public.cookieConfig)
+    }
+
+    // Update Ads Collab
+    const adsCollabCode = runtimeConfig.public.collab
+    if(!!adsCollabCode){
+      const adsCollabData = await DB.AdsCollab.findOne({ code: adsCollabCode }).select('_id') as IDBAdsCollab
+      if(!!adsCollabData){
+        await DB.AdsCollab.updateOne({ _id: adsCollabData._id }, { $inc: { 'sign.in': 1 }})
+        user.reg.collab = adsCollabData._id
+      }
     }
 
     // Make Token And Cookie

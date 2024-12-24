@@ -4,7 +4,7 @@ import type { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
 export { IDBConfig, IDBConfigStore } from './config'
 export { IDBNews, IDBNewsCategory } from './news'
 
-export { IDBAdsFrom } from './ads'
+export { IDBAdsFrom, IDBAdsCollab } from './ads'
 
 export { IDBUser, IDBUserLevel, IDBUserStore } from './user'
 export { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
@@ -70,6 +70,7 @@ export interface IGlobalDB {
   NewsCategory: Model<IDBNewsCategory>
 
   AdsFrom: Model<IDBAdsFrom>
+  AdsCollab: Model<IDBAdsCollab>
 
   User: Model<IDBUser>
   UserLevel: Model<IDBUserLevel>

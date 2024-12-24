@@ -35,8 +35,7 @@
 </template>
 
 <script setup>
-const route = useRoute()
-const props = defineProps(['modelValue'])
+const props = defineProps(['modelValue', 'collab'])
 const emit = defineEmits(['update:modelValue'])
 
 // List
@@ -69,7 +68,7 @@ const page = ref({
     end: null
   },
   total: 0,
-  secret: route.params._secret || null
+  collab: props.collab
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -93,8 +92,11 @@ const loading = ref({
 // Fetch
 const getList = async () => {
   try {
+    let url = 'statistic/signup'
+    if(!!props.collab) url = 'ads/manage/collab/code/statistic/signup'
+
     loading.value.load = true
-    const data = await useAPI('statistic/signup', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI(url, JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list

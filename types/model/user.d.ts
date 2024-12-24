@@ -41,6 +41,7 @@ export interface IDBUser {
   }
   reg: {
     from: Types.ObjectId
+    collab: Types.ObjectId
     platform: string
   }
   social: {

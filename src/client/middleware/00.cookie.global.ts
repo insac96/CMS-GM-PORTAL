@@ -10,6 +10,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     await useAPI('ads/public/from/view', { code: adsFromCookie.value })
   }
 
+  // Ads Collab Cookie
+  const codeCollab = runtimeConfig.public.collab
+  if(!!codeCollab) await useAPI('ads/public/collab/view', { code: codeCollab })
+
   // Theme Cookie
   // const primaryCookie = useCookie('theme-primary', runtimeConfig.public.cookieConfig)
   // const grayCookie = useCookie('theme-gray', runtimeConfig.public.cookieConfig)

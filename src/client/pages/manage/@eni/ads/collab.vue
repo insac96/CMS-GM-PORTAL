@@ -1,5 +1,5 @@
 <template>
-  <UiContent title="From" sub="Quản lý Nguồn Quảng Cáo">
+  <UiContent title="Collab" sub="Quản lý Nguồn Cộng Tác Viên">
     <UiFlex class="mb-4">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" class="mr-2"/>
       <UForm :state="page" @submit="page.current = 1, getList()" class="mr-auto">
@@ -18,11 +18,15 @@
         :rows="list"
       >
         <template #url-data="{ row }">
-          {{ useMakeLink().web('') + `?f=${row.code}` }}
+          {{ useMakeLink().web(`https://${row.code}.${runtimeConfig.public.domain}`) }}
         </template>
 
         <template #code-data="{ row }">
           <UBadge color="gray">{{ row.code }}</UBadge>
+        </template>
+
+        <template #user-data="{ row }">
+          <UBadge color="gray">{{ !!row.user ? row.user.username : '...' }}</UBadge>
         </template>
 
         <template #pay-data="{ row }">
@@ -54,6 +58,10 @@
       <UForm :state="stateAdd" @submit="addAction" class="p-4">
         <UFormGroup label="Code">
           <UInput v-model="stateAdd.code" />
+        </UFormGroup>
+
+        <UFormGroup label="User">
+          <SelectUser v-model="stateAdd.user" />
         </UFormGroup>
 
         <UFormGroup label="Note">
@@ -89,6 +97,7 @@
 
 <script setup>
 // List
+const runtimeConfig = useRuntimeConfig()
 const list = ref([])
 
 // Columns
@@ -99,6 +108,9 @@ const columns = [
   },{
     key: 'url',
     label: 'Đường dẫn',
+  },{
+    key: 'user',
+    label: 'Tài khoản',
   },{
     key: 'note',
     label: 'Ghi chú',
@@ -149,6 +161,7 @@ watch(() => page.value.search, (val) => !val && getList())
 // State
 const stateAdd = ref({
   code: null,
+  user: null,
   note: null,
 })
 const stateEdit = ref({
@@ -179,6 +192,11 @@ const loading = ref({
 // Actions
 const actions = (row) => [
   [{
+    label: 'Thống kê',
+    icon: 'i-bxs-bar-chart-alt-2',
+    click: () => window.open(`/manage/@collab/${row.code}`, '_blank')
+  }],
+  [{
     label: 'Sửa thông tin',
     icon: 'i-bx-pencil',
     click: () => {
@@ -186,7 +204,7 @@ const actions = (row) => [
       modal.value.edit = true
     }
   }],[{
-    label: 'Xóa nguồn',
+    label: 'Xóa cộng tác viên',
     icon: 'i-bx-trash',
     click: () => delAction(row._id)
   }]
@@ -196,7 +214,7 @@ const actions = (row) => [
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('ads/manage/from/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('ads/manage/collab/list', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list
@@ -210,7 +228,7 @@ const getList = async () => {
 const addAction = async () => {
   try {
     loading.value.add = true
-    await useAPI('ads/manage/from/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    await useAPI('ads/manage/collab/add', JSON.parse(JSON.stringify(stateAdd.value)))
 
     loading.value.add = false
     modal.value.add = false
@@ -224,7 +242,7 @@ const addAction = async () => {
 const editAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('ads/manage/from/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+    await useAPI('ads/manage/collab/edit', JSON.parse(JSON.stringify(stateEdit.value)))
 
     loading.value.edit = false
     modal.value.edit = false
@@ -238,7 +256,7 @@ const editAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('ads/manage/from/del', { _id })
+    await useAPI('ads/manage/collab/del', { _id })
 
     loading.value.del = false
     getList()

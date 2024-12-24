@@ -38,6 +38,7 @@ export const DBUser = (mongoose : Mongoose) => {
     },
     reg: {
       from: { type: mongoose.Schema.Types.ObjectId, ref: 'AdsFrom' },
+      collab: { type: mongoose.Schema.Types.ObjectId, ref: 'AdsCollab' },
       platform: { type: String, default: 'local' },
     },
     social: {

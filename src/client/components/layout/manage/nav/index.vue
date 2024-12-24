@@ -81,7 +81,8 @@ const navItems = [
     defaultOpen: false,
     slot: 'tab-3',
     children: [
-      { label: 'Từ nguồn', to: '/manage/@eni/ads/from' }
+      { label: 'Từ nguồn', to: '/manage/@eni/ads/from' },
+      { label: 'Cộng tác viên', to: '/manage/@eni/ads/collab' },
     ]
   },
   {

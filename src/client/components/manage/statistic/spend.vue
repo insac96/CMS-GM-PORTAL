@@ -35,7 +35,6 @@
 </template>
 
 <script setup>
-const route = useRoute()
 const props = defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue'])
 
@@ -68,8 +67,7 @@ const page = ref({
     start: null,
     end: null
   },
-  total: 0,
-  secret: route.params._secret || null
+  total: 0
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())

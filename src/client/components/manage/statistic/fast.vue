@@ -22,7 +22,7 @@
         </UiFlex>
       </UCard>
 
-      <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
+      <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }" v-if="!collab">
         <UiFlex justify="between">
           <UAvatar icon="i-bx-cart-alt" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
@@ -33,7 +33,7 @@
         </UiFlex>
       </UCard>
 
-      <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
+      <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }" v-if="!collab">
         <UiFlex justify="between">
           <UAvatar icon="i-bxs-dollar-circle" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
@@ -66,7 +66,7 @@
         </UiFlex>
       </UCard>
 
-      <UCard class="lg:col-span-4 sm:col-span-6 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
+      <UCard class="lg:col-span-4 sm:col-span-6 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }" v-if="!collab">
         <UiFlex justify="between">
           <UAvatar icon="i-bxs-user-account" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-const route = useRoute()
+const props = defineProps(['collab'])
 const socketStore = useSocketStore()
 const { toMoney } = useMoney()
 
@@ -104,14 +104,15 @@ const type = computed(() => {
   if(tab.value == 4) return 'total'
 })
 
-
-
 const getData = async () => {
   try {
+    let url = 'statistic/fast'
+    if(!!props.collab) url = 'ads/manage/collab/code/statistic/fast'
+
     loading.value = true
-    const get = await useAPI('statistic/fast', { 
+    const get = await useAPI(url, { 
       type: type.value,
-      secret: route.params._secret || null
+      collab: props.collab
     })
 
     data.value = get
