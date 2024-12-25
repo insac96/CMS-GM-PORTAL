@@ -1,10 +1,25 @@
+import type { IDBAdsCollab } from "~~/types"
+
 export default defineEventHandler(async (event) => {
   try {
-    const { size, current } = await readBody(event)
+    const { size, current, collab: code } = await readBody(event)
     if(!size || !current) throw 'Dữ liệu phân trang sai'
 
     const sorting : any = { 'createdAt': -1 }
     const match : any = { display: true }
+
+    if(!!code){
+      const adsCollab = await DB.AdsCollab.findOne({ code: code }).select('_id') as IDBAdsCollab
+      if(!!adsCollab) match['$or'] = [
+        { collab: adsCollab._id },
+        { collab: { $exists: false } }
+      ]
+      else match['collab'] = { $exists: false }
+    }
+    else {
+      match['collab'] = { $exists: false }
+    }
+
     const list = await DB.News
     .find(match)
     .select('title key view category createdAt')

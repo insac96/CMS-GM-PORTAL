@@ -1,4 +1,5 @@
 import type { Types } from 'mongoose'
+import type { IDBAdsCollab } from './ads'
 
 export interface IDBConfig {
   _id: Types.ObjectId
@@ -138,4 +139,5 @@ export interface IDBConfigStore {
     client_id: string
     client_verify: string
   }
+  collab: IDBAdsCollab | null
 }

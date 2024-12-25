@@ -21,7 +21,8 @@ const loading = ref(true)
 const page = ref({
   size: 5,
   current: 1,
-  total: 0
+  total: 0,
+  collab: useCollab().getCode()
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())

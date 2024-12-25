@@ -7,7 +7,7 @@
   ">
     <UiFlex class="h-[var(--header-size)] max-h-[var(--header-size)]">
       <UiFlex class="hidden md:flex">
-        <NuxtLink to="/manage/@eni">
+        <NuxtLink :to="`/manage/@collab/${route.params._code}`">
           <UiLogo />
         </NuxtLink>
       </UiFlex>
@@ -26,7 +26,6 @@
 </template>
 
 <script setup>
+const route = useRoute()
 const authStore = useAuthStore()
-
-
 </script>

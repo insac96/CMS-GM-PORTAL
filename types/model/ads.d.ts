@@ -22,9 +22,8 @@ export interface IDBAdsCollab {
   code: string
   user: Types.ObjectId
   note: string
-  view: number
-  sign: {
-    in: number
-    up: number
+  income: {
+    discount: number
   }
+  view: number
 }

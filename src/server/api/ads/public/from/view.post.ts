@@ -12,6 +12,8 @@ export default defineEventHandler(async (event) => {
     return resp(event, { result: true })
   } 
   catch (e:any) {
+    const runtimeConfig = useRuntimeConfig()
+    deleteCookie(event, 'ads-from', runtimeConfig.public.cookieConfig)
     return resp(event, { result: false })
   }
 })

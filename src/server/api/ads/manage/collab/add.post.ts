@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     const { code, note, user } = body
     if(!code || !note || !user) throw 'Dữ liệu đầu vào sai'
 
-    const userCheck = await DB.User.findOne({ username: user }).select('_id')
+    const userCheck = await DB.User.findOne({ _id: user }).select('_id')
     if(!userCheck) throw 'Không tìm thấy người dùng'
 
     const checkDup = await DB.AdsCollab.findOne({ code: code }).select('_id')

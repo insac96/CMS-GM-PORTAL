@@ -18,7 +18,9 @@
         :rows="list"
       >
         <template #url-data="{ row }">
-          {{ useMakeLink().web('') + `?f=${row.code}` }}
+          <NuxtLink :to="useMakeLink().web('') + `?f=${row.code}`" target="_blank" class="text-primary font-semibold">
+            {{ useMakeLink().web('') + `?f=${row.code}` }}
+          </NuxtLink>
         </template>
 
         <template #code-data="{ row }">

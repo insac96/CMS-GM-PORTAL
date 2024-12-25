@@ -142,6 +142,8 @@
 </template>
 
 <script setup>
+const route = useRoute()
+
 // List
 const list = ref([])
 
@@ -188,7 +190,8 @@ const page = ref({
     column: 'updatedAt',
     direction: 'desc'
   },
-  total: 0
+  total: 0,
+  collab: route.params._code
 })
 watch(() => page.value.size, () => getList())
 watch(() => page.value.current, () => getList())
@@ -203,7 +206,8 @@ const stateAdd = ref({
   og_image: null,
   content: null,
   pin: false,
-  display: true
+  display: true,
+  collab: route.params._code
 })
 const stateEdit = ref({
   _id: null,
@@ -212,11 +216,13 @@ const stateEdit = ref({
   description: null,
   og_image: null,
   pin: null,
-  display: null
+  display: null,
+  collab: route.params._code
 })
 const stateContent = ref({
   _id: null,
-  content: null
+  content: null,
+  collab: route.params._code
 })
 
 // Modal
@@ -233,7 +239,8 @@ watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
   og_image: null,
   content: null,
   pin: false,
-  display: true
+  display: true,
+  collab: route.params._code
 }))
 
 // Loading
@@ -258,6 +265,7 @@ const actions = (row) => [
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
       stateEdit.value.category = row.category._id
+      stateEdit.value.collab = route.params._code
       modal.value.edit = true
     }
   },{
@@ -265,9 +273,13 @@ const actions = (row) => [
     icon: 'i-bx-spreadsheet',
     click: async () => {
       try {
-        const content = await useAPI('news/manage/content/get', { _id: row._id })
+        const content = await useAPI('ads/manage/collab/code/news/content/get', { 
+          _id: row._id, 
+          collab: route.params._code
+        })
         stateContent.value._id = row._id
         stateContent.value.content = content
+        stateContent.value.collab = route.params._code
         modal.value.content = true
       }
       catch (e) {
@@ -285,7 +297,7 @@ const actions = (row) => [
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('news/manage/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('ads/manage/collab/code/news/list', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list
@@ -299,7 +311,7 @@ const getList = async () => {
 const addAction = async () => {
   try {
     loading.value.add = true
-    await useAPI('news/manage/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    await useAPI('ads/manage/collab/code/news/add', JSON.parse(JSON.stringify(stateAdd.value)))
 
     loading.value.add = false
     modal.value.add = false
@@ -313,7 +325,7 @@ const addAction = async () => {
 const editAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('news/manage/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+    await useAPI('ads/manage/collab/code/news/edit', JSON.parse(JSON.stringify(stateEdit.value)))
 
     loading.value.edit = false
     modal.value.edit = false
@@ -327,7 +339,10 @@ const editAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('news/manage/del', { _id })
+    await useAPI('ads/manage/collab/code/news/del', { 
+      _id: _id,
+      collab: route.params._code 
+    })
 
     loading.value.del = false
     getList()
@@ -340,7 +355,7 @@ const delAction = async (_id) => {
 const contentAction = async () => {
   try {
     loading.value.content = true
-    await useAPI('news/manage/content/edit', JSON.parse(JSON.stringify(stateContent.value)))
+    await useAPI('ads/manage/collab/code/news/content/edit', JSON.parse(JSON.stringify(stateContent.value)))
 
     loading.value.content = false
     modal.value.content = false

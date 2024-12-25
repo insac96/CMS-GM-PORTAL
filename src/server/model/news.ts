@@ -19,6 +19,7 @@ export const DBNewsCategory = (mongoose : Mongoose) => {
 export const DBNews = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBNews>({ 
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'NewsCategory' },
+    collab: { type: mongoose.Schema.Types.ObjectId, ref: 'AdsCollab' },
 
     title: { type: String },
     description: { type: String },

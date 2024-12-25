@@ -23,11 +23,10 @@ export const DBAdsCollab = (mongoose : Mongoose) => {
     code: { type: String },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     note: { type: String },
+    income: {
+      discount: { type: Number, default: 0 },
+    },
     view: { type: Number, default: 0, index: true },
-    sign: {
-      in: { type: Number, default: 0, index: true },
-      up: { type: Number, default: 0, index: true },
-    }
   }, {
     timestamps: true
   })

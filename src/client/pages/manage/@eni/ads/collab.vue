@@ -18,7 +18,9 @@
         :rows="list"
       >
         <template #url-data="{ row }">
-          {{ useMakeLink().web(`https://${row.code}.${runtimeConfig.public.domain}`) }}
+          <NuxtLink :to="useMakeLink().web(`https://${row.code}.${runtimeConfig.public.domain}`)" target="_blank" class="text-primary font-semibold">
+            {{ useMakeLink().web(`https://${row.code}.${runtimeConfig.public.domain}`) }}
+          </NuxtLink>
         </template>
 
         <template #code-data="{ row }">
@@ -31,6 +33,10 @@
 
         <template #pay-data="{ row }">
           {{ useMoney().toMoney(row.pay || 0) }}
+        </template>
+
+        <template #income.discount-data="{ row }">
+          {{ row.income ? row.income.discount || 0 : 0 }}%
         </template>
 
         <template #updatedAt-data="{ row }">
@@ -60,12 +66,16 @@
           <UInput v-model="stateAdd.code" />
         </UFormGroup>
 
-        <UFormGroup label="User">
+        <UFormGroup label="Tài khoản">
           <SelectUser v-model="stateAdd.user" />
         </UFormGroup>
 
-        <UFormGroup label="Note">
+        <UFormGroup label="Ghi chú">
           <UInput v-model="stateAdd.note" />
+        </UFormGroup>
+
+        <UFormGroup label="Chiết khấu">
+          <UInput v-model="stateAdd.income.discount" type="number" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-6">
@@ -82,8 +92,12 @@
           <UInput v-model="stateEdit.code" />
         </UFormGroup>
 
-        <UFormGroup label="Note">
+        <UFormGroup label="Ghi chú">
           <UInput v-model="stateEdit.note" />
+        </UFormGroup>
+
+        <UFormGroup label="Chiết khấu">
+          <UInput v-model="stateEdit.income.discount" type="number" />
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-6">
@@ -119,12 +133,8 @@ const columns = [
     label: 'Truy cập',
     sortable: true
   },{
-    key: 'sign.in',
-    label: 'Đăng nhập',
-    sortable: true
-  },{
-    key: 'sign.up',
-    label: 'Đăng ký',
+    key: 'income.discount',
+    label: 'Chiết khấu',
     sortable: true
   },{
     key: 'pay',
@@ -163,11 +173,17 @@ const stateAdd = ref({
   code: null,
   user: null,
   note: null,
+  income: {
+    discount: 0
+  }
 })
 const stateEdit = ref({
   _id: null,
   code: null,
-  note: null
+  note: null,
+  income: {
+    discount: 0
+  }
 })
 
 // Modal
@@ -178,7 +194,11 @@ const modal = ref({
 
 watch(() => modal.value.add, (val) => !val && (stateAdd.value = {
   code: null,
+  user: null,
   note: null,
+  income: {
+    discount: 0
+  }
 }))
 
 // Loading
@@ -192,15 +212,16 @@ const loading = ref({
 // Actions
 const actions = (row) => [
   [{
-    label: 'Thống kê',
+    label: 'Quản lý',
     icon: 'i-bxs-bar-chart-alt-2',
-    click: () => window.open(`/manage/@collab/${row.code}`, '_blank')
+    click: () => useTo().openNewTab(`/manage/@collab/${row.code}`)
   }],
   [{
     label: 'Sửa thông tin',
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
+      stateEdit.value.income = row.income || { discount: 0 }
       modal.value.edit = true
     }
   }],[{

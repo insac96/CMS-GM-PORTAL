@@ -54,6 +54,7 @@
 <script setup>
 const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
+const configStore = useConfigStore()
 const open = ref(false)
 const modal = ref({
   view: false,
@@ -77,6 +78,7 @@ const logout = () => {
 
 const menuUser = computed(() => {
   const list = []
+
   if(!!authStore.isAdmin){
     list.push([{
       label: 'Quản trị viên',
@@ -84,12 +86,23 @@ const menuUser = computed(() => {
       click: () => navigateTo('/manage')
     }])
   }
+
   if(!!authStore.isAdmin || !!authStore.isGMod){
     list.push([{
       label: 'Quản lý trò chơi',
       icon: 'i-bx-server',
       click: () => modal.value.game.manager = true
     }])
+  }
+
+  if(!!configStore.config.collab){
+    if(!!authStore.isAdmin || (configStore.config.collab.user == authStore.profile._id)){
+      list.push([{
+        label: 'Cộng tác viên',
+        icon: 'i-bxs-user-badge',
+        click: () => navigateTo(`/manage/@collab/${configStore.config.collab.code}`)
+      }])
+    }
   }
 
   return [

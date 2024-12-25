@@ -63,16 +63,6 @@ export default defineEventHandler(async (event) => {
       else deleteCookie(event, 'ads-from', runtimeConfig.public.cookieConfig)
     }
 
-    // Update Ads Collab
-    const adsCollabCode = runtimeConfig.public.collab
-    if(!!adsCollabCode){
-      const adsCollabData = await DB.AdsCollab.findOne({ code: adsCollabCode }).select('_id') as IDBAdsCollab
-      if(!!adsCollabData){
-        await DB.AdsCollab.updateOne({ _id: adsCollabData._id }, { $inc: { 'sign.in': 1 }})
-        user.reg.collab = adsCollabData._id
-      }
-    }
-
     // Make Token And Cookie
     const token = jwt.sign({
       _id : user._id

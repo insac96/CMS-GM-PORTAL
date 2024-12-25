@@ -15,6 +15,7 @@ export interface IDBNews {
   updatedAt: Date
 
   category: Types.ObjectId
+  collab: Types.ObjectId
   
   title: string
   description: string 

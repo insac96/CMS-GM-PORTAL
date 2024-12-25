@@ -160,7 +160,7 @@ const navItems = [
     slot: 'tab-10',
     children: [
       { label: 'Danh sách', to: '/manage/@eni/mission' },
-      { label: 'Lịch sử', to: '/manage/@eni/mission/history' },
+      // { label: 'Lịch sử', to: '/manage/@eni/mission/history' },
     ]
   },
 ]
