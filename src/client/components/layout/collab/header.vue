@@ -6,6 +6,8 @@
     px-4
   ">
     <UiFlex class="h-[var(--header-size)] max-h-[var(--header-size)]">
+      <LayoutCollabNavSlide class="mr-2 "/>
+
       <UiFlex class="hidden md:flex">
         <NuxtLink :to="`/manage/@collab/${route.params._code}`">
           <UiLogo />
