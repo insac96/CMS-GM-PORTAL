@@ -1,4 +1,4 @@
-import type { IDBGameCategory } from "~~/types"
+import type { IDBCollab, IDBGameCategory } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -23,6 +23,13 @@ export default defineEventHandler(async (event) => {
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true, category: category._id }
+
+    const collabCode = getCookie(event, 'collab')
+    if(!!collabCode){
+      const collab = await DB.Collab.findOne({ code: collabCode }).select('_id') as IDBCollab
+      if(!!collab) match['$expr'] = { '$in': [ collab._id, '$collab.use' ]}
+    }
+
     if(!!search){
       const key = formatVNString(search, '-')
       match['key'] = { $regex : key, $options : 'i' }

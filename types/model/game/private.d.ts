@@ -71,6 +71,7 @@ export interface IDBGamePrivate {
 
   collab: {
     commission: number
+    use: Array<Types.ObjectId>
   }
 
   manager: Array<Types.ObjectId>

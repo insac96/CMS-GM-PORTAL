@@ -1,15 +1,19 @@
 <template>
   <UiContent title="Game China" sub="Danh sách trò chơi China">
-    <UiFlex class="mb-4 gap-1" wrap>
+    <UiFlex class="mb-1 gap-1">
       <USelectMenu v-model="page.size" :options="[5,10,20,50,100]" />
       
-      <UForm :state="page" @submit="page.current = 1, getList()">
+      <UButton class="ml-auto" :disabled="!!loading.use" @click="actionUse(null, 'add-all')">Thêm Tất Cả</UButton>
+      <UButton color="rose" :disabled="!!loading.use" @click="actionUse(null, 'del-all')">Xóa Tất Cả</UButton>
+    </UiFlex>
+
+    <UiFlex class="mb-2 gap-1 flex-col sm:flex-row">
+      <UForm :state="page" @submit="page.current = 1, getList()" class="w-full sm:w-auto">
         <UInput v-model="page.search.key" placeholder="Tìm kiếm..." icon="i-bx-search" size="sm" />
       </UForm>
 
-      <SelectGamePlatform v-model="page.platform" multiple size="sm"/>
-
-      <SelectGameCategory v-model="page.category" multiple size="sm"/>
+      <SelectGamePlatform v-model="page.platform" multiple size="sm" class="w-full sm:w-auto" :disabled="!!loading.list" />
+      <SelectGameCategory v-model="page.category" multiple size="sm" class="w-full sm:w-auto" :disabled="!!loading.list" />
     </UiFlex>
     
     <!-- Table -->
@@ -37,8 +41,10 @@
           {{ row.collab ? row.collab.commission : 0 }}%
         </template>
 
-        <template #actions-data="{ row }">
-          
+        <template #collab_use-data="{ row }">
+          <UButton :color="!row.collab_use ? 'primary' : 'rose'" size="xs" variant="link" :padded="false" :disabled="!!loading.use" @click="actionUse(row._id)">
+            {{ !row.collab_use ? 'Thêm' : 'Xóa' }}
+          </UButton>
         </template>
       </UTable>
     </UCard>
@@ -80,8 +86,9 @@ const columns = [
     label: 'Tỷ lệ giảm giá',
     sortable: true
   },{
-    key: 'actions',
-    label: 'Chức năng',
+    key: 'collab_use',
+    label: 'Sử dụng',
+    sortable: true
   }
 ]
 const selectedColumns = ref([...columns])
@@ -91,7 +98,7 @@ const page = ref({
   size: 10,
   current: 1,
   sort: {
-    column: 'updatedAt',
+    column: 'collab_use',
     direction: 'desc'
   },
   search: {
@@ -112,7 +119,8 @@ watch(() => page.value.search.key, (val) => !val && getList())
 
 // Loading
 const loading = ref({
-  load: true
+  load: true,
+  use: false
 })
   
 // Fetch
@@ -127,6 +135,23 @@ const getList = async () => {
   }
   catch (e) {
     loading.value.load = false
+  } 
+}
+
+const actionUse = async (_id, type = 'toggle-single') => {
+  try {
+    loading.value.use = true
+    await useAPI('collab/manage/code/game/china/use', {
+      _id: _id,
+      collab: page.value.collab,
+      type: type
+    })
+    await getList()
+
+    loading.value.use = false
+  }
+  catch (e) {
+    loading.value.use = false
   } 
 }
 

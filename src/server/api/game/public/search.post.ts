@@ -1,3 +1,5 @@
+import type { IDBCollab } from "~~/types"
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
@@ -5,6 +7,13 @@ export default defineEventHandler(async (event) => {
     if(!search) throw 'Vui lòng nhập từ khóa tìm kiếm'
 
     const match : any = { display: true }
+
+    const collabCode = getCookie(event, 'collab')
+    if(!!collabCode){
+      const collab = await DB.Collab.findOne({ code: collabCode }).select('_id') as IDBCollab
+      if(!!collab) match['$expr'] = { '$in': [ collab._id, '$collab.use' ]}
+    }
+
     if(!!search){
       const key = formatVNString(search, '-')
       match['$or'] = [

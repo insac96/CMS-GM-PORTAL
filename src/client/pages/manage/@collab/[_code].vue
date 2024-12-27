@@ -30,8 +30,8 @@ const links = computed(() => {
     const pathArray = route.fullPath.split(`${homePath}/`)
     const pathChildArray = pathArray[1].split('/')
 
-    pathChildArray.forEach((item, index) => {
-      list.push({ label: item, to: index == 0 ? `${homePath}/${pathChildArray[0]}` : null })
+    pathChildArray.forEach((item) => {
+      list.push({ label: item })
     })
   }
 

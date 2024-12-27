@@ -67,6 +67,7 @@ export interface IDBGameTool {
 
   collab: {
     commission: number
+    use: Array<Types.ObjectId>
   }
 
   manager: Array<Types.ObjectId>

@@ -2,14 +2,15 @@ import type { IDBCollab } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
-    const { size, current, collab: code } = await readBody(event)
+    const { size, current} = await readBody(event)
     if(!size || !current) throw 'Dữ liệu phân trang sai'
 
-    const sorting : any = { 'createdAt': -1 }
+    const sorting : any = { pin: -1, collab: -1, createdAt: -1 }
     const match : any = { display: true }
 
-    if(!!code){
-      const collab = await DB.Collab.findOne({ code: code }).select('_id') as IDBCollab
+    const collabCode = getCookie(event, 'collab')
+    if(!!collabCode){
+      const collab = await DB.Collab.findOne({ code: collabCode }).select('_id') as IDBCollab
       if(!!collab) match['$or'] = [
         { collab: collab._id },
         { collab: { $exists: false } }

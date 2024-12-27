@@ -1,13 +1,16 @@
 import type { IAuth } from "~~/types"
+import { Types } from "mongoose"
 
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
     if(auth.type != 100) throw 'Bạn không phải quản trị viên cấp cao'
 
-    const { size, current, sort, search } = await readBody(event)
-    if(!size || !current || !search) throw 'Dữ liệu phân trang sai'
+    const { size, current, sort, search, category, platform } = await readBody(event)
+    if(!size || !current || !search || !category || !platform) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
+    if(!Array.isArray(platform)) throw 'Dữ liệu nền tảng không hợp lệ'
+    if(!Array.isArray(category)) throw 'Dữ liệu thể loại không hợp lệ'
 
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
@@ -19,6 +22,12 @@ export default defineEventHandler(async (event) => {
         { 'key': { $regex : key, $options : 'i' }},
         { 'code': { $regex : key, $options : 'i' }},
       ]
+    }
+    if(platform.length > 0){
+      match['platform'] = { $in: platform.map((item: string) => new Types.ObjectId(item)) }
+    }
+    if(category.length > 0){
+      match['category'] = { $in: category.map((item: string) => new Types.ObjectId(item)) }
     }
 
     const list = await DB.GameTool.aggregate([

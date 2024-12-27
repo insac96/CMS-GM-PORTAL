@@ -4,7 +4,7 @@ import { Types } from "mongoose"
 export default defineEventHandler(async (event) => {
   try {
     const auth = await getAuth(event) as IAuth
-    const { size, current, sort, search, category, platform, collab : code } = await readBody(event)
+    const { size, current, sort, search, category, platform, isuse, collab : code } = await readBody(event)
     if(!size || !current || !search || !category || !platform) throw 'Dữ liệu phân trang sai'
     if(!sort.column || !sort.direction) throw 'Dữ liệu sắp xếp sai'
     if(!Array.isArray(platform)) throw 'Dữ liệu nền tảng không hợp lệ'
@@ -18,7 +18,10 @@ export default defineEventHandler(async (event) => {
     const sorting : any = { }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
-    const match : any = {}
+    const match : any = { display: true }
+    if(!!isuse){
+      match['$expr'] = { '$in': [ collab._id, '$collab.use' ]}
+    }
     if(search.key){
       const key = formatVNString(search.key, '-')
       match['$or'] = [
@@ -59,6 +62,14 @@ export default defineEventHandler(async (event) => {
         }
       },
       { $unwind: { path: '$category'} },
+      { $addFields: {
+        collab_use: { $cond : [{ $in: [ collab._id, '$collab.use' ]}, true, false] }
+      }},
+      { $project: { 
+        code: 1, name: 1, platform: 1, category: 1, 
+        'collab.commission': 1, 'collab_use': 1,
+        'price': 1
+      }},
       { $sort: sorting },
       { $skip: (current - 1) * size },
       { $limit: size },

@@ -79,6 +79,7 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
 
     collab: {
       commission: { type: Number, index: true, default: 10 },
+      use: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Collab' }],
     },
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

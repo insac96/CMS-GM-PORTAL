@@ -42,7 +42,8 @@ export interface IDBGameChina {
   }
 
   collab: {
-    commission: number
+    commission: number,
+    use: Array<Types.ObjectId>
   }
 
   manager: Array<Types.ObjectId>

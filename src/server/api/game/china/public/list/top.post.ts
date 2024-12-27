@@ -1,3 +1,5 @@
+import type { IDBCollab } from "~~/types"
+
 export default defineEventHandler(async (event) => {
   try {
     const { size, current, sort } = await readBody(event)
@@ -8,6 +10,12 @@ export default defineEventHandler(async (event) => {
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true }
+    const collabCode = getCookie(event, 'collab')
+    if(!!collabCode){
+      const collab = await DB.Collab.findOne({ code: collabCode }).select('_id') as IDBCollab
+      if(!!collab) match['$expr'] = { '$in': [ collab._id, '$collab.use' ]}
+    }
+
     const list = await DB.GameChina
     .find(match)
     .select('name code key pin statistic description image.banner image.icon rate')
