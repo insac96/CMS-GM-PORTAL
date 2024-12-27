@@ -63,6 +63,14 @@ export default defineEventHandler(async (event) => {
       else deleteCookie(event, 'ads-from', runtimeConfig.public.cookieConfig)
     }
 
+    // Update Reg Collab
+    const collabCode = getCookie(event, 'collab')
+    if(!!collabCode){
+      const collab = await DB.Collab.findOne({ code: collabCode }).select('_id')
+      if(!!collab) user.reg.collab = collab._id
+      else deleteCookie(event, 'collab', runtimeConfig.public.cookieConfig)
+    }
+
     // Make Token And Cookie
     const token = jwt.sign({
       _id : user._id
