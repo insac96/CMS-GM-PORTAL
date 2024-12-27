@@ -15,7 +15,7 @@
         <UiFlex justify="between">
           <UAvatar icon="i-bx-money-withdraw" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
-            <UiText color="gray" align="right">Doanh Thu</UiText>
+            <UiText color="gray" align="right">{{ !!collab ? 'Nạp tiền' : 'Doanh Thu' }}</UiText>
             <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
             <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.payment) }}</UiText>
           </UiFlex>
@@ -107,7 +107,7 @@ const type = computed(() => {
 const getData = async () => {
   try {
     let url = 'statistic/fast'
-    if(!!props.collab) url = 'ads/manage/collab/code/statistic/fast'
+    if(!!props.collab) url = 'collab/manage/code/statistic/fast'
 
     loading.value = true
     const get = await useAPI(url, { 

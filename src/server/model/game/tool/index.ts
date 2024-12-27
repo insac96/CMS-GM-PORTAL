@@ -60,6 +60,10 @@ export const DBGameTool = (mongoose : Mongoose) => {
       revenue: { type: Number, index: true, default: 0 },
     },
 
+    collab: {
+      commission: { type: Number, index: true, default: 10 },
+    },
+
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
     open: { type: Boolean, default: false },

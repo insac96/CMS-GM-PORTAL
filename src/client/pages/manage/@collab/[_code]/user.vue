@@ -163,7 +163,7 @@ const viewUser = (_id) => {
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('ads/manage/collab/code/user/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('collab/manage/code/user/list', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list

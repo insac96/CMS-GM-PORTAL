@@ -37,6 +37,10 @@ export const DBGameChina = (mongoose : Mongoose) => {
       revenue: { type: Number, index: true, default: 0 },
     },
 
+    collab: {
+      commission: { type: Number, index: true, default: 10 },
+    },
+
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
     pin: { type: Boolean, default: true },

@@ -1,10 +1,9 @@
 import type { Model } from 'mongoose'
-import type { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
 
 export { IDBConfig, IDBConfigStore } from './config'
 export { IDBNews, IDBNewsCategory } from './news'
 
-export { IDBAdsFrom, IDBAdsCollab } from './ads'
+export { IDBAdsFrom } from './ads'
 
 export { IDBUser, IDBUserLevel, IDBUserStore } from './user'
 export { IDBRoleBody, IDBRolePet, IDBRoleWing } from './role'
@@ -18,6 +17,11 @@ export { IDBMission, IDBMissionHistory } from './mission'
 
 export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
+
+export {
+  IDBCollab, IDBCollabStore,
+  IDBCollabNotify
+} from './collab'
 
 export { 
   IDBGamePlatform, 
@@ -70,7 +74,6 @@ export interface IGlobalDB {
   NewsCategory: Model<IDBNewsCategory>
 
   AdsFrom: Model<IDBAdsFrom>
-  AdsCollab: Model<IDBAdsCollab>
 
   User: Model<IDBUser>
   UserLevel: Model<IDBUserLevel>
@@ -95,6 +98,10 @@ export interface IGlobalDB {
   AdminIP: Model<IDBAdminIP>
   UserIP: Model<IDBUserIP>
   BlockIP: Model<IDBBlockIP>
+
+  // Collab
+  Collab: Model<IDBCollab>
+  CollabNotify: Model<IDBCollabNotify>
 
   // Game DB
   GamePlatform: Model<IDBGamePlatform>

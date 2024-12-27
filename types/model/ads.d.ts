@@ -13,17 +13,3 @@ export interface IDBAdsFrom {
     up: number
   }
 }
-
-export interface IDBAdsCollab {
-  _id: Types.ObjectId
-  createdAt: Date
-  updatedAt: Date
-  
-  code: string
-  user: Types.ObjectId
-  note: string
-  income: {
-    discount: number
-  }
-  view: number
-}

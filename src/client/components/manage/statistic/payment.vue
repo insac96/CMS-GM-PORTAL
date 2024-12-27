@@ -177,7 +177,7 @@ const listFormat = computed(() => {
 const getList = async () => {
   try {
     let url = 'statistic/payment'
-    if(!!props.collab) url = 'ads/manage/collab/code/statistic/payment'
+    if(!!props.collab) url = 'collab/manage/code/statistic/payment'
 
     loading.value.load = true
     const data = await useAPI(url, JSON.parse(JSON.stringify(page.value)))

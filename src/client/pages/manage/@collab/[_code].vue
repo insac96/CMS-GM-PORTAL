@@ -1,10 +1,40 @@
 <template>
-  <NuxtPage></NuxtPage>
+  <div>
+    <UBreadcrumb :links="links" :ui="{ ol: 'gap-x-1', li: 'gap-x-1' }" class="mb-2">
+      <template #default="{ link, isActive, index }">
+        <span class="capitalize">{{ link.label }}</span>
+      </template>
+    </UBreadcrumb>
+
+    <NuxtPage></NuxtPage>
+  </div>
 </template>
 
 <script setup>
 definePageMeta({
   layout: 'collab',
   middleware: 'collab'
+})
+
+const route = useRoute()
+
+const links = computed(() => {
+  const homePath = `/manage/@collab/${route.params._code}`
+
+  const list = [
+    { label: 'Home', to: '/' },
+    { label: 'Collab', to: homePath },
+  ]
+
+  if(route.fullPath != homePath){
+    const pathArray = route.fullPath.split(`${homePath}/`)
+    const pathChildArray = pathArray[1].split('/')
+
+    pathChildArray.forEach((item, index) => {
+      list.push({ label: item, to: index == 0 ? `${homePath}/${pathChildArray[0]}` : null })
+    })
+  }
+
+  return list
 })
 </script>

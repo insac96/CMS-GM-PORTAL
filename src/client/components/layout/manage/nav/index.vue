@@ -36,6 +36,7 @@
     <template #tab-8><UVerticalNavigation :links="navItems[8].children" @click="emit('to')"/></template>
     <template #tab-9><UVerticalNavigation :links="navItems[9].children" @click="emit('to')"/></template>
     <template #tab-10><UVerticalNavigation :links="navItems[10].children" @click="emit('to')"/></template>
+    <template #tab-11><UVerticalNavigation :links="navItems[11].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
@@ -82,7 +83,6 @@ const navItems = [
     slot: 'tab-3',
     children: [
       { label: 'Từ nguồn', to: '/manage/@eni/ads/from' },
-      { label: 'Cộng tác viên', to: '/manage/@eni/ads/collab' },
     ]
   },
   {
@@ -132,7 +132,7 @@ const navItems = [
   },
   {
     label: 'Trò chơi',
-    icon: 'i-bx-cube-alt',
+    icon: 'i-bxs-cube-alt',
     defaultOpen: false,
     slot: 'tab-8',
     children: [
@@ -161,6 +161,16 @@ const navItems = [
     children: [
       { label: 'Danh sách', to: '/manage/@eni/mission' },
       // { label: 'Lịch sử', to: '/manage/@eni/mission/history' },
+    ]
+  },
+  {
+    label: 'Cộng tác viên',
+    icon: 'i-bxs-user-badge',
+    defaultOpen: false,
+    slot: 'tab-11',
+    children: [
+      { label: 'Danh sách', to: '/manage/@eni/collab' },
+      { label: 'Thông báo', to: '/manage/@eni/collab/notify' },
     ]
   },
 ]

@@ -1,5 +1,5 @@
 import type { Mongoose } from 'mongoose'
-import type { IDBAdsFrom, IDBAdsCollab } from '~~/types'
+import type { IDBAdsFrom } from '~~/types'
 
 export const DBAdsFrom = (mongoose : Mongoose) => {
   const schema = new mongoose.Schema<IDBAdsFrom>({ 
@@ -15,22 +15,5 @@ export const DBAdsFrom = (mongoose : Mongoose) => {
   })
 
   const model = mongoose.model('AdsFrom', schema, 'AdsFrom')
-  return model 
-}
-
-export const DBAdsCollab = (mongoose : Mongoose) => {
-  const schema = new mongoose.Schema<IDBAdsCollab>({
-    code: { type: String },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    note: { type: String },
-    income: {
-      discount: { type: Number, default: 0 },
-    },
-    view: { type: Number, default: 0, index: true },
-  }, {
-    timestamps: true
-  })
-
-  const model = mongoose.model('AdsCollab', schema, 'AdsCollab')
   return model 
 }

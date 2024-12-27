@@ -93,7 +93,7 @@ const loading = ref({
 const getList = async () => {
   try {
     let url = 'statistic/signup'
-    if(!!props.collab) url = 'ads/manage/collab/code/statistic/signup'
+    if(!!props.collab) url = 'collab/manage/code/statistic/signup'
 
     loading.value.load = true
     const data = await useAPI(url, JSON.parse(JSON.stringify(page.value)))

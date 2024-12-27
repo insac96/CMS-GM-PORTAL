@@ -1,7 +1,7 @@
 <template>
   <div class="UiContent">
     <UiFlex class="UiContentHeader mb-4">
-      <slot name="right"></slot>
+      <slot name="left"></slot>
 
       <div class="grow">
         <UiFlex class="gap-4">

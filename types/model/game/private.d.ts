@@ -69,6 +69,10 @@ export interface IDBGamePrivate {
     revenue: number
   }
 
+  collab: {
+    commission: number
+  }
+
   manager: Array<Types.ObjectId>
 
   open: boolean

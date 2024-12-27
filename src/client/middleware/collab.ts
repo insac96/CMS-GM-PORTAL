@@ -3,11 +3,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const authStore = useAuthStore()
     if(!authStore.isLogin || !authStore.profile) throw 'Vui lòng đăng nhập trước'
     
-    const codeCollab = useCollab().getCode()
+    const codeCollab = to.params._code
     if(!codeCollab) throw 'Mã cộng tác viên không hợp lệ'
 
-    const check = await useAPI('ads/manage/collab/code/check', { code: codeCollab })
-    if(!check) throw 'Bạn không có quyền truy cập'
+    await useAPI('collab/manage/code/check', { code: codeCollab })
   }
   catch (e:any) {
     return navigateTo('/')

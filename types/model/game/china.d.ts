@@ -41,6 +41,10 @@ export interface IDBGameChina {
     revenue: number
   }
 
+  collab: {
+    commission: number
+  }
+
   manager: Array<Types.ObjectId>
 
   pin: boolean

@@ -1,4 +1,4 @@
-import type { IDBAdsCollab } from "~~/types"
+import type { IDBCollab } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -9,9 +9,9 @@ export default defineEventHandler(async (event) => {
     const match : any = { display: true }
 
     if(!!code){
-      const adsCollab = await DB.AdsCollab.findOne({ code: code }).select('_id') as IDBAdsCollab
-      if(!!adsCollab) match['$or'] = [
-        { collab: adsCollab._id },
+      const collab = await DB.Collab.findOne({ code: code }).select('_id') as IDBCollab
+      if(!!collab) match['$or'] = [
+        { collab: collab._id },
         { collab: { $exists: false } }
       ]
       else match['collab'] = { $exists: false }

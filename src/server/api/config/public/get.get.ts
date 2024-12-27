@@ -16,17 +16,7 @@ export default defineEventHandler(async (event) => {
     if(!config) throw 'Không tìm thấy cấu hình trang'
     if(!!config.license) throw 'Trang không chính thống'
 
-    // Clone Config
-    const result = JSON.parse(JSON.stringify(config))
-
-    // Get Collab Config
-    const adsCollabCode = getCookie(event, 'ads-collab')
-    if(!!adsCollabCode){
-      const adsCollab = await DB.AdsCollab.findOne({ code: adsCollabCode })
-      if(!!adsCollab) result.collab = adsCollab
-    }
-
-    return resp(event, { result: result })
+    return resp(event, { result: config })
   } 
   catch (e:any) {
     return resp(event, { code: 500, message: e.toString() })

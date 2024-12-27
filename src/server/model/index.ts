@@ -3,7 +3,7 @@ import type { Mongoose } from 'mongoose'
 import { DBConfig } from './config'
 import { DBNews, DBNewsCategory } from './news'
 
-import { DBAdsFrom, DBAdsCollab } from './ads'
+import { DBAdsFrom } from './ads'
 
 import { DBUser, DBUserLevel } from './user'
 import { DBRoleBody, DBRolePet, DBRoleWing } from './role'
@@ -18,6 +18,12 @@ import { DBMission, DBMissionHistory } from './mission'
 
 import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
+
+import { 
+  DBCollab,
+  DBCollabNotify
+} from './collab'
+
 import { 
   DBGamePlatform, 
   DBGameCategory, 
@@ -70,7 +76,6 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     News: DBNews(mongoose),
 
     AdsFrom: DBAdsFrom(mongoose),
-    AdsCollab: DBAdsCollab(mongoose),
 
     User: DBUser(mongoose),
     UserLevel: DBUserLevel(mongoose),
@@ -95,6 +100,10 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     AdminIP: DBAdminIP(mongoose),
     UserIP: DBUserIP(mongoose),
     BlockIP: DBBlockIP(mongoose),
+
+    // Collab
+    Collab: DBCollab(mongoose),
+    CollabNotify: DBCollabNotify(mongoose),
 
     // Game DB
     GamePlatform: DBGamePlatform(mongoose),

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import md5 from 'md5'
-import type { IDBAdsCollab, IDBAdsFrom, IDBUser } from "~~/types"
+import type { IDBAdsFrom, IDBUser } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {

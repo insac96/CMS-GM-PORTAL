@@ -273,7 +273,7 @@ const actions = (row) => [
     icon: 'i-bx-spreadsheet',
     click: async () => {
       try {
-        const content = await useAPI('ads/manage/collab/code/news/content/get', { 
+        const content = await useAPI('collab/manage/code/news/content/get', { 
           _id: row._id, 
           collab: route.params._code
         })
@@ -297,7 +297,7 @@ const actions = (row) => [
 const getList = async () => {
   try {
     loading.value.load = true
-    const data = await useAPI('ads/manage/collab/code/news/list', JSON.parse(JSON.stringify(page.value)))
+    const data = await useAPI('collab/manage/code/news/list', JSON.parse(JSON.stringify(page.value)))
 
     loading.value.load = false
     list.value = data.list
@@ -311,7 +311,7 @@ const getList = async () => {
 const addAction = async () => {
   try {
     loading.value.add = true
-    await useAPI('ads/manage/collab/code/news/add', JSON.parse(JSON.stringify(stateAdd.value)))
+    await useAPI('collab/manage/code/news/add', JSON.parse(JSON.stringify(stateAdd.value)))
 
     loading.value.add = false
     modal.value.add = false
@@ -325,7 +325,7 @@ const addAction = async () => {
 const editAction = async () => {
   try {
     loading.value.edit = true
-    await useAPI('ads/manage/collab/code/news/edit', JSON.parse(JSON.stringify(stateEdit.value)))
+    await useAPI('collab/manage/code/news/edit', JSON.parse(JSON.stringify(stateEdit.value)))
 
     loading.value.edit = false
     modal.value.edit = false
@@ -339,7 +339,7 @@ const editAction = async () => {
 const delAction = async (_id) => {
   try {
     loading.value.del = true
-    await useAPI('ads/manage/collab/code/news/del', { 
+    await useAPI('collab/manage/code/news/del', { 
       _id: _id,
       collab: route.params._code 
     })
@@ -355,7 +355,7 @@ const delAction = async (_id) => {
 const contentAction = async () => {
   try {
     loading.value.content = true
-    await useAPI('ads/manage/collab/code/news/content/edit', JSON.parse(JSON.stringify(stateContent.value)))
+    await useAPI('collab/manage/code/news/content/edit', JSON.parse(JSON.stringify(stateContent.value)))
 
     loading.value.content = false
     modal.value.content = false

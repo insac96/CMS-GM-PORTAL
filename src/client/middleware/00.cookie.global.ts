@@ -11,13 +11,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   else adsFromCookie.value = null
 
   // Ads Collab Cookie
-  const adsCollabCookie = useCookie('ads-collab', runtimeConfig.public.cookieConfig)
+  const collabCookie = useCookie('collab', runtimeConfig.public.cookieConfig)
   const codeCollab = useCollab().getCode()
   if(!!codeCollab) {
-    adsCollabCookie.value = codeCollab as string
-    await useAPI('ads/public/collab/view', { code: adsCollabCookie.value })
+    collabCookie.value = codeCollab as string
+    await useAPI('collab/public/view', { code: collabCookie.value })
   }
-  else adsCollabCookie.value = null
+  else collabCookie.value = null
 
   // Theme Cookie
   const mode = useColorMode()

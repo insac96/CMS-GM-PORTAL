@@ -55,6 +55,7 @@
 const { $socket } = useNuxtApp()
 const authStore = useAuthStore()
 const configStore = useConfigStore()
+const collabStore = useCollabStore()
 const open = ref(false)
 const modal = ref({
   view: false,
@@ -95,12 +96,12 @@ const menuUser = computed(() => {
     }])
   }
 
-  if(!!configStore.config.collab){
-    if(!!authStore.isAdmin || (configStore.config.collab.user == authStore.profile._id)){
+  if(!!collabStore.hasCollab){
+    if(!!authStore.isAdmin || (collabStore.collab.user == authStore.profile._id)){
       list.push([{
         label: 'Cộng tác viên',
         icon: 'i-bxs-user-badge',
-        click: () => navigateTo(`/manage/@collab/${configStore.config.collab.code}`)
+        click: () => navigateTo(`/manage/@collab/${collabStore.collab.code}`)
       }])
     }
   }

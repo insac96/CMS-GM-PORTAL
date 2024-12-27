@@ -26,6 +26,7 @@
       </UiFlex>
     </template>
     <template #tab-0><UVerticalNavigation :links="navItems[0].children" @click="emit('to')"/></template>
+    <template #tab-1><UVerticalNavigation :links="navItems[1].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
@@ -42,6 +43,18 @@ const navItems = computed(() => {
       children: [
         { label: 'Tin tức', to: `/manage/@collab/${route.params._code}/news` },
         { label: 'Tài khoản', to: `/manage/@collab/${route.params._code}/user` },
+      ]
+    },
+    {
+      label: 'Trò chơi',
+      icon: 'i-bxs-cube-alt',
+      defaultOpen: true,
+      slot: 'tab-1',
+      children: [
+        { label: 'Trò chơi của tôi', to: `/manage/@collab/${route.params._code}/game` },
+        { label: 'Game Private', to: `/manage/@collab/${route.params._code}/game/private` },
+        { label: 'Game Tool', to: `/manage/@collab/${route.params._code}/game/tool` },
+        { label: 'Game China', to: `/manage/@collab/${route.params._code}/game/china` },
       ]
     }
   ]

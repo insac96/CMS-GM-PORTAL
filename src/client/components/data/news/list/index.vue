@@ -5,7 +5,7 @@
     <DataNewsBox 
       v-for="(item, index) in list" 
       :key="index" 
-      class="lg:col-span-3 md:col-span-4 col-span-6"
+      class="2xl:col-span-3 xl:col-span-4 col-span-6"
       :news="item"
     />
   </div>

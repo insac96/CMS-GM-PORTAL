@@ -19,9 +19,9 @@
       </div>
       
       <div class="xl:col-span-10 col-span-12">
-        <main class="p-4">
+        <UContainer class="relative p-4 sm:p-4 lg:p-4" :ui="{ constrained: 'max-w-[1600px] w-full' }">
           <slot></slot>
-        </main>
+        </UContainer>
       </div>
     </div>
   </div>

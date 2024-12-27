@@ -54,8 +54,7 @@ export const useConfigStore = defineStore('config', () => {
     zalo: {
       client_id: '',
       client_verify: '',
-    },
-    collab: null
+    }
   })
 
   const bootConfig = async () => {
