@@ -21,6 +21,18 @@ export default defineEventHandler(async (event) => {
     .aggregate([
       {
         $lookup: {
+          from: "CollabLevel",
+          localField: "level",
+          foreignField: "_id",
+          pipeline: [{
+            $project: { _id: 1, number: 1 }
+          }],
+          as: "level"
+        }
+      },
+      { $unwind: { path: "$level", preserveNullAndEmptyArrays: true }},
+      {
+        $lookup: {
           from: "User",
           localField: "user",
           foreignField: "_id",

@@ -210,6 +210,20 @@
       </UForm>
     </UModal>
 
+    <!-- Modal Edit Collab -->
+    <UModal v-model="modal.editCollab" preventClose>
+      <UForm :state="stateEditCollab" @submit="editCollabAction" class="p-4">
+        <UFormGroup label="Tỷ lệ hoa hồng">
+          <UInput v-model="stateEditCollab.collab.commission" type="number" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton color="gray" @click="modal.editCollab = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
     <!--Modal Reset-->
     <UModal v-model="modal.reset" preventClose>
       <UiContent title="Reset trò chơi" class="p-4" no-dot>
@@ -305,6 +319,12 @@ const stateEditManager = ref({
 const stateEditOpenServer = ref({
   _id: null,
 })
+const stateEditCollab = ref({
+  _id: null,
+  collab: {
+    commission: null
+  }
+})
 const stateDel = ref({
   _id: null,
   name: null,
@@ -325,6 +345,7 @@ const modal = ref({
   editContent: false,
   editManager: false,
   editOpenServer: false,
+  editCollab: false,
   reset: false,
   del: false
 })
@@ -422,6 +443,14 @@ const actions = (row) => [
       stateEditDiscountVIP.value.month = row.discount.vip.month
       stateEditDiscountVIP.value.forever = row.discount.vip.forever
       modal.value.editDiscountVIP = true
+    }
+  },{
+    label: 'Sửa thông tin CTV',
+    icon: 'i-bxs-user-badge',
+    click: () => {
+      stateEditCollab.value._id = row._id
+      stateEditCollab.value.collab.commission = row.collab.commission
+      modal.value.editCollab = true
     }
   }],[{
     label: 'Reset trò chơi',
@@ -552,6 +581,20 @@ const editManagerAction = async () => {
 
     loading.value.edit = false
     modal.value.editManager = false
+    emits('update')
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const editCollabAction = async () => {
+  try {
+    loading.value.edit = true
+    await useAPI('game/tool/manage/project/edit/collab', JSON.parse(JSON.stringify(stateEditCollab.value)))
+
+    loading.value.edit = false
+    modal.value.editCollab = false
     emits('update')
   }
   catch (e) {

@@ -17,6 +17,10 @@
         :columns="selectedColumns" 
         :rows="list"
       >
+        <template #level-data="{ row }">
+          {{ row.level.number }}
+        </template>
+
         <template #url-data="{ row }">
           <NuxtLink :to="useMakeLink().web(`https://${row.code}.${runtimeConfig.public.domain}`)" target="_blank" class="text-primary font-semibold">
             {{ useMakeLink().web(`https://${row.code}.${runtimeConfig.public.domain}`) }}
@@ -58,6 +62,10 @@
     <!-- Modal Add -->
     <UModal v-model="modal.add" preventClose>
       <UForm :state="stateAdd" @submit="addAction" class="p-4">
+        <UFormGroup label="Cấp">
+          <SelectCollabLevel v-model="stateAdd.level" />
+        </UFormGroup>
+
         <UFormGroup label="Code">
           <UInput v-model="stateAdd.code" />
         </UFormGroup>
@@ -80,6 +88,10 @@
     <!-- Modal Edit -->
     <UModal v-model="modal.edit" preventClose>
       <UForm :state="stateEdit" @submit="editAction" class="p-4">
+        <UFormGroup label="Cấp">
+          <SelectCollabLevel v-model="stateEdit.level" />
+        </UFormGroup>
+
         <UFormGroup label="Code">
           <UInput v-model="stateEdit.code" />
         </UFormGroup>
@@ -105,6 +117,9 @@ const list = ref([])
 // Columns
 const columns = [
   {
+    key: 'level',
+    label: 'Cấp',
+  },{
     key: 'code',
     label: 'Mã',
   },{
@@ -154,12 +169,14 @@ watch(() => page.value.search, (val) => !val && getList())
 
 // State
 const stateAdd = ref({
+  level: null,
   code: null,
   user: null,
   note: null,
 })
 const stateEdit = ref({
   _id: null,
+  level: null,
   code: null,
   note: null,
 })
@@ -196,6 +213,7 @@ const actions = (row) => [
     icon: 'i-bx-pencil',
     click: () => {
       Object.keys(stateEdit.value).forEach(key => stateEdit.value[key] = row[key])
+      stateEdit.value.level = row.level._id
       modal.value.edit = true
     }
   }],[{

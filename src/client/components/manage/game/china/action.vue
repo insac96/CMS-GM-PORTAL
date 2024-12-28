@@ -133,6 +133,20 @@
       </UForm>
     </UModal>
 
+    <!-- Modal Edit Collab -->
+    <UModal v-model="modal.editCollab" preventClose>
+      <UForm :state="stateEditCollab" @submit="editCollabAction" class="p-4">
+        <UFormGroup label="Tỷ lệ hoa hồng">
+          <UInput v-model="stateEditCollab.collab.commission" type="number" />
+        </UFormGroup>
+
+        <UiFlex justify="end" class="mt-4">
+          <UButton type="submit" :loading="loading.edit">Sửa</UButton>
+          <UButton color="gray" @click="modal.editCollab = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
+        </UiFlex>
+      </UForm>
+    </UModal>
+
     <!--Modal Del-->
     <UModal v-model="modal.del" preventClose>
       <UiContent title="Xóa trò chơi" class="p-4" no-dot>
@@ -193,6 +207,12 @@ const stateEditManager = ref({
   _id: null,
   manager: null
 })
+const stateEditCollab = ref({
+  _id: null,
+  collab: {
+    commission: null
+  }
+})
 const stateDel = ref({
   _id: null,
   name: null,
@@ -206,6 +226,7 @@ const modal = ref({
   editPlay: false,
   editContent: false,
   editManager: false,
+  editCollab: false,
   del: false
 })
 
@@ -270,6 +291,14 @@ const actions = (row) => [
       Object.keys(stateEditPlay.value).forEach(key => stateEditPlay.value[key] = row.play[key])
       stateEditPlay.value._id = row._id
       modal.value.editPlay = true
+    }
+  },{
+    label: 'Sửa thông tin CTV',
+    icon: 'i-bxs-user-badge',
+    click: () => {
+      stateEditCollab.value._id = row._id
+      stateEditCollab.value.collab.commission = row.collab.commission
+      modal.value.editCollab = true
     }
   }],[{
     label: 'Xóa trò chơi',
@@ -350,6 +379,20 @@ const editManagerAction = async () => {
 
     loading.value.edit = false
     modal.value.editManager = false
+    emits('update')
+  }
+  catch (e) {
+    loading.value.edit = false
+  }
+}
+
+const editCollabAction = async () => {
+  try {
+    loading.value.edit = true
+    await useAPI('game/china/manage/project/edit/collab', JSON.parse(JSON.stringify(stateEditCollab.value)))
+
+    loading.value.edit = false
+    modal.value.editCollab = false
     emits('update')
   }
   catch (e) {

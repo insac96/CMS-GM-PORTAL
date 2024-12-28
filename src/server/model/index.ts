@@ -20,8 +20,11 @@ import { DBLogAdmin, DBLogLogin, DBLogUser } from './log'
 import { DBAdminIP, DBBlockIP, DBUserIP } from './ip'
 
 import { 
+  DBCollabLevel,
   DBCollab,
-  DBCollabNotify
+  DBCollabNotify,
+  DBCollabIncome,
+  DBCollabWithdraw
 } from './collab'
 
 import { 
@@ -102,8 +105,11 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     BlockIP: DBBlockIP(mongoose),
 
     // Collab
+    CollabLevel: DBCollabLevel(mongoose),
     Collab: DBCollab(mongoose),
     CollabNotify: DBCollabNotify(mongoose),
+    CollabIncome: DBCollabIncome(mongoose),
+    CollabWithdraw: DBCollabWithdraw(mongoose),
 
     // Game DB
     GamePlatform: DBGamePlatform(mongoose),

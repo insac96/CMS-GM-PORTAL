@@ -57,6 +57,19 @@ export default async (
     // Update revenue game
     await DB.GameChina.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': payment.coin }})
 
+    // Create Collab Income
+    await createCollabIncome(event, {
+      type: 'game.china.payment',
+      user: user._id,
+      game: game._id,
+      source: payment._id,
+      content: `Nạp tiền nền tảng <b>[Game China] ${game.name}</b>`,
+      coin: payment.coin,
+      commission: {
+        game: game.collab.commission
+      }
+    })
+
     realNotify = `
       Bạn được duyệt thành công giao dịch nạp
       <b>[Game China] ${game.name}</b>, mã giao dịch <b>${payment.code}</b>

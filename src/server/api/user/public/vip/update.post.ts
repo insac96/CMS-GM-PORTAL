@@ -33,6 +33,17 @@ export default defineEventHandler(async (event) => {
     await user.save()
     await DB.User.updateOne({ _id: user._id }, { $inc: { 'currency.coin': price * -1 }})
 
+    // Create Collab Income
+    await createCollabIncome(event, {
+      type: 'vip.update',
+      user: user._id,
+      content: `Nâng VIP <b>${type == 'forever' ? 'Trọn Đời' : 'Tháng'}</b> cho tài khoản`,
+      coin: price,
+      commission: {
+        game: 0
+      }
+    })
+
     // Log User
     logUser({
       user: user._id,

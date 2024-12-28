@@ -19,8 +19,11 @@ export { IDBLogAdmin, IDBLogUser, IDBLogLogin } from './log'
 export { IDBAdminIP, IDBBlockIP, IDBUserIP } from './ip'
 
 export {
+  IDBCollabLevel,
   IDBCollab, IDBCollabStore,
-  IDBCollabNotify
+  IDBCollabNotify,
+  IDBCollabIncome,
+  IDBCollabWithdraw
 } from './collab'
 
 export { 
@@ -100,8 +103,11 @@ export interface IGlobalDB {
   BlockIP: Model<IDBBlockIP>
 
   // Collab
+  CollabLevel: Model<IDBCollabLevel>
   Collab: Model<IDBCollab>
   CollabNotify: Model<IDBCollabNotify>
+  CollabIncome: Model<IDBCollabIncome>
+  CollabWithdraw: Model<IDBCollabWithdraw>
 
   // Game DB
   GamePlatform: Model<IDBGamePlatform>

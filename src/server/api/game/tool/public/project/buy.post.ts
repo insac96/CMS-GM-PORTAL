@@ -12,12 +12,13 @@ export default defineEventHandler(async (event) => {
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!recharge && !mail) throw 'Vui lòng lựa chọn 1 loại tool để mua'
 
-    const game = await DB.GameTool.findOne({ code: code, display: true }).select('name price discount') as IDBGameTool
+    const game = await DB.GameTool.findOne({ code: code, display: true }).select('name price discount collab') as IDBGameTool
     if(!game) throw 'Trò chơi không tồn tại'
 
     const userGame = await DB.GameToolUser.findOne({ game: game._id, user: user._id }) as IDBGameToolUser
     let totalPrice = 0
     let discount = 0
+    let payment : any
     let result : any 
 
     // Discount VIP
@@ -47,7 +48,7 @@ export default defineEventHandler(async (event) => {
 
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
       await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.user': 1 } })
-      await DB.GameToolPayment.create({
+      payment = await DB.GameToolPayment.create({
         user: newUserGameData._id,
         game: game._id,
         coin: totalPrice
@@ -73,7 +74,7 @@ export default defineEventHandler(async (event) => {
       // @ts-expect-error
       await userGame.save()
       await DB.User.updateOne({ _id: user._id },{ $inc: { 'currency.coin': totalPrice * -1 }})
-      await DB.GameToolPayment.create({
+      payment = await DB.GameToolPayment.create({
         user: userGame._id,
         game: game._id,
         coin: totalPrice
@@ -83,6 +84,19 @@ export default defineEventHandler(async (event) => {
 
     // Update revenue game
     await DB.GameTool.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': totalPrice }})
+
+    // Create Collab Income
+    await createCollabIncome(event, {
+      type: 'game.tool.buy',
+      user: user._id,
+      game: game._id,
+      source: payment._id,
+      content: `Mua <b>Tool</b> trò chơi <b>${game.name}</b>`,
+      coin: totalPrice,
+      commission: {
+        game: game.collab.commission
+      }
+    })
 
     // Send Notify Global
     IO.emit('notify-global-push', `<b class="text-primary-500">${user.username}</b> vừa mua Tool trò chơi <b class="text-primary-500">${game.name}</b>`)

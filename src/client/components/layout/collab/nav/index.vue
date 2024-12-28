@@ -27,6 +27,7 @@
     </template>
     <template #tab-0><UVerticalNavigation :links="navItems[0].children" @click="emit('to')"/></template>
     <template #tab-1><UVerticalNavigation :links="navItems[1].children" @click="emit('to')"/></template>
+    <template #tab-2><UVerticalNavigation :links="navItems[2].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
@@ -43,6 +44,7 @@ const navItems = computed(() => {
       children: [
         { label: 'Tin tức', to: `/manage/@collab/${route.params._code}/news` },
         { label: 'Tài khoản', to: `/manage/@collab/${route.params._code}/user` },
+        { label: 'Rút tiền', to: `/manage/@collab/${route.params._code}/withdraw` },
       ]
     },
     {
@@ -54,7 +56,19 @@ const navItems = computed(() => {
         { label: 'Trò chơi của tôi', to: `/manage/@collab/${route.params._code}/game` },
         { label: 'Game Private', to: `/manage/@collab/${route.params._code}/game/private` },
         { label: 'Game Tool', to: `/manage/@collab/${route.params._code}/game/tool` },
-        { label: 'Game China', to: `/manage/@collab/${route.params._code}/game/china` },
+        { label: 'Game China', to: `/manage/@collab/${route.params._code}/game/china` }
+      ]
+    },
+    {
+      label: 'Thu nhập',
+      icon: 'i-bxs-badge-dollar',
+      defaultOpen: true,
+      slot: 'tab-2',
+      children: [
+        { label: 'Game Private', to: `/manage/@collab/${route.params._code}/income/game/private` },
+        { label: 'Game Tool', to: `/manage/@collab/${route.params._code}/income/game/tool` },
+        { label: 'Game China', to: `/manage/@collab/${route.params._code}/income/game/china` },
+        { label: 'Nâng VIP', to: `/manage/@collab/${route.params._code}/income/vip` }
       ]
     }
   ]

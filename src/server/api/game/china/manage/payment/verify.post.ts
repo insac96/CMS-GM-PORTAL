@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     if(status == 2 && !reason) throw 'Vui lòng nhập lý do hủy'
 
     // Check Game
-    const game = await DB.GameChina.findOne({ _id: gameID }).select('name manager') as IDBGameChina
+    const game = await DB.GameChina.findOne({ _id: gameID }).select('name manager collab') as IDBGameChina
     if(!game) throw 'Trò chơi không tồn tại'
     await getAuthGM(event, auth, game)
     

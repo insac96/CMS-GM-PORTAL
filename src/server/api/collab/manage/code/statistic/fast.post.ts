@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     if(auth.type < 100 && collab.user.toString() != auth._id.toString()) throw 'Bạn không có quyền truy cập'
 
     let start : any, end : any, format : any
-    let payment : any, signin : any, signup : any, spend : any
+    let payment : any, signin : any, signup : any, income : any, withdraw : any
     const now = DayJS(Date.now())
     const yesterday = now.add(-1, 'day')
     const lastmonth = now.add(-1, 'month')
@@ -49,6 +49,50 @@ export default defineEventHandler(async (event) => {
     if(type != 'total'){
       const match : any = {}
       match['time'] = { $gte: new Date(start['$d']), $lte: new Date(end['$d']) }
+
+      income = await DB.CollabIncome.aggregate([
+        { $match: { collab: collab._id }},
+        {
+          $project: {
+            createdAt: 1,
+            timeformat: {
+              $dateToString: { format: format, date: '$createdAt', timezone: 'Asia/Ho_Chi_Minh' }
+            },
+            money: 1
+          }
+        },
+        {
+          $group: {
+            _id: '$timeformat',
+            time: { $min: '$createdAt' },
+            money: { $sum: '$money' },
+          }
+        },
+        { $match: match }
+      ])
+
+      withdraw = await DB.CollabWithdraw.aggregate([
+        { $match: { collab: collab._id }},
+        {
+          $project: {
+            createdAt: 1,
+            timeformat: {
+              $dateToString: { format: format, date: '$createdAt', timezone: 'Asia/Ho_Chi_Minh' }
+            },
+            money: {
+              total: { $cond: [{$eq: ['$status', 1]} , '$money', 0] },
+            }
+          }
+        },
+        {
+          $group: {
+            _id: '$timeformat',
+            time: { $min: '$createdAt' },
+            money: { $sum: '$money.total' },
+          }
+        },
+        { $match: match }
+      ])
 
       payment = await DB.Payment.aggregate([
         {
@@ -150,6 +194,26 @@ export default defineEventHandler(async (event) => {
 
     // Is Total
     if(type == 'total') {
+      income = await DB.CollabIncome.aggregate([
+        { $match: { collab: collab._id }},
+        {
+          $group: {
+            _id: null,
+            money: { $sum: '$money' },
+          }
+        }
+      ])
+
+      withdraw = await DB.CollabWithdraw.aggregate([
+        { $match: { status: 1, collab: collab._id }},
+        {
+          $group: {
+            _id: null,
+            money: { $sum: '$money' },
+          }
+        }
+      ])
+
       payment = await DB.Payment.aggregate([
         {
           $lookup: {
@@ -180,6 +244,8 @@ export default defineEventHandler(async (event) => {
     // Result
     return resp(event, {
       result: {
+        income: income[0] ? income[0]['money'] : 0,
+        withdraw: withdraw[0] ? withdraw[0]['money'] : 0,
         payment: payment[0] ? payment[0]['money'] : 0,
         signin: signin[0] ? signin[0]['count'] : 0,
         signup: signup[0] ? signup[0]['count'] : 0,

@@ -1,4 +1,4 @@
-import type { IAuth } from "~~/types"
+import type { IAuth, IDBCollab, IDBCollabLevel } from "~~/types"
 
 export default defineEventHandler(async (event) => {
   try {
@@ -6,15 +6,20 @@ export default defineEventHandler(async (event) => {
     if(auth.type < 100) throw 'Bạn không phải quản trị viên'
 
     const body = await readBody(event)
-    const { _id, code, note } = body
-    if(!_id || !code || !note) throw 'Dữ liệu đầu vào không hợp lệ'
+    const { _id, code, note, level} = body
+    if(!_id || !code || !note || !level) throw 'Dữ liệu đầu vào không hợp lệ'
 
-    const collab = await DB.Collab.findOne({ _id: _id }).select('code')
+    const collab = await DB.Collab.findOne({ _id: _id }).select('code level') as IDBCollab
     if(!collab) throw 'Mã cộng tác viên không tồn tại'
 
     if(collab.code != code){
-      const checkDup = await DB.Collab.findOne({ code: code }).select('_id')
+      const checkDup = await DB.Collab.findOne({ code: code }).select('_id') as IDBCollab
       if(!!checkDup) throw 'Mã cộng tác viên đã tồn tại'
+    }
+    
+    if(!!collab.level && collab.level.toString() != level.toString()){
+      const levelCheck = await DB.CollabLevel.findOne({ _id: level }).select('_id') as IDBCollabLevel
+      if(!levelCheck) throw 'Không tìm thấy thông tin cấp độ'
     }
 
     delete body['_id']

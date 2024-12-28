@@ -169,8 +169,10 @@ const navItems = [
     defaultOpen: false,
     slot: 'tab-11',
     children: [
+      { label: 'Cấp độ', to: '/manage/@eni/collab/level' },
       { label: 'Danh sách', to: '/manage/@eni/collab' },
       { label: 'Thông báo', to: '/manage/@eni/collab/notify' },
+      { label: 'Rút tiền', to: '/manage/@eni/collab/withdraw' },
     ]
   },
 ]

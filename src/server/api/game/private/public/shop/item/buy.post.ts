@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser
     if(!user) throw 'Không tìm thấy thông tin tài khoản'
     
-    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('name ip api secret rate') as IDBGamePrivate
+    const game = await DB.GamePrivate.findOne({ code: code, display: true }).select('name ip api secret rate collab') as IDBGamePrivate
     if(!game) throw 'Trò chơi không tồn tại'
     if(!game.ip) throw 'Trò chơi đang bảo trì'
 
@@ -84,7 +84,7 @@ export default defineEventHandler(async (event) => {
     await DB.GamePrivate.updateOne({ _id: game._id }, { $inc: { 'statistic.revenue': totalPrice }})
 
     // History
-    await DB.GamePrivateShopItemHistory.create({
+    const history = await DB.GamePrivateShopItemHistory.create({
       user: userGame._id,
       game: game._id,
       item: item._id,
@@ -92,6 +92,19 @@ export default defineEventHandler(async (event) => {
       amount: amount,
       server: server,
       role: role,
+    })
+
+    // Create Collab Income
+    await createCollabIncome(event, {
+      type: 'game.private.shop.item',
+      user: user._id,
+      game: game._id,
+      source: history._id,
+      content: `Mua vật phẩm <b>${item.item_name}</b> trong <b>[Game Private] ${game.name}</b>`,
+      coin: totalPrice,
+      commission: {
+        game: game.collab.commission
+      }
     })
 
     // Log User

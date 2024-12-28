@@ -13,22 +13,22 @@
     <div class="grid grid-cols-12 gap-2">
       <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
         <UiFlex justify="between">
-          <UAvatar icon="i-bx-money-withdraw" size="2xl" class="mr-4" />
+          <UAvatar icon="i-bxs-badge-dollar" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
-            <UiText color="gray" align="right">{{ 'Doanh Thu' }}</UiText>
+            <UiText color="gray" align="right">Thu nhập</UiText>
             <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
-            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.payment) }}</UiText>
+            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.income) }}</UiText>
           </UiFlex>
         </UiFlex>
       </UCard>
 
       <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
         <UiFlex justify="between">
-          <UAvatar icon="i-bx-cart-alt" size="2xl" class="mr-4" />
+          <UAvatar icon="i-bx-money-withdraw"" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
-            <UiText color="gray" align="right">Chi Tiêu</UiText>
+            <UiText color="gray" align="right">Rút tiền</UiText>
             <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
-            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.spend) }}</UiText>
+            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.withdraw) }}</UiText>
           </UiFlex>
         </UiFlex>
       </UCard>
@@ -37,9 +37,20 @@
         <UiFlex justify="between">
           <UAvatar icon="i-bxs-dollar-circle" size="2xl" class="mr-4" />
           <UiFlex type="col" items="end">
-            <UiText color="gray" align="right">Lợi Nhuận</UiText>
+            <UiText color="gray" align="right">Lợi nhuận</UiText>
             <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
-            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.payment - data.spend) }}</UiText>
+            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.income - data.withdraw) }}</UiText>
+          </UiFlex>
+        </UiFlex>
+      </UCard>
+
+      <UCard class="lg:col-span-4 sm:col-span-12 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
+        <UiFlex justify="between">
+          <UAvatar icon="i-bx-credit-card" size="2xl" class="mr-4" />
+          <UiFlex type="col" items="end">
+            <UiText color="gray" align="right">Nạp xu</UiText>
+            <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
+            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(data.payment) }}</UiText>
           </UiFlex>
         </UiFlex>
       </UCard>
@@ -65,30 +76,21 @@
           </UiFlex>
         </UiFlex>
       </UCard>
-
-      <UCard class="lg:col-span-4 sm:col-span-6 col-span-12" :ui="{ body: { padding: 'px-4 md:px-8 py-6 md:py-8' } }">
-        <UiFlex justify="between">
-          <UAvatar icon="i-bxs-user-account" size="2xl" class="mr-4" />
-          <UiFlex type="col" items="end">
-            <UiText color="gray" align="right">Trực tuyến</UiText>
-            <USkeleton v-if="!!loading" class="w-28 h-7 md:h-8 xl:h-9" />
-            <UiText v-else color="primary" align="right" weight="bold" class="text-xl md:text-2xl xl:text-3xl">{{ toMoney(socketStore.online) }}</UiText>
-          </UiFlex>
-        </UiFlex>
-      </UCard>
     </div>
   </div>
 </template>
 
 <script setup>
+const props = defineProps(['collab'])
 const socketStore = useSocketStore()
 const { toMoney } = useMoney()
 
 const loading = ref(false)
 const tab = ref(0)
 const data = ref({
+  income: 0,
+  withdraw: 0,
   payment: 0,
-  spend: 0,
   signin: 0,
   signup: 0
 })
@@ -105,8 +107,14 @@ const type = computed(() => {
 
 const getData = async () => {
   try {
+    let url = 'statistic/fast'
+    if(!!props.collab) url = 'collab/manage/code/statistic/fast'
+
     loading.value = true
-    const get = await useAPI('statistic/fast', { type: type.value })
+    const get = await useAPI(url, { 
+      type: type.value,
+      collab: props.collab
+    })
 
     data.value = get
     loading.value = false
