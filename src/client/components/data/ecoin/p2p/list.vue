@@ -27,7 +27,7 @@
           </UiFlex>
         </div>
 
-        <UButton :color="type == 'buy' ? 'green' : 'rose'" size="xs" @click="open(item)">
+        <UButton :color="type == 'buy' ? 'green' : 'rose'" size="xs" @click="open(item)" :disabled="!authStore.isLogin">
           {{ type == 'buy' ? 'Mua' : 'Bán' }} Ngay
         </UButton>
       </UiFlex>
@@ -69,6 +69,7 @@
 </template>
 
 <script setup>
+const authStore = useAuthStore()
 const props = defineProps(['type', 'list'])
 
 const modal = ref(false)
