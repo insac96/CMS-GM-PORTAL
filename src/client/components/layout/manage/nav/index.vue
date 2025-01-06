@@ -37,6 +37,7 @@
     <template #tab-9><UVerticalNavigation :links="navItems[9].children" @click="emit('to')"/></template>
     <template #tab-10><UVerticalNavigation :links="navItems[10].children" @click="emit('to')"/></template>
     <template #tab-11><UVerticalNavigation :links="navItems[11].children" @click="emit('to')"/></template>
+    <template #tab-12><UVerticalNavigation :links="navItems[12].children" @click="emit('to')"/></template>
   </UAccordion>
 </template>
 
@@ -164,10 +165,22 @@ const navItems = [
     ]
   },
   {
+    label: 'Ecoin',
+    icon: 'i-bxl-edge',
+    defaultOpen: false,
+    slot: 'tab-11',
+    children: [
+      { label: 'Mùa giải', to: '/manage/@eni/ecoin/season' },
+      { label: 'Thương gia mua', to: '/manage/@eni/ecoin/p2p/buyer' },
+      { label: 'Thương gia bán', to: '/manage/@eni/ecoin/p2p/seller' },
+      // { label: 'Lịch sử giao dịch', to: '/manage/@eni/ecoin/p2p/history' },
+    ]
+  },
+  {
     label: 'Cộng tác viên',
     icon: 'i-bxs-user-badge',
     defaultOpen: false,
-    slot: 'tab-11',
+    slot: 'tab-12',
     children: [
       { label: 'Cấp độ', to: '/manage/@eni/collab/level' },
       { label: 'Danh sách', to: '/manage/@eni/collab' },

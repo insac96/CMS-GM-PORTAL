@@ -71,8 +71,10 @@ const makeMenu = async () => {
       { title: 'Nạp Xu', icon: 'i-bxs-credit-card', to: '/payment' },
       { title: 'Nâng VIP', icon: 'i-bxs-star', to: '/vip' },
       { title: 'ECoin', icon: 'i-bxl-bitcoin', to: '/ecoin' },
-      { title: 'Tin Tức', icon: 'i-bx-news', to: '/news' },
-      { title: 'Diễn Đàn', icon: 'i-bx-layer', to: '/forum' },
+      { title: 'Cộng Đồng', child: [
+        { title: 'Tin Tức', icon: 'i-bx-news', to: '/news' },
+        { title: 'Diễn Đàn', icon: 'i-bx-layer', to: '/forum' },
+      ]},
       { title: 'Danh Mục', child: [
         { title: 'Game Tool', icon: 'i-ion-game-controller', to: '/game/tool' },
         { title: 'Game Private', icon: 'i-fluent-games-28-filled', to: '/game/private' },

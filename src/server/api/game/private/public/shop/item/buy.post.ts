@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     if(!code) throw 'Không tìm thấy mã trò chơi'
     if(!shopItemID) throw 'Không tìm thấy mã vật phẩm bày bán'
     if(!server || !role) throw 'Vui lòng chọn máy chủ và nhân vật'
-    if(!!isNaN(parseInt(amount)) || parseInt(amount) < 1) throw 'Số lượng không hợp lệ'
+    if(!isNumber(amount) || parseInt(amount) < 1) throw 'Số lượng không hợp lệ'
     if(amount > 1000) throw 'Số lượng không vượt quá 1000'
 
     const user = await DB.User.findOne({ _id: auth._id }).select('currency vip') as IDBUser

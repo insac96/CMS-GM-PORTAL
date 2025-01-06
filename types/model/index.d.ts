@@ -26,6 +26,12 @@ export {
   IDBCollabWithdraw
 } from './collab'
 
+export {
+  IDBEcoinSeason,
+  IDBEcoinP2PBuy, IDBEcoinP2PBuyHistory,
+  IDBEcoinP2PSell, IDBEcoinP2PSellHistory
+} from './ecoin'
+
 export { 
   IDBGamePlatform, 
   IDBGameCategory, 
@@ -108,6 +114,13 @@ export interface IGlobalDB {
   CollabNotify: Model<IDBCollabNotify>
   CollabIncome: Model<IDBCollabIncome>
   CollabWithdraw: Model<IDBCollabWithdraw>
+
+  // Ecoin
+  EcoinSeason: Model<IDBEcoinSeason>
+  EcoinP2PBuy: Model<IDBEcoinP2PBuy>
+  EcoinP2PBuyHistory: Model<IDBEcoinP2PBuyHistory>
+  EcoinP2PSell: Model<IDBEcoinP2PSell>
+  EcoinP2PSellHistory: Model<IDBEcoinP2PSellHistory>
 
   // Game DB
   GamePlatform: Model<IDBGamePlatform>

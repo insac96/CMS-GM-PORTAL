@@ -43,6 +43,11 @@
           <UiText weight="semibold" color="gray" size="xs">ECoin</UiText>
           <UiText weight="semibold" size="xs" color="primary">{{ toMoney(user.currency.ecoin) }}</UiText>
         </UiFlex>
+
+        <UiFlex justify="between" class="w-full">
+          <UiText weight="semibold" color="gray" size="xs">VND</UiText>
+          <UiText weight="semibold" size="xs" color="green">{{ toMoney(user.currency.vnd) }}</UiText>
+        </UiFlex>
       </UiFlex>
 
       <UiFlex justify="center" class="mt-6 gap-1" v-if="!noChat">

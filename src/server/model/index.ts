@@ -27,6 +27,12 @@ import {
   DBCollabWithdraw
 } from './collab'
 
+import {
+  DBEcoinSeason,
+  DBEcoinP2PBuy, DBEcoinP2PBuyHistory,
+  DBEcoinP2PSell, DBEcoinP2PSellHistory
+} from './ecoin'
+
 import { 
   DBGamePlatform, 
   DBGameCategory, 
@@ -110,6 +116,13 @@ export default (mongoose : Mongoose) : IGlobalDB => {
     CollabNotify: DBCollabNotify(mongoose),
     CollabIncome: DBCollabIncome(mongoose),
     CollabWithdraw: DBCollabWithdraw(mongoose),
+
+    // Ecoin
+    EcoinSeason: DBEcoinSeason(mongoose),
+    EcoinP2PBuy: DBEcoinP2PBuy(mongoose),
+    EcoinP2PBuyHistory: DBEcoinP2PBuyHistory(mongoose),
+    EcoinP2PSell: DBEcoinP2PSell(mongoose),
+    EcoinP2PSellHistory: DBEcoinP2PSellHistory(mongoose),
 
     // Game DB
     GamePlatform: DBGamePlatform(mongoose),

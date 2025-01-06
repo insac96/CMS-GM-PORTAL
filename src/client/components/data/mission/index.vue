@@ -87,6 +87,6 @@ const getList = async () => {
   }
 }
 
-getList()
 watch(() => authStore.isLogin, () => getList())
+onMounted(() => setTimeout(getList, 1))
 </script>

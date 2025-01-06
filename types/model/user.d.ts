@@ -55,6 +55,7 @@ export interface IDBUser {
     exp: number
     coin: number
     ecoin: number
+    vnd: number
   }
   china: {
     youxi: boolean
