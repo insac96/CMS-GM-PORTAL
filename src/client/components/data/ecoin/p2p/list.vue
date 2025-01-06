@@ -51,7 +51,19 @@
           <UInput v-model="state.amount" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Bạn thanh toán" v-if="type == 'buy' && !!totalPrice">
+        <UFormGroup label="Số dư VND của bạn" v-if="type == 'buy'">
+          <template #hint>
+            <DataUserCurrencyVndExchange>
+              <template #default="{ open }">
+                <UButton size="xs" :padded="false" variant="link" @click="open">Đổi VND ngay ?</UButton>
+              </template>
+            </DataUserCurrencyVndExchange>
+          </template>
+
+          <UInput :model-value="`${useMoney().toMoney(authStore.profile.currency.vnd)} VND`" readonly />
+        </UFormGroup>
+
+        <UFormGroup label="Bạn cần thanh toán" v-if="type == 'buy' && !!totalPrice">
           <UInput :model-value="`${useMoney().toMoney(totalPrice)} VND`" readonly />
         </UFormGroup>
 
@@ -71,6 +83,7 @@
 <script setup>
 const authStore = useAuthStore()
 const props = defineProps(['type', 'list'])
+const emits = defineEmits(['done'])
 
 const modal = ref(false)
 const loading = ref(false)
@@ -107,9 +120,11 @@ const action = async () => {
     const send = JSON.parse(JSON.stringify(state.value))
 
     await useAPI(`ecoin/public/p2p/${send.type}/transaction`, send)
+    await authStore.setAuth()
     
-    modal.value = false
     loading.value = false
+    emits('done')
+    modal.value = false
   }
   catch(e){
     loading.value = false

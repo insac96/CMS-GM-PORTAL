@@ -6,7 +6,7 @@
     </UiFlex>
 
     <DataEmpty :loading="loading.list" v-if="!!loading.list || list.length == 0" text="Không có thương gia nào bày bán" class="h-[300px]"></DataEmpty>
-    <DataEcoinP2pList v-else :type="tabs[tab].key" :list="list" />
+    <DataEcoinP2pList v-else :type="tabs[tab].key" :list="list" @done="getList"/>
 
     <UiFlex justify="center" class="mt-4">
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs" />

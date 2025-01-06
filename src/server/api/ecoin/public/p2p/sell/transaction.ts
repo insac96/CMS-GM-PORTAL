@@ -54,6 +54,15 @@ export default defineEventHandler(async (event) => {
       `
     })
 
+    logUser({
+      user: seller._id,
+      action: `
+        Bán <b>${ecoinSell.toLocaleString("vi-VN")}</b> ECoin 
+        và nhận được <b>${vndBuyerBuy.toLocaleString("vi-VN")}</b> VND
+      `,
+      type: 'ecoin.p2p.sell'
+    })
+
     sendNotifyUser({
       user: buyer._id,
       content: `
@@ -61,6 +70,15 @@ export default defineEventHandler(async (event) => {
         từ giao dịch P2P mua với giá
         <b>${vndBuyerBuy.toLocaleString("vi-VN")}</b> VND 
       `
+    })
+
+    logUser({
+      user: buyer._id,
+      action: `
+        Mua <b>${ecoinSell.toLocaleString("vi-VN")}</b> ECoin 
+        và bị trừ <b>${vndBuyerBuy.toLocaleString("vi-VN")}</b> VND
+      `,
+      type: 'ecoin.p2p.buy'
     })
 
     return resp(event, { message: 'Giao dịch thành công' })
