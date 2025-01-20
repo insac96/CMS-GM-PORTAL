@@ -2,11 +2,11 @@
   <div>
     <UiFlex class="mb-4">
       <UTabs v-model="tab" :items="tabs" :content="false" class="mr-auto"></UTabs>
-      <UButton size="lg" @click="modal.create = true" v-if="!!authStore.isLogin">Đăng Tin</UButton>
+      <UButton icon="i-bx-edit" size="lg" @click="modal.create = true" v-if="!!authStore.isLogin">Đăng Tin</UButton>
     </UiFlex>
 
     <DataEmpty :loading="loading.list" v-if="!!loading.list || list.length == 0" text="Không có thương gia nào bày bán" class="h-[300px]"></DataEmpty>
-    <DataEcoinP2pList v-else :type="tabs[tab].key" :list="list" @done="getList"/>
+    <DataEcoinP2pList v-else :type="tabs[tab].key" :season="season" :list="list" @done="getList"/>
 
     <UiFlex justify="center" class="mt-4">
       <UPagination v-model="page.current" :page-count="page.size" :total="page.total" :max="4" size="xs" />
@@ -21,21 +21,21 @@
             value-attribute="value"
             placeholder="Chọn hành động"
             :options="[
-              { label: 'Đăng Bán Ecoin', value: 'buy' },
-              { label: 'Đăng Mua Ecoin', value: 'sell' },
+              { label: 'Đăng Bán ECoin', value: 'buy' },
+              { label: 'Đăng Mua ECoin', value: 'sell' },
             ]"
           ></USelectMenu>
         </UFormGroup>
 
-        <UFormGroup :label="`Giá ${stateCreate.type == 'buy' ? 'bán' : 'mua'} 1 ECoin`" v-if="!!stateCreate.type">
-          <UInput v-model="stateCreate.vnd" type="number" />
+        <UFormGroup label="Giá 1 ECoin thị trường" v-if="!!stateCreate.type">
+          <UInput :model-value="`${season.price} đ`" readonly />
         </UFormGroup>
 
-        <UFormGroup label="Giới hạn nhỏ nhất" v-if="!!stateCreate.type">
+        <UFormGroup :label="`Giới hạn lượng ECoin ${stateCreate.type == 'buy' ? 'bán' : 'mua'} nhỏ nhất`" v-if="!!stateCreate.type">
           <UInput v-model="stateCreate.limit.start" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Giới hạn lớn nhất" v-if="!!stateCreate.type">
+        <UFormGroup :label="`Giới hạn lượng ECoin ${stateCreate.type == 'buy' ? 'bán' : 'mua'} lớn nhất`" v-if="!!stateCreate.type">
           <UInput v-model="stateCreate.limit.end" type="number" />
         </UFormGroup>
 
@@ -49,6 +49,8 @@
 </template>
 
 <script setup>
+const season = useAttrs().season
+
 const authStore = useAuthStore()
 const configStore = useConfigStore()
 
@@ -61,8 +63,8 @@ useSeoMeta({
 
 const tab = ref(0)
 const tabs = [
-  { label: 'Mua Ecoin', key: 'buy'},
-  { label: 'Bán Ecoin', key: 'sell' }
+  { label: 'Mua ECoin', key: 'buy'},
+  { label: 'Bán ECoin', key: 'sell' }
 ]
 
 const loading = ref({
@@ -75,7 +77,6 @@ const modal = ref({
 })
 const stateCreate = ref({
   type: null,
-  vnd: null,
   limit: {
     start: null,
     end: null
@@ -87,7 +88,7 @@ const page = ref({
   size: 5,
   current: 1,
   sort: {
-    column: 'vnd',
+    column: 'updatedAt',
     direction: 'asc'
   },
   total: 0
@@ -99,7 +100,6 @@ watch(() => tab.value, () => {
 })
 watch(() => modal.value.create, (val) => !val && (stateCreate.value = {
   type: null,
-  vnd: null,
   limit: {
     start: null,
     end: null

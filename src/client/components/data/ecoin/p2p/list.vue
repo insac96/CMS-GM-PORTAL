@@ -9,16 +9,13 @@
       <UiFlex justify="between" class="gap-4">
         <div>
           <UiFlex items="end" class="gap-1 mb-2">
-            <UiText size="3xl" weight="semibold">{{ useMoney().toMoney(item.vnd) }}</UiText>
+            <UiText size="3xl" weight="semibold">{{ useMoney().toMoney(season.price) }}</UiText>
             <UiText size="sm" weight="semibold">đ / Ecoin</UiText>
           </UiFlex>
 
           <UiFlex class="gap-2 mb-1">
             <UiText size="xs" color="gray">Khả dụng</UiText>
-            <UiText size="xs">
-              {{ useMoney().toMoney(type == 'buy' ? item.user.currency.ecoin : item.user.currency.vnd) }} 
-              {{ type == 'buy' ? 'Ecoin' : 'VNĐ' }}
-            </UiText>
+            <UiText size="xs">{{ useMoney().toMoney(item.user.currency.ecoin) }} ECoin</UiText>
           </UiFlex>
 
           <UiFlex class="gap-2">
@@ -40,7 +37,7 @@
         </UFormGroup>
 
         <UFormGroup label="Giá 1 ECoin">
-          <UInput :model-value="`${useMoney().toMoney(select.vnd)} đ`" readonly />
+          <UInput :model-value="`${useMoney().toMoney(season.price)} đ`" readonly />
         </UFormGroup>
 
         <UFormGroup label="Giới hạn lệnh">
@@ -49,18 +46,6 @@
 
         <UFormGroup :label="`Nhập số lượng ECoin ${type == 'buy' ? 'mua' : 'bán'}`">
           <UInput v-model="state.amount" type="number" />
-        </UFormGroup>
-
-        <UFormGroup label="Số dư VND của bạn" v-if="type == 'buy'">
-          <template #hint>
-            <DataUserCurrencyVndExchange>
-              <template #default="{ open }">
-                <UButton size="xs" :padded="false" variant="link" @click="open">Đổi VND ngay ?</UButton>
-              </template>
-            </DataUserCurrencyVndExchange>
-          </template>
-
-          <UInput :model-value="`${useMoney().toMoney(authStore.profile.currency.vnd)} VND`" readonly />
         </UFormGroup>
 
         <UFormGroup label="Bạn cần thanh toán" v-if="type == 'buy' && !!totalPrice">
@@ -82,7 +67,7 @@
 
 <script setup>
 const authStore = useAuthStore()
-const props = defineProps(['type', 'list'])
+const props = defineProps(['season', 'type', 'list'])
 const emits = defineEmits(['done'])
 
 const modal = ref(false)
@@ -103,9 +88,8 @@ const open = (item) => {
 
 const totalPrice = computed(() => {
   if(!select.value) return null
-  if(!select.value.vnd) return null
   if(!state.value.amount) return null
-  return Math.round(Number(select.value.vnd) * Number(state.value.amount))
+  return Math.round(Number(props.season.price) * Number(state.value.amount))
 })
 
 watch(() => modal.value, (val) => !val && (state.value = {

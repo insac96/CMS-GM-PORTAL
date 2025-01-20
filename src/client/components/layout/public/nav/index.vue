@@ -69,9 +69,9 @@ const makeMenu = async () => {
     const platforms = await useAPI('game/public/platform/select')
     const list =  [
       { title: 'Nạp Xu', icon: 'i-bxs-credit-card', to: '/payment' },
-      { title: 'Rút VND', icon: 'i-bx-money-withdraw', to: '/withdraw' },
+      // { title: 'Rút VND', icon: 'i-bx-money-withdraw', to: '/withdraw' },
       { title: 'Nâng VIP', icon: 'i-bxs-star', to: '/vip' },
-      { title: 'ECoin', icon: 'i-bxl-bitcoin', to: '/ecoin' },
+      // { title: 'ECoin', icon: 'i-bxl-bitcoin', to: '/ecoin' },
       { title: 'Cộng Đồng', child: [
         { title: 'Tin Tức', icon: 'i-bx-news', to: '/news' },
         { title: 'Diễn Đàn', icon: 'i-bx-layer', to: '/forum' },

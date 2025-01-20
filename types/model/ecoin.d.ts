@@ -14,6 +14,10 @@ export interface IDBEcoinSeason {
 
   ecoin: number
   vnd: number
+
+  farming?: number
+  price?: number
+  
   active: boolean
 }
 

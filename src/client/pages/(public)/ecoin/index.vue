@@ -2,51 +2,53 @@
   <UiContent title="ECoin" sub="Tiền nền tảng hệ thống" class="w-full max-w-[700px] mx-auto">
     <DataEmpty :loading="loading" v-if="!!loading || !season" text="Chưa có mùa giải mới" class="h-[200px]"></DataEmpty>
 
-    <UCard class="mb-2" v-else>
-      <UiFlex type="col" class="gap-4">
-        <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Mùa giải</UiText>
-          <UiText weight="semibold" size="sm">{{ season.title }}</UiText>
+    <div v-else>
+      <UCard class="mb-2" >
+        <UiFlex type="col" class="gap-4">
+          <UiFlex justify="between" class="w-full">
+            <UiText weight="semibold" color="gray" size="sm">Mùa giải</UiText>
+            <UiText weight="semibold" size="sm">{{ season.title }}</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="w-full">
+            <UiText weight="semibold" color="gray" size="sm">Tổng cung dự án</UiText>
+            <UiText weight="semibold" size="sm">
+              <span class="text-primary">{{ useMoney().toMoney(season.vnd) }}</span>
+              đ
+            </UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="w-full">
+            <UiText weight="semibold" color="gray" size="sm">Ecoin sàn</UiText>
+            <UiText weight="semibold" size="sm">{{ useMoney().toMoney(season.ecoin) }}</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="w-full">
+            <UiText weight="semibold" color="gray" size="sm">Ecoin khai khác</UiText>
+            <UiText weight="semibold" size="sm">{{ useMoney().toMoney(season.farming) }}</UiText>
+          </UiFlex>
+
+          <UiFlex justify="between" class="w-full">
+            <UiText weight="semibold" color="gray" size="sm">Giá trị 1 Ecoin</UiText>
+            <UiText weight="semibold" size="sm">
+              <span class="text-primary">{{ useMoney().toMoney(season.price) }}</span>
+              đ
+            </UiText>
+          </UiFlex>
         </UiFlex>
+      </UCard>
+      
+      <UAlert 
+        title="Chú Ý"
+        description="Bạn có thể kiếm ECoin từ việc làm nhiệm vụ hoặc tham gia cầy cuốc trong các trò chơi"
+        icon="i-bxs-bell"
+        class="mb-4"
+      ></UAlert>
 
-        <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Tổng cung dự án</UiText>
-          <UiText weight="semibold" size="sm">
-            <span class="text-primary">{{ useMoney().toMoney(season.vnd) }}</span>
-            đ
-          </UiText>
-        </UiFlex>
-
-        <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Ecoin sàn</UiText>
-          <UiText weight="semibold" size="sm">{{ useMoney().toMoney(season.ecoin) }}</UiText>
-        </UiFlex>
-
-        <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Ecoin khai khác</UiText>
-          <UiText weight="semibold" size="sm">{{ useMoney().toMoney(season.farming) }}</UiText>
-        </UiFlex>
-
-        <UiFlex justify="between" class="w-full">
-          <UiText weight="semibold" color="gray" size="sm">Giá trị 1 Ecoin</UiText>
-          <UiText weight="semibold" size="sm">
-            <span class="text-primary">{{ useMoney().toMoney(price) }}</span>
-            đ
-          </UiText>
-        </UiFlex>
-      </UiFlex>
-    </UCard>
-
-    <UAlert 
-      title="Chú Ý"
-      description="Bạn có thể kiếm ECoin từ việc làm nhiệm vụ hoặc tham gia cầy cuốc trong các trò chơi"
-      icon="i-bxs-bell"
-      class="mb-4"
-    ></UAlert>
-
-    <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
-    
-    <NuxtPage></NuxtPage>
+      <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
+      
+      <NuxtPage :season="season"></NuxtPage>
+    </div>
   </UiContent>
 </template>
 
@@ -74,12 +76,6 @@ const onTabChange = (index) => {
 
 const loading = ref(true)
 const season = ref(undefined)
-
-const price = computed(() => {
-  if(!season.value) return 0
-  const totalEcoin = Number(season.value.ecoin || 0) + Number(season.value.farming || 0)
-  return Math.round(season.value.vnd / totalEcoin)
-})
 
 const getSeason = async () => {
   try {
