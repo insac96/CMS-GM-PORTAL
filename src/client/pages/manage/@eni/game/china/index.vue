@@ -10,6 +10,8 @@
       <SelectGamePlatform v-model="page.platform" multiple size="sm"/>
 
       <SelectGameCategory v-model="page.category" multiple size="sm"/>
+
+      <UButton color="gray" @click="modal.add = true" class="ml-auto">Thêm mới</UButton>
     </UiFlex>
     
     <!-- Table -->
