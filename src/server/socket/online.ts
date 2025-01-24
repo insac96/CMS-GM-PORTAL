@@ -53,7 +53,7 @@ export default (io : SocketServer, socket : Socket) => {
 
   socket.on('disconnect', async () => {
     const socketOnline = await DB.SocketOnline.findOne({ socket: socket.id }).select('user') as IDBSocketOnline
-    if(!!socketOnline.user){
+    if(!!socketOnline && !!socketOnline.user){
       const count = await DB.SocketOnline.count({ user: socketOnline.user })
       if(count == 1) await DB.User.updateOne({ _id: socketOnline.user }, { online: false })
     }

@@ -40,25 +40,21 @@
       
       <UAlert 
         title="Chú Ý"
-        description="Bạn có thể kiếm ECoin từ việc làm nhiệm vụ hoặc tham gia cầy cuốc trong các trò chơi"
+        description="Bạn có thể kiếm ECoin từ việc làm nhiệm vụ hoặc tham gia cày cuốc trong các trò chơi"
         icon="i-bxs-bell"
         class="mb-4"
       ></UAlert>
 
-      <UTabs v-model="tab" :items="tabs" @change="onTabChange" :content="false" class="block sm:inline-block mb-4"></UTabs>
+      <UTabs v-model="tab" :items="tabs" :content="false" class="block sm:inline-block mb-4"></UTabs>
       
-      <NuxtPage :season="season"></NuxtPage>
+      <DataEcoinMission v-if="tab == 0"/>
+      <DataEcoinP2p v-if="tab == 1"/>
     </div>
   </UiContent>
 </template>
 
 <script setup>
-const route = useRoute()
-const tabRouter = {
-  'ecoin-index': 0,
-  'ecoin-index-p2p': 1,
-}
-const tab = ref(tabRouter[route.name])
+const tab = ref(0)
 const tabs = [{
   label: 'Nhiệm vụ',
   icon: 'i-bxs-book-open',
@@ -68,11 +64,6 @@ const tabs = [{
   icon: 'i-bx-transfer-alt',
   to: 'p2p'
 }]
-
-const onTabChange = (index) => {
-  const tabSelect = tabs[index]
-  navigateTo(`/ecoin/${tabSelect.to}`)
-}
 
 const loading = ref(true)
 const season = ref(undefined)

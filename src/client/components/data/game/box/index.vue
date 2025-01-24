@@ -29,18 +29,22 @@
       </template>
 
       <template #default>
-        <div class="GameRibbon bg-rose-500 pr-2 pl-1" v-if="os == 'china' && game.rate">
+        <div class="GameRibbon bg-rose-500 pr-2 pl-1" v-if="os == 'china' && !!game.rate">
           <UiFlex type="col">
             <UiText style="font-size: 10px;" weight="semibold">Rate</UiText>
             <UiText size="xs" weight="semibold">{{ game.rate.pay }}</UiText>
           </UiFlex>
         </div>
 
-        <div class="GameRibbon bg-rose-500 pr-2 pl-1" v-if="os == 'private' && game.rate">
+        <div class="GameRibbon bg-rose-500 pr-2 pl-1" v-if="os == 'private' && !!game.rate">
           <UiFlex type="col">
             <UiText style="font-size: 9px;" weight="semibold">Giảm</UiText>
             <UiText style="font-size: 10px;" weight="semibold">{{ useRate().data(game.rate.shop).number }}%</UiText>
           </UiFlex>
+        </div>
+
+        <div class="GameRibbon2 bg-primary-500 pr-2 pl-1" v-if="os == 'private' && !!game.hasecoin">
+          <UiText style="font-size: 9px;" weight="semibold">ECoin</UiText>
         </div>
 
         <UiText weight="bold" class="mb-0.5 line-clamp-1 text-sm sm:text-base text-gray-300 hover:text-primary">
@@ -87,12 +91,24 @@ const to = computed(() => {
 .GameRibbon
   position: absolute
   top: 0
-  right: 10px
+  right: 5px
   --r:.8em
   min-width: 50px
   border-inline: .5em solid #0000
   padding: 0.5em 0.2em calc(var(--r) + .2em)
   clip-path: polygon(0 0, 100% 0, 100% 100%, calc(100% - .5em) 100%, 50% calc(100% - var(--r)), 0.5em 100%, 0 100%)
   background: radial-gradient(50% 0.2em at top, #000a, #0000) border-box, #eb4545 padding-box
+  width: fit-content
+
+.GameRibbon2
+  position: absolute
+  top: 0
+  right: 40px
+  --r:.8em
+  min-width: 50px
+  border-inline: .5em solid #0000
+  padding: 0.5em 0.2em calc(var(--r) + .2em)
+  clip-path: polygon(0 0, 100% 0, 100% 100%, calc(100% - .5em) 100%, 50% calc(100% - var(--r)), 0.5em 100%, 0 100%)
+  background: radial-gradient(50% 0.2em at top, #000a, #0000) border-box, rgb(var(--color-primary-500)) padding-box
   width: fit-content
 </style>

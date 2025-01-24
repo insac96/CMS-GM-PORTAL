@@ -32,7 +32,14 @@
         </UFormGroup>
 
         <UiFlex justify="end" class="mt-4">
-          <SelectPin v-model="stateEditInfo.pin" class="mr-auto" :disabled="!authStore.isAdmin" />
+          <UiFlex type="col" items="start" class="gap-1 mr-auto">
+            <SelectPin v-model="stateEditInfo.pin" :disabled="!authStore.isAdmin" />
+
+            <UiFlex>
+              <UToggle v-model="stateEditInfo.hasecoin" :disabled="!authStore.isAdmin" class="mr-2" />
+              <UiText size="sm" weight="semibold" color="gray" text="Có ECoin" />
+            </UiFlex>
+          </UiFlex>
           
           <UButton type="submit" :loading="loading.edit">Sửa</UButton>
           <UButton color="gray" @click="modal.editInfo = false" :disabled="loading.edit" class="ml-1">Đóng</UButton>
@@ -265,6 +272,7 @@ const stateEditInfo = ref({
   name: null,
   code: null,
   description: null,
+  hasecoin: null,
   pin: null,
   display: null,
 })

@@ -84,6 +84,7 @@ export const DBGamePrivate = (mongoose : Mongoose) => {
 
     manager: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
+    hasecoin: { type: Boolean, default: false },
     open: { type: Boolean, default: false },
     pin: { type: Boolean, default: false },
     display: { type: Boolean, default: true }

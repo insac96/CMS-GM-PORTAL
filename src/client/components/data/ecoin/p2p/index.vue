@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <DataEmpty class="min-h-[300px]" text="Khi tính năng ra mắt, bạn có thể bán Ecoin của mình cho những người chơi khác để kiếm thu nhập. Nó sẽ sớm có mặt ở phiên bản cập nhật tới. Hãy tích lũy ECoin của bạn nhé !!!" />
+
+  <!-- <div>
     <UiFlex class="mb-4">
       <UTabs v-model="tab" :items="tabs" :content="false" class="mr-auto"></UTabs>
       <UButton icon="i-bx-edit" size="lg" @click="modal.create = true" v-if="!!authStore.isLogin">Đăng Tin</UButton>
@@ -45,7 +47,7 @@
         </UiFlex>
       </UForm>
     </UModal>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -63,7 +65,7 @@ useSeoMeta({
 
 const tab = ref(0)
 const tabs = [
-  { label: 'Mua ECoin', key: 'buy'},
+  { label: 'Mua ECoin', key: 'buy' },
   { label: 'Bán ECoin', key: 'sell' }
 ]
 
@@ -142,5 +144,5 @@ const createAction = async () => {
   }
 }
 
-onMounted(() => setTimeout(getList, 1))
+// onMounted(() => setTimeout(getList, 1))
 </script>

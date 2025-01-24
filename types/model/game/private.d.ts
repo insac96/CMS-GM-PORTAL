@@ -76,6 +76,7 @@ export interface IDBGamePrivate {
 
   manager: Array<Types.ObjectId>
 
+  hasecoin: boolean
   open: boolean
   pin: boolean
   display: boolean

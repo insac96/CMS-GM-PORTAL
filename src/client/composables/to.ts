@@ -2,6 +2,7 @@ export const useTo = () => {
   const navigateToSSL = (path : string) => {
     const runtimeConfig = useRuntimeConfig()
     const route = useRequestURL()
+    const codeCollab = useCollab().getCode()
 
     if(!!runtimeConfig.public.dev) return navigateTo(path)
 
@@ -9,7 +10,8 @@ export const useTo = () => {
       return navigateTo(path)
     }
     else {
-      return navigateTo(`https://${runtimeConfig.public.domain}${path}`, { external: true })
+      if(!!codeCollab) return navigateTo(`https://${codeCollab}.${runtimeConfig.public.domain}${path}`, { external: true })
+      else return navigateTo(`https://${runtimeConfig.public.domain}${path}`, { external: true })
     }
   }
 

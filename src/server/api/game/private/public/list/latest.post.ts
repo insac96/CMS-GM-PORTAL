@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     
     const list = await DB.GamePrivate
     .find(match)
-    .select('name code key pin statistic description image.banner image.icon rate')
+    .select('name code key pin statistic description image.banner image.icon rate hasecoin')
     .populate({ path: 'platform', select: 'name key' })
     .populate({ path: 'category', select: 'name key' })
     .sort(sorting)
