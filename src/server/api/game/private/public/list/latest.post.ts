@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     const { size, current } = await readBody(event)
     if(!size || !current) throw 'Dữ liệu phân trang sai'
 
-    const sorting : any = { 'createdAt': -1 }
+    const sorting : any = { createdAt: -1 }
     const match : any = { display: true }
 
     const collabCode = getCookie(event, 'collab')

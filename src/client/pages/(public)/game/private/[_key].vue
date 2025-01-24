@@ -234,7 +234,8 @@ const playUrl = async (type) => {
 
     // Play In Web
     if(!!data.token){
-      const path = `/game/private/play?token=${data.token}&game=${game.value.code}`
+      const collab = useCollab().getCode()
+      const path = `/game/private/play?token=${data.token}&game=${game.value.code}&collab=${collab}`
       const link = `http://play.${runtimeConfig.public.domain}${path}`
       return openNewTab(!!runtimeConfig.public.dev ? path : link)
     }

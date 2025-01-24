@@ -1,6 +1,8 @@
 <template>
-  <DataEmpty class="min-h-[300px]" text="Khi tính năng ra mắt, bạn có thể bán Ecoin của mình cho những người chơi khác để kiếm thu nhập. Nó sẽ sớm có mặt ở phiên bản cập nhật tới. Hãy tích lũy ECoin của bạn nhé !!!" />
-
+  <UCard>
+    <DataEmpty class="min-h-[300px]" text="Khi tính năng ra mắt, bạn có thể bán Ecoin của mình cho những người chơi khác để kiếm thu nhập. Nó sẽ sớm có mặt ở phiên bản cập nhật tới. Hãy tích lũy ECoin của bạn nhé !!!" />
+  </UCard>
+  
   <!-- <div>
     <UiFlex class="mb-4">
       <UTabs v-model="tab" :items="tabs" :content="false" class="mr-auto"></UTabs>

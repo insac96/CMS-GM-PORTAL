@@ -66,6 +66,7 @@
 import { useDraggable } from '@vueuse/core'
 
 const props = defineProps(['game'])
+const route = useRoute()
 const emits = defineEmits(['buyTool'])
 
 const el = ref(null)
@@ -112,7 +113,7 @@ const list = [
   [{
     label: 'Thoát',
     icon: 'i-bx-log-out',
-    click: () => useTo().navigateToSSL(`/game/tool/${props.game.key}`)
+    click: () => useTo().navigateToSSL(`/game/tool/${props.game.key}`, route.query.collab)
   }],
 ]
 

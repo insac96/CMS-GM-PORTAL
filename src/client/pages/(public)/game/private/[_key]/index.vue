@@ -1,9 +1,19 @@
 <template>
 	<div>
-		<UiFlex type="col" class="gap-1 mb-4" v-if="!!configStore.config.social.game.private || !!game.newserver">
+		<UiFlex type="col" class="gap-1 mb-4" v-if="!!configStore.config.social.game.private || !!game.newserver || !!game.hasecoin">
 			<UAlert title="Hỗ trợ" icon="i-bx-support" color="green" variant="soft" v-if="!!configStore.config.social.game.private">
 				<template #description>
 					Tham gia <b class="cursor-pointer text-primary underline decoration-1" @click="useTo().openNewTab(configStore.config.social.game.private)">nhóm Zalo Game Private</b> để được hỗ trợ kịp thời
+				</template>
+
+				<template #icon="{ icon }">
+					<UiIcon :name="icon" size="10"/>
+				</template>
+			</UAlert>
+
+			<UAlert title="ECoin" icon="i-bxl-bitcoin" color="orange" variant="soft" v-if="!!game.hasecoin">
+				<template #description>
+					Trò chơi này có thể kiếm được <b class="text-orange decoration-1">ECoin</b> từ các hoạt động
 				</template>
 
 				<template #icon="{ icon }">

@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     if(!Array.isArray(platform)) throw 'Dữ liệu nền tảng không hợp lệ'
     if(!Array.isArray(category)) throw 'Dữ liệu thể loại không hợp lệ'
 
-    const sorting : any = { pin: -1, createdAt: -1 }
+    const sorting : any = { pin: -1, hasecoin: -1, createdAt: -1 }
     sorting[sort.column] = sort.direction == 'desc' ? -1 : 1
 
     const match : any = { display: true }
