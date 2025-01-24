@@ -49,6 +49,7 @@
       
       <DataEcoinMission v-if="tab == 0"/>
       <DataEcoinP2p v-if="tab == 1"/>
+      <DataEcoinGame v-if="tab == 2"/>
     </div>
   </UiContent>
 </template>
@@ -58,11 +59,12 @@ const tab = ref(0)
 const tabs = [{
   label: 'Nhiệm vụ',
   icon: 'i-bxs-book-open',
-  to: ''
 },{
   label: 'Giao dịch',
   icon: 'i-bx-transfer-alt',
-  to: 'p2p'
+},{
+  label: 'Trò chơi',
+  icon: 'i-bx-game',
 }]
 
 const loading = ref(true)
