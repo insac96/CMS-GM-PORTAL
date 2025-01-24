@@ -109,6 +109,6 @@ const to = computed(() => {
   border-inline: .5em solid #0000
   padding: 0.5em 0.2em calc(var(--r) + .2em)
   clip-path: polygon(0 0, 100% 0, 100% 100%, calc(100% - .5em) 100%, 50% calc(100% - var(--r)), 0.5em 100%, 0 100%)
-  background: radial-gradient(50% 0.2em at top, #000a, #0000) border-box, #103d83 padding-box
+  background: radial-gradient(50% 0.2em at top, #000a, #0000) border-box, #12971d padding-box
   width: fit-content
 </style>
