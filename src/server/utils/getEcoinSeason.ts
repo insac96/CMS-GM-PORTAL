@@ -9,7 +9,7 @@ export default async (event : H3Event) : Promise<any> => {
   const start = formatDate(event, season.time.start)
   const end = formatDate(event, season.time.end)
   if(now.timestamp < start.timestamp) throw 'Mùa giải chưa bắt đầu'
-  if(now.timestamp > end.timestamp) throw 'Mùa giải đã bắt đầu'
+  if(now.timestamp > end.timestamp) throw 'Mùa giải đã kết thúc'
 
   const users = await DB.User.aggregate([
     { $match: { 'currency.ecoin': { $gt: 0 } }},

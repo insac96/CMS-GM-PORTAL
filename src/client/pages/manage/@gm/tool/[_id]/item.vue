@@ -8,6 +8,7 @@
 
       <UButton color="gray" @click="modal.single = true">Thêm mới</UButton>
       <UButton color="primary" @click="modal.multiple = true">Thêm hàng loạt</UButton>
+      <UButton color="green" :loading="loading.export" @click="exportfile('json')">Xuất JSON</UButton>
     </UiFlex>
     
     <!-- Table -->
@@ -171,7 +172,8 @@ const loading = ref({
   single: false,
   multiple: false,
   edit: false,
-  del: false
+  del: false,
+  export: false
 })
 
 // Actions
@@ -261,6 +263,35 @@ const delAction = async (_id) => {
   }
   catch (e) {
     loading.value.del = false
+  }
+}
+
+const exportfile = async (type) => {
+  try {
+    loading.value.export = true
+    const file = await useAPI('game/tool/manage/item/export', {
+			game: game._id,
+      type: type
+		})
+
+    fetch(file.url)
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name;
+      a.click();
+      URL.revokeObjectURL(url);
+    })
+
+    loading.value.export = false
+  }
+  catch (e) {
+    loading.value.export = false
   }
 }
 

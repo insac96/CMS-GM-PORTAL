@@ -30,6 +30,7 @@ export default defineEventHandler(async (event) => {
           level: 1,
           coin: '$currency.coin',
           exp: '$currency.exp',
+          ecoin: '$currency.ecoin',
           type: 1,
           block: 1,
           createdAt: 1

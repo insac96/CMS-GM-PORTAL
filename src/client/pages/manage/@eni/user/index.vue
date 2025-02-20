@@ -37,6 +37,10 @@
           {{ useMoney().toMoney(row.coin || 0) }}
         </template>
 
+        <template #ecoin-data="{ row }">
+          {{ useMoney().toMoney(row.ecoin || 0) }}
+        </template>
+
         <template #exp-data="{ row }">
           {{ useMoney().toMoney(row.exp || 0) }}
         </template>
@@ -154,6 +158,10 @@ const columns = [
   },{
     key: 'exp',
     label: 'Tu vi',
+    sortable: true
+  },{
+    key: 'ecoin',
+    label: 'ECoin',
     sortable: true
   },{
     key: 'block',
